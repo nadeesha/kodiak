@@ -1,0 +1,718 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"path",
+				"pathname"
+			],
+			[
+				"handle",
+				"handleRequest"
+			],
+			[
+				"send",
+				"sendFile_"
+			],
+			[
+				"use",
+				"userService"
+			],
+			[
+				"e",
+				"encodeURIComponent"
+			],
+			[
+				"conf",
+				"conflict"
+			],
+			[
+				"lo",
+				"localhost"
+			],
+			[
+				"s",
+				"success"
+			],
+			[
+				"bo",
+				"bower_components"
+			],
+			[
+				"acc",
+				"access_token"
+			],
+			[
+				"res",
+				"result"
+			],
+			[
+				"err",
+				"err"
+			],
+			[
+				"auth",
+				"authToken"
+			],
+			[
+				"find",
+				"findOne"
+			],
+			[
+				"con",
+				"contactNumbers"
+			],
+			[
+				"gen",
+				"gender"
+			],
+			[
+				"ende",
+				"endedOn"
+			],
+			[
+				"endD",
+				"endDateAltered"
+			],
+			[
+				"not",
+				"notEmpty"
+			],
+			[
+				"sa",
+				"sanitize"
+			],
+			[
+				"for",
+				"for	for (…) {…} (Improved Native For-Loop)"
+			],
+			[
+				"end",
+				"endDateAltered"
+			],
+			[
+				"ended",
+				"enededOn"
+			],
+			[
+				"Tenure",
+				"Tenures"
+			],
+			[
+				"contac",
+				"contactNumbers"
+			],
+			[
+				"fun",
+				"fun	Function"
+			],
+			[
+				"pro",
+				"profile"
+			],
+			[
+				"us",
+				"user"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"sav",
+				"save"
+			],
+			[
+				"req",
+				"req"
+			],
+			[
+				"User",
+				"UserSchema"
+			],
+			[
+				"craete",
+				"createdOn"
+			],
+			[
+				"created",
+				"createdOn"
+			],
+			[
+				"generate",
+				"generateToken"
+			],
+			[
+				"er",
+				"err"
+			],
+			[
+				"exi",
+				"existing"
+			],
+			[
+				"BA",
+				"BADPASSWORD"
+			],
+			[
+				"G",
+				"GOODEMAIL"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"Ob",
+				"object"
+			],
+			[
+				"u",
+				"url"
+			],
+			[
+				"GOODP",
+				"GOODPASSWORD"
+			],
+			[
+				"GOODPA",
+				"goodpassword"
+			],
+			[
+				"test",
+				"testData"
+			],
+			[
+				"good",
+				"goodpassword"
+			],
+			[
+				"bad",
+				"bademail"
+			],
+			[
+				"cre",
+				"create"
+			],
+			[
+				"app",
+				"appUrl"
+			],
+			[
+				"create",
+				"createUser"
+			],
+			[
+				"requ",
+				"request"
+			],
+			[
+				"remo",
+				"removeUsers"
+			],
+			[
+				"ne",
+				"next"
+			],
+			[
+				"tr",
+				"try"
+			],
+			[
+				"en",
+				"encryptPassword"
+			],
+			[
+				"Create",
+				"createUser"
+			],
+			[
+				"userM",
+				"userMasterModel"
+			],
+			[
+				"w",
+				"winston"
+			],
+			[
+				"re",
+				"req"
+			],
+			[
+				"user",
+				"userMaster"
+			],
+			[
+				"co",
+				"collection"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/partials/activate.html",
+			"settings":
+			{
+				"buffer_size": 359,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/me.html",
+			"settings":
+			{
+				"buffer_size": 24,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 1884,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/nadeesha/projects/grizzly/config/routes.js",
+			"settings":
+			{
+				"buffer_size": 1847,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/login.html",
+			"settings":
+			{
+				"buffer_size": 1134,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 306.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"side",
+				"View: Toggle Side Bar"
+			],
+			[
+				"snipp",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"",
+				"View: Toggle Side Bar"
+			],
+			[
+				"Package Control: inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 484.0,
+		"history":
+		[
+			"cd Packages",
+			"cd Packages/",
+			"version",
+			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print('Please restart Sublime Text to finish installation')",
+			"cls",
+			"clear",
+			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print('Please restart Sublime Text to finish installation')"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
+		"/home/nadeesha/projects/kodiak/app/js/config.js",
+		"/home/nadeesha/projects/kodiak/app/js/services.js",
+		"/home/nadeesha/projects/kodiak/app/index.html",
+		"/home/nadeesha/projects/kodiak/app/js/app.js",
+		"/home/nadeesha/projects/kodiak/app/partials/login.html",
+		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
+		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
+		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
+		"/home/nadeesha/.config/sublime-text-3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
+		"/home/nadeesha/projects/kodiak/app/app.html",
+		"/home/nadeesha/projects/kodiak/app/signup.html",
+		"/home/nadeesha/projects/kodiak/app/css/app.css",
+		"/home/nadeesha/projects/kodiak/app/js/directives.js",
+		"/home/nadeesha/projects/kodiak/app/js/filters.js",
+		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+		"/home/nadeesha/projects/grizzly/test/common.js",
+		"/home/nadeesha/projects/grizzly/test/user-profile-test.js",
+		"/home/nadeesha/projects/grizzly/controllers/user.js",
+		"/home/nadeesha/projects/grizzly/config/routes.js",
+		"/home/nadeesha/projects/grizzly/config/passport.js",
+		"/home/nadeesha/projects/grizzly/test/user-token-test.js",
+		"/home/nadeesha/projects/grizzly/test/user-activate-test.js",
+		"/home/nadeesha/projects/grizzly/models/user.js",
+		"/home/nadeesha/projects/grizzly/test/user-create-test.js",
+		"/home/nadeesha/projects/grizzly/test/init-test.js",
+		"/home/nadeesha/projects/grizzly/utility.js",
+		"/home/nadeesha/projects/grizzly/config/express.js",
+		"/home/nadeesha/projects/grizzly/server.js",
+		"/home/nadeesha/projects/grizzly/Makefile",
+		"/home/nadeesha/projects/grizzly/routes/user.js",
+		"/home/nadeesha/projects/grizzly/package.json",
+		"/home/nadeesha/projects/grizzly/test/user-login-test.js",
+		"/home/nadeesha/projects/grizzly/config/logger.js",
+		"/home/nadeesha/projects/grizzly/test/user-test.js",
+		"/home/nadeesha/projects/grizzly/config/config.js",
+		"/home/nadeesha/projects/grizzly/test/init.js",
+		"/home/nadeesha/projects/grizzly/config.js",
+		"/home/nadeesha/.config/sublime-text-3/Packages/JsFormat/JsFormat.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-3/Packages/JsFormat/Default (Linux).sublime-keymap",
+		"/home/nadeesha/projects/server.js",
+		"/home/nadeesha/projects/package.json"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"HttpServer",
+			"createServlet",
+			"handleRequest",
+			"handleRequest_",
+			"index",
+			"login",
+			"GRIZZLY_URL",
+			"signup",
+			"SERVER",
+			"app",
+			"\"",
+			"app",
+			"model",
+			"$scope",
+			"isSuccess",
+			"500",
+			"$http.po",
+			"$http",
+			"||",
+			"-10",
+			"email",
+			"Email",
+			"Email1",
+			"view",
+			"myApp",
+			"endDateAltered",
+			"Name",
+			"user",
+			"next(e",
+			".log",
+			"console",
+			"location",
+			"contactNumber",
+			"name",
+			"position",
+			"request.post",
+			"hashed_password",
+			"'/user/login",
+			"/user/login",
+			"login",
+			"'/user/login",
+			"/user/login",
+			"winston",
+			"retur",
+			"return next",
+			" o",
+			"o",
+			"request",
+			"http",
+			"[0-9]",
+			"');\n",
+			"next(",
+			"createU",
+			"create",
+			"error = new Object({",
+			"error = new Object",
+			"team.",
+			"team",
+			"userMaster",
+			"winston"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			"userMasterModel"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/partials/activate.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 359,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								347,
+								347
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/partials/me.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19,
+								19
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/js/controllers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1884,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1508,
+								1508
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 770.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/nadeesha/projects/grizzly/config/routes.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1847,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								166,
+								166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/partials/login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1134,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								417,
+								417
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "kodiak.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 217.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

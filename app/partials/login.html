@@ -1,0 +1,26 @@
+<div ng-show="response.inactive" class="alert alert-warning">
+    <b>Account is inactive!</b> This account is currently inactive. If you just signed up, please click the activation link we sent to your email.
+</div>
+<div ng-show="response.incorrect" class="alert alert-warning">
+    <b>Invalid e-mail address/password!</b> Please try again.
+</div>
+
+<form class="form-horizontal" role="form">
+	<div class="form-group">
+        <label class="col-lg-2 control-label">E-mail</label>
+        <div class="col-lg-4">
+            <input class="form-control" placeholder="E-mail" ng-model="user.email" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-4">
+            <input class="form-control" type="password" placeholder="Password" ng-model="user.password" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button ng-click="validate(user)" class="btn btn-primary" ng-disabled="!(user.email && user.password)">Sign in</button>
+        </div>
+    </div>
+</form>
