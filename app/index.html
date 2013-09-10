@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>HireWire.lk - A new way to get hired!</title>
-  <link rel="stylesheet" href="css/bootstrap.css"/>
+  <!--<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css"/>-->
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/bower_components/pnotify/jquery.pnotify.default.css"/>
+  <link rel="stylesheet" href="/bower_components/pnotify/jquery.pnotify.default.icons.css"/>
   <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
@@ -18,11 +21,13 @@
       <a class="navbar-brand" href="#/">hirewire.lk</a>
     </div>
   </nav>
-  <div ui-view></div>
+  <div class="gr-container" ui-view></div>
   
+  <script src="/bower_components/jquery/jquery.min.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="/bower_components/pnotify/jquery.pnotify.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>

@@ -1,1 +1,43 @@
-<h1>Nadeesha Cabral</h1>
+<div class="row">
+    <div class="col-md-7">
+        <h1><span ng-model='user.firstName'>Nadeesha</span> <span ng-model='user.lastName'>Cabral</span></h1>
+        
+            <h4 class="line-spacing-regular">
+            <span class="nowrap"><span class="glyphicon gr-glyphicon glyphicon-home"></span> Location: <span class="label label-primary">{{user.location}}</span></span>
+            <span class="nowrap"><span class="glyphicon gr-glyphicon glyphicon-phone"></span> Contact Numbers: <span class="label label-primary" ng-repeat="number in user.contactNumbers">{{number}}</span></span>
+            <span class="nowrap"><span class="glyphicon gr-glyphicon glyphicon-envelope"></span> E-mail: <span class="label label-primary">{{user.email}}</span></span>
+            <span class="nowrap"><span class="glyphicon gr-glyphicon glyphicon-user"></span> National Identifier: <span class="label label-primary" ng-repeat="language in user.languages">{{language}}</span></span>
+            <span class="nowrap"><span class="glyphicon gr-glyphicon glyphicon-calendar"></span> Date of Birth: <span class="label label-primary">{{moment(user.dateOfBirth).format('LL')}}</span></span>
+            </h4>
+        
+        <h2>Qualifications</h2>
+        <div class="gr-qual" ng-repeat="qualification in user.Qualifications">
+            <h3>{{qualification.name}} in {{qualification.field}}</h3>
+            <h4>{{qualification.issuedBy}}
+                <span class="label label-primary">{{qualification.startedOn}}-{{qualification.endedOn}}</span>
+                <span class="label label-success" ng-show="{{qualification.complete}}">Completed</span>
+                <span class="label label-warn" ng-show="{{!qualification.complete}}">Completed</span>
+            </h4>
+            <span class="label label-default" ng-repeat="result in qualification.result">{{result.name}}: {{result.value}}</span>
+        </div>
+        <h2>Work Experience</h2>
+        <div class="gr-wexp" ng-repeat="tenure in user.tenures">
+            <h3>{{tenure.position}}</h3>
+            <h4>{{tenure.organization}}
+                <span class="label label-primary">{{tenure.startedOn}} - {{tenure.endedOn}}</span> // TODO: Date formating
+            </h4>
+            <ul>
+                <li ng-repeat="responsibility in tenure.responsibilities">{{responsibility}}</li>
+            </ul>
+        </div>
+        <h2>Skills</h2>
+        <h3>
+            <span class="label label-info" ng-repeat="skill in user.skills">{{skill.name}}: {{skill.experience}}</span>
+        </h3>
+    </div>
+    <!--Sidebar-->
+    <div class="col-md-4">
+        <h1>Profile Score: <span class="label label-success">+43</span></h1>
+    </div>
+</div>
+<script src="/bower_components/moment/moment.min.js"></script>
