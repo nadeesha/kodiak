@@ -7,10 +7,7 @@
 // In this case it is a simple value service.
 var services = angular.module('kodiak.services', []);
 
-/* Constants */
-// services.constant('SERVER_URL', 'http://localhost:3000');
 services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZLY_URL', function($rootScope, $localStorage, $http, GRIZZLY_URL) {
-
     var service = {
 
         model: {
@@ -22,23 +19,26 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
         },
 
         authHeader: function() {
-            if (!service.model.header || service.model.expiration < new Date()) {
-                console.log('redirect to login'); //TODO:
+            if (service.model.access_token === '')
+                service.restoreState();
+                
+            var config = {
+                headers: {
+                    access_token: service.model.access_token
+                }
             }
-
-            var header = {
-                access_token: service.model.access_token
-            };
-
-            return header;
+            
+            return config;
         },
 
         saveState: function() {
-            $localStorage.$default.user = angular.toJson(service.model);
+            sessionStorage.user = angular.toJson(service.model);
         },
 
         restoreState: function() {
-            service.model = angular.fromJson(sessionStorage.userService);
+            if (sessionStorage.user) {
+                service.model = angular.fromJson(sessionStorage.user);   
+            }
         },
 
         create: function(user, callback) {
@@ -104,7 +104,10 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 callback(data);
             })
         }
-    }
+    };
+    
+    $rootScope.$on("savestate", service.saveState);
+    $rootScope.$on("restorestate", service.restoreState);
 
     return service;
 }]);

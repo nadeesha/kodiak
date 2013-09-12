@@ -99,4 +99,6 @@ function($scope, $http, $location, userService, notificationService) {
             $location.url('/500');
         }
     });
+    
+    
 }]);
