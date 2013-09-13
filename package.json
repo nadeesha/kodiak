@@ -6,6 +6,7 @@
         "karma" : "*",
         "karma-junit-reporter" : "*",    
         "karma-jasmine" : "*",
-        "karma-ng-scenario" : "*"
+        "karma-ng-scenario" : "*",
+        "angular-ui-date": "latest"
     }
 }

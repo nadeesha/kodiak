@@ -1,0 +1,31 @@
+{
+  "name": "angular-moment",
+  "version": "0.2.0",
+  "description": "Angular.JS directives for Moment.JS (timeago alternative)",
+  "author": "Uri Shaked",
+  "license": "MIT",
+  "homepage": "http://github.com/urish/angular-moment",
+  "main": "./angular-moment.js",
+  "ignore": [],
+  "dependencies": {
+    "angular": "~1.x",
+    "moment": "~2.1.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.0.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/urish/angular-moment.git"
+  },
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.0",
+    "commit": "5cb655080113d82c150db09b8d20fbcbd97ca501"
+  },
+  "_source": "git://github.com/urish/angular-moment.git",
+  "_target": "~0.2.0",
+  "_originalSource": "angular-moment",
+  "_direct": true
+}

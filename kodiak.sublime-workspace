@@ -251,46 +251,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "app/partials/activate.html",
-			"settings":
-			{
-				"buffer_size": 359,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/me.html",
-			"settings":
-			{
-				"buffer_size": 24,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/js/controllers.js",
-			"settings":
-			{
-				"buffer_size": 1884,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/nadeesha/projects/grizzly/config/routes.js",
-			"settings":
-			{
-				"buffer_size": 1847,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/login.html",
-			"settings":
-			{
-				"buffer_size": 1134,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -358,15 +318,18 @@
 	},
 	"file_history":
 	[
+		"/home/nadeesha/projects/kodiak/app/partials/login.html",
+		"/home/nadeesha/projects/grizzly/config/routes.js",
+		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
+		"/home/nadeesha/projects/kodiak/app/partials/me.html",
+		"/home/nadeesha/projects/kodiak/app/partials/activate.html",
 		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
 		"/home/nadeesha/projects/kodiak/app/js/config.js",
 		"/home/nadeesha/projects/kodiak/app/js/services.js",
 		"/home/nadeesha/projects/kodiak/app/index.html",
 		"/home/nadeesha/projects/kodiak/app/js/app.js",
-		"/home/nadeesha/projects/kodiak/app/partials/login.html",
 		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
 		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
-		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
 		"/home/nadeesha/.config/sublime-text-3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
 		"/home/nadeesha/projects/kodiak/app/app.html",
 		"/home/nadeesha/projects/kodiak/app/signup.html",
@@ -377,7 +340,6 @@
 		"/home/nadeesha/projects/grizzly/test/common.js",
 		"/home/nadeesha/projects/grizzly/test/user-profile-test.js",
 		"/home/nadeesha/projects/grizzly/controllers/user.js",
-		"/home/nadeesha/projects/grizzly/config/routes.js",
 		"/home/nadeesha/projects/grizzly/config/passport.js",
 		"/home/nadeesha/projects/grizzly/test/user-token-test.js",
 		"/home/nadeesha/projects/grizzly/test/user-activate-test.js",
@@ -497,148 +459,8 @@
 	"groups":
 	[
 		{
-			"selected": 4,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "app/partials/activate.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 359,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								347,
-								347
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/partials/me.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								19,
-								19
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/js/controllers.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1884,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1508,
-								1508
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 770.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/nadeesha/projects/grizzly/config/routes.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1847,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								166,
-								166
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/partials/login.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1134,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								417,
-								417
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

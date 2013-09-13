@@ -24,7 +24,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 
             var config = {
                 headers: {
-                    access_token: service.model.access_token
+                    Authorization: 'Bearer ' + service.model.access_token
                 }
             }
             
@@ -89,16 +89,20 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             });
         },
 
-        get_profile: function(callback) {
+        getProfile: function(callback) {
             $http.get(GRIZZLY_URL + '/user/profile', service.authHeader()).success(function(data, status, headers, config) {
-                callback(null, data.profile);
+                callback(null, data);
             }).error(function(data, status, headers, config) {
                 callback(data, null);
             });
         },
 
-        set_profile: function(profile, callback) {
-            $http.post(GRIZZLY_URL + '/user/profile', profile, service.authHeader()).success(function(data, status, headers, config) {
+        saveProfile: function(profile, callback) {
+            var user = {
+                profile: profile
+            };
+
+            $http.post(GRIZZLY_URL + '/user/profile', JSON.stringify(user), service.authHeader()).success(function(data, status, headers, config) {
                 callback();
             }).error(function(data, status, headers, config) {
                 callback(data);
