@@ -102,8 +102,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                         type: 'error',
                         hide: true
                     });
-                }
-                else {
+                } else {
                     notificationService.notify({
                         title: 'Changed saved!',
                         text: 'Successfully saved changes made to your profile.',
@@ -117,13 +116,13 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         // personal modal
         $scope.openPersonalModal = function(profile) {
             var personalModal = $modal.open({
-                templateUrl: 'modal_me_personal.html',
+                templateUrl: 'partials/modal_me_personal.html',
                 controller: PersonalModalInstanceCtrl,
                 resolve: { // we're sending these data from this controller to the modeal's controller
                     data: function() {
                         return {
                             location: profile.location,
-                            contactNumbers: profile.contactNumbers,
+                            contactNumber: profile.contactNumber,
                             languages: profile.languages,
                             nationalIdentifier: profile.nationalIdentifier,
                             dateOfBirth: profile.dateOfBirth
@@ -134,61 +133,75 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
             personalModal.result.then(function(personalData) { // when the modal returns a result
                 profile.location = personalData.location;
-                profile.contactNumbers = personalData.contactNumbers;
+                profile.contactNumber = personalData.contactNumber;
                 profile.languages = personalData.languages;
                 profile.nationalIdentifier = personalData.nationalIdentifier;
-                profile.dateOfBirth = personalData.dateOfBirth;
+                profile.dateOfBirth = new Date(personalData.dateOfBirth);
 
+                $scope.saveProfile();
+            });
+        }
+
+        var bindAddEditModal = function (obj, templateUrl, instanceController, collection) {
+            var add = !obj; // add = true if this is a new aulification vs. an edit 
+
+            var modal = $modal.open({
+                templateUrl: templateUrl,
+                controller: instanceController,
+                resolve: {
+                    data: function() {
+                        // if it's "adding", pass the new object to the child scope
+                        // else, return the existing "obj"
+                        if (add) {
+                            return new Object();
+                        }
+                        else {
+                            return obj;    
+                        }
+                    }
+                }
+            });
+
+            // when the user has clicked ok, either push the "new" object here
+            // or change the existing object in the main scope
+            modal.result.then(function(altered) {
+                if (add) {
+                    collection.push(altered);
+                }
+                else {
+                    obj = altered;
+                }
+                
                 $scope.saveProfile();
             });
         }
 
         // qualification modal
         $scope.openQualificationModal = function(qualification) {
-            var qualificationModal = $modal.open({
-                templateUrl: 'modal_me_qualification.html',
-                resolve: {
-                    data: function() {
-                        return qualification;
-                    }
-                }
-            });
-
-            qualificationModal.result.then(function(qualificationData) {
-                qualification = qualificationData;
-            });
+            bindAddEditModal(qualification, 'partials/modal_me_qualification.html', QualificationTenureModalInstanceCtrl, $scope.user.qualifications);
         }
 
         // tenure modal
         $scope.openTenureModal = function(tenure) {
-            var tenureModal = $modal.open({
-                templateUrl: 'modal_me_tenure.html',
-                resolve: {
-                    data: function() {
-                        return tenure;
-                    }
-                }
-            });
-
-            tenureModal.result.then(function(tenureData) {
-                tenure = tenureData;
-            });
+            bindAddEditModal(tenure, 'partials/modal_me_tenure.html', QualificationTenureModalInstanceCtrl, $scope.user.tenures);
         }
 
         // skills modal
         $scope.openSkillModal = function(skill) {
-            var skillModal = $modal.open({
-                templateUrl: 'modal_me_skill.html',
-                resolve: {
-                    data: function() {
-                        return skill;
-                    }
-                }
+            bindAddEditModal(skill, 'partials/modal_me_skill.html', SkillModalInstanceCtrl, $scope.user.skills);
+        }
+
+        // deletes any element by position of the collection after seeking user confirmation
+        $scope.openDeleteModal = function(pos, collection) {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_me_confirmation.html'
             });
 
-            skillModal.result.then(function(skillData) {
-                skill = skillData;
-            });
+            modal.result.then(function () {
+                if ( ~pos ) collection.splice(pos, 1);
+
+                $scope.saveProfile();
+            })
         }
 
     }
@@ -196,4 +209,63 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
 var PersonalModalInstanceCtrl = function($scope, data) {
     $scope.data = data;
+
+    $scope.data.dateOfBirth = new Date($scope.data.dateOfBirth);
+
+    $scope.dateOfBirthOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0',
+        dateFormat: 'd MM yy'
+    };
 };
+
+var QualificationTenureModalInstanceCtrl = function($scope, data, MONTHS) {
+    $scope.data = data;
+
+    $scope.startedOn = {};
+    $scope.endedOn = {};
+
+    // setting month and year values
+    $scope.months = MONTHS;
+    $scope.years = [];
+
+    var now = new Date();
+
+    for (var i = now.getFullYear(); i >= now.getFullYear() - 40; i--) {
+        $scope.years.push(i.toString());
+    }
+
+    // puts the date value in two select boxes
+    var setMonthAndDate = function(source, target) {
+        target.month = moment(source).format('MMMM');
+        target.year = moment(source).format('YYYY');
+    }
+
+    // converting startedOn and endedOnvalues
+    if ($scope.data.startedOn) {
+        setMonthAndDate($scope.data.startedOn, $scope.startedOn);
+    }
+    if ($scope.data.endedOn) {
+        setMonthAndDate($scope.data.endedOn, $scope.endedOn);
+    }
+
+    var convertToDate = function (year, month) {
+        if (year && month) {
+            return moment(month + ' 1 ' + year).format();
+        }
+    }
+
+    $scope.submit = function() {
+        // need to parse the month/year combination before submitting
+        $scope.data.startedOn = convertToDate($scope.startedOn.year, $scope.startedOn.month);
+        $scope.data.endedOn = convertToDate($scope.endedOn.year, $scope.endedOn.month);
+
+        $scope.$close(data);
+    }
+}
+
+var SkillModalInstanceCtrl = function ($scope, data) {
+    $scope.data = data;
+}
+

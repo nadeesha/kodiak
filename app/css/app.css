@@ -37,7 +37,15 @@ body {
     margin-left: 5px;
 }
 
+.gr-right-5 {
+    margin-right: 5px;
+}
 
+.gr-inline-select {
+    width: 40%;
+    margin-right: 5px;
+    display: inline-block;
+}
 
 /* Bootstrap 3 temp styles till  Angular-Bootstrap 0.7.0 */
 
