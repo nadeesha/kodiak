@@ -1,0 +1,46 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Personal Information</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form" name="formPersonal">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Location</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" placeholder="Location" ng-model="data.location">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Contact Number</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" placeholder="Contact Number" ng-pattern="/^[0-9]{10,}$/" ng-model="data.contactNumber" name="contactNumber">
+                        <div ng-show="formPersonal.contactNumber.$invalid" class="alert alert-warning">Must be a valid phone number. Ex: 0766554433 or 0112445566</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Languages</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" placeholder="Languages" ng-model="data.languages" ng-list>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">National Identifier</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" placeholder="National Identifier" ng-model="data.nationalIdentifier">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">Date of Birth</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" ui-date="dateOfBirthOptions" ng-model="data.dateOfBirth">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-disabled="formPersonal.$dirty && formPersonal.$invalid" ng-click="$close(data)">OK</button>
+            <button class="btn btn-warning" ng-click="$dismiss('cancel')">Cancel</button>
+        </div>
+    </div>
+</div>
