@@ -6,11 +6,16 @@
                 <span ng-model='user.lastName'>Cabral</span>
             </h1>
 
-            <h2>Personal<a class="btn btn-xs btn-default gr-btn-io" ng-click="openPersonalModal(user)">edit</a></h2>
+            <h2>Personal<a class="btn btn-xs btn-default gr-btn-io" ng-click="openPersonalModal(user)">edit</a>
+            </h2>
             <h4 class="line-spacing-regular">
                 <span class="nowrap">
                     <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-home"></span>Location:
                     <span class="label label-primary gr-right-5">{{user.location}}</span>
+                </span>
+                <span class="nowrap">
+                    <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-home"></span>Gender:
+                    <span class="label label-primary gr-right-5">{{convertGender(user.gender)}}</span>
                 </span>
                 <span class="nowrap">
                     <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-phone"></span>Contact Numbers:
@@ -34,19 +39,25 @@
                 </span>
             </h4>
 
-            <h2>Qualifications<a class="btn btn-xs btn-default gr-btn-io" ng-click="openQualificationModal()">add</a></h2>
+            <h2>Qualifications<a class="btn btn-xs btn-default gr-btn-io" ng-click="openQualificationModal()">add</a>
+            </h2>
             <div class="gr-qual" ng-repeat="qualification in user.qualifications">
-                <h3>{{qualification.name}} in {{qualification.field}} <a class="btn btn-xs btn-default gr-btn-io" ng-click="openQualificationModal(qualification)">edit</a> <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.qualifications)">delete</a></h3>
+                <h3>{{qualification.name}} in {{qualification.field}} <a class="btn btn-xs btn-default gr-btn-io" ng-click="openQualificationModal(qualification)">edit</a>  <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.qualifications)">delete</a>
+                </h3>
                 <h4>{{qualification.issuedBy}}
-                    <span class="label label-primary">{{qualification.startedOn | date:'MMMM yyyy'}}<span ng-show="qualification.endedOn">-{{qualification.endedOn | date:'MMMM yyyy'}}</span></span>
+                    <span class="label label-primary">{{qualification.startedOn | date:'MMMM yyyy'}}
+                        <span ng-show="qualification.endedOn">-{{qualification.endedOn | date:'MMMM yyyy'}}</span>
+                    </span>
                     <span class="label label-success" ng-show="{{qualification.complete}}">Completed</span>
                     <span class="label label-warning" ng-show="{{!qualification.complete}}">Incomplete</span>
                 </h4>
                 <span class="label label-default" ng-repeat="result in qualification.result">{{result.name}}: {{result.value}}</span>
             </div>
-            <h2>Work Experience<a class="btn btn-xs btn-default gr-btn-io" ng-click="openTenureModal()">add</a></h2>
+            <h2>Work Experience<a class="btn btn-xs btn-default gr-btn-io" ng-click="openTenureModal()">add</a>
+            </h2>
             <div class="gr-wexp" ng-repeat="tenure in user.tenures">
-                <h3>{{tenure.position}} <a class="btn btn-xs btn-default gr-btn-io" ng-click="openTenureModal(tenure)">edit</a> <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.tenures)">delete</a></h3>
+                <h3>{{tenure.position}} <a class="btn btn-xs btn-default gr-btn-io" ng-click="openTenureModal(tenure)">edit</a>  <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.tenures)">delete</a>
+                </h3>
                 <h4>{{tenure.organization}}
                     <span class="label label-primary">{{tenure.startedOn | date:'MMMM yyyy'}} - {{tenure.endedOn | date:'MMMM yyyy'}}</span>
                 </h4>
@@ -54,16 +65,42 @@
                     {{tenure.responsibilities}}
                 </p>
             </div>
-            <h2>Skills<a class="btn btn-xs btn-default gr-btn-io" ng-click="openSkillModal()">add</a></h2>
-            <h3>
-                <span class="label label-info gr-right-5" ng-repeat="skill in user.skills">{{skill.name}}: {{skill.experience}} years<a class="btn btn-xs btn-default gr-btn-io" ng-click="openSkillModal(skill)">edit</a> <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.skills)">delete</a></span>
+            <h2>Skills<a class="btn btn-xs btn-default gr-btn-io" ng-click="openSkillModal()">add</a>
+            </h2>
+            <h3 ng-repeat="skill in user.skills">
+                <span class="label label-info gr-right-5 nowrap pull-left gr-bottom-5 line-spacing-regular">{{skill.name}}: {{skill.experience}} years<a class="btn btn-xs btn-default gr-btn-io" ng-click="openSkillModal(skill)">edit</a>  <a class="btn btn-xs btn-danger gr-btn-io" ng-click="openDeleteModal($index, user.skills)">delete</a>
+                </span>
             </h3>
         </div>
         <!--Sidebar-->
-        <div class="col-md-4">
-            <h1>Profile Score:
-                <span class="label label-success">+43</span>
-            </h1>
+        <div class="col-md-4 well well-lg">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1><span class="glyphicon glyphicon-signal"></span> Profile Score</h3>
+                </div>
+                <div class="col-md-2">
+                    <h1 class="pull-right">+{{stats.score}}</h1>
+                </div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{stats.score*100/88}}" aria-valuemin="0" aria-valuemax="100" style="width: {{stats.score*100/88}}%;">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 well well-lg">
+            
+            <h2><span class="glyphicon glyphicon-th-list"></span> Get more points!</h2>
+            <hr/>
+            <div class="row tips" ng-repeat="tip in stats.tips | orderBy: 'done'">
+                <div class="col-md-2">
+                    <h3 class="label label-success">+{{tip.pts}}</h3>
+                </div>
+                <div class="col-md-9">
+                    <p class="gr-strike-{{tip.done}}">{{tip.msg}}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

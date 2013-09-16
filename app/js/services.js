@@ -97,6 +97,14 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             });
         },
 
+        getProfileStats: function(callback) {
+            $http.get(GRIZZLY_URL + '/user/profile/stats', service.authHeader()).success(function(data, status, headers, config) {
+                callback(null, data);
+            }).error(function(data, status, headers, config) {
+                callback(data, null);
+            });
+        },
+
         saveProfile: function(profile, callback) {
             var user = {
                 profile: profile
