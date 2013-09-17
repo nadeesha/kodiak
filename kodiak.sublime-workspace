@@ -4,6 +4,102 @@
 		"selected_items":
 		[
 			[
+				"font",
+				"font-size"
+			],
+			[
+				"te",
+				"text-decoration"
+			],
+			[
+				"user",
+				"userService"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"qua",
+				"qualifications"
+			],
+			[
+				"conv",
+				"convertToDate"
+			],
+			[
+				"q",
+				"qualification"
+			],
+			[
+				"i",
+				"inline-block"
+			],
+			[
+				"marg",
+				"margin-right"
+			],
+			[
+				"sar",
+				"startedOn"
+			],
+			[
+				"set",
+				"setMonthAndDate"
+			],
+			[
+				"MM",
+				"MMMM"
+			],
+			[
+				"mon",
+				"month"
+			],
+			[
+				"style",
+				"style	Attr"
+			],
+			[
+				"for",
+				"for	JS - For loop"
+			],
+			[
+				"da",
+				"data"
+			],
+			[
+				"ng-",
+				"ng-model"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"date",
+				"dateOfBirth"
+			],
+			[
+				"save",
+				"saveProfile"
+			],
+			[
+				"fun",
+				"fun	Function"
+			],
+			[
+				"per",
+				"personalData"
+			],
+			[
+				"langua",
+				"languages"
+			],
+			[
+				"modal",
+				"modalInstance"
+			],
+			[
 				"path",
 				"pathname"
 			],
@@ -84,10 +180,6 @@
 				"sanitize"
 			],
 			[
-				"for",
-				"for	for (…) {…} (Improved Native For-Loop)"
-			],
-			[
 				"end",
 				"endDateAltered"
 			],
@@ -102,10 +194,6 @@
 			[
 				"contac",
 				"contactNumbers"
-			],
-			[
-				"fun",
-				"fun	Function"
 			],
 			[
 				"pro",
@@ -240,10 +328,6 @@
 				"req"
 			],
 			[
-				"user",
-				"userMaster"
-			],
-			[
 				"co",
 				"collection"
 			]
@@ -251,13 +335,57 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "app/js/config.js",
+			"settings":
+			{
+				"buffer_size": 338,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/me.html",
+			"settings":
+			{
+				"buffer_size": 6084,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/modal_me_qualification.html",
+			"settings":
+			{
+				"buffer_size": 3171,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/modal_me_tenure.html",
+			"settings":
+			{
+				"buffer_size": 3098,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 11307,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 306.0,
+		"height": 96.0,
 		"selected_items":
 		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"Package Control: ",
 				"Package Control: Install Package"
@@ -291,7 +419,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 575.0
+		"width": 467.0
 	},
 	"console":
 	{
@@ -318,44 +446,54 @@
 	},
 	"file_history":
 	[
-		"/home/nadeesha/projects/kodiak/app/partials/login.html",
-		"/home/nadeesha/projects/grizzly/config/routes.js",
-		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
 		"/home/nadeesha/projects/kodiak/app/partials/me.html",
-		"/home/nadeesha/projects/kodiak/app/partials/activate.html",
-		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
-		"/home/nadeesha/projects/kodiak/app/js/config.js",
+		"/home/nadeesha/projects/kodiak/app/css/app.css",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_personal.html",
+		"/home/nadeesha/projects/kodiak/Procfile",
+		"/home/nadeesha/projects/kodiak/package.json",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
+		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
 		"/home/nadeesha/projects/kodiak/app/js/services.js",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_confirmation.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_skill.html",
+		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
+		"/home/nadeesha/projects/kodiak/app/partials/login.html",
+		"/home/nadeesha/projects/grizzly/config/config.js",
 		"/home/nadeesha/projects/kodiak/app/index.html",
 		"/home/nadeesha/projects/kodiak/app/js/app.js",
+		"/home/nadeesha/projects/kodiak/app/js/config.js",
+		"/home/nadeesha/projects/grizzly/models/user.js",
+		"/home/nadeesha/projects/grizzly/config/passport.js",
+		"/home/nadeesha/projects/grizzly/server.js",
+		"/home/nadeesha/projects/kodiak/bower_components/angular-ui-date/src/date.js",
+		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_profile.html",
+		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/bower.json",
+		"/home/nadeesha/projects/grizzly/config/routes.js",
+		"/home/nadeesha/projects/kodiak/app/partials/activate.html",
+		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
 		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
-		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
 		"/home/nadeesha/.config/sublime-text-3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
 		"/home/nadeesha/projects/kodiak/app/app.html",
 		"/home/nadeesha/projects/kodiak/app/signup.html",
-		"/home/nadeesha/projects/kodiak/app/css/app.css",
 		"/home/nadeesha/projects/kodiak/app/js/directives.js",
 		"/home/nadeesha/projects/kodiak/app/js/filters.js",
-		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
 		"/home/nadeesha/projects/grizzly/test/common.js",
 		"/home/nadeesha/projects/grizzly/test/user-profile-test.js",
 		"/home/nadeesha/projects/grizzly/controllers/user.js",
-		"/home/nadeesha/projects/grizzly/config/passport.js",
 		"/home/nadeesha/projects/grizzly/test/user-token-test.js",
 		"/home/nadeesha/projects/grizzly/test/user-activate-test.js",
-		"/home/nadeesha/projects/grizzly/models/user.js",
 		"/home/nadeesha/projects/grizzly/test/user-create-test.js",
 		"/home/nadeesha/projects/grizzly/test/init-test.js",
 		"/home/nadeesha/projects/grizzly/utility.js",
 		"/home/nadeesha/projects/grizzly/config/express.js",
-		"/home/nadeesha/projects/grizzly/server.js",
 		"/home/nadeesha/projects/grizzly/Makefile",
 		"/home/nadeesha/projects/grizzly/routes/user.js",
 		"/home/nadeesha/projects/grizzly/package.json",
 		"/home/nadeesha/projects/grizzly/test/user-login-test.js",
 		"/home/nadeesha/projects/grizzly/config/logger.js",
 		"/home/nadeesha/projects/grizzly/test/user-test.js",
-		"/home/nadeesha/projects/grizzly/config/config.js",
 		"/home/nadeesha/projects/grizzly/test/init.js",
 		"/home/nadeesha/projects/grizzly/config.js",
 		"/home/nadeesha/.config/sublime-text-3/Packages/JsFormat/JsFormat.sublime-settings",
@@ -380,6 +518,60 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"h1",
+			"span",
+			" on",
+			"on",
+			"qualificationData",
+			"bindModalTasks",
+			"qualificationModal",
+			"qualification",
+			"inline",
+			"Tenure",
+			"Qualification",
+			"qual",
+			"Qualification",
+			"tenure",
+			"qualification",
+			"db",
+			"started",
+			"ended",
+			"new",
+			"Personal",
+			"started",
+			"\"",
+			"Year",
+			"Personal",
+			"dateOfBirth",
+			"primary",
+			"Numbers",
+			"contactNumbers",
+			"col-lg-2",
+			"label",
+			"modal",
+			"user",
+			"E-mail",
+			"controller:",
+			"// when the modal returns a result",
+			"// we're sending these data from this controller to the modeal's controller",
+			"personal",
+			"Personal",
+			"personal",
+			"Personal",
+			"personal",
+			"Personal",
+			"personal",
+			"qualificationModalCtrl",
+			"personal",
+			"Personal",
+			"personal",
+			"$scope",
+			"location",
+			"$scope.location = personalData.location;\n                ",
+			"nationalIdentifier",
+			"items",
+			"items: function() {\n                    return $scope.items;\n                },",
+			"saveState: function()",
 			"HttpServer",
 			"createServlet",
 			"handleRequest",
@@ -459,8 +651,152 @@
 	"groups":
 	[
 		{
+			"selected": 4,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "app/js/config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 338,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/partials/me.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6084,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1060,
+								1060
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 663.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/partials/modal_me_qualification.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3171,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 306.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/partials/modal_me_tenure.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3098,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2248,
+								2248
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 102.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/js/controllers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11307,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2040.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -470,7 +806,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 33.0
 	},
 	"layout":
 	{
@@ -506,6 +842,34 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"conf",
+				"app/js/config.js"
+			],
+			[
+				"app",
+				"app/css/app.css"
+			],
+			[
+				"contr",
+				"app/js/controllers.js"
+			],
+			[
+				"me",
+				"app/partials/me.html"
+			],
+			[
+				"me.t",
+				"app/partials/me.html"
+			],
+			[
+				"ser",
+				"app/js/services.js"
+			],
+			[
+				"app.c",
+				"app/css/app.css"
+			]
 		],
 		"width": 0.0
 	},
@@ -519,11 +883,11 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 728.0
 	},
 	"settings":
 	{

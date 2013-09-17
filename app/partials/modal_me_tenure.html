@@ -34,7 +34,7 @@
                 <div class="form-group" ng-hide="current">
                     <label class="col-lg-4 control-label">Month Ended</label>
                     <div class="col-lg-8">
-                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="endedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="endedOn.year" placeholder="Year" ng-required={{!current}}/>
+                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="endedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="endedOn.year" placeholder="Year"/>
                         <div class="alert alert-danger" ng-show="datesMismatch"><b>Check your dates!</b> Month started should be before the month ended.</div>
                     </div>
                 </div>
