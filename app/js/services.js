@@ -90,7 +90,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
         },
 
         getProfile: function(callback) {
-            $http.get(GRIZZLY_URL + '/user/profile', service.authHeader()).success(function(data, status, headers, config) {
+            $http.get(GRIZZLY_URL + '/user/profile/me', service.authHeader()).success(function(data, status, headers, config) {
                 callback(null, data);
             }).error(function(data, status, headers, config) {
                 callback(data, null);
@@ -98,7 +98,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
         },
 
         getProfileStats: function(callback) {
-            $http.get(GRIZZLY_URL + '/user/profile/stats', service.authHeader()).success(function(data, status, headers, config) {
+            $http.get(GRIZZLY_URL + '/user/profile/me/stats', service.authHeader()).success(function(data, status, headers, config) {
                 callback(null, data);
             }).error(function(data, status, headers, config) {
                 callback(data, null);
@@ -110,7 +110,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 profile: profile
             };
 
-            $http.post(GRIZZLY_URL + '/user/profile', JSON.stringify(user), service.authHeader()).success(function(data, status, headers, config) {
+            $http.post(GRIZZLY_URL + '/user/profile/me', JSON.stringify(user), service.authHeader()).success(function(data, status, headers, config) {
                 callback();
             }).error(function(data, status, headers, config) {
                 callback(data);
