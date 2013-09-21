@@ -42,7 +42,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
         },
 
         create: function(user, callback) {
-            $http.put(GRIZZLY_URL + '/user/create', {
+            $http.put(GRIZZLY_URL + '/user', {
                 "firstName": user.firstName,
                 "lastName": user.lastName,
                 "email": user.email,
@@ -60,7 +60,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
         },
 
         login: function(user, callback) {
-            $http.put(GRIZZLY_URL + '/user/token/create', {
+            $http.put(GRIZZLY_URL + '/user/token', {
                 "email": user.email,
                 "password": user.password
             }).success(function(data, status, headers, config) {
