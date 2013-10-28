@@ -1,5 +1,5 @@
 {
-  "name": "angualrjs-seed",
+  "name": "Kodiak",
   "description": "A starter project for angular js",
   "devDependencies": {
     "phantomjs": "*",
@@ -7,7 +7,13 @@
     "karma-junit-reporter": "*",
     "karma-jasmine": "*",
     "karma-ng-scenario": "*",
-    "angular-ui-date": "latest"
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-cssmin": "~0.6.2",
+    "grunt-processhtml": "~0.2.3",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-string-replace": "~0.2.4"
   },
   "dependencies": {
     "node-static": "~0.7.2"

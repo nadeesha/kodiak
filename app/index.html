@@ -5,12 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HireWire.lk - A new way to get hired!</title>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <!-- <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css" /> -->
+    <!-- build:remove:dist -->
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="components/pnotify/jquery.pnotify.default.css" />
     <link rel="stylesheet" href="components/pnotify/jquery.pnotify.default.icons.css" />
     <link rel="stylesheet" href="components/jquery-ui/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="css/app.css" />
+    <!-- /build -->
+    <!-- build:template
+    <link rel="stylesheet" href="css/styles.css"/>
+    /build -->
 </head>
 
 <body>
@@ -51,6 +55,7 @@
     </nav>
     <div class="gr-container container" ui-view></div>
 
+    <!-- build:remove:dist -->
     <script src="components/moment/min/moment.min.js"></script>
     <script src="components/jquery/jquery.min.js"></script>
     <script src="components/angular/angular.js"></script>
@@ -68,6 +73,10 @@
     <script src="js/directives.js"></script>
     <script src="js/config.js"></script>
     <script src="lib/ngStorage.js"></script>
+    <!-- /build -->
+    <!-- build:template
+    <script src="js/app.js"></script>
+    /build -->
 </body>
 
 </html>

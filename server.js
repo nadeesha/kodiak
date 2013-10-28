@@ -1,14 +1,13 @@
 var static = require('node-static');
 
 var fileServer = new static.Server('./app');
+var PORT = process.env.PORT || 3000;
 
-function main(argv) {
-	require('http').createServer(function(request, response) {
-		request.addListener('end', function() {
-			console.log(request.url);
-			fileServer.serve(request, response);
-		}).resume();
-	}).listen(Number(argv[2]) || process.env.PORT);
-}
+require('http').createServer(function(request, response) {
+	request.addListener('end', function() {
+		console.log(request.url);
+		fileServer.serve(request, response);
+	}).resume();
+}).listen(PORT);
 
-main(process.argv);
+console.log('Server started on %s', PORT);
