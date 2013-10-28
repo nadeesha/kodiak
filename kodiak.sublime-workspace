@@ -4,16 +4,208 @@
 		"selected_items":
 		[
 			[
-				"font",
-				"font-size"
+				"mar",
+				"margin-top"
 			],
 			[
-				"te",
-				"text-decoration"
+				"yea",
+				"years"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"res",
+				"$scope.results"
+			],
+			[
+				"resul",
+				"results"
+			],
+			[
+				"val",
+				"values"
+			],
+			[
+				"crite",
+				"criterion"
+			],
+			[
+				"valida",
+				"validationService"
+			],
+			[
+				"criter",
+				"criterion"
+			],
+			[
+				"fo",
+				"form	Tag"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"crit",
+				"criteria"
+			],
+			[
+				"save",
+				"saveSearch"
+			],
+			[
+				"se",
+				"$scope.searchId"
+			],
+			[
+				"han",
+				"notificationService.handleSuccess"
+			],
+			[
+				"sea",
+				"search"
+			],
+			[
+				"success",
+				"Successfully"
+			],
+			[
+				"sear",
+				"searcService"
+			],
+			[
+				"sele",
+				"selectedCriterion"
+			],
+			[
+				"displa",
+				"displayNameCollection"
+			],
+			[
+				"display",
+				"displayNameCollection"
+			],
+			[
+				"userS",
+				"userService"
+			],
+			[
+				"$state",
+				"$stateParams"
+			],
+			[
+				"re",
+				"$scope.ad.responsibilities"
+			],
+			[
+				"$st",
+				"$state"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"$stat",
+				"$stateParams"
+			],
+			[
+				"noti",
+				"notificationService"
+			],
+			[
+				"contro",
+				"controllers"
+			],
+			[
+				"margi",
+				"margin-right"
+			],
+			[
+				"dire",
+				"directive	AngularJS"
+			],
+			[
+				"no",
+				"nowrap"
+			],
+			[
+				"err",
+				"errorHandlerService"
+			],
+			[
+				"fun",
+				"fun	Function"
 			],
 			[
 				"user",
 				"userService"
+			],
+			[
+				"stat",
+				"stateProvider"
+			],
+			[
+				"co",
+				"controller"
+			],
+			[
+				"rest",
+				"restorestate"
+			],
+			[
+				"pa",
+				"pass"
+			],
+			[
+				"me",
+				"message"
+			],
+			[
+				"contr",
+				"controller"
+			],
+			[
+				"auth",
+				"authenticate"
+			],
+			[
+				"org",
+				"orgId"
+			],
+			[
+				"or",
+				"orgId"
+			],
+			[
+				"f",
+				"fun	Function"
+			],
+			[
+				"fu",
+				"fun	Function"
+			],
+			[
+				"n",
+				"null"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"c",
+				"current"
+			],
+			[
+				"curr",
+				"current"
+			],
+			[
+				"te",
+				"text-decoration"
 			],
 			[
 				"margin",
@@ -60,10 +252,6 @@
 				"style	Attr"
 			],
 			[
-				"for",
-				"for	JS - For loop"
-			],
-			[
 				"da",
 				"data"
 			],
@@ -72,20 +260,8 @@
 				"ng-model"
 			],
 			[
-				"val",
-				"value"
-			],
-			[
 				"date",
 				"dateOfBirth"
-			],
-			[
-				"save",
-				"saveProfile"
-			],
-			[
-				"fun",
-				"fun	Function"
 			],
 			[
 				"per",
@@ -138,18 +314,6 @@
 			[
 				"acc",
 				"access_token"
-			],
-			[
-				"res",
-				"result"
-			],
-			[
-				"err",
-				"err"
-			],
-			[
-				"auth",
-				"authToken"
 			],
 			[
 				"find",
@@ -248,10 +412,6 @@
 				"GOODEMAIL"
 			],
 			[
-				"fu",
-				"function"
-			],
-			[
 				"Ob",
 				"object"
 			],
@@ -304,10 +464,6 @@
 				"next"
 			],
 			[
-				"tr",
-				"try"
-			],
-			[
 				"en",
 				"encryptPassword"
 			],
@@ -322,28 +478,181 @@
 			[
 				"w",
 				"winston"
-			],
-			[
-				"re",
-				"req"
-			],
-			[
-				"co",
-				"collection"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "scripts/web-server.js",
+			"settings":
+			{
+				"buffer_size": 5659,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "server.js",
+			"settings":
+			{
+				"buffer_size": 363,
+				"line_ending": "Unix",
+				"name": "var static = require('node-static');"
+			}
+		},
+		{
+			"file": "Procfile",
+			"settings":
+			{
+				"buffer_size": 31,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bower.json",
+			"settings":
+			{
+				"buffer_size": 701,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".bowerrc",
+			"settings":
+			{
+				"buffer_size": 36,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/js/services.js",
+			"settings":
+			{
+				"buffer_size": 13484,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/index.html",
+			"settings":
+			{
+				"buffer_size": 3289,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/login.html",
+			"settings":
+			{
+				"buffer_size": 1325,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 96.0,
+		"height": 392.0,
 		"selected_items":
 		[
 			[
+				"aler",
+				"Snippet: bs3-alert-warning"
+			],
+			[
+				"chec",
+				"Snippet: bs3-input-checkbox"
+			],
+			[
+				"row",
+				"Snippet: bs3-row"
+			],
+			[
+				"glyp",
+				"Snippet: bs3-icon-glyphicon"
+			],
+			[
+				"bs3-gly",
+				"Snippet: bs3-icon-glyphicon"
+			],
+			[
+				"gly",
+				"Snippet: bs3-icon-glyphicon"
+			],
+			[
+				"lab",
+				"Snippet: bs3-label-info"
+			],
+			[
+				"labe",
+				"Snippet: bs3-label-success"
+			],
+			[
+				"bs3",
+				"Snippet: bs3-alert"
+			],
+			[
+				"label",
+				"Snippet: bs3-label-warning"
+			],
+			[
+				"bs3-bu",
+				"Snippet: bs3-button-primary"
+			],
+			[
+				"select",
+				"Snippet: bs3-input-select-h"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
 				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"butt",
+				"Snippet: bs3-button-default"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"alert",
+				"Snippet: bs3-alert-danger"
+			],
+			[
+				"angular",
+				"Set Syntax: HTML (Angular.js)"
+			],
+			[
+				"label	",
+				"Snippet: bs3-label-info"
+			],
+			[
+				"bs3-rad",
+				"Snippet: bs3-input-radio"
+			],
+			[
+				"Snippet",
+				"Snippet: html"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
 				"Package Control: Install Package"
 			],
 			[
@@ -379,21 +688,11 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 467.0
+		"width": 575.0
 	},
 	"console":
 	{
-		"height": 484.0,
-		"history":
-		[
-			"cd Packages",
-			"cd Packages/",
-			"version",
-			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print('Please restart Sublime Text to finish installation')",
-			"cls",
-			"clear",
-			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print('Please restart Sublime Text to finish installation')"
-		]
+		"height": 484.0
 	},
 	"distraction_free":
 	{
@@ -406,23 +705,72 @@
 	},
 	"file_history":
 	[
-		"/home/nadeesha/projects/kodiak/app/js/config.js",
-		"/home/nadeesha/projects/kodiak/app/partials/me.html",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
-		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
-		"/home/nadeesha/projects/kodiak/app/css/app.css",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_personal.html",
-		"/home/nadeesha/projects/kodiak/Procfile",
-		"/home/nadeesha/projects/kodiak/package.json",
-		"/home/nadeesha/projects/kodiak/app/js/services.js",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_confirmation.html",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_skill.html",
-		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
+		"/home/nadeesha/projects/kodiak/bower_components/bootstrap/dist/css/bootstrap-theme.min.css",
 		"/home/nadeesha/projects/kodiak/app/partials/login.html",
-		"/home/nadeesha/projects/grizzly/config/config.js",
-		"/home/nadeesha/projects/kodiak/app/index.html",
+		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
+		"/home/nadeesha/projects/kodiak/app/js/services.js",
+		"/home/nadeesha/projects/kodiak/app/partials/me.html",
+		"/home/nadeesha/projects/kodiak/app/js/config.js",
+		"/home/nadeesha/projects/kodiak/Procfile",
+		"/home/nadeesha/projects/kodiak/scripts/e2e-test.bat",
+		"/home/nadeesha/projects/kodiak/scripts/e2e-test.sh",
+		"/home/nadeesha/projects/kodiak/scripts/test.bat",
+		"/home/nadeesha/projects/kodiak/scripts/test.sh",
+		"/home/nadeesha/projects/kodiak/scripts/watchr.rb",
+		"/home/nadeesha/projects/kodiak/bower.json",
+		"/home/nadeesha/projects/kodiak/package.json",
 		"/home/nadeesha/projects/kodiak/app/js/app.js",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
+		"/home/nadeesha/projects/kodiak/app/index.html",
+		"/home/nadeesha/projects/kodiak/bower_components/angular/angular.js",
+		"/home/nadeesha/projects/kodiak/app/js/directives.js",
+		"/home/nadeesha/projects/kodiak/app/css/app.css",
+		"/home/nadeesha/projects/kodiak/app/partials/search.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_personal.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_search_results.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_skill.html",
+		"/home/nadeesha/projects/kodiak/app/lib/renderer.js",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/lib/arbor.js",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/docs/sample-project/main.js",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/lib/arbor-graphics.js",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/docs/sample-project/index.html",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/docs/sample-project/style.css",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/README",
+		"/home/nadeesha/projects/kodiak/bower_components/arbor/docs/reference.html",
+		"/home/nadeesha/projects/grizzly-api/models/search.js",
+		"/home/nadeesha/projects/grizzly-api/controllers/search.js",
+		"/home/nadeesha/projects/kodiak/app/partials/ad_create.html",
+		"/home/nadeesha/.config/sublime-text-2/Packages/LiveReload/LiveReload.sublime-settings",
+		"/home/nadeesha/.cache/.fr-rVtcec/slider/css/slider.css",
+		"/home/nadeesha/projects/kodiak/app/partials/ad_view.html",
+		"/home/nadeesha/projects/kodiak/bower_components/bootstrap/_includes/header.html",
+		"/home/nadeesha/projects/kodiak/app/partials/template_ad.html",
+		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
+		"/home/nadeesha/projects/kodiak/bower_components/angular-ui-router/test/compat/routeSpec.js",
+		"/home/nadeesha/projects/grizzly-api/models/advertisement.js",
+		"/home/nadeesha/projects/kodiak/app/partials/ad_preview.html",
+		"/home/nadeesha/.config/sublime-text-2/Packages/AngularJS/AngularJS-sublime-package.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/fgroup.sublime-snippet",
+		"/home/nadeesha/projects/kodiak/app/partials/organization_create.html",
+		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
+		"/home/nadeesha/projects/kodiak/app/partials/organization_dashboard.html",
+		"/home/nadeesha/projects/kodiak/kodiak.sublime-project",
+		"/home/nadeesha/projects/kodiak/app/partials/organization.html",
+		"/home/nadeesha/projects/grizzly-api/middleware/authentication.js",
+		"/home/nadeesha/projects/grizzly-api/middleware/validation.js",
+		"/home/nadeesha/.config/sublime-text-2/Packages/Emmet/Default (Linux).sublime-keymap",
+		"/home/nadeesha/.config/sublime-text-2/Packages/Emmet/Emmet.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/nadeesha/.config/sublime-text-2/Packages/HtmlTidy/HtmlTidy.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/HtmlTidy.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/HTMLBeautify/HTMLBeautify.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/HTMLBeautify.sublime-settings",
+		"/home/nadeesha/projects/grizzly-api/config/routes.js",
+		"/home/nadeesha/.config/sublime-text-2/Packages/JSHint Gutter/.jshintrc",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_confirmation.html",
+		"/home/nadeesha/projects/grizzly/config/config.js",
 		"/home/nadeesha/projects/grizzly/models/user.js",
 		"/home/nadeesha/projects/grizzly/config/passport.js",
 		"/home/nadeesha/projects/grizzly/server.js",
@@ -432,12 +780,10 @@
 		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/bower.json",
 		"/home/nadeesha/projects/grizzly/config/routes.js",
 		"/home/nadeesha/projects/kodiak/app/partials/activate.html",
-		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
 		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
 		"/home/nadeesha/.config/sublime-text-3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
 		"/home/nadeesha/projects/kodiak/app/app.html",
 		"/home/nadeesha/projects/kodiak/app/signup.html",
-		"/home/nadeesha/projects/kodiak/app/js/directives.js",
 		"/home/nadeesha/projects/kodiak/app/js/filters.js",
 		"/home/nadeesha/projects/grizzly/test/common.js",
 		"/home/nadeesha/projects/grizzly/test/user-profile-test.js",
@@ -463,13 +809,15 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 61.0
 	},
 	"find_in_files":
 	{
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/nadeesha/projects/kodiak/app/",
+			"/home/nadeesha/projects/kodiak/app/js",
 			""
 		]
 	},
@@ -478,6 +826,102 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/bower_components",
+			"main",
+			"8000",
+			"type=\"text/javascript\" ",
+			"in ",
+			"$",
+			"lg",
+			"validationService",
+			"'}}<",
+			"i",
+			"obj",
+			"qualification",
+			"altered",
+			"personalData",
+			"modals.",
+			"bindAddEditModal",
+			"delete",
+			"add",
+			">edit<",
+			"h5",
+			"h4",
+			"h2",
+			"h3",
+			"h4",
+			"div",
+			"arbor",
+			"arborService",
+			"required",
+			"weight",
+			"selType",
+			"bottom",
+			"h4",
+			"values",
+			"p",
+			"h4",
+			"h3",
+			"3",
+			"date",
+			"6",
+			"lg",
+			" <",
+			"AdViewCtrl",
+			"OrgDashboardCtrl",
+			"searc",
+			"/adv",
+			"posts",
+			"advertisement",
+			"adver",
+			");\n",
+			"ad",
+			"^ad",
+			"ad",
+			"usexdo",
+			"$http",
+			"expir",
+			"div",
+			"-2",
+			"required",
+			"requi",
+			"h2",
+			"row",
+			"div",
+			"$scope.",
+			"responsibilities",
+			"responsibility",
+			"Resp",
+			"responsibility",
+			"Resp",
+			"Responsibility",
+			"Resp",
+			"button",
+			"service.model",
+			"localStorage",
+			"sessionStorage",
+			"ng-show",
+			"OrgDashboardCtrl",
+			">\n",
+			"$scope.",
+			"notificationService",
+			"dir",
+			"Administrator Email",
+			"lg",
+			"$rootScope",
+			"hit",
+			"ad",
+			"advertisement",
+			"ad",
+			"Ad",
+			"ad",
+			"Org",
+			"''",
+			"=",
+			"qualification",
+			"$scope",
+			"add",
+			"QualificationTenureModalInstanceCtrl",
 			"h1",
 			"span",
 			" on",
@@ -509,89 +953,7 @@
 			"col-lg-2",
 			"label",
 			"modal",
-			"user",
-			"E-mail",
-			"controller:",
-			"// when the modal returns a result",
-			"// we're sending these data from this controller to the modeal's controller",
-			"personal",
-			"Personal",
-			"personal",
-			"Personal",
-			"personal",
-			"Personal",
-			"personal",
-			"qualificationModalCtrl",
-			"personal",
-			"Personal",
-			"personal",
-			"$scope",
-			"location",
-			"$scope.location = personalData.location;\n                ",
-			"nationalIdentifier",
-			"items",
-			"items: function() {\n                    return $scope.items;\n                },",
-			"saveState: function()",
-			"HttpServer",
-			"createServlet",
-			"handleRequest",
-			"handleRequest_",
-			"index",
-			"login",
-			"GRIZZLY_URL",
-			"signup",
-			"SERVER",
-			"app",
-			"\"",
-			"app",
-			"model",
-			"$scope",
-			"isSuccess",
-			"500",
-			"$http.po",
-			"$http",
-			"||",
-			"-10",
-			"email",
-			"Email",
-			"Email1",
-			"view",
-			"myApp",
-			"endDateAltered",
-			"Name",
-			"user",
-			"next(e",
-			".log",
-			"console",
-			"location",
-			"contactNumber",
-			"name",
-			"position",
-			"request.post",
-			"hashed_password",
-			"'/user/login",
-			"/user/login",
-			"login",
-			"'/user/login",
-			"/user/login",
-			"winston",
-			"retur",
-			"return next",
-			" o",
-			"o",
-			"request",
-			"http",
-			"[0-9]",
-			"');\n",
-			"next(",
-			"createU",
-			"create",
-			"error = new Object({",
-			"error = new Object",
-			"team.",
-			"team",
-			"userMaster",
-			"winston"
+			"user"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -599,6 +961,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"model",
+			"",
 			"'",
 			"userMasterModel"
 		],
@@ -611,8 +975,229 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "scripts/web-server.js",
+					"settings":
+					{
+						"buffer_size": 5659,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								247,
+								247
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3150.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "server.js",
+					"settings":
+					{
+						"buffer_size": 363,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								82,
+								82
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var static = require('node-static');",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Procfile",
+					"settings":
+					{
+						"buffer_size": 31,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								31,
+								31
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "bower.json",
+					"settings":
+					{
+						"buffer_size": 701,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								419,
+								419
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": ".bowerrc",
+					"settings":
+					{
+						"buffer_size": 36,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								36,
+								36
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/js/services.js",
+					"settings":
+					{
+						"buffer_size": 13484,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12299,
+								12299
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4666.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/index.html",
+					"settings":
+					{
+						"buffer_size": 3289,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								49,
+								49
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/partials/login.html",
+					"settings":
+					{
+						"buffer_size": 1325,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								480,
+								480
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -647,7 +1232,10 @@
 		]
 	},
 	"menu_visible": true,
-	"project": "kodiak.sublime-project",
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
 	"replace":
 	{
 		"height": 64.0
@@ -659,28 +1247,144 @@
 		"selected_items":
 		[
 			[
+				"log",
+				"app/partials/login.html"
+			],
+			[
+				"index",
+				"app/index.html"
+			],
+			[
+				"ser",
+				"app/js/services.js"
+			],
+			[
 				"conf",
 				"app/js/config.js"
-			],
-			[
-				"app",
-				"app/css/app.css"
-			],
-			[
-				"contr",
-				"app/js/controllers.js"
 			],
 			[
 				"me",
 				"app/partials/me.html"
 			],
 			[
-				"me.t",
-				"app/partials/me.html"
+				"serv",
+				"app/js/services.js"
 			],
 			[
-				"ser",
-				"app/js/services.js"
+				"contr",
+				"app/js/controllers.js"
+			],
+			[
+				"logi",
+				"app/partials/login.html"
+			],
+			[
+				"app",
+				"app/js/app.js"
+			],
+			[
+				"direc",
+				"app/js/directives.js"
+			],
+			[
+				"ind",
+				"app/index.html"
+			],
+			[
+				"modal_me_te",
+				"app/partials/modal_me_tenure.html"
+			],
+			[
+				"modal_me",
+				"app/partials/modal_me_qualification.html"
+			],
+			[
+				"app.css",
+				"app/css/app.css"
+			],
+			[
+				"modal",
+				"app/partials/modal_me_skill.html"
+			],
+			[
+				"dire",
+				"app/js/directives.js"
+			],
+			[
+				"inde",
+				"app/index.html"
+			],
+			[
+				"ad_c",
+				"app/partials/ad_create.html"
+			],
+			[
+				"moda",
+				"app/partials/modal_me_qualification.html"
+			],
+			[
+				"ad_cre",
+				"app/partials/ad_create.html"
+			],
+			[
+				"ad_v",
+				"app/partials/ad_view.html"
+			],
+			[
+				"hea",
+				"bower_components/bootstrap/_includes/header.html"
+			],
+			[
+				"",
+				"app/js/app.js"
+			],
+			[
+				"con",
+				"app/js/controllers.js"
+			],
+			[
+				"lan",
+				"app/partials/landing.html"
+			],
+			[
+				"tem",
+				"app/partials/template_ad.html"
+			],
+			[
+				"ad",
+				"app/partials/ad_view.html"
+			],
+			[
+				"angu",
+				"bower_components/angular/angular.js"
+			],
+			[
+				"routes",
+				"bower_components/angular-ui-router/test/compat/routeSpec.js"
+			],
+			[
+				"modam",
+				"app/partials/modal_me_personal.html"
+			],
+			[
+				"modal_me_",
+				"app/partials/modal_me_qualification.html"
+			],
+			[
+				"adv",
+				"/home/nadeesha/projects/grizzly-api/models/advertisement.js"
+			],
+			[
+				"sig",
+				"app/partials/signup.html"
+			],
+			[
+				"or",
+				"app/partials/organization_dashboard.html"
+			],
+			[
+				"me.t",
+				"app/partials/me.html"
 			],
 			[
 				"app.c",
@@ -691,30 +1395,24 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"/home/nadeesha/projects/grizzly-api/grizzly.sublime-project"
+			],
+			[
+				"gr",
+				"/home/nadeesha/projects/grizzly-api/grizzly.sublime-project"
+			]
 		],
-		"width": 0.0
+		"width": 380.0
 	},
-	"select_symbol":
-	{
-		"height": 392.0,
-		"selected_items":
-		[
-		],
-		"width": 728.0
-	},
-	"settings":
-	{
-	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 217.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"side_bar_width": 251.0,
+	"status_bar_visible": true
 }

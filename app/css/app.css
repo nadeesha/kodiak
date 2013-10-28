@@ -1,9 +1,6 @@
 body {
     background-color: #e6e6e6;
 }
-.gr-container {
-    padding-left:15px;
-}
 .gr-face {
     display: block;
     margin-left: auto;
@@ -38,7 +35,7 @@ body {
 .gr-inline-select {
     width: 40%;
     margin-right: 5px;
-    display: inline-block;
+    display: inline-block; 
 }
 .gr-strike-true {
     text-decoration: line-through;
@@ -51,14 +48,44 @@ body {
 .gr-bottom-5 {
     margin-bottom: 5px;
 }
+.gr-top-5 {
+    margin-top: 5px;
+}
 
 /* Bootstrap 3 temp styles till  Angular-Bootstrap 0.7.0 */
  .modal {
     display: block;
 }
+
 .hide {
     display: none;
 }
 div.form-group div.alert {
     margin-top: 5px;
+}
+
+input[type='checkbox'] {
+    margin-right:5px;
+}
+
+.control-label {
+    white-space: nowrap;
+}
+
+/*span.glyphicon {
+    margin-right: 5px;
+}*/
+
+.label {
+    font-size: 100% !important;
+    font-weight: normal;
+    padding: .0em .3em .0em !important;
+}
+
+.gr-right-align {
+    text-align: right;
+}
+
+div.well>h2 {
+    margin-top: 0px;
 }

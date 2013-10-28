@@ -1,0 +1,55 @@
+<h1>Search
+    <span class="label label-info">{{search.name}}</span>
+</h1>
+
+<form name="frmCriterion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">New Criterion</h3>
+        </div>
+        <div class="panel-body row">
+            <div class="col-md-4">
+                <select name="selType" class="form-control gr-bottom-5" placeholder="Type" ng-model="criterion.name">
+                    <option value="" disabled selected>-- Type --</option>
+                    <option value="AGE_BETWEEN">Age between</option>
+                    <option value="TOTAL_EXPERIENCE_BETWEEN">Work Experience between</option>
+                    <option value="CURRENT_POSITION_LIKE">Current Position like</option>
+                    <option value="EXPERIENCE_LIKE">Experienced in</option>
+                    <option value="QUALIFICATIONS_LIKE">Qualifications include</option>
+                    <option value="QUALIFICATIONS_FIELD_LIKE">Qualified in</option>
+                    <option value="SKILLS_LIKE">Skills include</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input name="inputValue1" type="text" class="form-control gr-bottom-5" ng-model="criterion.values[0]">
+                <input name="inputValue2" type="text" class="form-control gr-bottom-5" ng-model="criterion.values[1]" ng-show="displayNameCollection[criterion.name].isRange" placeholder="to" ng-required="displayNameCollection[criterion.name].isRange">
+            </div>
+            <div class="col-md-4">
+                <div ui-slider min="1" max="10" ng-model="criterion.weight"></div>
+                <span class="pull-right gr-top-5">
+                    weight
+                    <span class="label label-default">{{criterion.weight}}</span>
+                </span>
+            </div>
+        </div>
+        <div class="panel-footer"><a type="button" class="btn btn-primary" ng-click="add(criterion)">Add</a> 
+        </div>
+    </div>
+</form>
+
+<div class="panel panel-default" ng-show="search.criteria.length > 1">
+    <div class="panel-heading">
+        <h3 class="panel-title">Criteria</h3>
+    </div>
+    <div class="panel-body">
+        <span ng-repeat="c in search.criteria" class="pull-left">
+            <span class="label gr-right-5 nowrap gr-bottom-5 line-spacing-regular label-info">
+                {{c.weight}}: {{c.displayName}}
+                <span ng-repeat="v in c.values" class="label label-primary gr-right-5">{{v}}</span>
+                <a class="btn badge label-danger" ng-click="removeElement(search.criteria, $index)">x</a>
+            </span>
+        </span>
+    </div>
+    <div class="panel-footer"><a type="button" class="btn btn-primary clearfix" ng-click="doSearch()">Search</a> 
+    </div>
+</div>

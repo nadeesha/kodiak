@@ -2,11 +2,14 @@
   "name": "angualrjs-seed",
   "description": "A starter project for angular js",
   "devDependencies": {
-        "phantomjs" : "*",
-        "karma" : "*",
-        "karma-junit-reporter" : "*",    
-        "karma-jasmine" : "*",
-        "karma-ng-scenario" : "*",
-        "angular-ui-date": "latest"
-    }
+    "phantomjs": "*",
+    "karma": "*",
+    "karma-junit-reporter": "*",
+    "karma-jasmine": "*",
+    "karma-ng-scenario": "*",
+    "angular-ui-date": "latest"
+  },
+  "dependencies": {
+    "node-static": "~0.7.2"
+  }
 }

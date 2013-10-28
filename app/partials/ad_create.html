@@ -1,0 +1,88 @@
+<h1>{{heading}}</h1>
+<tabset>
+    <tab heading="Create">
+        <br>
+        <form role="form" class="form-horizontal" name="adForm">
+            <div class="form-group">
+                <label class="col-md-3 control-label" required>Job Role</label>
+                <div class="col-md-4">
+                    <input placeholder="Position for the recruitment" name="jobRole" class="form-control" ng-model="ad.jobRole" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Description</label>
+                <div class="col-md-8">
+                    <textarea cols="5" class="form-control" ng-model="ad.description" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Responsibilities <a class="btn btn-success btn-xs" ng-click="addElement(ad.responsibilities)">+</a>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-group" ng-repeat="responsibility in ad.responsibilities">
+                        <input class="form-control" ng-model="responsibility.value" />
+                        <span class="input-group-btn">
+                            <a class="btn btn-danger" ng-click="removeElement(ad.responsibilities,$index)">x</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Requirements <a class="btn btn-success btn-xs" ng-click="addElement(ad.requirements)">+</a>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-group" ng-repeat="requirement in ad.requirements">
+                        <span class="input-group-addon">
+                            <input type="checkbox" ng-model="requirement.mandatory">Mandatory
+                        </span>
+                        <input class="form-control" ng-model="requirement.requirement" />
+                        <span class="input-group-btn">
+                            <a class="btn btn-danger" ng-click="removeElement(ad.requirements,$index)">x</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Special Notes</label>
+                <div class="col-md-8">
+                    <textarea placeholder="A note to the applicants" class="form-control" ng-model="ad.specialNotes" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Questions <a class="btn btn-success btn-xs" ng-click="addElement(ad.questions)">+</a>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-group" ng-repeat="question in ad.questions">
+                        <input class="form-control" ng-model="question.value" />
+                        <span class="input-group-btn">
+                            <a class="btn btn-danger" ng-click="removeElement(ad.questions,$index)">x</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Expires On</label>
+                <div class="col-md-3">
+                    <input ui-date class="form-control"  ng-model="ad.expiredOn" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-10">
+                    <input type="checkbox" value="false" ng-model="ad.public">Make Public (Publish this ad to the job board so anyone can apply)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-5">
+                    <button ng-click="submit(ad)" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </tab>
+    <tab heading="Preview">
+        <br>
+        <div class="alert alert-danger" ng-show="!ad.jobRole || !ad.expiredOn">
+            You should enter the Job Role and the Expiration Date
+        </div>
+        <div gr-ad ng-show="ad.jobRole && ad.expiredOn"></div>
+    </tab>
+</tabset>
