@@ -1,13 +1,13 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    clean: ['dist/*.js', 'dist/*.css', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
+    clean: ['dist/*.js', 'dist/*.css', 'dist/*.jpg', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
 
     // copy files that need no minification
     copy: {
       main: {
         files: [
-          // includes files within path
+          // all the partials
           {
             expand: true,
             cwd: 'app/partials/',
@@ -15,7 +15,14 @@ module.exports = function(grunt) {
             dest: 'dist/partials/',
             filter: 'isFile'
           },
-
+          // fonts
+          {
+            expand: true,
+            cwd: 'app/fonts/',
+            src: ['**'],
+            dest: 'dist/fonts/',
+            filter: 'isFile'
+          },
           {
             expand: true,
             src: ['package.json', 'Procfile'],
@@ -49,7 +56,7 @@ module.exports = function(grunt) {
             'app/js/controllers.js',
             'app/js/filters.js',
             'app/js/directives.js',
-            'app/js/config.js'
+            'app/js/config.prod.js'
           ]
         }
       }
@@ -61,6 +68,7 @@ module.exports = function(grunt) {
         files: {
           'dist/css/styles.css': [
             'app/css/bootstrap-theme.min.css',
+            'components/bootstrap/dist/css/bootstrap.min.css',
             'app/components/pnotify/jquery.pnotify.default.css',
             'app/components/pnotify/jquery.pnotify.default.icons.css',
             'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
