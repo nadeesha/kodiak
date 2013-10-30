@@ -1,5 +1,8 @@
 body {
-    background-color: #e6e6e6;
+    background-color: #FFF;
+}
+.gr-container {
+
 }
 .gr-face {
     display: block;
@@ -59,14 +62,14 @@ body {
 
 .hide {
     display: none;
-}
+} 
 div.form-group div.alert {
     margin-top: 5px;
 }
 
-input[type='checkbox'] {
+input[type='checkbox'] { 
     margin-right:5px;
-}
+} 
 
 .control-label {
     white-space: nowrap;
@@ -85,7 +88,27 @@ input[type='checkbox'] {
 .gr-right-align {
     text-align: right;
 }
+.gr-center-align {
+    text-align: center;
+}
 
 div.well>h2 {
     margin-top: 0px;
+}
+
+.navbar {
+    border-radius: 0px;
+}
+
+.gr-home-container {
+    text-align: center;
+}
+
+.gr-home-container > span {
+    font-size: 5em;
+    margin-bottom: 30px;
+}
+
+.light-shadow {
+    text-shadow: gray 0px 2px 10px;
 }
