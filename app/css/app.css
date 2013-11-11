@@ -1,6 +1,15 @@
 body {
     background-color: #FFF;
 }
+
+h1 {
+    letter-spacing: -2px;
+}
+
+h3 {
+    letter-spacing: -1px;
+}
+
 .gr-container {
 
 }
@@ -110,5 +119,14 @@ div.well>h2 {
 }
 
 .light-shadow {
-    text-shadow: gray 0px 2px 10px;
+    text-shadow: gray 0px 2px 5px;
+}
+
+.logo {
+    letter-spacing: -1px;
+    color: darkslategray;
+}
+
+.navbar-inverse {
+    border: 0px;
 }

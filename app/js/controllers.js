@@ -7,23 +7,24 @@ var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
     function($scope, $http, $location, userService, notificationService) {
         $scope.create = function(user) {
-            userService.create(user, function(err) {
+            userService.create(user, function(err, data) {
                 if (!err) {
                     notificationService.notify({
                         title: 'Account created!',
                         text: 'But before you begin, check your e-mail inbox and click the confirmation link, please.',
                         type: 'success',
-                        hide: false
+                        hide: true
                     });
                 } else if (err === 409) {
                     notificationService.notify({
                         title: 'Account already exists!',
-                        text: 'We already have an account for ' + user.email + '. Please <a href="#/login/">log in</a> to your account instead.',
+                        text: 'We already have an account for ' + user.email + '. Please <a href="#/login">log in</a> to your account instead.',
                         type: 'error',
                         hide: true
                     });
-                } else {
-                    $location.url('/500');
+                } 
+                else {
+                    notificationService.handleError(data.message);
                 }
             });
         };
@@ -32,10 +33,11 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
     function($scope, $http, $location, userService, notificationService) {
+        console.log('breakpoint test');
         $scope.validate = function(user) {
-            userService.login(user, function(err, affiliation) {
+            userService.login(user, function(err, data) {
                 if (!err) {
-                    if (!affiliation) {
+                    if (!data.affiliation) {
                         $location.url('/me');
                     } else {
                         $location.url('/organization/dashboard');
@@ -55,7 +57,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                         hide: true
                     });
                 } else {
-                    $location.url('/500');
+                    notificationService.handleError(data.message);
                 }
             });
         };
@@ -73,7 +75,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userSer
             token: ($location.search()).token
         };
 
-        userService.activate(user, function(err) {
+        userService.activate(user, function(err, data) {
             if (!err) {
                 $scope.response.incorrect = false;
                 $scope.response.success = true;
@@ -81,7 +83,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userSer
                 $scope.response.incorrect = false;
                 $scope.response.success = true;
             } else {
-                $location.url('/500');
+                notificationService.handleError(data.message);
             }
         });
     }
@@ -121,8 +123,8 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
     }
 ]);
 
-controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS', 'validationService', 
-    function($scope, data, MONTHS, validationService) {
+controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS', 'validationService', '$sce',
+    function($scope, data, MONTHS, validationService, $sce) {
         $scope.data = data;
 
         $scope.startedOn = {};
@@ -176,6 +178,48 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             }
         }
 
+        // wysiwyg text
+        $scope.textAngularOpts = {
+            toolbar: [{
+                icon: "<i class='icon-bold'></i>",
+                name: "b",
+                title: "Bold"
+            }, {
+                icon: "<i class='icon-italic'></i>",
+                name: "i",
+                title: "Italics"
+            }, {
+                icon: "<i class='icon-list-ul'></i>",
+                name: "ul",
+                title: "Unordered List"
+            }, {
+                icon: "<i class='icon-list-ol'></i>",
+                name: "ol",
+                title: "Ordered List"
+            }, {
+                icon: "<i class='icon-rotate-right'></i>",
+                name: "redo",
+                title: "Redo"
+            }, {
+                icon: "<i class='icon-undo'></i>",
+                name: "undo",
+                title: "Undo"
+            }],
+            html: $scope.data.responsibilities
+        };
+
+        // $scope.textAngularOpts.textAngularEditors = {
+        //     responsibilities: {
+        //         html: $scope.data.responsibilities
+        //     }
+        // }
+
+        $scope.$watch('textAngularOpts.textAngularEditors.responsibilities.html', function(newHTML, oldHTML) {
+           $scope.data.responsibilities = newHTML;
+        });
+
+        // $scope.data.responsibilities = $scope.textAngularOpts.html;
+
         $scope.submit = function(t) {
             // need to parse the month/year combination before submitting
             this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
@@ -190,8 +234,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
                     validationService.isTrue(this.data.issuedBy, 'Issued School/University/Institute should be defined');
                     if (this.complete)
                         validationService.isTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
-                }
-                else {
+                } else {
                     validationService.isTrue(this.data.position, 'Your position must be defined');
                     validationService.isTrue(this.data.organization, 'The organization you worked at must be defined');
                     if (!this.current)
@@ -199,8 +242,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
                 }
 
                 validationService.isTrue(this.data.startedOn, 'Started month should be defined');
-            }
-            catch(e) {
+            } catch (e) {
                 return;
             }
 
@@ -222,8 +264,8 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
 
 
 
-controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService',
-    function($scope, $http, $location, $modal, userService, notificationService) {
+controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', '$sce',
+    function($scope, $http, $location, $modal, userService, notificationService, $sce) {
 
         var loadProfileStats = function() {
             userService.getProfileStats(function(err, stats) {
@@ -395,7 +437,7 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                                 title: 'Admin account created!',
                                 text: 'Please check your e-mail inbox and click the confirmation link, please.',
                                 type: 'success',
-                                hide: false
+                                hide: true
                             });
                         } else if (err === 409) {
                             notificationService.notify({
@@ -526,9 +568,9 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
     }
 ]);
 
-controllers.controller('HeaderCtrl', ['$scope', 'userService',
-    function($scope, userService) {
-        $scope.userType = userService.userType();
+controllers.controller('HeaderCtrl', ['$scope', 'userService', '$rootScope',
+    function($scope, userService, $rootScope) {
+        $scope.user = $rootScope.user;
     }
 ]);
 
@@ -753,5 +795,11 @@ controllers.controller('SearchResultsCtrl', ['$scope', 'data',
         $scope.showInfo = function(id) {
             // body...
         }
+    }
+]);
+
+controllers.controller('LogoutCtrl', ['$scope', 'userService',
+    function($scope, userService) {
+        userService.logout();
     }
 ]);

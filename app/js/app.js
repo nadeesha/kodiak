@@ -2,7 +2,7 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('kodiak', ['kodiak.filters', 'kodiak.services', 'kodiak.directives', 'kodiak.controllers', 'ui.state', 'ui.bootstrap', 'ui.date', 'ngStorage', 'ui.slider']);
+var app = angular.module('kodiak', ['kodiak.filters', 'kodiak.services', 'kodiak.directives', 'kodiak.controllers', 'ui.state', 'ui.bootstrap', 'ui.date', 'ngStorage', 'ui.slider', 'textAngular', 'ngSanitize', 'ngProgress']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
@@ -98,13 +98,16 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
             controller: 'SearchCtrl'
         });
 
+    $stateProvider
+        .state('logout', {
+            url: '/logout',
+            templateUrl: 'partials/logout.html',
+            controller: 'LogoutCtrl'
+        });
+
 });
 
-// app.run(function($rootScope, userService) {
-//     $rootScope.$on('$stateChangeStart', function(event, next, current) {
-//         if (!sessionStorage.restored) {
-//             $rootScope.$broadcast('restorestate'); //let everything know we need to restore state
-//             sessionStorage.restored = true;
-//         }
-//     });
-// });
+app.run(function($rootScope, userService) {
+    $rootScope.user = {};
+    userService.restoreState();
+});

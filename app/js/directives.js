@@ -55,4 +55,22 @@ angular.module('kodiak.directives', [])
                 // }
             };
         }
-    ]);
+    ])
+    .directive('grAvatar', ['utilService',
+        function(utilService) {
+            return {
+                scope: {
+                    email: "@",
+                    size: "@"
+                },
+                link: function(scope, element, attrs) {
+                    scope.$watch(attrs, function() {
+                        if (attrs.email) {
+                            element.context.src = "http://www.gravatar.com/avatar/" + utilService.md5(attrs.email) + ".jpg?s=" + attrs.size;
+                        }
+                    });
+                },
+                restrict: 'A'
+            }
+        }
+    ])

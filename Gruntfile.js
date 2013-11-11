@@ -15,6 +15,22 @@ module.exports = function(grunt) {
             dest: 'dist/partials/',
             filter: 'isFile'
           },
+          // all the images
+          {
+            expand: true,
+            cwd: 'app/img/',  
+            src: ['**'],
+            dest: 'dist/img/',
+            filter: 'isFile'
+          },
+          // js min files
+          {
+            expand: true,
+            cwd: 'app/components/',  
+            src: ['angular-sanitize/angular-sanitize.min.js', 'ngprogress/build/ngProgress.min.js'],
+            dest: 'dist/js/',
+            filter: 'isFile'
+          },
           // fonts
           {
             expand: true,
@@ -40,16 +56,10 @@ module.exports = function(grunt) {
       everything: {
         files: {
           'dist/js/app.js': [
-            'app/components/jquery/jquery.min.js',
-            'app/components/angular/angular.min.js',
-            'app/components/moment/min/moment.min.js',
-            'app/components/underscore/underscore-min.js',
             'app/components/angular-ui-date/src/date.js',
             'app/components/angular-ui-slider/src/slider.js',
-            'app/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'app/components/angular-ui-router/release/angular-ui-router.min.js',
-            'app/components/pnotify/jquery.pnotify.min.js',
-            'app/components/jquery-ui/ui/jquery-ui.js',
+            'app/components/pnotify/jquery.pnotify.js',
             'app/lib/ngStorage.js',
             'app/js/app.js',
             'app/js/services.js',

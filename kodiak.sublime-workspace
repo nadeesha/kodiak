@@ -4,20 +4,56 @@
 		"selected_items":
 		[
 			[
+				"ngSanit",
+				"ngSanitizeExists"
+			],
+			[
+				"data",
+				"data.responsibilities"
+			],
+			[
+				"res",
+				"responsibilities"
+			],
+			[
+				"con",
+				"controller	Angular.js"
+			],
+			[
+				"restore",
+				"restoreState"
+			],
+			[
+				"$roo",
+				"angular: $rootScope"
+			],
+			[
 				"mar",
-				"margin-top"
+				"margin-bottom"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"bold",
+				"bolder"
+			],
+			[
+				"r",
+				"rgba()"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"bac",
+				"background-color"
 			],
 			[
 				"yea",
 				"years"
-			],
-			[
-				"font",
-				"font-weight"
-			],
-			[
-				"res",
-				"$scope.results"
 			],
 			[
 				"resul",
@@ -320,10 +356,6 @@
 				"findOne"
 			],
 			[
-				"con",
-				"contactNumbers"
-			],
-			[
 				"gen",
 				"gender"
 			],
@@ -484,51 +516,18 @@
 	"buffers":
 	[
 		{
-			"file": "scripts/web-server.js",
+			"file": "app/js/config.prod.js",
 			"settings":
 			{
-				"buffer_size": 5659,
+				"buffer_size": 243,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "server.js",
+			"file": "app/js/config.dev.js",
 			"settings":
 			{
-				"buffer_size": 363,
-				"line_ending": "Unix",
-				"name": "var static = require('node-static');"
-			}
-		},
-		{
-			"file": "Procfile",
-			"settings":
-			{
-				"buffer_size": 31,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "bower.json",
-			"settings":
-			{
-				"buffer_size": 701,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": ".bowerrc",
-			"settings":
-			{
-				"buffer_size": 36,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/js/services.js",
-			"settings":
-			{
-				"buffer_size": 13484,
+				"buffer_size": 263,
 				"line_ending": "Unix"
 			}
 		},
@@ -536,15 +535,47 @@
 			"file": "app/index.html",
 			"settings":
 			{
-				"buffer_size": 3289,
+				"buffer_size": 3918,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/partials/login.html",
+			"file": "app/partials/header_links_personal.html",
 			"settings":
 			{
-				"buffer_size": 1325,
+				"buffer_size": 968,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/header_links_new.html",
+			"settings":
+			{
+				"buffer_size": 124,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/js/services.js",
+			"settings":
+			{
+				"buffer_size": 18239,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 29788,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/components/pnotify/jquery.pnotify.js",
+			"settings":
+			{
+				"buffer_size": 31316,
 				"line_ending": "Unix"
 			}
 		}
@@ -552,9 +583,41 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 180.0,
 		"selected_items":
 		[
+			[
+				"gly",
+				"Snippet: bs3-icon-glyphicon"
+			],
+			[
+				"glyp",
+				"Snippet: bs3-icon-glyphicon"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"jumb",
+				"Snippet: bs3-jumbotron"
+			],
+			[
+				"jum",
+				"Snippet: bs3-jumbotron"
+			],
 			[
 				"aler",
 				"Snippet: bs3-alert-warning"
@@ -568,15 +631,7 @@
 				"Snippet: bs3-row"
 			],
 			[
-				"glyp",
-				"Snippet: bs3-icon-glyphicon"
-			],
-			[
 				"bs3-gly",
-				"Snippet: bs3-icon-glyphicon"
-			],
-			[
-				"gly",
 				"Snippet: bs3-icon-glyphicon"
 			],
 			[
@@ -602,14 +657,6 @@
 			[
 				"select",
 				"Snippet: bs3-input-select-h"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			],
 			[
 				"butt",
@@ -645,10 +692,6 @@
 			],
 			[
 				"remo",
-				"Package Control: Remove Package"
-			],
-			[
-				"remove",
 				"Package Control: Remove Package"
 			],
 			[
@@ -705,29 +748,72 @@
 	},
 	"file_history":
 	[
-		"/home/nadeesha/projects/kodiak/bower_components/bootstrap/dist/css/bootstrap-theme.min.css",
-		"/home/nadeesha/projects/kodiak/app/partials/login.html",
+		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.js",
+		"/home/nadeesha/projects/kodiak/bower.json",
+		"/home/nadeesha/projects/kodiak/package.json",
+		"/home/nadeesha/projects/kodiak/app/components/pnotify/devnote.css",
+		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.default.css",
+		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.default.icons.css",
+		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.min.js",
+		"/home/nadeesha/projects/kodiak/dist/partials/header_links_new.html",
+		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
+		"/home/nadeesha/projects/kodiak/app/js/app.js",
 		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
-		"/home/nadeesha/projects/kodiak/app/js/services.js",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
 		"/home/nadeesha/projects/kodiak/app/partials/me.html",
+		"/home/nadeesha/projects/kodiak/app/index.html",
+		"/home/nadeesha/projects/kodiak/app/js/services.js",
+		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
 		"/home/nadeesha/projects/kodiak/app/js/config.js",
+		"/home/nadeesha/projects/kodiak/app/components/textAngular/textAngular.js",
+		"/home/nadeesha/projects/textAngular/textAngular.js",
+		"/home/nadeesha/projects/kodiak/app/partials/logout.html",
+		"/home/nadeesha/projects/kodiak/app/partials/header_links_personal.html",
+		"/home/nadeesha/projects/kodiak/app/js/config.prod.js",
+		"/home/nadeesha/Downloads/wp-config.php",
+		"/home/nadeesha/projects/kodiak/app/components/angular/angular.js",
+		"/home/nadeesha/projects/kodiak/app/components/angular/.bower.json",
+		"/home/nadeesha/projects/kodiak/Gruntfile.js",
+		"/home/nadeesha/projects/kodiak/server.js",
+		"/home/nadeesha/projects/kodiak/app/partials/header_links_new.html",
+		"/home/nadeesha/projects/angular-seed/scripts/web-server.js",
+		"/home/nadeesha/projects/kodiak/app/css/app.css",
+		"/home/nadeesha/projects/kodiak/app/css/bootstrap-theme.min.css",
+		"/home/nadeesha/projects/kodiak/app/js/directives.js",
+		"/home/nadeesha/projects/kodiak/app/partials/gravatar.html",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_personal.html",
+		"/home/nadeesha/projects/grizzly-api/server.js",
+		"/home/nadeesha/projects/kodiak/app/components/bootstrap/dist/css/bootstrap.css",
+		"/home/nadeesha/projects/kodiak/app/partials/header_links_org.html",
+		"/home/nadeesha/projects/kodiak/app/untitled",
+		"/home/nadeesha/projects/kodiak/app/img/bg-11-full.jpg",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/HTMLBeautify.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/HTMLBeautify/HTMLBeautify.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/LiveReload.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/LiveReload/LiveReload.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/JSHint Gutter/JSHint.sublime-settings",
+		"/home/nadeesha/.config/sublime-text-2/Packages/JSHint Gutter/.jshintrc",
+		"/home/nadeesha/projects/kodiak/app/components/bootstrap/dist/css/bootstrap-theme.css",
+		"/home/nadeesha/projects/kodiak/app/css/bootstrap.css",
 		"/home/nadeesha/projects/kodiak/Procfile",
+		"/home/nadeesha/projects/kodiak/app/app.html",
+		"/home/nadeesha/projects/kodiak/dist/index.html",
+		"/home/nadeesha/projects/kodiak/dist/css/app.css",
+		"/home/nadeesha/projects/kodiak/dist/js/app.js",
+		"/home/nadeesha/projects/kodiak/dist/output.min.js",
+		"/home/nadeesha/projects/kodiak/app/js/main.js",
+		"/home/nadeesha/projects/kodiak/.bowerrc",
+		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
+		"/home/nadeesha/projects/kodiak/app/partials/login.html",
+		"/home/nadeesha/projects/kodiak/bower_components/bootstrap/dist/css/bootstrap-theme.min.css",
 		"/home/nadeesha/projects/kodiak/scripts/e2e-test.bat",
 		"/home/nadeesha/projects/kodiak/scripts/e2e-test.sh",
 		"/home/nadeesha/projects/kodiak/scripts/test.bat",
 		"/home/nadeesha/projects/kodiak/scripts/test.sh",
 		"/home/nadeesha/projects/kodiak/scripts/watchr.rb",
-		"/home/nadeesha/projects/kodiak/bower.json",
-		"/home/nadeesha/projects/kodiak/package.json",
-		"/home/nadeesha/projects/kodiak/app/js/app.js",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
-		"/home/nadeesha/projects/kodiak/app/index.html",
 		"/home/nadeesha/projects/kodiak/bower_components/angular/angular.js",
-		"/home/nadeesha/projects/kodiak/app/js/directives.js",
-		"/home/nadeesha/projects/kodiak/app/css/app.css",
 		"/home/nadeesha/projects/kodiak/app/partials/search.html",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_personal.html",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_search_results.html",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_me_skill.html",
 		"/home/nadeesha/projects/kodiak/app/lib/renderer.js",
@@ -741,19 +827,16 @@
 		"/home/nadeesha/projects/grizzly-api/models/search.js",
 		"/home/nadeesha/projects/grizzly-api/controllers/search.js",
 		"/home/nadeesha/projects/kodiak/app/partials/ad_create.html",
-		"/home/nadeesha/.config/sublime-text-2/Packages/LiveReload/LiveReload.sublime-settings",
 		"/home/nadeesha/.cache/.fr-rVtcec/slider/css/slider.css",
 		"/home/nadeesha/projects/kodiak/app/partials/ad_view.html",
 		"/home/nadeesha/projects/kodiak/bower_components/bootstrap/_includes/header.html",
 		"/home/nadeesha/projects/kodiak/app/partials/template_ad.html",
-		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
 		"/home/nadeesha/projects/kodiak/bower_components/angular-ui-router/test/compat/routeSpec.js",
 		"/home/nadeesha/projects/grizzly-api/models/advertisement.js",
 		"/home/nadeesha/projects/kodiak/app/partials/ad_preview.html",
 		"/home/nadeesha/.config/sublime-text-2/Packages/AngularJS/AngularJS-sublime-package.sublime-settings",
 		"/home/nadeesha/.config/sublime-text-2/Packages/User/fgroup.sublime-snippet",
 		"/home/nadeesha/projects/kodiak/app/partials/organization_create.html",
-		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
 		"/home/nadeesha/projects/kodiak/app/partials/organization_dashboard.html",
 		"/home/nadeesha/projects/kodiak/kodiak.sublime-project",
 		"/home/nadeesha/projects/kodiak/app/partials/organization.html",
@@ -765,10 +848,7 @@
 		"/home/nadeesha/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/nadeesha/.config/sublime-text-2/Packages/HtmlTidy/HtmlTidy.sublime-settings",
 		"/home/nadeesha/.config/sublime-text-2/Packages/User/HtmlTidy.sublime-settings",
-		"/home/nadeesha/.config/sublime-text-2/Packages/HTMLBeautify/HTMLBeautify.sublime-settings",
-		"/home/nadeesha/.config/sublime-text-2/Packages/User/HTMLBeautify.sublime-settings",
 		"/home/nadeesha/projects/grizzly-api/config/routes.js",
-		"/home/nadeesha/.config/sublime-text-2/Packages/JSHint Gutter/.jshintrc",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_me_confirmation.html",
 		"/home/nadeesha/projects/grizzly/config/config.js",
 		"/home/nadeesha/projects/grizzly/models/user.js",
@@ -780,9 +860,7 @@
 		"/home/nadeesha/projects/kodiak/bower_components/angular-bootstrap/bower.json",
 		"/home/nadeesha/projects/grizzly/config/routes.js",
 		"/home/nadeesha/projects/kodiak/app/partials/activate.html",
-		"/home/nadeesha/projects/kodiak/scripts/web-server.js",
 		"/home/nadeesha/.config/sublime-text-3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
-		"/home/nadeesha/projects/kodiak/app/app.html",
 		"/home/nadeesha/projects/kodiak/app/signup.html",
 		"/home/nadeesha/projects/kodiak/app/js/filters.js",
 		"/home/nadeesha/projects/grizzly/test/common.js",
@@ -797,15 +875,7 @@
 		"/home/nadeesha/projects/grizzly/Makefile",
 		"/home/nadeesha/projects/grizzly/routes/user.js",
 		"/home/nadeesha/projects/grizzly/package.json",
-		"/home/nadeesha/projects/grizzly/test/user-login-test.js",
-		"/home/nadeesha/projects/grizzly/config/logger.js",
-		"/home/nadeesha/projects/grizzly/test/user-test.js",
-		"/home/nadeesha/projects/grizzly/test/init.js",
-		"/home/nadeesha/projects/grizzly/config.js",
-		"/home/nadeesha/.config/sublime-text-3/Packages/JsFormat/JsFormat.sublime-settings",
-		"/home/nadeesha/.config/sublime-text-3/Packages/JsFormat/Default (Linux).sublime-keymap",
-		"/home/nadeesha/projects/server.js",
-		"/home/nadeesha/projects/package.json"
+		"/home/nadeesha/projects/grizzly/test/user-login-test.js"
 	],
 	"find":
 	{
@@ -816,6 +886,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/nadeesha/projects/kodiak/app/components",
 			"/home/nadeesha/projects/kodiak/app/",
 			"/home/nadeesha/projects/kodiak/app/js",
 			""
@@ -826,6 +897,36 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"type: 'error'",
+			"hide: false",
+			"$sce.trustAsHtml",
+			"$$unwrapTrustedValue",
+			"respons",
+			" =",
+			"partials",
+			"150",
+			"5px",
+			"p>",
+			"p",
+			"light-shadow",
+			"\"glyphicon",
+			"glyphicon-file",
+			"$scope",
+			"function",
+			"header",
+			"right",
+			"alig",
+			"p",
+			"header",
+			"h1",
+			"gly",
+			"server.js",
+			"Procfile",
+			"js",
+			"\"",
+			"strict",
+			"',",
+			"\"",
 			"/bower_components",
 			"main",
 			"8000",
@@ -923,37 +1024,7 @@
 			"add",
 			"QualificationTenureModalInstanceCtrl",
 			"h1",
-			"span",
-			" on",
-			"on",
-			"qualificationData",
-			"bindModalTasks",
-			"qualificationModal",
-			"qualification",
-			"inline",
-			"Tenure",
-			"Qualification",
-			"qual",
-			"Qualification",
-			"tenure",
-			"qualification",
-			"db",
-			"started",
-			"ended",
-			"new",
-			"Personal",
-			"started",
-			"\"",
-			"Year",
-			"Personal",
-			"dateOfBirth",
-			"primary",
-			"Numbers",
-			"contactNumbers",
-			"col-lg-2",
-			"label",
-			"modal",
-			"user"
+			"span"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -961,6 +1032,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"'",
 			"model",
 			"",
 			"'",
@@ -975,58 +1047,54 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 6,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "scripts/web-server.js",
+					"file": "app/js/config.prod.js",
 					"settings":
 					{
-						"buffer_size": 5659,
+						"buffer_size": 243,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								247,
-								247
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3150.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "server.js",
+					"file": "app/js/config.dev.js",
 					"settings":
 					{
-						"buffer_size": 363,
+						"buffer_size": 263,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								82,
-								82
+								263,
+								263
 							]
 						],
 						"settings":
 						{
-							"auto_name": "var static = require('node-static');",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1036,50 +1104,52 @@
 				},
 				{
 					"buffer": 2,
-					"file": "Procfile",
+					"file": "app/index.html",
 					"settings":
 					{
-						"buffer_size": 31,
+						"buffer_size": 3918,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								31,
-								31
+								956,
+								956
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 105.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "bower.json",
+					"file": "app/partials/header_links_personal.html",
 					"settings":
 					{
-						"buffer_size": 701,
+						"buffer_size": 968,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								419,
-								419
+								479,
+								479
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -1090,23 +1160,23 @@
 				},
 				{
 					"buffer": 4,
-					"file": ".bowerrc",
+					"file": "app/partials/header_links_new.html",
 					"settings":
 					{
-						"buffer_size": 36,
+						"buffer_size": 124,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								36,
-								36
+								124,
+								124
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1119,48 +1189,20 @@
 					"file": "app/js/services.js",
 					"settings":
 					{
-						"buffer_size": 13484,
+						"buffer_size": 18239,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12299,
-								12299
+								2314,
+								2314
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4666.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/index.html",
-					"settings":
-					{
-						"buffer_size": 3289,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								49,
-								49
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -1171,26 +1213,53 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "app/partials/login.html",
+					"buffer": 6,
+					"file": "app/js/controllers.js",
 					"settings":
 					{
-						"buffer_size": 1325,
+						"buffer_size": 29788,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								480,
-								480
+								1522,
+								1522
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/components/pnotify/jquery.pnotify.js",
+					"settings":
+					{
+						"buffer_size": 31316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1364,
+								1364
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1232,6 +1301,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.git-commit":
+	{
+		"height": 100.0
+	},
 	"output.unsaved_changes":
 	{
 		"height": 100.0
@@ -1247,44 +1320,148 @@
 		"selected_items":
 		[
 			[
-				"log",
-				"app/partials/login.html"
+				"bowe",
+				"bower.json"
 			],
 			[
-				"index",
-				"app/index.html"
-			],
-			[
-				"ser",
-				"app/js/services.js"
-			],
-			[
-				"conf",
-				"app/js/config.js"
-			],
-			[
-				"me",
-				"app/partials/me.html"
-			],
-			[
-				"serv",
-				"app/js/services.js"
+				"pack",
+				"package.json"
 			],
 			[
 				"contr",
 				"app/js/controllers.js"
 			],
 			[
-				"logi",
-				"app/partials/login.html"
+				"ser",
+				"app/js/services.js"
+			],
+			[
+				"new",
+				"dist/partials/header_links_new.html"
+			],
+			[
+				"person",
+				"app/partials/header_links_personal.html"
+			],
+			[
+				"index",
+				"app/index.html"
+			],
+			[
+				"conf",
+				"app/js/config.js"
+			],
+			[
+				"",
+				"app/js/services.js"
+			],
+			[
+				"sign",
+				"app/partials/signup.html"
+			],
+			[
+				"serv",
+				"app/js/services.js"
+			],
+			[
+				"inde",
+				"app/index.html"
+			],
+			[
+				"me",
+				"app/partials/me.html"
+			],
+			[
+				"modal_me",
+				"app/partials/modal_me_tenure.html"
+			],
+			[
+				"config",
+				"app/js/config.prod.js"
+			],
+			[
+				"_pers",
+				"app/partials/header_links_personal.html"
+			],
+			[
+				"service",
+				"app/js/services.js"
 			],
 			[
 				"app",
 				"app/js/app.js"
 			],
 			[
+				"land",
+				"app/partials/landing.html"
+			],
+			[
+				"_new",
+				"app/partials/header_links_new.html"
+			],
+			[
+				"boots",
+				"app/css/bootstrap-theme.min.css"
+			],
+			[
+				"dire",
+				"app/js/directives.js"
+			],
+			[
 				"direc",
 				"app/js/directives.js"
+			],
+			[
+				"_per",
+				"app/partials/header_links_personal.html"
+			],
+			[
+				"contro",
+				"app/js/controllers.js"
+			],
+			[
+				"persona",
+				"app/partials/header_links_personal.html"
+			],
+			[
+				"org.",
+				"app/partials/header_links_org.html"
+			],
+			[
+				"unti",
+				"app/untitled"
+			],
+			[
+				"gru",
+				"Gruntfile.js"
+			],
+			[
+				"boot",
+				"app/css/bootstrap.css"
+			],
+			[
+				"confg",
+				"app/js/config.js"
+			],
+			[
+				"app.",
+				"app/css/app.css"
+			],
+			[
+				"proc",
+				"Procfile"
+			],
+			[
+				"grun",
+				"Gruntfile.js"
+			],
+			[
+				"log",
+				"app/partials/login.html"
+			],
+			[
+				"logi",
+				"app/partials/login.html"
 			],
 			[
 				"ind",
@@ -1295,24 +1472,12 @@
 				"app/partials/modal_me_tenure.html"
 			],
 			[
-				"modal_me",
-				"app/partials/modal_me_qualification.html"
-			],
-			[
 				"app.css",
 				"app/css/app.css"
 			],
 			[
 				"modal",
 				"app/partials/modal_me_skill.html"
-			],
-			[
-				"dire",
-				"app/js/directives.js"
-			],
-			[
-				"inde",
-				"app/index.html"
 			],
 			[
 				"ad_c",
@@ -1333,10 +1498,6 @@
 			[
 				"hea",
 				"bower_components/bootstrap/_includes/header.html"
-			],
-			[
-				"",
-				"app/js/app.js"
 			],
 			[
 				"con",

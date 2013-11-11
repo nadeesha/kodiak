@@ -8,39 +8,41 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Position</label>
                     <div class="col-md-8">
-                        <input class="form-control" placeholder="Job Role" ng-model="data.position"/>
+                        <input class="form-control" placeholder="Job Role" ng-model="data.position" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">Organization</label>
                     <div class="col-md-8">
-                        <input class="form-control" placeholder="Company" ng-model="data.organization"/>
+                        <input class="form-control" placeholder="Company" ng-model="data.organization" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-6">
                         <label class="checkbox-inline">
-                            <input type="checkbox" ng-model="current" ng-change="changeEndDate()"> I currently work here
+                            <input type="checkbox" ng-model="current" ng-change="changeEndDate()">I currently work here
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">Month Started</label>
                     <div class="col-md-8">
-                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="startedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="startedOn.year" placeholder="Year" />
+                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="startedOn.month" placeholder="Month" />
+                        <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="startedOn.year" placeholder="Year" />
                     </div>
                 </div>
                 <div class="form-group" ng-hide="current">
                     <label class="col-md-4 control-label">Month Ended</label>
                     <div class="col-md-8">
-                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="endedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="endedOn.year" placeholder="Year"/>
+                        <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="endedOn.month" placeholder="Month" />
+                        <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="endedOn.year" placeholder="Year" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">What I do here</label>
-                    <div class="col-md-8">
-                        <textarea class="form-control" rows="3" ng-model="data.responsibilities"/>
+                    <label class="col-md-4 control-label">What I did here</label>
+                    <div class="col-md-11 col-md-offset-1">
+                        <textarea text-angular text-angular-name="responsibilities"/>
                     </div>
                 </div>
             </form>

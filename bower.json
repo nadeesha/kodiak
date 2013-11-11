@@ -15,7 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "*",
+    "angular": "1.2.0",
     "angular-ui-router": "~0.0.1",
     "angular-bootstrap": "0.6.0",
     "angular-moment": "~0.2.0",
@@ -26,6 +26,11 @@
     "jquery-ui": "*",
     "jquery": "*",
     "moment": "*",
-    "pnotify": "https://github.com/sciactive/pnotify.git#1.2.0" 
+    "textAngular": "latest",
+    "pnotify": "https://github.com/sciactive/pnotify.git",
+    "angular-sanitize": "~1.0.8"
+  },
+  "resolutions": {
+    "angular": "1.2.0"
   }
 }

@@ -2,8 +2,9 @@
     <div class="row">
         <div class="col-md-7">
             <h1>
-                <span ng-model='user.firstName'>Nadeesha</span>
-                <span ng-model='user.lastName'>Cabral</span>
+                <span><a href="http://www.gravatar.com/{{user.email}}" target="_blank"><img email="{{user.email}}" class="img-circle" style="margin: -5px 0;" size="60" src gr-avatar/></a></span>
+                <span>{{user.firstName}}</span>
+                <span>{{user.lastName}}</span>
             </h1>
 
             <h2>Personal
@@ -89,9 +90,10 @@
                         </span>
                         <span class="label label-info gr-right-5" ng-show="!tenure.endedOn">Currently employed</span>
                     </h4>
-                    <p>
+                    <!-- <div>
                         {{tenure.responsibilities}}
-                    </p>
+                    </div> -->
+                    <div ng-bind-html="tenure.responsibilities"></div>
                 </div>
             </div>
             <div class="well">

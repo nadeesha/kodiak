@@ -9,6 +9,6 @@
     "commit": "31b082e746a419ccc87018759e83d5a069651159"
   },
   "_source": "https://github.com/sciactive/pnotify.git",
-  "_target": "1.2.0",
+  "_target": "*",
   "_originalSource": "https://github.com/sciactive/pnotify.git"
 }
