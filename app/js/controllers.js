@@ -22,8 +22,7 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
                         type: 'error',
                         hide: true
                     });
-                } 
-                else {
+                } else {
                     notificationService.handleError(data.message);
                 }
             });
@@ -33,8 +32,9 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
     function($scope, $http, $location, userService, notificationService) {
-        console.log('breakpoint test');
+        console.log($scope.user);
         $scope.validate = function(user) {
+            console.log($scope.user);
             userService.login(user, function(err, data) {
                 if (!err) {
                     if (!data.affiliation) {
@@ -123,8 +123,8 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
     }
 ]);
 
-controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS', 'validationService', '$sce',
-    function($scope, data, MONTHS, validationService, $sce) {
+controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS', 'validationService',
+    function($scope, data, MONTHS, validationService) {
         $scope.data = data;
 
         $scope.startedOn = {};
@@ -215,7 +215,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
         // }
 
         $scope.$watch('textAngularOpts.textAngularEditors.responsibilities.html', function(newHTML, oldHTML) {
-           $scope.data.responsibilities = newHTML;
+            $scope.data.responsibilities = newHTML;
         });
 
         // $scope.data.responsibilities = $scope.textAngularOpts.html;
@@ -224,7 +224,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             // need to parse the month/year combination before submitting
             this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
 
-            if (!this.current) {
+            if (!this.current || this.complete) {
                 this.data.endedOn = convertToDate(this.endedOn.year, this.endedOn.month);
             };
 
@@ -264,8 +264,50 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
 
 
 
-controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', '$sce',
-    function($scope, $http, $location, $modal, userService, notificationService, $sce) {
+controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', '$state',
+    function($scope, $http, $location, $modal, userService, notificationService, $state) {
+
+        if ($state.is('profileEdit'))
+            $scope.edit = true;
+
+        // get the height of the timeline div
+        $scope.view = {
+            getDuration: function(startedOn, endedOn) {
+                if (!startedOn)
+                    return;
+
+                return {
+                    years: moment(endedOn).diff(startedOn, 'years'),
+                    months: moment(endedOn).diff(startedOn, 'months') % 12,
+                }
+            },
+            currentYear: function() {
+                return moment().year();
+            },
+            getTimesForDate: function(startedOn, endedOn) {
+                if (!startedOn)
+                    return;
+
+                var years = moment(endedOn).diff(moment(startedOn), 'years') * 3;
+                return new Array(years);
+            },
+            getTimes: function(n) {
+                if (!n)
+                    return;
+
+                return new Array(Number(n));
+            },
+            getTotalExperience: function() {
+                if (!$scope.user || !$scope.user.tenures)
+                    return 0;
+
+                var earliest = _.min($scope.user.tenures, function(t) {
+                    return new Date(t.startedOn).getTime();
+                });
+
+                return (moment().year() - moment(earliest.startedOn).year());
+            }
+        }
 
         var loadProfileStats = function() {
             userService.getProfileStats(function(err, stats) {
@@ -280,12 +322,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
             if (!err) {
                 $scope.user = $scope.latestValid = user;
                 loadProfileStats();
-                $scope.maxSkillYears = (_.max(user.skills, function(skill) {
-                    return skill.experience;
-                })).experience;
             } else
                 $location.url('/500');
-
         });
 
         var bindAddEditModal = function(index, templateUrl, instanceController, collection) {
@@ -565,12 +603,6 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
                     }
                 });
         }
-    }
-]);
-
-controllers.controller('HeaderCtrl', ['$scope', 'userService', '$rootScope',
-    function($scope, userService, $rootScope) {
-        $scope.user = $rootScope.user;
     }
 ]);
 

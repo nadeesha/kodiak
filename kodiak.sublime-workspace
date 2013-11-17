@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"mar",
+				"margin-right"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"margi",
+				"margin-left"
+			],
+			[
 				"ngSanit",
 				"ngSanitizeExists"
 			],
@@ -28,10 +40,6 @@
 				"angular: $rootScope"
 			],
 			[
-				"mar",
-				"margin-bottom"
-			],
-			[
 				"font",
 				"font-size"
 			],
@@ -42,10 +50,6 @@
 			[
 				"r",
 				"rgba()"
-			],
-			[
-				"padd",
-				"padding-top"
 			],
 			[
 				"bac",
@@ -154,10 +158,6 @@
 			[
 				"contro",
 				"controllers"
-			],
-			[
-				"margi",
-				"margin-right"
 			],
 			[
 				"dire",
@@ -516,50 +516,29 @@
 	"buffers":
 	[
 		{
-			"file": "app/js/config.prod.js",
+			"contents": "<div>\n    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <h1>\n                <span><a href=\"http://www.gravatar.com/{{user.email}}\" target=\"_blank\"><img email=\"{{user.email}}\" class=\"img-circle\" style=\"margin: -5px 0;\" size=\"60\" src gr-avatar/></a></span>\n                <span>{{user.firstName}}</span>\n                <span>{{user.lastName}}</span>\n            </h1>\n            <hr>\n            <div>\n                <h2>Personal\n                    <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openPersonalModal(user)\">\n                        <span class=\"glyphicon glyphicon-edit\"></span>\n                    </a>\n                </h2>\n                <h4 class=\"line-spacing-regular\">\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-home\"></span>Location:\n                        <span class=\"label label-primary gr-right-5\">{{user.location}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-user\"></span>Gender:\n                        <span class=\"label label-primary gr-right-5\">{{convertGender(user.gender)}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-phone\"></span>Contact Number:\n                        <span class=\"label label-primary gr-right-5\">{{user.contactNumber}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-envelope\"></span>E-mail:\n                        <span class=\"label label-primary gr-right-5\">{{user.email}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-bullhorn\"></span>Languages:\n                        <span class=\"label label-primary gr-right-5\" ng-repeat=\"language in user.languages\">{{language}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-asterisk\"></span>National Identifier:\n                        <span class=\"label label-primary gr-right-5\">{{user.nationalIdentifier}}</span>\n                    </div>\n                    <div class=\"nowrap\">\n                        <span class=\"glyphicon gr-glyphicon gr-mild-left glyphicon-calendar\"></span>Date of Birth:\n                        <span class=\"label label-primary gr-right-5\">{{user.dateOfBirth | date:'dd MMMM yyyy'}}</span>\n                    </div>\n                </h4>\n                <div class=\"well\">\n                    <h2>Qualifications\n                        <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openQualificationModal()\">\n                            <span class=\"glyphicon glyphicon-plus-sign\"></span>\n                        </a>\n                    </h2>\n                    <div class=\"gr-qual\" ng-repeat=\"qualification in user.qualifications track by $index\">\n                        <h3>{{qualification.name}}\n                            <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openQualificationModal($index)\">\n                                <span class=\"glyphicon glyphicon-edit\"></span>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger gr-btn-io\" ng-click=\"openDeleteModal($index, user.qualifications)\">\n                                <span class=\"glyphicon glyphicon-remove-circle\"></span>\n                            </a>\n                        </h3>\n                        <h4>{{qualification.field}}</h4>\n                        <h4>{{qualification.issuedBy}}</h4>\n                        <h4>\n                            <span class=\"label label-primary gr-right-5\">{{qualification.startedOn|date:'MMMM yyyy'}}\n                                <span ng-show=\"qualification.complete\">- {{qualification.endedOn|date:'MMMM yyyy'}}</span>\n                            </span>\n                            <span class=\"label label-success gr-right-5\" ng-show=\"qualification.complete\">Completed</span>\n                            <span class=\"label label-warning gr-right-5\" ng-show=\"!qualification.complete\">Incomplete</span>\n                        </h4>\n                        <span class=\"label label-default\" ng-repeat=\"result in qualification.result\">{{result.name}}: {{result.value}}</span>\n                    </div>\n                </div>\n                <div class=\"well\">\n                    <h2>Work Experience\n                        <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openTenureModal()\">\n                            <span class=\"glyphicon glyphicon-plus-sign\"></span>\n                        </a>\n                    </h2>\n                    <div class=\"gr-wexp\" ng-repeat=\"tenure in user.tenures track by $index\">\n                        <h3>{{tenure.position}}\n                            <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openTenureModal($index)\">\n                                <span class=\"glyphicon glyphicon-edit\"></span>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger gr-btn-io\" ng-click=\"openDeleteModal($index, user.tenures)\">\n                                <span class=\"glyphicon glyphicon-remove-circle\"></span>\n                            </a>\n                        </h3>\n                        <h4>\n                            <span>{{tenure.organization}}</span>\n                        </h4>\n                        <h4>\n                            <span class=\"label label-primary gr-right-5\">{{tenure.startedOn | date:'MMMM yyyy'}}\n                                <span ng-show=\"!!tenure.endedOn\">- {{tenure.endedOn | date:'MMMM yyyy'}}</span>\n                            </span>\n                            <span class=\"label label-info gr-right-5\" ng-show=\"!tenure.endedOn\">Currently employed</span>\n                        </h4>\n                        <div ng-bind-html=\"tenure.responsibilities\"></div>\n                    </div>\n                </div>\n                <div class=\"well\">\n                    <h2>Skills\n                        <a class=\"btn btn-xs btn-default gr-btn-io\" ng-click=\"openSkillModal()\">\n                            <span class=\"glyphicon glyphicon-plus-sign\"></span>\n                        </a>\n                    </h2>\n\n                    <h4><div class=\"label label-info gr-right-5\" ng-repeat=\"skill in user.skills track by $index\" style=\"display:inline-block;\">\n                        {{skill.name}}: {{skill.experience}}y<a class=\"btn btn-xs btn-danger gr-btn-io\" ng-click=\"openDeleteModal($index, user.skills)\"><span class=\"glyphicon glyphicon-remove-circle\"></span></a>\n                    </div></h4>\n                </div>\n            </div>\n        </div>\n\n        <!--Sidebar-->\n        <div class=\"col-md-4\" ng-show=\"edit\">\n            <div class=\"gr-widget well well-lg\" style=\"border:none\">\n                <div class=\"row\">\n                    <div class=\"col-md-10\">\n                        <h2><span class=\"glyphicon glyphicon-signal gr-right-5\"></span>Profile Score</h2>\n                    </div>\n                    <div class=\"col-md-2\">\n                        <h1 class=\"pull-right\">+{{stats.score}}</h1>\n                    </div>\n                </div>\n                <div class=\"progress\">\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{{stats.score*100/88}}\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: {{stats.score*100/88}}%;\">\n                    </div>\n                </div>\n            </div>\n        <!-- </div>\n        <div class=\"col-md-4 well well-lg\"> -->\n            <div class=\"gr-widget well well-lg\" style=\"border:none\">\n                <h2><span class=\"glyphicon glyphicon-th-list gr-right-5\"></span>Get more points!</h2>\n                <hr/>\n                <div class=\"row tips\" ng-repeat=\"tip in stats.tips | orderBy: 'done'\">\n                    <div class=\"col-md-2 gr-right-align\">\n                        <h3 class=\"label label-success\">+{{tip.pts}}</h3>\n                    </div>\n                    <div class=\"col-md-9\">\n                        <p class=\"gr-strike-{{tip.done}}\">{{tip.msg}}</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <!-- Visualizer -->\n        <div class=\"col-md-4\" ng-show=\"!edit\">\n            <!-- <div ng-repeat=\"q in user.qualifications\" class=\"gr-timeline\" style=\"height:{{view.getHeight(q.startedOn, q.endedOn)}}px;\">\n                <h2><label class=\"label label-default pull-right\">3y</label></h2>\n                <h3>{{q.name}}</h3>\n                <h4>{{q.field}}</h4>\n            </div> --> \n            <div class=\"gr-timeline\">\n                <div ng-repeat=\"t in user.tenures | orderBy:'startedOn':true\" class=\"gr-timline-section-wrapper\">\n                    <div class=\"gr-timeline-section\">\n<!--                         <h4><label class=\"label label-default pull-right\">{{view.getDuration(t.startedOn, t.endedOn).years}}y {{view.getDuration(t.startedOn, t.endedOn).months}}m</label></h4> -->\n                        <h3>{{t.position}}</h3>\n                    </div>\n                    <label class=\"label label-default pull-right\">{{view.getDuration(t.startedOn, t.endedOn).years}}y {{view.getDuration(t.startedOn, t.endedOn).months}}m</label><div ng-repeat=\"c in view.getTimes(t.startedOn, t.endedOn) track by $index\" class=\"gr-vis-year circle\"></div><div ng-hide=\"view.getTimes(t.startedOn, t.endedOn).length>0\" class=\"gr-vis-year circle circle-semi\"></div>\n                    <h5><span class=\"label label-success\">{{t.startedOn | date:'yyyy MMM'}}</span></h5>\n                </div>\n            </div>\n            <br>\n            <!-- <div class=\"gr-dotmatrix\">\n                <div ng-repeat=\"q in user.qualifications | orderBy:'startedOn':true\">\n                    <h3>{{q.name}}</h3><figure ng-repeat=\"1 in view.getDuration(q.startedOn, q.endedOn).years\" class=\"circle\" style=\"display:inline-block\"></figure>\n                    <h5><span class=\"label label-default\">{{q.field}}</span> <span class=\"label label-success\">{{q.startedOn | date:'yyyy'}}</span></h5>\n                </div>\n            </div> -->\n        </div>\n    </div>\n</div>",
+			"file": "app/partials/me.html",
+			"file_size": 10454,
+			"file_write_time": 1384380602000000,
 			"settings":
 			{
-				"buffer_size": 243,
+				"buffer_size": 10455,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/js/config.dev.js",
+			"file": "app/js/app.js",
 			"settings":
 			{
-				"buffer_size": 263,
+				"buffer_size": 3439,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/index.html",
+			"file": "app/css/app.css",
 			"settings":
 			{
-				"buffer_size": 3918,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/header_links_personal.html",
-			"settings":
-			{
-				"buffer_size": 968,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/header_links_new.html",
-			"settings":
-			{
-				"buffer_size": 124,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/js/services.js",
-			"settings":
-			{
-				"buffer_size": 18239,
+				"buffer_size": 2363,
 				"line_ending": "Unix"
 			}
 		},
@@ -567,15 +546,7 @@
 			"file": "app/js/controllers.js",
 			"settings":
 			{
-				"buffer_size": 29788,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/components/pnotify/jquery.pnotify.js",
-			"settings":
-			{
-				"buffer_size": 31316,
+				"buffer_size": 30701,
 				"line_ending": "Unix"
 			}
 		}
@@ -583,9 +554,17 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 180.0,
+		"height": 54.0,
 		"selected_items":
 		[
+			[
+				"Package Control: remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"alert",
+				"Snippet: bs3-alert-info"
+			],
 			[
 				"gly",
 				"Snippet: bs3-icon-glyphicon"
@@ -667,10 +646,6 @@
 				"Package Control: Install Package"
 			],
 			[
-				"alert",
-				"Snippet: bs3-alert-danger"
-			],
-			[
 				"angular",
 				"Set Syntax: HTML (Angular.js)"
 			],
@@ -748,7 +723,21 @@
 	},
 	"file_history":
 	[
+		"/home/nadeesha/projects/kodiak/app/css/app.css",
+		"/home/nadeesha/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.js",
+		"/home/nadeesha/projects/kodiak/app/js/app.js",
+		"/home/nadeesha/projects/kodiak/Gruntfile.js",
+		"/home/nadeesha/projects/kodiak/app/index.html",
+		"/home/nadeesha/projects/kodiak/app/js/config.dev.js",
+		"/home/nadeesha/projects/kodiak/app/js/config.prod.js",
+		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
+		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
+		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
+		"/home/nadeesha/projects/kodiak/app/partials/me.html",
+		"/home/nadeesha/projects/kodiak/app/partials/header_links_personal.html",
+		"/home/nadeesha/projects/kodiak/app/partials/header_links_new.html",
+		"/home/nadeesha/projects/kodiak/app/js/services.js",
 		"/home/nadeesha/projects/kodiak/bower.json",
 		"/home/nadeesha/projects/kodiak/package.json",
 		"/home/nadeesha/projects/kodiak/app/components/pnotify/devnote.css",
@@ -757,27 +746,16 @@
 		"/home/nadeesha/projects/kodiak/app/components/pnotify/jquery.pnotify.min.js",
 		"/home/nadeesha/projects/kodiak/dist/partials/header_links_new.html",
 		"/home/nadeesha/projects/kodiak/app/partials/landing.html",
-		"/home/nadeesha/projects/kodiak/app/js/app.js",
-		"/home/nadeesha/projects/kodiak/app/js/controllers.js",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_me_tenure.html",
-		"/home/nadeesha/projects/kodiak/app/partials/me.html",
-		"/home/nadeesha/projects/kodiak/app/index.html",
-		"/home/nadeesha/projects/kodiak/app/js/services.js",
-		"/home/nadeesha/projects/kodiak/app/partials/signup.html",
 		"/home/nadeesha/projects/kodiak/app/js/config.js",
 		"/home/nadeesha/projects/kodiak/app/components/textAngular/textAngular.js",
 		"/home/nadeesha/projects/textAngular/textAngular.js",
 		"/home/nadeesha/projects/kodiak/app/partials/logout.html",
-		"/home/nadeesha/projects/kodiak/app/partials/header_links_personal.html",
-		"/home/nadeesha/projects/kodiak/app/js/config.prod.js",
 		"/home/nadeesha/Downloads/wp-config.php",
 		"/home/nadeesha/projects/kodiak/app/components/angular/angular.js",
 		"/home/nadeesha/projects/kodiak/app/components/angular/.bower.json",
-		"/home/nadeesha/projects/kodiak/Gruntfile.js",
 		"/home/nadeesha/projects/kodiak/server.js",
-		"/home/nadeesha/projects/kodiak/app/partials/header_links_new.html",
 		"/home/nadeesha/projects/angular-seed/scripts/web-server.js",
-		"/home/nadeesha/projects/kodiak/app/css/app.css",
 		"/home/nadeesha/projects/kodiak/app/css/bootstrap-theme.min.css",
 		"/home/nadeesha/projects/kodiak/app/js/directives.js",
 		"/home/nadeesha/projects/kodiak/app/partials/gravatar.html",
@@ -811,7 +789,6 @@
 		"/home/nadeesha/projects/kodiak/scripts/test.bat",
 		"/home/nadeesha/projects/kodiak/scripts/test.sh",
 		"/home/nadeesha/projects/kodiak/scripts/watchr.rb",
-		"/home/nadeesha/projects/kodiak/app/partials/modal_me_qualification.html",
 		"/home/nadeesha/projects/kodiak/bower_components/angular/angular.js",
 		"/home/nadeesha/projects/kodiak/app/partials/search.html",
 		"/home/nadeesha/projects/kodiak/app/partials/modal_search_results.html",
@@ -845,7 +822,6 @@
 		"/home/nadeesha/.config/sublime-text-2/Packages/Emmet/Default (Linux).sublime-keymap",
 		"/home/nadeesha/.config/sublime-text-2/Packages/Emmet/Emmet.sublime-settings",
 		"/home/nadeesha/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
-		"/home/nadeesha/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
 		"/home/nadeesha/.config/sublime-text-2/Packages/HtmlTidy/HtmlTidy.sublime-settings",
 		"/home/nadeesha/.config/sublime-text-2/Packages/User/HtmlTidy.sublime-settings",
 		"/home/nadeesha/projects/grizzly-api/config/routes.js",
@@ -874,8 +850,7 @@
 		"/home/nadeesha/projects/grizzly/config/express.js",
 		"/home/nadeesha/projects/grizzly/Makefile",
 		"/home/nadeesha/projects/grizzly/routes/user.js",
-		"/home/nadeesha/projects/grizzly/package.json",
-		"/home/nadeesha/projects/grizzly/test/user-login-test.js"
+		"/home/nadeesha/projects/grizzly/package.json"
 	],
 	"find":
 	{
@@ -883,9 +858,11 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"/home/nadeesha/projects/kodiak/app/js/",
+			"/home/nadeesha/projects/kodiak/app/",
 			"/home/nadeesha/projects/kodiak/app/components",
 			"/home/nadeesha/projects/kodiak/app/",
 			"/home/nadeesha/projects/kodiak/app/js",
@@ -897,6 +874,42 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"white",
+			" ? endedOn : new Date()",
+			"20",
+			"t.",
+			"t",
+			"30",
+			"300",
+			"h4",
+			"h3",
+			"h2",
+			"h4",
+			"h3",
+			"h2",
+			"h3",
+			"label",
+			"h2",
+			"div",
+			"gr-timeline",
+			"edit",
+			"class=\"gr-bottom-5\" ",
+			"h3",
+			"$stateParams",
+			"$state",
+			"align",
+			"h1",
+			"div",
+			"h2",
+			"div",
+			"this.c",
+			"$sce",
+			"'$sce'",
+			"$sce",
+			"sce",
+			"login/",
+			"hide: false",
+			"danger",
 			"type: 'error'",
 			"hide: false",
 			"$sce.trustAsHtml",
@@ -988,43 +1001,7 @@
 			"requi",
 			"h2",
 			"row",
-			"div",
-			"$scope.",
-			"responsibilities",
-			"responsibility",
-			"Resp",
-			"responsibility",
-			"Resp",
-			"Responsibility",
-			"Resp",
-			"button",
-			"service.model",
-			"localStorage",
-			"sessionStorage",
-			"ng-show",
-			"OrgDashboardCtrl",
-			">\n",
-			"$scope.",
-			"notificationService",
-			"dir",
-			"Administrator Email",
-			"lg",
-			"$rootScope",
-			"hit",
-			"ad",
-			"advertisement",
-			"ad",
-			"Ad",
-			"ad",
-			"Org",
-			"''",
-			"=",
-			"qualification",
-			"$scope",
-			"add",
-			"QualificationTenureModalInstanceCtrl",
-			"h1",
-			"span"
+			"div"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1047,222 +1024,124 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/js/config.prod.js",
+					"file": "app/partials/me.html",
 					"settings":
 					{
-						"buffer_size": 243,
+						"buffer_size": 10455,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								8864,
+								8864
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2633.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/js/config.dev.js",
+					"file": "app/js/app.js",
 					"settings":
 					{
-						"buffer_size": 263,
+						"buffer_size": 3439,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								263,
-								263
+								1343,
+								1343
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/index.html",
+					"file": "app/css/app.css",
 					"settings":
 					{
-						"buffer_size": 3918,
+						"buffer_size": 2363,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								956,
-								956
+								2269,
+								2269
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 105.0,
+						"translation.y": 2121.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
 				{
 					"buffer": 3,
-					"file": "app/partials/header_links_personal.html",
-					"settings":
-					{
-						"buffer_size": 968,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								479,
-								479
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/partials/header_links_new.html",
-					"settings":
-					{
-						"buffer_size": 124,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								124,
-								124
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/js/services.js",
-					"settings":
-					{
-						"buffer_size": 18239,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2314,
-								2314
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 540.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
 					"file": "app/js/controllers.js",
 					"settings":
 					{
-						"buffer_size": 29788,
+						"buffer_size": 30701,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1522,
-								1522
+								10756,
+								10756
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_separators": "./\\\\()\\\"\\'-:,.;<>~!@#%^&*|+=[]{}`~?"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/components/pnotify/jquery.pnotify.js",
-					"settings":
-					{
-						"buffer_size": 31316,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1364,
-								1364
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4412.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1287,11 +1166,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -1320,16 +1206,52 @@
 		"selected_items":
 		[
 			[
+				"app.c",
+				"app/css/app.css"
+			],
+			[
+				"app",
+				"app/js/app.js"
+			],
+			[
+				"contr",
+				"app/js/controllers.js"
+			],
+			[
+				"me",
+				"app/partials/me.html"
+			],
+			[
+				"app.css",
+				"app/css/app.css"
+			],
+			[
+				"sign",
+				"app/partials/signup.html"
+			],
+			[
+				"pnoti",
+				"app/components/pnotify/jquery.pnotify.js"
+			],
+			[
+				"gru",
+				"Gruntfile.js"
+			],
+			[
+				"inde",
+				"app/index.html"
+			],
+			[
+				"signup",
+				"app/partials/signup.html"
+			],
+			[
 				"bowe",
 				"bower.json"
 			],
 			[
 				"pack",
 				"package.json"
-			],
-			[
-				"contr",
-				"app/js/controllers.js"
 			],
 			[
 				"ser",
@@ -1356,20 +1278,8 @@
 				"app/js/services.js"
 			],
 			[
-				"sign",
-				"app/partials/signup.html"
-			],
-			[
 				"serv",
 				"app/js/services.js"
-			],
-			[
-				"inde",
-				"app/index.html"
-			],
-			[
-				"me",
-				"app/partials/me.html"
 			],
 			[
 				"modal_me",
@@ -1386,10 +1296,6 @@
 			[
 				"service",
 				"app/js/services.js"
-			],
-			[
-				"app",
-				"app/js/app.js"
 			],
 			[
 				"land",
@@ -1432,10 +1338,6 @@
 				"app/untitled"
 			],
 			[
-				"gru",
-				"Gruntfile.js"
-			],
-			[
 				"boot",
 				"app/css/bootstrap.css"
 			],
@@ -1470,10 +1372,6 @@
 			[
 				"modal_me_te",
 				"app/partials/modal_me_tenure.html"
-			],
-			[
-				"app.css",
-				"app/css/app.css"
 			],
 			[
 				"modal",
@@ -1546,10 +1444,6 @@
 			[
 				"me.t",
 				"app/partials/me.html"
-			],
-			[
-				"app.c",
-				"app/css/app.css"
 			]
 		],
 		"width": 0.0
@@ -1573,7 +1467,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 251.0,
 	"status_bar_visible": true
 }

@@ -43,8 +43,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
         });
 
     $stateProvider
-        .state('profile', {
+        .state('profileEdit', {
             url: '/me',
+            templateUrl: 'partials/me.html',
+            controller: 'MeCtrl'
+        });
+
+    $stateProvider
+        .state('profileView', {
+            url: '/me/view',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
@@ -108,6 +115,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
 });
 
 app.run(function($rootScope, userService) {
-    $rootScope.user = {};
-    userService.restoreState();
+    $rootScope.$on('restorestate', userService.restoreState);
+    $rootScope.$on('logout', userService.logout);
+    $rootScope.$broadcast('restorestate');
 });

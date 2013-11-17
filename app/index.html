@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse" role="navigation" ng-controller="HeaderCtrl">
+    <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -31,12 +31,13 @@
             </button>
             <span class="logo"><a class="navbar-brand" href="#/"><span class="glyphicon glyphicon-transfer gr-right-5"></span>hirewire.lk <sup>beta</sup></a></span>
         </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse" ng-switch="user.type">
+        <div class="collapse navbar-collapse navbar-ex1-collapse" ng-switch="u.type">
             <div ng-switch-when="NEW"><div ng-include="'/partials/header_links_new.html'"></div></div>
             <div ng-switch-when="ORG"><div ng-include="'/partials/header_links_org.html'"></div></div>
             <div ng-switch-when="PERSONAL"><div ng-include="'/partials/header_links_personal.html'"></div></div>
         </div>
     </nav>
+
     <div class="gr-container container" ui-view></div>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
