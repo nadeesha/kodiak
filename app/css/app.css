@@ -1,23 +1,18 @@
 html {
-  /*scrollbar always visible*/
-  overflow: -moz-scrollbars-vertical; 
-  overflow-y: scroll;
+    /*scrollbar always visible*/
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
 }
-
 body {
     background-color: #FFF;
 }
-
 h1 {
     letter-spacing: -2px;
 }
-
 h3 {
     letter-spacing: -1px;
 }
-
 .gr-container {
-
 }
 .gr-face {
     display: block;
@@ -55,143 +50,127 @@ h3 {
 .gr-inline-select {
     width: 40%;
     margin-right: 5px;
-    display: inline-block; 
+    display: inline-block;
 }
 .gr-strike-true {
     text-decoration: line-through;
 }
-
 .gr-font-2x {
     font-size: 1em;
 }
-
 .gr-bottom-5 {
     margin-bottom: 5px;
 }
 .gr-top-5 {
     margin-top: 5px;
 }
-
 /* Bootstrap 3 temp styles till  Angular-Bootstrap 0.7.0 */
  .modal {
     display: block;
 }
-
 .hide {
     display: none;
-} 
+}
 div.form-group div.alert {
     margin-top: 5px;
 }
-
-input[type='checkbox'] { 
+input[type='checkbox'] {
     margin-right:5px;
-} 
-
+}
 .control-label {
     white-space: nowrap;
 }
-
 /*span.glyphicon {
     margin-right: 5px;
 }*/
-
-.label {
+ .label {
     font-size: 100% !important;
     font-weight: normal;
     padding: .1em .5em !important;
 }
-
 .gr-right-align {
     text-align: right;
 }
 .gr-center-align {
     text-align: center;
 }
-
 div.well>h2 {
     margin-top: 0px;
 }
-
 .navbar {
     border-radius: 0px;
 }
-
 .gr-home-container {
     text-align: center;
 }
-
 .gr-home-container > span {
     font-size: 5em;
     margin-bottom: 30px;
 }
-
 .light-shadow {
     text-shadow: gray 0px 2px 5px;
 }
-
 .logo {
     letter-spacing: -1px;
     color: darkslategray;
 }
-
 .navbar-inverse {
     border: 0px;
 }
-
 /*.gr-timeline-section > h5 {
   margin-bottom: 5px;
   margin-left: 10px;
 }*/
-
-.circle {
-  background: coral;
-  border-radius: 50%;
-  height: 15px;
-  width: 15px;
-  margin: 0;
+ .circle {
+    background: coral;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    margin: 0;
 }
-
 .circle-semi {
-  background: white;
-  border: 2px coral solid;
+    background: white;
+    border: 2px coral solid;
 }
-
 .gr-vis-year {
-  display: inline-block;
-  margin-right: 5px;
-  color: lightslategrey;
+    display: inline-block;
+    margin-right: 5px;
+    color: lightslategrey;
 }
-
 /*.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }*/
-
-.large-text {
-  font-size: 2.5em;
-  line-height: 50px;
-  letter-spacing: -2px;
+ .large-text {
+    font-size: 2.5em;
+    line-height: 50px;
+    letter-spacing: -2px;
 }
-
 .small-text {
-  font-size: 0.7em;
+    font-size: 0.7em;
 }
 .smaller-text {
-  font-size: 0.6em;
+    font-size: 0.6em;
 }
-
 .gr-summary-label {
-  width: 100px;
+    width: 100px;
 }
-
 .panel-title {
-  font-size:1.5em;
+    font-size:1.5em;
 }
-
 .gr-personal-block {
-  display: inline-block;
-  margin-bottom: 10px;
-  margin-right: 5px;
-  background-color: lightgray;
-  padding: 10px;
-  border-left: 10px darkgrey solid;
-  border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    background-color: lightgray;
+    padding: 10px;
+    border-left: 10px darkgrey solid;
+    border-radius: 4px;
+}
+#loading-bar .bar {
+    background: coral;
+}
+#loading-bar .peg {
+    box-shadow: 0 0 10px coral, 0 0 5px coral;
+}
+#loading-bar-spinner .spinner-icon {
+    border-top-color: coral;
+    border-left-color: coral;
 }

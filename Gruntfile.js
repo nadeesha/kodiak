@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'app/components/',
-                        src: ['angular-sanitize/angular-sanitize.min.js', 'ngprogress/build/ngProgress.min.js'],
+                        src: ['angular-sanitize/angular-sanitize.min.js', 'ngprogress/build/ngProgress.min.js', 'angular-loading-bar/build/loading-bar.min.js'],
                         dest: 'dist/js/',
                         filter: 'isFile'
                     },

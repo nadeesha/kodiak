@@ -2,16 +2,14 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('kodiak', ['kodiak.filters', 'kodiak.services', 'kodiak.directives', 'kodiak.controllers', 'ui.state', 'ui.bootstrap', 'ui.date', 'ngStorage', 'ui.slider', 'textAngular', 'ngSanitize', 'ngProgress']);
+var app = angular.module('kodiak', ['kodiak.filters', 'kodiak.services', 'kodiak.directives', 'kodiak.controllers', 'ui.state', 'ui.bootstrap', 'ui.date', 'ngStorage', 'ui.slider', 'textAngular', 'ngSanitize', 'ngProgress', 'chieffancypants.loadingBar']);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider) {
+
+    cfpLoadingBarProvider.includeSpinner = true;
 
     // enable xhr
     $httpProvider.defaults.useXDomain = true;
-
-    // xsrf config
-    $httpProvider.defaults.xsrfCookieName = 'XSRF-TOKEN';
-    $httpProvider.defaults.xsrfHeaderName = 'x-csrf-token';
 
     $urlRouterProvider.otherwise('/');
 
