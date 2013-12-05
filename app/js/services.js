@@ -94,8 +94,13 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     });
             },
 
-            getProfile: function(callback) {
-                $http.get(GRIZZLY_URL + '/user/profile/me', service.authHeader())
+            getProfile: function(id, callback) {
+                if (!callback && typeof id === 'function') {
+                    callback = id;
+                    id = 'me';
+                }
+
+                $http.get(GRIZZLY_URL + '/user/' + id + '/profile', service.authHeader())
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -104,7 +109,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             getProfileStats: function(callback) {
-                $http.get(GRIZZLY_URL + '/user/profile/me/stats', service.authHeader())
+                $http.get(GRIZZLY_URL + '/user/me/profile/stats', service.authHeader())
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -117,7 +122,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     profile: profile
                 };
 
-                $http.post(GRIZZLY_URL + '/user/profile/me', JSON.stringify(user), service.authHeader())
+                $http.post(GRIZZLY_URL + '/user/me/profile', JSON.stringify(user), service.authHeader())
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -596,6 +601,12 @@ services.factory('utilService', [
         return {
             md5: function(s) {
                 return md5(s);
+            },
+            getTimes: function(n) {
+                if (!n)
+                    return;
+
+                return new Array(Number(n));
             }
         }
     }

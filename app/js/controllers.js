@@ -32,13 +32,11 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
     function($scope, $http, $location, userService, notificationService) {
-        console.log($scope.user);
         $scope.validate = function(user) {
-            console.log($scope.user);
             userService.login(user, function(err, data) {
                 if (!err) {
                     if (!data.affiliation) {
-                        $location.url('/me');
+                        $location.url('/me/view');
                     } else {
                         $location.url('/organization/dashboard');
                     }
@@ -64,8 +62,8 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     }
 ]);
 
-controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userService',
-    function($scope, $http, $location, userService) {
+controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
+    function($scope, $http, $location, userService, notificationService) {
         $scope.response = {
             incorrect: false,
             success: false
@@ -119,7 +117,7 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
             }
 
             $scope.$close(data);
-        }
+        };
     }
 ]);
 
@@ -133,15 +131,9 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
         // setting month and year values
         $scope.months = MONTHS;
         $scope.years = [];
+        $scope.current = true;
 
-        // this needs to be executed for tenures only
-        if (!data.complete && data.endedOn) {
-            $scope.current = false;
-        } else if (!data.complete && !data.endedOn) {
-            $scope.current = true;
-        }
-
-        // reset the end date to null. applicable to "I currently work here" checkbox in tenure modal
+        // reset the end date to null on selecting "I currently work here" checkbox in tenure modal
         $scope.changeEndDate = function() {
             if (this.current) {
                 this.endedOn = null;
@@ -149,7 +141,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             } else {
                 this.data.endedOn = this.endedOn;
             }
-        }
+        };
 
         var now = new Date();
 
@@ -161,7 +153,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
         var setMonthAndDate = function(source, target) {
             target.month = moment(source).format('MMMM');
             target.year = moment(source).format('YYYY');
-        }
+        };
 
         // converting startedOn and endedOnvalues
         if ($scope.data.startedOn) {
@@ -169,6 +161,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
         }
         if ($scope.data.endedOn) {
             setMonthAndDate($scope.data.endedOn, $scope.endedOn);
+            $scope.current = false;
         }
 
         // converts a given datepicker month/year to javascript date
@@ -176,49 +169,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             if (year && month) {
                 return moment(month + ' 1 ' + year).format();
             }
-        }
-
-        // wysiwyg text
-        $scope.textAngularOpts = {
-            toolbar: [{
-                icon: "<i class='icon-bold'></i>",
-                name: "b",
-                title: "Bold"
-            }, {
-                icon: "<i class='icon-italic'></i>",
-                name: "i",
-                title: "Italics"
-            }, {
-                icon: "<i class='icon-list-ul'></i>",
-                name: "ul",
-                title: "Unordered List"
-            }, {
-                icon: "<i class='icon-list-ol'></i>",
-                name: "ol",
-                title: "Ordered List"
-            }, {
-                icon: "<i class='icon-rotate-right'></i>",
-                name: "redo",
-                title: "Redo"
-            }, {
-                icon: "<i class='icon-undo'></i>",
-                name: "undo",
-                title: "Undo"
-            }],
-            html: $scope.data.responsibilities
         };
-
-        // $scope.textAngularOpts.textAngularEditors = {
-        //     responsibilities: {
-        //         html: $scope.data.responsibilities
-        //     }
-        // }
-
-        $scope.$watch('textAngularOpts.textAngularEditors.responsibilities.html', function(newHTML, oldHTML) {
-            $scope.data.responsibilities = newHTML;
-        });
-
-        // $scope.data.responsibilities = $scope.textAngularOpts.html;
 
         $scope.submit = function(t) {
             // need to parse the month/year combination before submitting
@@ -226,7 +177,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
 
             if (!this.current || this.complete) {
                 this.data.endedOn = convertToDate(this.endedOn.year, this.endedOn.month);
-            };
+            }
 
             try {
                 if (t === 'q') { // if this is a qualification
@@ -246,11 +197,8 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
                 return;
             }
 
-            // if (!this.current && this.data.startedOn > this.data.endedOn) // check the date mismatches between startedOn and endedOn
-            //     this.datesMismatch = true;
-            // else
             this.$close(data);
-        }
+        };
     }
 ]);
 
@@ -260,54 +208,13 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     }
 ]);
 
-// END: Modal Controllers
-
-
-
-controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', '$state',
-    function($scope, $http, $location, $modal, userService, notificationService, $state) {
+controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
+    function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
 
         if ($state.is('profileEdit'))
             $scope.edit = true;
 
-        // get the height of the timeline div
-        $scope.view = {
-            getDuration: function(startedOn, endedOn) {
-                if (!startedOn)
-                    return;
-
-                return {
-                    years: moment(endedOn).diff(startedOn, 'years'),
-                    months: moment(endedOn).diff(startedOn, 'months') % 12,
-                }
-            },
-            currentYear: function() {
-                return moment().year();
-            },
-            getTimesForDate: function(startedOn, endedOn) {
-                if (!startedOn)
-                    return;
-
-                var years = moment(endedOn).diff(moment(startedOn), 'years') * 3;
-                return new Array(years);
-            },
-            getTimes: function(n) {
-                if (!n)
-                    return;
-
-                return new Array(Number(n));
-            },
-            getTotalExperience: function() {
-                if (!$scope.user || !$scope.user.tenures)
-                    return 0;
-
-                var earliest = _.min($scope.user.tenures, function(t) {
-                    return new Date(t.startedOn).getTime();
-                });
-
-                return (moment().year() - moment(earliest.startedOn).year());
-            }
-        }
+        $scope.getTimes = utilService.getTimes;
 
         var loadProfileStats = function() {
             userService.getProfileStats(function(err, stats) {
@@ -316,7 +223,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 else
                     $location.url('/500');
             });
-        }
+        };
 
         userService.getProfile(function(err, user) {
             if (!err) {
@@ -331,7 +238,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
             // holds a copy of the referred object so that edits won't appear instantaneously
             // if it's an addition, returns a new object
-            var objToManipulate = addition ? new Object() : _.clone(collection[index]);
+            var objToManipulate = addition ? {} : _.clone(collection[index]);
 
 
             var modal = $modal.open({
@@ -355,14 +262,14 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
                 $scope.saveProfile();
             });
-        }
+        };
 
         $scope.convertGender = function(gender) {
             if (gender)
                 return 'Male';
-            else if (gender == false)
+            else if (gender === false)
                 return 'Female';
-        }
+        };
 
         $scope.saveProfile = function() {
             // if ($scope.user === $scope.latestValid) // if no change is done
@@ -381,8 +288,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                         hide: true
                     });
                 }
-            })
-        }
+            });
+        };
 
         // personal modal
         $scope.openPersonalModal = function(profile) {
@@ -398,7 +305,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                             nationalIdentifier: profile.nationalIdentifier,
                             dateOfBirth: profile.dateOfBirth,
                             gender: profile.gender
-                        }
+                        };
                     }
                 }
             });
@@ -413,24 +320,24 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
                 $scope.saveProfile();
             });
-        }
+        };
 
 
 
         // qualification modal
         $scope.openQualificationModal = function(index) {
             bindAddEditModal(index, 'partials/modal_me_qualification.html', 'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
-        }
+        };
 
         // tenure modal
         $scope.openTenureModal = function(index) {
             bindAddEditModal(index, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl', $scope.user.tenures);
-        }
+        };
 
         // skills modal
         $scope.openSkillModal = function(index) {
             bindAddEditModal(index, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl', $scope.user.skills);
-        }
+        };
 
         // deletes any element by position of the collection after seeking user confirmation
         $scope.openDeleteModal = function(pos, collection) {
@@ -442,8 +349,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 if (~pos) collection.splice(pos, 1);
 
                 $scope.saveProfile();
-            })
-        }
+            });
+        };
 
     }
 ]);
@@ -467,7 +374,7 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                         email: admin.email,
                         password: admin.pass,
                         affiliation: data.id
-                    }
+                    };
 
                     userService.create(user, function(err) {
                         if (!err) {
@@ -499,13 +406,26 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                     $location.url('/500');
                 }
             });
-        }
+        };
     }
 ]);
 
-controllers.controller('ViewOrgCtrl', ['$scope', 'userService',
-    function($scope, userService) {
+controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService',
+    function($scope, userService, orgService, $rootScope, notificationService) {
+        orgService.getAds($rootScope.u.affiliation, function (err, data) {
+            if(err) {
+                notificationService.handleError(err.message);
+                return;
+            }
 
+            $scope.campaigns = data.advertisements;
+        });
+    }
+]);
+
+controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService',
+    function($scope, userService, orgService, $rootScope, notificationService) {
+        
     }
 ]);
 
@@ -586,7 +506,7 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
             ad.responsibilities = _.pluck($scope.ad.responsibilities, 'value');
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
-            if ($state.is('organization_ad_edit'))
+            if ($state.is('organization_ad_create'))
                 adService.createAd(userService.user().affiliation, ad, function(err, data) {
                     if (err) {
                         notificationService.handleError(err.message);
@@ -595,14 +515,14 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
                     }
                 });
             else
-                adService.editAd(userService.user().affiliation, $scope.ad.id, ad, function(err, data) {
+                adService.editAd(userService.user().affiliation, $scope.ad.id, ad, function(err) {
                     if (err) {
                         notificationService.handleError(err.message);
                     } else {
-                        $location.url('/organization/ad/' + data.id + '/view');
+                        $location.url('/organization/ad/' + $scope.ad.id + '/view');
                     }
                 });
-        }
+        };
     }
 ]);
 
@@ -629,8 +549,8 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
     }
 ]);
 
-controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', 'adService', 'searchService', 'notificationService', 'validationService', '$modal',
-    function($scope, $stateParams, userService, adService, searchService, notificationService, validationService, $modal) {
+controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', 'adService', 'searchService', 'notificationService', 'validationService', '$modal', '$location',
+    function($scope, $stateParams, userService, adService, searchService, notificationService, validationService, $modal, $location) {
         $scope.displayNameCollection = {
             AGE_BETWEEN: {
                 name: 'Age between',
@@ -674,15 +594,14 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
                 type: 'string',
                 placeholder: []
             }
-        }
+        };
 
         $scope.ad = {};
         $scope.searchId = $stateParams.searchId;
-        $scope.results = {};
 
         $scope.search = {
             criteria: []
-        }
+        };
 
         // if this is a edit
         if ($scope.searchId) {
@@ -695,9 +614,9 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
                     // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
                     for (var i = 0; i < $scope.search.criteria.length; i++) {
                         $scope.search.criteria[i].displayName = $scope.displayNameCollection[$scope.search.criteria[i].name].name;
-                    };
+                    }
                 }
-            })
+            });
         }
 
         adService.getAd(userService.user().affiliation, $stateParams.adId, function(err, data) {
@@ -731,11 +650,11 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
                         notificationService.handleError(err.message);
                     else {
                         notificationService.handleSuccess('Search updated successfully.');
-                        $scope.searchId = data.id;
+                        $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
                     }
                 });
             } else {
-                searchService.editSearch(userService.user().affiliation, $scope.searchId, search, function(err, data) {
+                searchService.editSearch(userService.user().affiliation, $scope.searchId, search, function(err) {
                     if (err)
                         notificationService.handleError(err.message);
                     else
@@ -754,7 +673,7 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
                     validationService.isTrue(criterion.values[1], 'Search value range should be defined');
                     // if the user is going to define filter criteria like age and years of experience more than once
                     validationService.isTrue(!(_.find($scope.search.criteria, function(c) {
-                        return c.name == $scope.criterion.name
+                        return c.name == $scope.criterion.name;
                     })), 'You can not specify multiple search criteria of this kind');
                 }
 
@@ -781,57 +700,70 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
 
         $scope.doSearch = function() {
             searchService.getSearchResults(userService.user().affiliation, $scope.searchId, function(err, data) {
-                if (err)
+                if (err) {
                     notificationService.handleError(err.message);
-                else {
-                    var results = data.scores.hits;
+                } else {
+                    $scope.allResults = data.scores.hits;
 
-                    var modal = $modal.open({
-                        templateUrl: 'partials/modal_search_results.html',
-                        controller: 'SearchResultsCtrl',
-                        resolve: {
-                            data: function() { // this needs to be a function
-                                return results;
+                    $scope.results = [];
+
+                    $scope.showTop = function(count) {
+                        $scope.results = _.first($scope.allResults.hits, count);
+                    };
+
+                    // show the first 10 by default
+                    $scope.showTop(10);
+
+                    $scope.loadProfile = function(id) {
+                        userService.getProfile(id, function(err, data) {
+                            if (err) {
+                                notificationService.handleError(data.message);
+                                return;
                             }
-                        }
-                    });
 
-                    // modal.result.then(function(altered) {
-                    //     if (addition) {
-                    //         collection.push(altered);
-                    //     } else {
-                    //         obj = altered;
-                    //     }
-
-                    //     $scope.saveProfile();
-                    // });
+                            $scope.user = data;
+                        });
+                    };
                 }
-            })
-        }
+            });
+        };
     }
 ]);
 
-controllers.controller('SearchResultsCtrl', ['$scope', 'data',
-    function($scope, data) {
-        $scope.allResults = data;
+// controllers.controller('SearchResultsCtrl', ['$scope', 'data', 'userService', 'notificationService',
+//     function($scope, data, userService, notificationService) {
+//         $scope.allResults = data;
 
-        $scope.results = [];
+//         $scope.results = [];
 
-        $scope.showTop = function(count) {
-            $scope.results = _.first($scope.allResults.hits, count);
-        }
+//         $scope.showTop = function(count) {
+//             $scope.results = _.first($scope.allResults.hits, count);
+//         };
 
-        // show the first 10 by default
-        $scope.showTop(10);
+//         // show the first 10 by default
+//         $scope.showTop(10);
 
-        $scope.showInfo = function(id) {
-            // body...
-        }
-    }
-]);
+//         $scope.loadProfile = function(id) {
+//             userService.getProfile(id, function(err, data) {
+//                 if (err) {
+//                     notificationService.handleError(data.message);
+//                     return;
+//                 }
+
+//                 $scope.user = data;
+//             });
+//         };
+//     }
+// ]);
 
 controllers.controller('LogoutCtrl', ['$scope', 'userService',
     function($scope, userService) {
         userService.logout();
+    }
+]);
+
+controllers.controller('MeDashboardCtrl', ['$scope', 'userService',
+    function($scope, userService) {
+        $scope.fname = userService.user().firstName;
     }
 ]);

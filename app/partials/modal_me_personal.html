@@ -8,7 +8,7 @@
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Location</label>
                     <div class="col-lg-6">
-                        <input class="form-control" placeholder="Location" ng-model="data.location">
+                        <input class="form-control" placeholder="Location" popover="Where do you currently live?" popover-trigger="focus" ng-model="data.location">
                     </div>
                 </div>
                 <div class="form-group">
@@ -21,19 +21,19 @@
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Contact Number</label>
                     <div class="col-lg-8">
-                        <input class="form-control" placeholder="Contact Number" ng-model="data.contactNumber" name="contactNumber">
+                        <input class="form-control" placeholder="Contact Number" ng-model="data.contactNumber" name="contactNumber" popover="Companies will try to contact you on this number. Make sure this number is valid and we can reach you here." popover-trigger="focus" >
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">Languages</label>
                     <div class="col-lg-8">
-                        <input class="form-control" placeholder="Languages" ng-model="data.languages" ng-list>
+                        <input class="form-control" placeholder="Languages" ng-model="data.languages" popover="Seperate multiple languages with commas. Example: English, Sinhala, Tamil" popover-trigger="focus" ng-list>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-4 control-label">National Identifier</label>
                     <div class="col-lg-4">
-                        <input class="form-control" placeholder="National Identifier" ng-model="data.nationalIdentifier">
+                        <input class="form-control" placeholder="National Identifier" popover="This should be either your NIC Number or the Passport ID Number" popover-trigger="focus" ng-model="data.nationalIdentifier">
                     </div>
                 </div>
                 <div class="form-group">

@@ -41,8 +41,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
         });
 
     $stateProvider
-        .state('profileEdit', {
+        .state('my_dashboard', {
             url: '/me',
+            templateUrl: 'partials/dashboard_me.html',
+            controller: 'MeDashboardCtrl'
+        });
+
+    $stateProvider
+        .state('profileEdit', {
+            url: '/me/edit',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
@@ -64,8 +71,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     $stateProvider
         .state('organization_dashboard', {
             url: '/organization/dashboard',
-            templateUrl: 'partials/organization_dashboard.html',
+            templateUrl: 'partials/dashboard_org.html',
             controller: 'ViewOrgCtrl'
+        });
+
+    $stateProvider
+        .state('campaign_home', {
+            url: '/organization/campaign/:adId',
+            templateUrl: 'partials/campaign_home.html',
+            controller: 'ViewCampaignCtrl'
         });
 
     $stateProvider
@@ -98,7 +112,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
 
     $stateProvider
         .state('organization_search_view', {
-            url: '/organization/ad/{adId}/search/{searchId}/view',
+            url: '/organization/ad/{adId}/search/{searchId}',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl'
         });

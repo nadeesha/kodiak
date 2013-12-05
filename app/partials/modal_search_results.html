@@ -1,45 +1,31 @@
-<div class="modal-dialog" style="width:100%; height:100%">
-    <div class="modal-content">
+<div class="modal-dialog" style="width:100%; height:100%; padding:0px;">
+    <div class="modal-content" style="height:100%;">
         <div class="modal-header">
-
             <div class="pull-right">
                 <div class="gr-bottom-5 gr-right-align">
-                    <h4>Total of <span class="label label-info">{{allResults.total}}</span> results</h4>
+                    <h4>
+                        Total of <span class="label label-info">{{allResults.total}}</span> results
+                    </h4>
                 </div>
                 <div>
                     Showing the top
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" ng-click="showTop(10)">10</button>
-                        <button type="button" class="btn btn-default" ng-click="showTop(25)">25</button>
-                        <button type="button" class="btn btn-default" ng-click="showTop(50)">50</button>
-                        <button type="button" class="btn btn-default" ng-click="showTop(100)">100</button>
+                        <button type="button" class="btn btn-default" ng-click="showTop(10)">10</button> <button type="button" class="btn btn-default" ng-click="showTop(25)">25</button> <button type="button" class="btn btn-default" ng-click="showTop(50)">50</button> <button type="button" class="btn btn-default" ng-click="showTop(100)">100</button>
                     </div>
                 </div>
             </div>
-            <h1>Search Results</h1>
+            <h1>
+                Search Results
+            </h1>
         </div>
-        <div class="modal-body">
-            <div ng-repeat="result in results" class="row">
-                <div class="col-md-5 gr-right-align">
-                    <h4>
-                        <span class="label label-default">{{(result._score*100).toFixed(1)}}</span>
-                        <span class="gr-right-5">Candidate #{{$index+1}}</span>
-                        <button type="button" class="btn btn-primary" ng-click="moreInfo('{{result._id}}')" alt="View limited profile">
-                            <div class="glyphicon glyphicon-info-sign"></div>
-                        </button>
-                        <button type="button" class="btn btn-success" ng-click="invite('{{result._id}}')" alt="Invite to apply">
-                            <div class="glyphicon glyphicon-transfer"></div>
-                        </button>
-                    </h4>
+        <div class="modal-body row">
+            <div class="col-md-7">
+                <div ng-repeat="result in results" class="gr-search-result" ng-click="loadProfile(result._id)">
+                    {{(result._score*100).toFixed(1)}}
+                    <div class="gr-search-progress" style="width: {{result._score*200/allResults.max_score}}px"></div>
                 </div>
-                <div class="col-md-6">
-                    <h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{result._score*100/allResults.max_score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{result._score*100/allResults.max_score}}%">
-                            </div>
-                        </div>
-                    </h4>
-                </div>
+            </div>
+            <div class="col-md-4" ng-show="!edit" gr-visualized-profile>
             </div>
         </div>
     </div>

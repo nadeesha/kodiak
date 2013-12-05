@@ -8,13 +8,13 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Position</label>
                     <div class="col-md-8">
-                        <input class="form-control" placeholder="Job Role" ng-model="data.position" />
+                        <input class="form-control" placeholder="Job Role" ng-model="data.position" popover="What is your official designation?" popover-trigger="focus"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">Organization</label>
                     <div class="col-md-8">
-                        <input class="form-control" placeholder="Company" ng-model="data.organization" />
+                        <input class="form-control" placeholder="Company" ng-model="data.organization"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -41,9 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">What I did here</label>
-                    <div class="col-md-11 col-md-offset-1">
-                        <textarea text-angular text-angular-name="responsibilities"/>
-                    </div>
+                    <div class="col-md-11 col-md-offset-1" text-angular ng-model="data.responsibilities" ta-toolbar="[['bold', 'italics', 'ul', 'ol', 'redo', 'undo'], []]"></div>
                 </div>
             </form>
         </div>
