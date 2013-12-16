@@ -412,8 +412,8 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
 
 controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService',
     function($scope, userService, orgService, $rootScope, notificationService) {
-        orgService.getAds($rootScope.u.affiliation, function (err, data) {
-            if(err) {
+        orgService.getAds($rootScope.u.affiliation, function(err, data) {
+            if (err) {
                 notificationService.handleError(err.message);
                 return;
             }
@@ -423,9 +423,22 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
     }
 ]);
 
-controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService',
-    function($scope, userService, orgService, $rootScope, notificationService) {
-        
+controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService', 'adService', '$stateParams', 'searchService',
+    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams, searchService) {
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
+            if (err)
+                notificationService.handleError(err.message);
+
+            $scope.ad = data.advertisement;
+            $scope.ad.name = $scope.ad.jobRole + '-' + moment($scope.ad.createdOn).format('MMM DD');
+        });
+
+        searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
+            if (err)
+                notificationService.handleError(err.message);
+
+            $scope.search = data.search;
+        });
     }
 ]);
 
@@ -549,8 +562,8 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
     }
 ]);
 
-controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', 'adService', 'searchService', 'notificationService', 'validationService', '$modal', '$location',
-    function($scope, $stateParams, userService, adService, searchService, notificationService, validationService, $modal, $location) {
+controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'userService', 'adService', 'searchService', 'notificationService', 'validationService', '$modal', '$location', 'adResponseService',
+    function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService, validationService, $modal, $location, adResponseService) {
         $scope.displayNameCollection = {
             AGE_BETWEEN: {
                 name: 'Age between',
@@ -635,6 +648,8 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
             };
         };
 
+        resetCriterion();
+
         var saveSearch = function() {
             var search = {
                 advertisement: $stateParams.adId,
@@ -663,7 +678,6 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
             }
         };
 
-        resetCriterion();
 
         $scope.add = function(criterion) {
             try {
@@ -698,32 +712,70 @@ controllers.controller('SearchCtrl', ['$scope', '$stateParams', 'userService', '
             saveSearch();
         };
 
+        $scope.invite = function(id) {
+            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, function(err) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                notificationService.handleSuccess('Candidate was invited successfully');
+
+                markInvitedCandidates($scope.allResults);
+            });
+        };
+
+        $scope.loadProfile = function(id, invited) {
+            userService.getProfile(id, function(err, data) {
+                if (err) {
+                    notificationService.handleError(data.message);
+                    return;
+                }
+
+                $scope.user = data;
+                $scope.user.id = id;
+                $scope.user.invited = invited;
+            });
+        };
+
+        $scope.showTop = function(count) {
+            $scope.limitResultsTo = count;
+        };
+
+        function markInvitedCandidates(results) {
+            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                var invitedList = _.pluck(data.responses, 'user');
+                var fullList = _.pluck(results, '_id');
+
+                var resultsToBeMarked = _.intersection(invitedList, fullList);
+
+                for (var i = 0; i < resultsToBeMarked.length; i++) {
+                    for (var j = 0; j < results.length; j++) {
+                        if (resultsToBeMarked[i] == results[j]._id) {
+                            results[j].invited = true;
+                            continue;
+                        }
+                    }
+                }
+            });
+        }
+
         $scope.doSearch = function() {
             searchService.getSearchResults(userService.user().affiliation, $scope.searchId, function(err, data) {
                 if (err) {
                     notificationService.handleError(err.message);
                 } else {
-                    $scope.allResults = data.scores.hits;
+                    $scope.allResults = data.scores.hits.hits;
 
-                    $scope.results = [];
-
-                    $scope.showTop = function(count) {
-                        $scope.results = _.first($scope.allResults.hits, count);
-                    };
+                    markInvitedCandidates(data.scores.hits.hits);
 
                     // show the first 10 by default
                     $scope.showTop(10);
-
-                    $scope.loadProfile = function(id) {
-                        userService.getProfile(id, function(err, data) {
-                            if (err) {
-                                notificationService.handleError(data.message);
-                                return;
-                            }
-
-                            $scope.user = data;
-                        });
-                    };
                 }
             });
         };

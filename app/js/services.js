@@ -287,6 +287,14 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                         callback(data);
                     });
             },
+            getSearchForAd: function(orgId, adId, callback) {
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/ad/' + adId + '/search', userService.authHeader())
+                    .success(function(data) {
+                        callback(null, data);
+                    }).error(function(data) {
+                        callback(data);
+                    });
+            },
             getSearchResults: function(orgId, id, callback) {
                 $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results', userService.authHeader())
                     .success(function(data) {
@@ -328,6 +336,55 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
         return service;
     }
 ]);
+
+services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
+    function($http, GRIZZLY_URL, userService) {
+        var service = {
+            createResponse: function(userId, orgId, adId, callback) {
+                var o = {
+                    user: userId
+                };
+
+                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response', JSON.stringify(o), userService.authHeader())
+                .success(function (data) {
+                    callback(null, data);
+                }).error(function (data) {
+                    callback(data)
+                });
+            },
+            editResponse: function (orgId, adId, responseId, status, callback) {
+                var o = {
+                    status: status
+                };
+
+                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' + responseId, JSON.stringify(o), userService.authHeader())
+                .success(function (data) {
+                    callback(null, data);
+                }).error(function (data) {
+                    callback(data);
+                })
+            },
+            getResponse: function (orgId, adId, responseId, callback) {
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' + responseId, userService.authHeader())
+                .success(function (data) {
+                    callback(null, data);
+                }).error(function (data) {
+                    callback(data);
+                });
+            },
+            getAllResponses: function (orgId, adId, callback) {
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses', userService.authHeader())
+                .success(function (data) {
+                    callback(null, data);
+                }).error(function (data) {
+                    callback(data);
+                });
+            }
+        }
+
+        return service;
+    }
+])
 
 services.factory('notificationService', [
 

@@ -219,3 +219,8 @@ div.well>h2 {
 .gr-big-li > a:hover {
     text-decoration: none;
 }
+
+.gr-invited-result {
+    color: coral;
+    background-color: wheat;
+}
