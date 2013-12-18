@@ -224,3 +224,7 @@ div.well>h2 {
     color: coral;
     background-color: wheat;
 }
+
+.gr-ng-grid {
+    height: 400px   ;
+}

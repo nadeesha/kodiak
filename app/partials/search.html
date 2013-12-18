@@ -86,7 +86,8 @@
 
         <div class="col-md-4"  ng-show="user">
             <br>
-            <a type="button" class="btn btn-success" ng-class="{disabled: user.invited}" ng-click="invite(user.id)" style="width:100%;">{{user.invited ? 'Alredy Invited' : 'Invite this Candidate'}}
+            <input type="text"  class="form-control" style="width:100%; margin-bottom:5px;" placeholder="tags: comma seperated" ng-model="user.tags" ng-disabled="user.invited">
+            <a type="button" class="btn btn-success" ng-class="{disabled: user.invited}" ng-click="invite(user.id, user.tags)" style="width:100%;">{{user.invited ? 'Alredy Invited' : 'Invite this Candidate'}}
             </a>
             <div gr-visualized-profile>
             </div>

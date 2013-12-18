@@ -423,8 +423,58 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
     }
 ]);
 
-controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService', 'adService', '$stateParams', 'searchService',
-    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams, searchService) {
+controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService', 'adService', '$stateParams', 'searchService', 'adResponseService',
+    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams, searchService, adResponseService) {
+        $scope.selectedCandidate = [];
+
+        $scope.gridOptions = {
+            data: 'responses',
+            showGroupPanel: true,
+            selectedItems: $scope.selectedCandidate,
+            multiselect: false,
+            showFilter: true,
+            showColumnMenu: true,
+            columnDefs: [{
+                field: 'name',
+                displayName: 'Name',
+                width: '*'
+            }, {
+                field: 'status',
+                displayName: 'Status',
+                width: '*'
+            }, {
+                field: 'updated',
+                displayName: 'Last Updated',
+                width: '*'
+            }, {
+                field: 'tags',
+                displayName: 'Tags',
+                width: '**'
+            }, {
+                field: 'id',
+                displayName: 'ID',
+                visible: false,
+                width: '*'
+            }]
+        };
+
+        // on change for the selected candidate, change the gr-visualized-profile
+        $scope.$watch('selectedCandidate[0]', function() {
+            if ($scope.selectedCandidate.length === 0)
+                return;
+
+            $scope.data = {};
+
+            userService.getProfile($scope.selectedCandidate[0].user, function(err, data) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                $scope.user = data;
+            });
+        });
+
         adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
             if (err)
                 notificationService.handleError(err.message);
@@ -439,6 +489,33 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
 
             $scope.search = data.search;
         });
+
+        adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
+            if (err)
+                notificationService.handleError(err.message);
+
+            $scope.responses = _.map(data.responses, function(r) {
+                return {
+                    id: r._id,
+                    user: r.user._id ? r.user._id : r.user,
+                    name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
+                    status: r.status,
+                    updated: moment(r.lastUpdatedOn).fromNow(),
+                    tags: r.tags.join(', ')
+                };
+            });
+        });
+
+        $scope.save = function(response, status, tags) {
+            adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status, tags, function(err, data) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                notificationService.handleSuccess('Successfully updated the candidate');
+            });
+        }
     }
 ]);
 
@@ -712,8 +789,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
             saveSearch();
         };
 
-        $scope.invite = function(id) {
-            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, function(err) {
+        $scope.invite = function(id, tags) {
+            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags, function(err) {
                 if (err) {
                     notificationService.handleError(err.message);
                     return;
@@ -728,7 +805,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         $scope.loadProfile = function(id, invited) {
             userService.getProfile(id, function(err, data) {
                 if (err) {
-                    notificationService.handleError(data.message);
+                    notificationService.handleError(err.message);
                     return;
                 }
 

@@ -340,9 +340,10 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
 services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL, userService) {
         var service = {
-            createResponse: function(userId, orgId, adId, callback) {
+            createResponse: function(userId, orgId, adId, tags, callback) {
                 var o = {
-                    user: userId
+                    user: userId,
+                    tags: tags
                 };
 
                 $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response', JSON.stringify(o), userService.authHeader())
@@ -352,9 +353,10 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                     callback(data)
                 });
             },
-            editResponse: function (orgId, adId, responseId, status, callback) {
+            editResponse: function (orgId, adId, responseId, status, tags, callback) {
                 var o = {
-                    status: status
+                    status: status,
+                    tags: tags
                 };
 
                 $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' + responseId, JSON.stringify(o), userService.authHeader())

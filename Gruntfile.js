@@ -82,6 +82,7 @@ module.exports = function(grunt) {
                         'app/components/pnotify/jquery.pnotify.default.icons.css',
                         'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
                         'app/components/angular-loading-bar/build/loading-bar.min.css',
+                        'app/components/ng-grid/ng-grid.min.css',
                         'app/css/app.css'
                     ]
                 }
