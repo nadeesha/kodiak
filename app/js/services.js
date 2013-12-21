@@ -51,13 +51,14 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             create: function(user, callback) {
                 $http.put(GRIZZLY_URL + '/user', JSON.stringify(user))
                     .success(function() {
-                        $rootScope.u.firstName = user.firstName;
-                        $rootScope.u.lastName = user.lastName;
-                        $rootScope.u.email = user.email;
-                        service.saveState();
+                        // $rootScope.u.firstName = user.firstName;
+                        // $rootScope.u.lastName = user.lastName;
+                        // $rootScope.u.email = user.email;
+                        // service.saveState();
 
                         callback();
                     }).error(function(data, status) {
+                        // TODO: this can be converted to the new way of doing things.
                         callback(status, data);
                     });
             },
@@ -396,20 +397,29 @@ services.factory('notificationService', [
                 $.pnotify(hash);
             },
 
-            handleError: function(msg) {
+            handleError: function(msg, title) {
                 this.notify({
-                    title: 'Something went wrong!',
-                    text: msg ? msg : 'Unknown Error',
+                    title: title || 'Something went wrong!',
+                    text: msg || 'Unknown Error',
                     type: 'error',
                     hide: true
                 });
             },
 
-            handleSuccess: function(msg) {
+            handleSuccess: function(msg, title) {
                 this.notify({
-                    title: 'Success!',
-                    text: msg ? msg : 'Everything went ok.',
+                    title: title || 'Success!',
+                    text: msg || 'Everything went ok.',
                     type: 'success',
+                    hide: true
+                });
+            },
+
+            handleInfo: function(msg, title) {
+                this.notify({
+                    title: title || 'Oh!',
+                    text: msg || 'That\'s a no no, my friend!',
+                    type: 'info',
                     hide: true
                 });
             }
@@ -420,7 +430,7 @@ services.factory('notificationService', [
 services.factory('validationService', ['notificationService',
     function(notificationService) {
         return {
-            isTrue: function(expression, msg) {
+            mustBeTrue: function(expression, msg) {
                 if (!expression) {
                     notificationService.notify({
                         title: 'Ooops!',

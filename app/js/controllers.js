@@ -4,8 +4,8 @@
 
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
-    function($scope, $http, $location, userService, notificationService) {
+controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService', 'validationService',
+    function($scope, $http, $location, userService, notificationService, validationService) {
         $scope.create = function(user) {
             userService.create(user, function(err, data) {
                 if (!err) {
@@ -87,10 +87,6 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userSer
     }
 ]);
 
-
-
-// BEGIN: Screwed upModal Controllers
-
 controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validationService',
     function($scope, data, validationService) {
         $scope.data = data;
@@ -109,9 +105,9 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
         $scope.submit = function() {
             try {
                 if ($scope.data.dateOfBirth)
-                    validationService.isTrue(moment($scope.data.dateOfBirth) < moment().subtract('years', 15), 'You must be at least 15 years old');
+                    validationService.mustBeTrue(moment($scope.data.dateOfBirth) < moment().subtract('years', 15), 'You must be at least 15 years old');
                 if ($scope.data.contactNumber)
-                    validationService.isTrue($scope.data.contactNumber.length >= 10, 'Contact Number should have 10 digits at least');
+                    validationService.mustBeTrue($scope.data.contactNumber.length >= 10, 'Contact Number should have 10 digits at least');
             } catch (e) {
                 return;
             }
@@ -164,6 +160,8 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             $scope.current = false;
         }
 
+        $scope.complete = $scope.data.complete;
+
         // converts a given datepicker month/year to javascript date
         var convertToDate = function(year, month) {
             if (year && month) {
@@ -172,6 +170,8 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
         };
 
         $scope.submit = function(t) {
+            this.data.complete = this.complete;
+
             // need to parse the month/year combination before submitting
             this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
 
@@ -181,18 +181,18 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
 
             try {
                 if (t === 'q') { // if this is a qualification
-                    validationService.isTrue(this.data.name, 'Qualification name should be defined');
-                    validationService.isTrue(this.data.issuedBy, 'Issued School/University/Institute should be defined');
+                    validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
+                    validationService.mustBeTrue(this.data.issuedBy, 'Issued School/University/Institute should be defined');
                     if (this.complete)
-                        validationService.isTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
+                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
                 } else {
-                    validationService.isTrue(this.data.position, 'Your position must be defined');
-                    validationService.isTrue(this.data.organization, 'The organization you worked at must be defined');
+                    validationService.mustBeTrue(this.data.position, 'Your position must be defined');
+                    validationService.mustBeTrue(this.data.organization, 'The organization you worked at must be defined');
                     if (!this.current)
-                        validationService.isTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
+                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
                 }
 
-                validationService.isTrue(this.data.startedOn, 'Started month should be defined');
+                validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
             } catch (e) {
                 return;
             }
@@ -218,19 +218,23 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         var loadProfileStats = function() {
             userService.getProfileStats(function(err, stats) {
-                if (!err)
-                    $scope.stats = stats;
-                else
-                    $location.url('/500');
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                $scope.stats = stats;
             });
         };
 
         userService.getProfile(function(err, user) {
-            if (!err) {
-                $scope.user = $scope.latestValid = user;
-                loadProfileStats();
-            } else
-                $location.url('/500');
+            if (err) {
+                notificationService.handleError(err.message);
+                return;
+            }
+
+            $scope.user = $scope.latestValid = user;
+            loadProfileStats();
         });
 
         var bindAddEditModal = function(index, templateUrl, instanceController, collection) {
@@ -272,9 +276,6 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         };
 
         $scope.saveProfile = function() {
-            // if ($scope.user === $scope.latestValid) // if no change is done
-            //     return; 
-
             userService.saveProfile($scope.user, function(err) {
                 if (err) {
                     notificationService.handleError(err.message);
@@ -282,8 +283,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                     $scope.latestValid = $scope.user;
                     loadProfileStats();
                     notificationService.notify({
-                        title: 'Changed saved!',
-                        text: 'Successfully saved changes made to your profile.',
+                        title: 'Change(s) saved!',
+                        text: 'Successfully saved change(s) made to your profile.',
                         type: 'success',
                         hide: true
                     });
@@ -758,12 +759,12 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
         $scope.add = function(criterion) {
             try {
-                validationService.isTrue(criterion.name, 'Search criterion type is required');
-                validationService.isTrue(criterion.values[0], 'Search values should be defined');
+                validationService.mustBeTrue(criterion.name, 'Search criterion type is required');
+                validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
                 if ($scope.displayNameCollection[criterion.name].isRange) {
-                    validationService.isTrue(criterion.values[1], 'Search value range should be defined');
+                    validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
                     // if the user is going to define filter criteria like age and years of experience more than once
-                    validationService.isTrue(!(_.find($scope.search.criteria, function(c) {
+                    validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
                         return c.name == $scope.criterion.name;
                     })), 'You can not specify multiple search criteria of this kind');
                 }
@@ -847,43 +848,17 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                 if (err) {
                     notificationService.handleError(err.message);
                 } else {
-                    $scope.allResults = data.scores.hits.hits;
-
-                    markInvitedCandidates(data.scores.hits.hits);
-
-                    // show the first 10 by default
-                    $scope.showTop(10);
+                    if (data.scores.hits.hits.length!==0) {
+                        $scope.allResults = data.scores.hits.hits;
+                        markInvitedCandidates(data.scores.hits.hits);
+                        $scope.showTop(10);
+                    } else
+                        notificationService.handleInfo('No candidates found matching that criteria', 'Nothing to show!');
                 }
             });
         };
     }
 ]);
-
-// controllers.controller('SearchResultsCtrl', ['$scope', 'data', 'userService', 'notificationService',
-//     function($scope, data, userService, notificationService) {
-//         $scope.allResults = data;
-
-//         $scope.results = [];
-
-//         $scope.showTop = function(count) {
-//             $scope.results = _.first($scope.allResults.hits, count);
-//         };
-
-//         // show the first 10 by default
-//         $scope.showTop(10);
-
-//         $scope.loadProfile = function(id) {
-//             userService.getProfile(id, function(err, data) {
-//                 if (err) {
-//                     notificationService.handleError(data.message);
-//                     return;
-//                 }
-
-//                 $scope.user = data;
-//             });
-//         };
-//     }
-// ]);
 
 controllers.controller('LogoutCtrl', ['$scope', 'userService',
     function($scope, userService) {

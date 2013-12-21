@@ -27,7 +27,7 @@
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-6">
                         <label class="checkbox-inline">
-                            <input type="checkbox" ng-model="data.complete"> I have completed this qualification
+                            <input type="checkbox" ng-model="complete"> I have completed this qualification
                         </label>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="startedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="startedOn.year" placeholder="Year" />
                     </div>
                 </div>
-                <div class="form-group" ng-show="data.complete">
+                <div class="form-group" ng-show="complete">
                     <label class="col-md-4 control-label">Month Ended</label>
                     <div class="col-md-8">
                         <select class="form-control gr-inline-select" ng-options="month for month in months" ng-model="endedOn.month" placeholder="Month"/> <select class="form-control gr-inline-select" ng-options="year for year in years" ng-model="endedOn.year" placeholder="Year" />
