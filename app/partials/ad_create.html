@@ -11,41 +11,8 @@
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Description</label>
-                <div class="col-md-8">
-                    <textarea cols="5" class="form-control" ng-model="ad.description" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Responsibilities <a class="btn btn-success btn-xs" ng-click="addElement(ad.responsibilities)">+</a>
-                </label>
-                <div class="col-md-8">
-                    <div class="input-group" ng-repeat="responsibility in ad.responsibilities">
-                        <input class="form-control" ng-model="responsibility.value" />
-                        <span class="input-group-btn">
-                            <a class="btn btn-danger" ng-click="removeElement(ad.responsibilities,$index)">x</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Requirements <a class="btn btn-success btn-xs" ng-click="addElement(ad.requirements)">+</a>
-                </label>
-                <div class="col-md-8">
-                    <div class="input-group" ng-repeat="requirement in ad.requirements">
-                        <span class="input-group-addon">
-                            <input type="checkbox" ng-model="requirement.mandatory">Mandatory
-                        </span>
-                        <input class="form-control" ng-model="requirement.requirement" />
-                        <span class="input-group-btn">
-                            <a class="btn btn-danger" ng-click="removeElement(ad.requirements,$index)">x</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Special Notes</label>
-                <div class="col-md-8">
-                    <textarea placeholder="A note to the applicants" class="form-control" ng-model="ad.specialNotes" />
+                    <div class="col-md-8" ng-model="ad.description" ta-toolbar="[['bold','italics','underline'],['h1', 'h2', 'h3', 'p', 'pre', 'quote'],
+    ['justifyLeft','justifyCenter','justifyRight','insertLink']]" text-angular/>
                 </div>
             </div>
             <div class="form-group">

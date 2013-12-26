@@ -38,8 +38,9 @@ angular.module('kodiak.directives', [])
                 // priority: 1,
                 // terminal: true,
                 scope: true, // {} = isolate, true = child, false/undefined = no change
-                controller: function($scope) {
+                controller: function($scope, $sce) {
                     $scope.postedOn = moment().calendar();
+                    $scope.ad.description = $sce.trustAsHtml($scope.ad.description);
                     $scope.expiresOn = function() {
                         return moment($scope.ad.expiredOn).calendar();
                     };

@@ -529,8 +529,6 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
 
         // initiate the properties
         $scope.ad = {};
-        $scope.ad.responsibilities = [{}];
-        $scope.ad.requirements = [{}];
         $scope.ad.questions = [{}];
 
         // if state.current is edit, we need to transform the ad properties and fill the $scope.ad
@@ -543,20 +541,11 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
 
                 $scope.ad = data.advertisement;
 
-                // transforming the questions and requirements
-                var r = $scope.ad.responsibilities;
+                // transforming the questions
                 var q = $scope.ad.questions;
 
                 // re-initialize $scope array holders
-                $scope.ad.responsibilities = [];
                 $scope.ad.questions = [];
-
-                _.each(r, function(v) {
-                    $scope.ad.responsibilities.push({
-                        value: v
-                    });
-                });
-
                 _.each(q, function(v) {
                     $scope.ad.questions.push({
                         value: v
@@ -592,9 +581,8 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
         };
 
         $scope.submit = function(ad) {
-            // transform responsibilities and questions to independent arrays.
+            // transform questions to independent arrays.
             // currently they are nested under obj.value properties
-            ad.responsibilities = _.pluck($scope.ad.responsibilities, 'value');
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
             if ($state.is('organization_ad_create'))

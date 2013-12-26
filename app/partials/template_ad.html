@@ -9,27 +9,4 @@
 </h3>
 
 <hr>
-<p>{{ad.description}}</p>
-<!-- if this is a preview, then the text will be set in the 'value' property.
-if not, it's an independent array. therefore, we'll serve both the
-scenarios. this can be more elgantly done, perhaps a TODO -->
-<div ng-show="ad.responsibilities[0].value.length > 0 || ad.responsibilities[0].length > 0">
-    <h2>Responsiblities</h2>
-    <ul ng-repeat="r in ad.responsibilities">
-        <li>{{r.value || r}}</li>
-    </ul>
-</div>
-<div ng-show="ad.requirements[0].requirement.length > 0">
-    <h2>Requirements</h2>
-    <ul ng-repeat="r in ad.requirements">
-        <li>{{r.requirement}}
-            <span class="label label-danger" ng-show="r.mandatory">Mandatory</span>
-            <span class="label label-warning" ng-show="!r.mandatory">Preferred</span>
-        </li>
-    </ul>
-</div>
-<hr>
-<div class="alert alert-info" ng-show="!!ad.specialNotes">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-    <strong>Note</strong> {{ad.specialNotes}}
-</div>
+<p ng-bind-html="ad.description"></p>
