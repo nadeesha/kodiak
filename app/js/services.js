@@ -289,7 +289,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getSearchForAd: function(orgId, adId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/ad/' + adId + '/search', userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search', userService.authHeader())
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
