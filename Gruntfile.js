@@ -1,5 +1,12 @@
 module.exports = function(grunt) {
 
+    if(grunt.option('target') == 'stg' || grunt.option('target') == 'prod') {
+        console.log('setting configuration: ', grunt.option('target'));
+    } else {
+        console.log('invalid --target: ', grunt.option('target'));
+        return;
+    }
+
     grunt.initConfig({
         clean: ['dist/*.js', 'dist/*.css', 'dist/*.jpg', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
 
@@ -65,7 +72,8 @@ module.exports = function(grunt) {
                         'app/js/controllers.js',
                         'app/js/filters.js',
                         'app/js/directives.js',
-                        'app/js/config.prod.js'
+                        'app/js/uservoice.js',
+                        'app/js/config.' + grunt.option('target') + '.js'
                     ]
                 }
             }
@@ -114,6 +122,8 @@ module.exports = function(grunt) {
             }
         }
     });
+
+console.log('app/js/config.' + grunt.option('target') + '.js');
 
     // Load the plugin that provides the 'uglify' task.
     grunt.loadNpmTasks('grunt-contrib-clean');
