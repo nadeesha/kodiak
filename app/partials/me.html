@@ -55,7 +55,7 @@
                             <span class="glyphicon glyphicon-plus-sign"></span>
                         </a>
                     </h2>
-                    <div class="gr-qual" ng-repeat="qualification in user.qualifications track by $index">
+                    <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
                         <h3>{{qualification.name}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal($index)">
                                 <span class="glyphicon glyphicon-edit"></span>
@@ -82,7 +82,7 @@
                             <span class="glyphicon glyphicon-plus-sign"></span>
                         </a>
                     </h2>
-                    <div class="gr-wexp" ng-repeat="tenure in user.tenures track by $index">
+                    <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
                         <h3>{{tenure.position}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal($index)">
                                 <span class="glyphicon glyphicon-edit"></span>
