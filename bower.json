@@ -29,5 +29,8 @@
     "textAngular": "latest",
     "pnotify": "https://github.com/sciactive/pnotify.git",
     "angular-sanitize": "~1.2.3"
+  },
+  "resolutions": {
+    "angular": "1.2.3"
   }
 }
