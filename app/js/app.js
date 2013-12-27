@@ -41,77 +41,91 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
         });
 
     $stateProvider
-        .state('my_dashboard', {
-            url: '/me',
+        .state('myApplications', {
+            url: '/me/applications',
             templateUrl: 'partials/dashboard_me.html',
             controller: 'MeDashboardCtrl'
         });
 
     $stateProvider
-        .state('profileEdit', {
+        .state('jobBoard', {
+            url: '/ads',
+            templateUrl: 'partials/ads_public.html',
+            controller: 'JobBoardCtrl'
+        });
+
+    $stateProvider
+        .state('editProfile', {
             url: '/me/edit',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
 
     $stateProvider
-        .state('profileView', {
+        .state('viewProfile', {
             url: '/me/view',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
 
     $stateProvider
-        .state('organization_create', {
+        .state('createOrganization', {
             url: '/organization/create',
             templateUrl: 'partials/organization_create.html',
             controller: 'CreateOrgCtrl'
         });
 
     $stateProvider
-        .state('organization_dashboard', {
+        .state('organizationDashboard', {
             url: '/organization/dashboard',
             templateUrl: 'partials/dashboard_org.html',
             controller: 'ViewOrgCtrl'
         });
 
     $stateProvider
-        .state('campaign_home', {
+        .state('campaignHome', {
             url: '/organization/campaign/:adId',
             templateUrl: 'partials/campaign_home.html',
             controller: 'ViewCampaignCtrl'
         });
 
     $stateProvider
-        .state('organization_ad_create', {
+        .state('createAdvertisement', {
             url: '/organization/ad/create',
             templateUrl: 'partials/ad_create.html',
             controller: 'CreateAdCtrl'
         });
 
     $stateProvider
-        .state('organization_ad_view', {
+        .state('viewAdvertisement', {
             url: '/organization/ad/{adId}/view',
             templateUrl: 'partials/ad_view.html',
             controller: 'ViewAdCtrl'
         });
 
     $stateProvider
-        .state('organization_ad_edit', {
+        .state('viewAdvertisementPublic', {
+            url: '/organization/{orgId}/post/{adId}/public',
+            templateUrl: 'partials/post_view_public.html',
+            controller: 'ViewPublicAdCtrl'
+        });
+
+    $stateProvider
+        .state('editAdvertisement', {
             url: '/organization/ad/{adId}/edit',
             templateUrl: 'partials/ad_create.html',
             controller: 'CreateAdCtrl'
         });
 
     $stateProvider
-        .state('organization_search_create', {
+        .state('createSearch', {
             url: '/organization/ad/{adId}/search/create',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl'
         });
 
     $stateProvider
-        .state('organization_search_view', {
+        .state('viewSearch', {
             url: '/organization/ad/{adId}/search/{searchId}',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl'

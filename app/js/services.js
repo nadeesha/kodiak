@@ -11,7 +11,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 $rootScope.u.type = 'PERSONAL';
             else
                 $rootScope.u.type = 'NEW';
-        }
+        };
 
         var service = {
             authHeader: function() {
@@ -28,7 +28,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 
             // TODO : deprecate
             user: function() {
-                return _.pick($rootScope.u, 'firstName', 'lastName', 'email', 'affiliation')
+                return _.pick($rootScope.u, 'firstName', 'lastName', 'email', 'affiliation');
             },
 
 
@@ -127,6 +127,15 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     .success(function() {
                         callback();
                     }).error(function(data) {
+                        callback(data);
+                    });
+            },
+
+            getResponses: function (callback) {
+                $http.get(GRIZZLY_URL + '/user/me/applications', service.authHeader())
+                    .success(function (data) {
+                        callback(null, data);
+                    }).error(function (data) {
                         callback(data);
                     });
             },
@@ -238,6 +247,14 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
                         callback(data);
                     });
             },
+            getAdsPublic: function(callback) {
+                $http.get(GRIZZLY_URL + '/ads/public')
+                    .success(function(data) {
+                        callback(null, data);
+                    }).error(function(data) {
+                        callback(data);
+                    });
+            },
             deleteAd: function(orgId, id, callback) {
                 $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id, userService.authHeader())
                     .success(function() {
@@ -259,8 +276,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                 $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/', JSON.stringify(search), userService.authHeader())
                     .success(function(data) {
                         callback(null, data);
-                    })
-                    .error(function(data) {
+                    }).error(function(data) {
                         callback(data);
                     });
             },
@@ -351,7 +367,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 .success(function (data) {
                     callback(null, data);
                 }).error(function (data) {
-                    callback(data)
+                    callback(data);
                 });
             },
             editResponse: function (orgId, adId, responseId, status, tags, callback) {
@@ -365,7 +381,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                     callback(null, data);
                 }).error(function (data) {
                     callback(data);
-                })
+                });
             },
             getResponse: function (orgId, adId, responseId, callback) {
                 $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' + responseId, userService.authHeader())
@@ -383,11 +399,11 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                     callback(data);
                 });
             }
-        }
+        };
 
         return service;
     }
-])
+]);
 
 services.factory('notificationService', [
 
@@ -442,7 +458,7 @@ services.factory('validationService', ['notificationService',
                     throw msg;
                 }
             }
-        }
+        };
     }
 ]);
 

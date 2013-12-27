@@ -211,7 +211,7 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
 controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
     function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
 
-        if ($state.is('profileEdit'))
+        if ($state.is('editProfile'))
             $scope.edit = true;
 
         $scope.getTimes = utilService.getTimes;
@@ -532,7 +532,7 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
         $scope.ad.questions = [{}];
 
         // if state.current is edit, we need to transform the ad properties and fill the $scope.ad
-        if ($state.is('organization_ad_edit')) {
+        if ($state.is('editAdvertisement')) {
             $scope.heading = 'Edit Advertisement';
 
             adService.getAd(userService.user().affiliation, $stateParams.adId, function(err, data) {
@@ -585,7 +585,7 @@ controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', '
             // currently they are nested under obj.value properties
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
-            if ($state.is('organization_ad_create'))
+            if ($state.is('createAdvertisement'))
                 adService.createAd(userService.user().affiliation, ad, function(err, data) {
                     if (err) {
                         notificationService.handleError(err.message);
@@ -619,6 +619,29 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
         });
 
         orgService.getOrg(userService.user().affiliation, function(err, data) {
+            if (err)
+                notificationService.handleError(err.message);
+            else {
+                $scope.org = data.organization;
+            }
+        });
+    }
+]);
+
+controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService', 'notificationService',
+    function($scope, orgService, adService, $stateParams, userService, notificationService) {
+        $scope.org = {};
+        $scope.ad = {};
+
+        adService.getAdPublic($stateParams.orgId, $stateParams.adId, function(err, data) {
+            if (err)
+                notificationService.handleError(err.message);
+            else {
+                $scope.ad = data.advertisement;
+            }
+        });
+
+        orgService.getOrg($stateParams.orgId, function(err, data) {
             if (err)
                 notificationService.handleError(err.message);
             else {
@@ -836,7 +859,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                 if (err) {
                     notificationService.handleError(err.message);
                 } else {
-                    if (data.scores.hits.hits.length!==0) {
+                    if (data.scores.hits.hits.length !== 0) {
                         $scope.allResults = data.scores.hits.hits;
                         markInvitedCandidates(data.scores.hits.hits);
                         $scope.showTop(10);
@@ -854,8 +877,41 @@ controllers.controller('LogoutCtrl', ['$scope', 'userService',
     }
 ]);
 
-controllers.controller('MeDashboardCtrl', ['$scope', 'userService',
-    function($scope, userService) {
-        $scope.fname = userService.user().firstName;
+controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService',
+    function($scope, userService, $rootScope, notificationService) {
+        $scope.responses = [];
+
+        userService.getResponses(function(err, data) {
+            if (err) {
+                notificationService.handleError(err.message);
+                return;
+            }
+
+            if (data.responses.length === 0) {
+                notificationService.handleInfo('You do not have any active applications', 'No applications');
+                return;
+            }
+
+            $scope.responses = data.responses;
+        })
+    }
+]);
+
+controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationService', '$location',
+    function($scope, adService, notificationService, $location) {
+        $scope.ads = [];
+
+        adService.getAdsPublic(function(err, data) {
+            if (err) {
+                notificationService.handleError(err.message);
+                return;
+            }
+
+            $scope.ads = data.ads;
+        });
+
+        $scope.goto = function(ad) {
+            $location.url('/organization/'+ad.organization._id+'/post/'+ad._id+'/public');
+        };
     }
 ]);
