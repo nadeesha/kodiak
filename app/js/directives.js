@@ -123,7 +123,8 @@ angular.module('kodiak.directives', [])
                 link: function(scope, element, attrs) {
                     scope.$watch(attrs, function() {
                         if (attrs.email) {
-                            element.context.src = "http://www.gravatar.com/avatar/" + utilService.md5(attrs.email) + ".jpg?s=" + attrs.size;
+                            // element.context.src = "http://www.gravatar.com/avatar/" + utilService.md5(attrs.email) + ".jpg?s=" + attrs.size;
+                            element.context.src = "http://www.gravatar.com/avatar/" + ".jpg?s=" + attrs.size;
                         }
                     });
                 },

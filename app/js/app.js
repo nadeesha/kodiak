@@ -103,6 +103,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
             controller: 'ViewAdCtrl'
         });
 
+    // TODO: rename all html ad references to post like this:
+
     $stateProvider
         .state('viewAdvertisementPublic', {
             url: '/organization/{orgId}/post/{adId}/public',

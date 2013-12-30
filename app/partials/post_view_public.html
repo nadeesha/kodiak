@@ -1,1 +1,9 @@
-<div gr-ad></div> 
+<div>
+	<div class="alert alert-info" ng-show="applied">
+		You have applied to this advertisement. You may review it's status on your applications page.
+	</div>
+    <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{disabled: applied}">Apply to this ad</a>
+    <a type="button" class="btn btn-primary">Share</a>
+</div>
+<hr>
+<div gr-ad></div>

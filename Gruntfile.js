@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(grunt) {
 
     if(grunt.option('target') == 'stg' || grunt.option('target') == 'prod') {
@@ -6,6 +8,13 @@ module.exports = function(grunt) {
         console.log('invalid --target: ', grunt.option('target'));
         return;
     }
+
+    var jsCopiedFromAppComponents = [
+        'angular-sanitize/angular-sanitize.min.js',
+        'ngprogress/build/ngProgress.min.js',
+        'angular-loading-bar/build/loading-bar.min.js',
+        'textAngular/textAngular.min.js'
+    ];
 
     grunt.initConfig({
         clean: ['dist/*.js', 'dist/*.css', 'dist/*.jpg', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
@@ -34,7 +43,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'app/components/',
-                        src: ['angular-sanitize/angular-sanitize.min.js', 'ngprogress/build/ngProgress.min.js', 'angular-loading-bar/build/loading-bar.min.js'],
+                        src: jsCopiedFromAppComponents,
                         dest: 'dist/js/',
                         filter: 'isFile'
                     },

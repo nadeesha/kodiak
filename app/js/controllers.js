@@ -4,8 +4,8 @@
 
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService', 'validationService',
-    function($scope, $http, $location, userService, notificationService, validationService) {
+controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
+    function($scope, $http, $location, userService, notificationService) {
         $scope.create = function(user) {
             userService.create(user, function(err, data) {
                 if (!err) {
@@ -508,7 +508,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
         });
 
         $scope.save = function(response, status, tags) {
-            adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status, tags, function(err, data) {
+            adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status, tags, function(err) {
                 if (err) {
                     notificationService.handleError(err.message);
                     return;
@@ -516,7 +516,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
 
                 notificationService.handleSuccess('Successfully updated the candidate');
             });
-        }
+        };
     }
 ]);
 
@@ -628,10 +628,32 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
     }
 ]);
 
-controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService', 'notificationService',
-    function($scope, orgService, adService, $stateParams, userService, notificationService) {
+controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService', 'notificationService', 'adResponseService', '$rootScope',
+    function($scope, orgService, adService, $stateParams, userService, notificationService, adResponseService, $rootScope) {
         $scope.org = {};
         $scope.ad = {};
+
+        $scope.apply = function() {
+            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, function(err) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                notificationService.handleSuccess('Saved your application successfully');
+                $scope.applied = true;
+            });
+        };
+
+        userService.getResponses(function(err, data) {
+            if (err) {
+                notificationService.handleError(err.message);
+            } else if (data.responses.length > 0) {
+                $scope.applied = _.find(data.responses, function (r) {
+                    return r.advertisement._id === $stateParams.adId;
+                });
+            }
+        });
 
         adService.getAdPublic($stateParams.orgId, $stateParams.adId, function(err, data) {
             if (err)
@@ -877,23 +899,88 @@ controllers.controller('LogoutCtrl', ['$scope', 'userService',
     }
 ]);
 
-controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService',
-    function($scope, userService, $rootScope, notificationService) {
+controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService', '$modal', 'adResponseService',
+    function($scope, userService, $rootScope, notificationService, $modal, adResponseService) {
         $scope.responses = [];
 
-        userService.getResponses(function(err, data) {
-            if (err) {
-                notificationService.handleError(err.message);
-                return;
-            }
+        $scope.hasActive = false;
+        $scope.hasInactive = false;
+        $scope.hasPending = false;
 
-            if (data.responses.length === 0) {
-                notificationService.handleInfo('You do not have any active applications', 'No applications');
-                return;
-            }
 
-            $scope.responses = data.responses;
-        })
+        var changeStatus = function(status, response, successMsg) {
+            adResponseService.editResponse(response.advertisement.organization._id, response.advertisement._id, response._id, status, null, function(err) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                } else {
+                    notificationService.handleSuccess(successMsg);
+                    loadResponses();
+                }
+            });
+        };
+
+        $scope.accept = function(response) {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_response_accept.html'
+            });
+
+            modal.result.then(function() {
+                changeStatus('accepted', response, 'You have successfully accepted the invitation from' + response.advertisement.organization.name);
+            });
+
+        };
+
+        $scope.reject = function(response) {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_response_reject.html'
+            });
+
+            modal.result.then(function() {
+                changeStatus('withdrawn', response, 'You have rejected the invitation from ' + response.advertisement.organization.name);
+            });
+        };
+
+        $scope.withdraw = function(response) {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_response_withdraw.html'
+            });
+
+            modal.result.then(function() {
+                changeStatus('withdrawn', response, 'You have withdrawn your application to ' + response.advertisement.organization.name);
+            });
+        };
+
+        var loadResponses = function() {
+            userService.getResponses(function(err, data) {
+                if (err) {
+                    notificationService.handleError(err.message);
+                    return;
+                }
+
+                if (data.responses.length === 0) {
+                    notificationService.handleInfo('You do not have any active applications', 'No applications');
+                    return;
+                }
+
+                $scope.responses= {
+                    invited: [],
+                    active: [],
+                    inactive: []
+                };
+
+                _.each(data.responses, function (response) {
+                    if(response.status === 'invited') {
+                        $scope.responses.invited.push(response);
+                    } else if(response.status === 'accepted' || response.status === 'applied') {
+                        $scope.responses.active.push(response);
+                    } else if (response.status === 'withdrawn' || response.status === 'rejected') {
+                        $scope.responses.inactive.push(response);
+                    }
+                });
+            });
+        };
+
+        loadResponses();
     }
 ]);
 
@@ -911,7 +998,7 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationServ
         });
 
         $scope.goto = function(ad) {
-            $location.url('/organization/'+ad.organization._id+'/post/'+ad._id+'/public');
+            $location.url('/organization/' + ad.organization._id + '/post/' + ad._id + '/public');
         };
     }
 ]);
