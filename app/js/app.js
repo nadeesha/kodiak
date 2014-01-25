@@ -2,14 +2,58 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('kodiak', ['kodiak.filters', 'kodiak.services', 'kodiak.directives', 'kodiak.controllers', 'ui.state', 'ui.bootstrap', 'ui.date', 'ngStorage', 'ui.slider', 'textAngular', 'ngSanitize', 'ngProgress', 'chieffancypants.loadingBar', 'ngGrid']);
+var app = angular.module('kodiak', ['kodiak.filters',
+    'kodiak.services',
+    'kodiak.directives',
+    'kodiak.controllers',
+    'ui.router',
+    'ui.bootstrap',
+    'ngStorage',
+    'ui.slider',
+    'textAngular',
+    'ngSanitize',
+    'ngProgress',
+    'chieffancypants.loadingBar',
+    'ngGrid',
+    'ngQuickDate'
+]);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider) {
+app.config(function($httpProvider, $provide) {
+    $httpProvider.defaults.useXDomain = true;
+
+    // register the interceptor as a service
+    $provide.factory('myHttpInterceptor', function($q, $location, notificationService) {
+        return {
+            // optional method
+            'responseError': function(rejection) {
+                console.log(rejection);
+                if (rejection.status === 401 && $location.$$path !== '/login') {
+                    $location.url('/login?to=' + encodeURIComponent($location.$$url));
+
+                    rejection.data = {
+                        message: 'You need to log in first'
+                    };
+                } else if (rejection.data.message) {
+                    notificationService.handleError(rejection.data.message);
+                }
+
+                return $q.reject(rejection);
+            }
+        };
+    });
+
+    $httpProvider.interceptors.push('myHttpInterceptor');
+});
+
+app.config(function($stateProvider,
+    $urlRouterProvider,
+    $locationProvider,
+    cfpLoadingBarProvider,
+    ngQuickDateDefaultsProvider) {
 
     cfpLoadingBarProvider.includeSpinner = true;
 
     // enable xhr
-    $httpProvider.defaults.useXDomain = true;
 
     $urlRouterProvider.otherwise('/');
 
@@ -28,7 +72,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
 
     $stateProvider
         .state('login', {
-            url: '/login',
+            url: '/login?to',
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
         });
@@ -41,77 +85,93 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
         });
 
     $stateProvider
-        .state('my_dashboard', {
-            url: '/me',
+        .state('myApplications', {
+            url: '/me/applications',
             templateUrl: 'partials/dashboard_me.html',
             controller: 'MeDashboardCtrl'
         });
 
     $stateProvider
-        .state('profileEdit', {
+        .state('jobBoard', {
+            url: '/ads',
+            templateUrl: 'partials/ads_public.html',
+            controller: 'JobBoardCtrl'
+        });
+
+    $stateProvider
+        .state('editProfile', {
             url: '/me/edit',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
 
     $stateProvider
-        .state('profileView', {
+        .state('viewProfile', {
             url: '/me/view',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });
 
     $stateProvider
-        .state('organization_create', {
+        .state('createOrganization', {
             url: '/organization/create',
             templateUrl: 'partials/organization_create.html',
             controller: 'CreateOrgCtrl'
         });
 
     $stateProvider
-        .state('organization_dashboard', {
+        .state('organizationDashboard', {
             url: '/organization/dashboard',
             templateUrl: 'partials/dashboard_org.html',
             controller: 'ViewOrgCtrl'
         });
 
     $stateProvider
-        .state('campaign_home', {
+        .state('campaignHome', {
             url: '/organization/campaign/:adId',
             templateUrl: 'partials/campaign_home.html',
             controller: 'ViewCampaignCtrl'
         });
 
     $stateProvider
-        .state('organization_ad_create', {
+        .state('createAdvertisement', {
             url: '/organization/ad/create',
             templateUrl: 'partials/ad_create.html',
             controller: 'CreateAdCtrl'
         });
 
     $stateProvider
-        .state('organization_ad_view', {
+        .state('viewAdvertisement', {
             url: '/organization/ad/{adId}/view',
             templateUrl: 'partials/ad_view.html',
             controller: 'ViewAdCtrl'
         });
 
+    // TODO: rename all html ad references to post like this:
+
     $stateProvider
-        .state('organization_ad_edit', {
+        .state('viewAdvertisementPublic', {
+            url: '/organization/{orgId}/post/{adId}/public?from',
+            templateUrl: 'partials/post_view_public.html',
+            controller: 'ViewPublicAdCtrl'
+        });
+
+    $stateProvider
+        .state('editAdvertisement', {
             url: '/organization/ad/{adId}/edit',
             templateUrl: 'partials/ad_create.html',
             controller: 'CreateAdCtrl'
         });
 
     $stateProvider
-        .state('organization_search_create', {
+        .state('createSearch', {
             url: '/organization/ad/{adId}/search/create',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl'
         });
 
     $stateProvider
-        .state('organization_search_view', {
+        .state('viewSearch', {
             url: '/organization/ad/{adId}/search/{searchId}',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl'
@@ -124,10 +184,51 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
             controller: 'LogoutCtrl'
         });
 
+    // token will only be there if the change password request comes through
+    // a request to password reset
+    $stateProvider
+        .state('changePassword', {
+            url: '/me/changepassword?token',
+            templateUrl: 'partials/change_password.html',
+            controller: 'ChangePasswordCtrl'
+        });
+
+    $stateProvider
+        .state('resetPassword', {
+            url: '/resetpassword',
+            templateUrl: 'partials/reset_password.html',
+            controller: 'ResetPasswordCtrl'
+        });
+
+    $stateProvider
+        .state('editOrganization', {
+            url: '/organization/edit',
+            templateUrl: 'partials/organization_create.html',
+            controller: 'EditOrgCtrl'
+        });
+
+    // cross platform date time parsing for ngQuickDate
+    ngQuickDateDefaultsProvider.set('parseDateFunction', function(str) {
+        var d = moment(str);
+        return d.isValid() ? d : null;
+    });
+
 });
 
-app.run(function($rootScope, userService) {
+app.run(function($rootScope, userService, subwayService, notificationService) {
     $rootScope.$on('restorestate', userService.restoreState);
-    $rootScope.$on('logout', userService.logout);
+
+    $rootScope.$on('refreshNotifications', function() {
+        if (!userService.isLoggedIn())
+            return;
+
+        subwayService.getAllNotifications().success(function(data) {
+            $rootScope.notifications = data.notifications;
+        }).error(function(err) {
+            notificationService.handleError(err.message);
+        });
+    });
+
     $rootScope.$broadcast('restorestate');
+    $rootScope.$broadcast('refreshNotifications');
 });

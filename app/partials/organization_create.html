@@ -3,64 +3,71 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Organization Name</label>
         <div class="col-md-4">
-            <input placeholder="Organization Name" class="form-control" ng-model="org.name" required>
+            <input placeholder="Organization Name" class="form-control" ng-model="org.name">
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Contact Number</label>
         <div class="col-md-4">
-            <input placeholder="Primary phone number" class="form-control" ng-model="org.contactNumber" required>
+            <input placeholder="Primary phone number" class="form-control" ng-model="org.contactNumber">
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Address</label>
         <div class="col-md-4">
-            <textarea rows="3" placeholder="Postal address" class="form-control" ng-model="org.address" required/>
+            <textarea rows="3" placeholder="Postal address" class="form-control" ng-model="org.address" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Web Site</label>
         <div class="col-md-4">
-            <input placeholder="http://www.example.com" class="form-control" ng-model="org.url" required>
+            <input placeholder="http://www.example.org" class="form-control" ng-model="org.url">
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-4">
-            <input placeholder="Email address to reach your organization" class="form-control" ng-model="org.officialEmail" required>
+            <input placeholder="Email address to reach your organization" class="form-control" ng-model="org.officialEmail">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Logo</label>
+        <div class="col-md-4">
+            <file-uploader></file-uploader>
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">About the organization</label>
         <div class="col-md-6">
-            <textarea rows="5" placeholder="A short description of your organization" class="form-control" ng-model="org.description" required/>
+            <textarea rows="5" placeholder="A short description of your organization" class="form-control" ng-model="org.description" />
         </div>
     </div>
-    <hr>
-    <h1>Primary Administrator</h1>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Administrator Email</label>
-        <div class="col-md-4">
-            <input placeholder="Administrator Email" class="form-control" ng-model="admin.email" required>
+    <div ng-hide="editMode">
+        <hr>
+        <h1>Primary Administrator</h1>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Administrator Email</label>
+            <div class="col-md-4">
+                <input placeholder="Administrator Email" class="form-control" ng-model="admin.email">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Administrator Name</label>
-        <div class="col-md-4">
-            <input placeholder="Administrator Name" class="form-control" ng-model="admin.name" required>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Administrator Name</label>
+            <div class="col-md-4">
+                <input placeholder="Administrator Name" class="form-control" ng-model="admin.name">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Administrator Password</label>
-        <div class="col-md-4">
-            <input type="password" placeholder="Passwords" class="form-control" ng-model="admin.pass" required>
-            <input type="password" placeholder="Repeat Passwords" class="form-control" ng-model="admin.passrpt" required>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Administrator Password</label>
+            <div class="col-md-4">
+                <input type="password" placeholder="Passwords" class="form-control" ng-model="admin.pass">
+                <input type="password" placeholder="Repeat Passwords" class="form-control" ng-model="admin.passrpt">
+            </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button ng-click="create(org, admin)" class="btn btn-primary" ng-disabled="!(admin.pass == admin.passrpt &&
-                admin.pass.length >= 8 && orgForm.$valid)">Go</button>
+            <button ng-click="submit(org, admin)" class="btn btn-primary">Go</button>
         </div>
     </div>
 </form>

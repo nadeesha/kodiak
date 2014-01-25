@@ -1,5 +1,5 @@
 /*! 
- * angular-loading-bar v0.1.0
+ * angular-loading-bar v0.2.0
  * https://chieffancypants.github.io/angular-loading-bar
  * Copyright (c) 2013 Wes Cruver
  * License: MIT
@@ -36,7 +36,7 @@
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  background: coral;
+  background: #29d;
   position: fixed;
   z-index: 2000;
   top: 0;
@@ -52,7 +52,7 @@
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px coral, 0 0 5px coral;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
   opacity: 1.0;
 
   -webkit-transform: rotate(3deg) translate(0px, -4px);
@@ -75,8 +75,8 @@
   height: 14px;
 
   border:  solid 2px transparent;
-  border-top-color:  coral;
-  border-left-color: coral;
+  border-top-color:  #29d;
+  border-left-color: #29d;
   border-radius: 10px;
 
   -webkit-animation: loading-bar-spinner 400ms linear infinite;

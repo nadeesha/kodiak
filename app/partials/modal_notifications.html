@@ -1,0 +1,33 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="$dismiss()">&times;</button>
+            <h3>Your Alerts</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-info" ng-show="notifications.unread.length === 0">
+                You don't have any unread alerts at this moment.
+            </div>
+            <div class="gr-bottom-10 gr-clickable gr-unread" ng-repeat="n in notifications.unread" ng-click="goto(n)">
+                <button type="button" class="close" ng-click="markAsRead(n)">&times;</button>
+                <div>
+                    <span>{{n.message}}</span>
+                </div>
+                <div>
+                    <span am-time-ago="n.createdDate" class="label label-default">
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="gr-bottom-10 gr-clickable gr-read" ng-repeat="n in notifications.read" ng-click="goto(n)">
+                <div>
+                    <span>{{n.message}}</span>
+                </div>
+                <div>
+                    <span am-time-ago="n.createdDate" class="label label-default">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

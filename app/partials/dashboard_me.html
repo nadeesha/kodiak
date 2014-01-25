@@ -1,0 +1,54 @@
+<h1>My Applications</h1>
+<hr>
+<h2>Pending Invitations</h2>
+<div class="alert alert-info" ng-show="responses.invited.length===0">
+	You don't have any pending invitations
+</div>
+<div class="col-md-12" ng-repeat="response in responses.invited">
+    <div class="alert alert-info">
+        <strong>{{response.advertisement.organization.name}}</strong> had invited you to apply for the position
+        <strong>{{response.advertisement.jobRole}} 
+        	<div class="pull-right">
+        	<a type="button" class="btn btn-success btn-xs" ng-click="accept(response)">Accept invitation</a>  
+        	<a type="button" class="btn btn-danger btn-xs" ng-click="reject(response)">Reject invitation</a>  
+        	<a type="button" class="btn btn-info btn-xs" href="/#/organization/{{response.advertisement.organization._id}}/post/{{response.advertisement._id}}/public">View job profile</a>
+        	</div>
+        </strong>
+    </div>
+</div>
+<hr>
+<h2>Active Applications</h2>
+<div class="alert alert-info" ng-show="responses.active.length===0">
+	You don't have any active job applications
+</div>
+<div class="gr-ad-card col-md-12" ng-repeat="response in responses.active | orderBy:'-appliedOn'">
+    <button type="button" class="btn btn-danger pull-right btn-xs" style="margin-top:20px;" ng-click="withdraw(response)" ng-hide="response.status==='withdrawn' || response.status==='rejected'">Withdraw Application</button>
+    <h1 class="gr-ad-title">{{response.advertisement.jobRole}}</h1>
+    <p>
+        <span class="label label-info gr-right-5">{{response.advertisement.organization.name}}</span>
+        <span class="label label-info gr-right-5">Applied
+            <span am-time-ago="response.appliedOn"></span>
+        </span>
+        <span class="label label-success gr-right-5" ng-show="response.status==='accepted'">Accepted Invitation</span>
+        <span class="label label-warning gr-right-5" ng-show="response.status==='applied'">Directly Applied</span>
+        <span class="label label-default gr-right-5" ng-show="response.status==='withdrawn' || response.status==='rejected'">Inactive</span>
+    </p>
+</div>
+<hr>
+<h2>Inactive Applications</h2>
+<div class="alert alert-info" ng-show="responses.inactive.length===0">
+	You don't have any inactive applications
+</div>
+<div class="gr-ad-card col-md-12 gr-faded" ng-repeat="response in responses.inactive | orderBy:'-postedOn'">
+    <button type="button" class="btn btn-danger pull-right btn-xs" style="margin-top:20px;" ng-click="withdraw(response)" ng-hide="response.status==='withdrawn' || response.status==='rejected'">Withdraw Application</button>
+    <h1 class="gr-ad-title">{{response.advertisement.jobRole}}</h1>
+    <p>
+        <span class="label label-info gr-right-5">{{response.advertisement.organization.name}}</span>
+        <span class="label label-info gr-right-5">Applied
+            <span am-time-ago="response.appliedOn"></span>
+        </span>
+        <span class="label label-success gr-right-5" ng-show="response.status==='accepted'">Accepted Invitation</span>
+        <span class="label label-warning gr-right-5" ng-show="response.status==='applied'">Directly Applied</span>
+        <span class="label label-default gr-right-5" ng-show="response.status==='withdrawn' || response.status==='rejected'">Inactive</span>
+    </p>
+</div>

@@ -1,11 +1,49 @@
+'use strict';
+
 module.exports = function(grunt) {
 
-    if(grunt.option('target') == 'stg' || grunt.option('target') == 'prod') {
+    if (grunt.option('target') == 'stg' || grunt.option('target') == 'prod') {
         console.log('setting configuration: ', grunt.option('target'));
     } else {
         console.log('invalid --target: ', grunt.option('target'));
         return;
     }
+
+    var jsCopiedFromAppComponents = [
+        'angular-sanitize/angular-sanitize.min.js',
+        'ngprogress/build/ngProgress.min.js',
+        'angular-loading-bar/build/loading-bar.min.js',
+        'textAngular/textAngular.min.js',
+        'ngQuickDate/dist/ng-quick-date.min.js',
+        'ng-file-upload/angular-file-upload.js'
+    ];
+
+    var cssFilesCombined = [
+        'app/css/bootstrap-theme.min.css',
+        'components/bootstrap/dist/css/bootstrap.min.css',
+        'components/dist/ngQuickDate/ng-quick-date.css',
+        'app/components/pnotify/jquery.pnotify.default.css',
+        'app/components/pnotify/jquery.pnotify.default.icons.css',
+        'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
+        'app/components/angular-loading-bar/build/loading-bar.min.css',
+        'app/components/ng-grid/ng-grid.min.css',
+        'app/css/app.css'
+    ];
+
+    var jsFilesCombinedToAppJs = [
+        'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
+        'app/components/angular-ui-slider/src/slider.js',
+        'app/components/angular-ui-router/release/angular-ui-router.min.js',
+        'app/components/pnotify/jquery.pnotify.js',
+        'app/lib/ngStorage.js',
+        'app/js/app.js',
+        'app/js/services.js',
+        'app/js/controllers.js',
+        'app/js/filters.js',
+        'app/js/directives.js',
+        'app/js/uservoice.js',
+        'app/js/config.' + grunt.option('target') + '.js'
+    ];
 
     grunt.initConfig({
         clean: ['dist/*.js', 'dist/*.css', 'dist/*.jpg', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
@@ -34,7 +72,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'app/components/',
-                        src: ['angular-sanitize/angular-sanitize.min.js', 'ngprogress/build/ngProgress.min.js', 'angular-loading-bar/build/loading-bar.min.js'],
+                        src: jsCopiedFromAppComponents,
                         dest: 'dist/js/',
                         filter: 'isFile'
                     },
@@ -61,20 +99,7 @@ module.exports = function(grunt) {
             },
             everything: {
                 files: {
-                    'dist/js/app.js': [
-                        'app/components/angular-ui-date/src/date.js',
-                        'app/components/angular-ui-slider/src/slider.js',
-                        'app/components/angular-ui-router/release/angular-ui-router.min.js',
-                        'app/components/pnotify/jquery.pnotify.js',
-                        'app/lib/ngStorage.js',
-                        'app/js/app.js',
-                        'app/js/services.js',
-                        'app/js/controllers.js',
-                        'app/js/filters.js',
-                        'app/js/directives.js',
-                        'app/js/uservoice.js',
-                        'app/js/config.' + grunt.option('target') + '.js'
-                    ]
+                    'dist/js/app.js': jsFilesCombinedToAppJs
                 }
             }
         },
@@ -83,16 +108,7 @@ module.exports = function(grunt) {
         cssmin: {
             combine: {
                 files: {
-                    'dist/css/styles.css': [
-                        'app/css/bootstrap-theme.min.css',
-                        'components/bootstrap/dist/css/bootstrap.min.css',
-                        'app/components/pnotify/jquery.pnotify.default.css',
-                        'app/components/pnotify/jquery.pnotify.default.icons.css',
-                        'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
-                        'app/components/angular-loading-bar/build/loading-bar.min.css',
-                        'app/components/ng-grid/ng-grid.min.css',
-                        'app/css/app.css'
-                    ]
+                    'dist/css/styles.css': cssFilesCombined
                 }
             }
         },
@@ -123,7 +139,7 @@ module.exports = function(grunt) {
         }
     });
 
-console.log('app/js/config.' + grunt.option('target') + '.js');
+    console.log('app/js/config.' + grunt.option('target') + '.js');
 
     // Load the plugin that provides the 'uglify' task.
     grunt.loadNpmTasks('grunt-contrib-clean');
