@@ -30,15 +30,21 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
     }
 ]);
 
-controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
-    function($scope, $http, $location, userService, notificationService) {
+controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
+    'notificationService', '$rootScope', '$stateParams',
+    function($scope, $http, $location, userService, notificationService, $rootScope,
+        $stateParams) {
         $scope.validate = function(user) {
             userService.login(user, function(err, data) {
                 if (!err) {
-                    if (!data.affiliation) {
-                        $location.url('/me/view');
-                    } else {
+                    $rootScope.$broadcast('refreshNotifications');
+
+                    if ($stateParams.to) {
+                        $location.url(decodeURIComponent($stateParams.to));
+                    } else if (data.affiliation) {
                         $location.url('/organization/dashboard');
+                    } else {
+                        $location.url('/me/view');
                     }
                 } else if (err === 401) {
                     notificationService.notify({
@@ -92,22 +98,20 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
         $scope.data = data;
 
         // parse date string -> Date()
-        if ($scope.data.dateOfBirth)
-            $scope.data.dateOfBirth = new Date($scope.data.dateOfBirth);
-
-        $scope.dateOfBirthOptions = {
-            changeYear: true,
-            changeMonth: true,
-            yearRange: '1900:-0',
-            dateFormat: 'd MM yy'
-        };
+        if ($scope.data.dateOfBirth) {
+            $scope.data.dateOfBirth = moment($scope.data.dateOfBirth);
+        }
 
         $scope.submit = function() {
             try {
-                if ($scope.data.dateOfBirth)
+                if ($scope.data.dateOfBirth) {
+                    validationService.mustBeTrue(moment($scope.data.dateOfBirth).isValid(), 'Date of birth is invalid');
                     validationService.mustBeTrue(moment($scope.data.dateOfBirth) < moment().subtract('years', 15), 'You must be at least 15 years old');
-                if ($scope.data.contactNumber)
+                }
+
+                if ($scope.data.contactNumber) {
                     validationService.mustBeTrue($scope.data.contactNumber.length >= 10, 'Contact Number should have 10 digits at least');
+                }
             } catch (e) {
                 return;
             }
@@ -324,7 +328,6 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         };
 
 
-
         // qualification modal
         $scope.openQualificationModal = function(index) {
             bindAddEditModal(index, 'partials/modal_me_qualification.html', 'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
@@ -359,7 +362,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location', 'userService', 'notificationService',
     function($scope, $http, orgService, $location, userService, notificationService) {
 
-        $scope.create = function(org, admin) {
+        $scope.submit = function(org, admin) {
             orgService.createOrg(org, function(err, data) {
                 if (!err) {
                     notificationService.notify({
@@ -407,6 +410,51 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                     $location.url('/500');
                 }
             });
+        };
+    }
+]);
+
+controllers.controller('EditOrgCtrl', [
+    '$scope',
+    'orgService',
+    '$rootScope',
+    'notificationService',
+    'GRIZZLY_URL',
+    'userService',
+    function($scope, orgService, $rootScope, notificationService) {
+        $scope.editMode = true;
+
+        orgService.getOrg($rootScope.u.affiliation)
+            .success(function(data) {
+                $scope.org = data.organization;
+            });
+
+        $scope.notReady = true;
+        $scope.uploadFile = function(files) {
+            var img = new Image();
+            img.src = window.URL.createObjectURL(files[0]);
+
+            img.onload = function() {
+                if (img.naturalWidth === 400 && img.naturalHeight === 300) {
+                    orgService.uploadLogo($rootScope.u.affiliation, files)
+                        .success(function() {
+                            notificationService.handleSuccess('Logo uploaded successfully');
+                        });
+                } else {
+                    notificationService.handleError('Your logo should have a 400px width and a 300px height');
+                }
+
+                window.URL.revokeObjectURL(img.src);
+            }
+
+
+        };
+
+        $scope.submit = function(org) {
+            orgService.editOrg($rootScope.u.affiliation, org)
+                .success(function() {
+                    notificationService.handleSuccess('Organization details updated');
+                });
         };
     }
 ]);
@@ -520,14 +568,25 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
     }
 ]);
 
-controllers.controller('CreateAdCtrl', ['$scope', 'orgService', 'userService', 'adService', 'notificationService', '$location', '$stateParams', '$state',
-    function($scope, orgService, userService, adService, notificationService, $location, $stateParams, $state) {
-        // initiate the organization details
-        orgService.getOrg(userService.user().affiliation, function(err, data) {
-            $scope.org = data.organization;
-        });
+controllers.controller('CreateAdCtrl', ['$scope',
+    'orgService',
+    'userService',
+    'adService',
+    'notificationService',
+    '$location',
+    '$stateParams',
+    '$state',
 
-        // initiate the properties
+    function($scope, orgService, userService, adService, notificationService, $location, $stateParams, $state) {
+
+        // initiate the organization details
+        orgService.getOrg(userService.user().affiliation)
+            .success(function(data) {
+                $scope.org = data.organization;
+            }).error(function(err) {
+                notificationService.handleError(err.message);
+            });
+
         $scope.ad = {};
         $scope.ad.questions = [{}];
 
@@ -618,13 +677,12 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
             }
         });
 
-        orgService.getOrg(userService.user().affiliation, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-            else {
+        orgService.getOrg(userService.user().affiliation)
+            .success(function(data) {
                 $scope.org = data.organization;
-            }
-        });
+            }).error(function(err) {
+                notificationService.handleError(err.message);
+            });
     }
 ]);
 
@@ -641,35 +699,52 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
                 }
 
                 notificationService.handleSuccess('Saved your application successfully');
-                $scope.applied = true;
+
+                $scope.status = 'applied';
             });
         };
 
-        userService.getResponses(function(err, data) {
-            if (err) {
-                notificationService.handleError(err.message);
-            } else if (data.responses.length > 0) {
-                $scope.applied = _.find(data.responses, function (r) {
-                    return r.advertisement._id === $stateParams.adId;
-                });
-            }
-        });
+        var getAdvertisement = function(method) {
+            method($stateParams.orgId, $stateParams.adId, function(err, data) {
+                if (err)
+                    notificationService.handleError(err.message);
+                else {
+                    $scope.ad = data.advertisement;
+                }
+            });
+        };
 
-        adService.getAdPublic($stateParams.orgId, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-            else {
-                $scope.ad = data.advertisement;
-            }
-        });
+        if ($stateParams.from === 'email') {
+            $scope.status = 'invited';
+            getAdvertisement(adService.getAd);
+        } else if (userService.isLoggedIn()) {
+            userService.getResponses().success(function(data) {
+                if (data.responses.length > 0) {
+                    var relevantResponse = _.find(data.responses, function(r) {
+                        return r.advertisement._id === $stateParams.adId;
+                    });
 
-        orgService.getOrg($stateParams.orgId, function(err, data) {
-            if (err)
+                    if (relevantResponse) {
+                        $scope.status = relevantResponse.status;
+                    }
+
+                    getAdvertisement(adService.getAd);
+                } else {
+                    getAdvertisement(adService.getAdPublic);
+                }
+            }).error(function(err) {
                 notificationService.handleError(err.message);
-            else {
+            });
+        } else {
+            getAdvertisement(adService.getAdPublic);
+        }
+
+        orgService.getOrg($stateParams.orgId)
+            .success(function(data) {
                 $scope.org = data.organization;
-            }
-        });
+            }).error(function(err) {
+                notificationService.handleError(err.message);
+            });
     }
 ]);
 
@@ -830,6 +905,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                     return;
                 }
 
+                $scope.user.invited = true;
+
                 notificationService.handleSuccess('Candidate was invited successfully');
 
                 markInvitedCandidates($scope.allResults);
@@ -951,32 +1028,29 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
         };
 
         var loadResponses = function() {
-            userService.getResponses(function(err, data) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
-
+            userService.getResponses().success(function(data) {
                 if (data.responses.length === 0) {
                     notificationService.handleInfo('You do not have any active applications', 'No applications');
                     return;
                 }
 
-                $scope.responses= {
+                $scope.responses = {
                     invited: [],
                     active: [],
                     inactive: []
                 };
 
-                _.each(data.responses, function (response) {
-                    if(response.status === 'invited') {
+                _.each(data.responses, function(response) {
+                    if (response.status === 'invited') {
                         $scope.responses.invited.push(response);
-                    } else if(response.status === 'accepted' || response.status === 'applied') {
+                    } else if (response.status === 'accepted' || response.status === 'applied') {
                         $scope.responses.active.push(response);
                     } else if (response.status === 'withdrawn' || response.status === 'rejected') {
                         $scope.responses.inactive.push(response);
                     }
                 });
+            }).error(function(err) {
+                notificationService.handleError(err.message);
             });
         };
 
@@ -999,6 +1073,108 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationServ
 
         $scope.goto = function(ad) {
             $location.url('/organization/' + ad.organization._id + '/post/' + ad._id + '/public');
+        };
+    }
+]);
+
+controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayService', 'notificationService', '$location',
+    function($scope, $rootScope, subwayService, notificationService, $location) {
+        $scope.markAsRead = function(notification) {
+            subwayService.markAsRead(notification._id).success(function(data) {
+                $rootScope.$broadcast('refreshNotifications');
+                $rootScope.notifications = data;
+            }).error(function(data) {
+                notificationService.handleError(data.message);
+            });
+        };
+
+        $rootScope.$watch('notifications', function() {
+            $scope.notifications = $rootScope.notifications;
+        });
+
+        $scope.goto = function(notification) {
+            subwayService.markAsRead(notification._id).success(function() {
+                $rootScope.$broadcast('refreshNotifications');
+
+                var fullUrl = notification.link;
+                var path = fullUrl.substring(fullUrl.indexOf('#') + 1);
+                $location.path(path);
+                $scope.$dismiss();
+            });
+        };
+
+        $scope.notifications = $rootScope.notifications;
+    }
+]);
+
+controllers.controller('ResetPasswordCtrl', [
+    '$scope',
+    'userService',
+    'notificationService',
+    'validationService',
+    function($scope, userService, notificationService, validationService) {
+        $scope.submit = function(email) {
+            try {
+                validationService.mustBeTrue( !! email, 'Email cannot be empty');
+            } catch (e) {
+                return;
+            }
+
+            userService.requestPasswordReset(email)
+                .success(function() {
+                    notificationService.handleSuccess(
+                        'A password reset link was sent to your email address');
+                })
+                .error(function(err) {
+                    notificationService.handleError(err.message);
+                });
+        };
+    }
+]);
+
+controllers.controller('ChangePasswordCtrl', [
+    '$scope',
+    'userService',
+    'notificationService',
+    'validationService',
+    '$stateParams',
+    function($scope, userService, notificationService, validationService,
+        $stateParams) {
+
+        if ($stateParams.token) {
+            $scope.token = $stateParams.token;
+        }
+
+        $scope.submit = function(password) {
+            try {
+                validationService.mustBeTrue( !! password,
+                    'Password can not be empty'
+                );
+
+                validationService.mustBeTrue(
+                    $scope.password === $scope.passwordConfirmation,
+                    'Password confirmation was different that the password'
+                );
+            } catch (e) {
+                return;
+            }
+
+            userService.changePassword(password, $scope.token)
+                .success(function() {
+                    if (userService.isLoggedIn()) {
+                        notificationService.handleSuccess(
+                            'Your password had been changed successfully.'
+                        );
+                    } else {
+                        notificationService.handleSuccess(
+                            'Your password was changed. Please log in with the' +
+                            ' new password.'
+                        );
+                    }
+                })
+                .error(function(err) {
+                    notificationService.handleError(err.message);
+                });
         };
     }
 ]);

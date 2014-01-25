@@ -1,7 +1,7 @@
 /*
  * angular-loading-bar
  *
- * intercepts XHR requests and creates a loading bar when that shit happens.
+ * intercepts XHR requests and creates a loading bar.
  * Based on the excellent nprogress work by rstacruz (more info in readme)
  *
  * (c) 2013 Wes Cruver
@@ -11,7 +11,12 @@
 
 (function() {
 
-  'use strict';
+'use strict';
+
+// Alias the loading bar so it can be included using a simpler
+// (and maybe more professional) module name:
+angular.module('angular-loading-bar', ['chieffancypants.loadingBar']);
+
 
 /**
  * loadingBarInterceptor service
@@ -21,7 +26,7 @@
 angular.module('chieffancypants.loadingBar', [])
   .config(['$httpProvider', function ($httpProvider) {
 
-    var interceptor = ['$q', '$cacheFactory', 'cfpLoadingBar', function ($q, $cacheFactory, cfpLoadingBar) {
+    var interceptor = ['$q', '$cacheFactory', '$rootScope', 'cfpLoadingBar', function ($q, $cacheFactory, $rootScope, cfpLoadingBar) {
 
       /**
        * The total number of requests made
@@ -81,10 +86,12 @@ angular.module('chieffancypants.loadingBar', [])
           // Check to make sure this request hasn't already been cached and that
           // the requester didn't explicitly ask us to ignore this request:
           if (!config.ignoreLoadingBar && !isCached(config)) {
+            $rootScope.$broadcast('cfpLoadingBar:loading', {url: config.url});
             if (reqsTotal === 0) {
               cfpLoadingBar.start();
             }
             reqsTotal++;
+            cfpLoadingBar.set(reqsCompleted / reqsTotal);
           }
           return config;
         },
@@ -92,6 +99,7 @@ angular.module('chieffancypants.loadingBar', [])
         'response': function(response) {
           if (!isCached(response.config)) {
             reqsCompleted++;
+            $rootScope.$broadcast('cfpLoadingBar:loaded', {url: response.config.url});
             if (reqsCompleted >= reqsTotal) {
               setComplete();
             } else {
@@ -104,6 +112,7 @@ angular.module('chieffancypants.loadingBar', [])
         'responseError': function(rejection) {
           if (!isCached(rejection.config)) {
             reqsCompleted++;
+            $rootScope.$broadcast('cfpLoadingBar:loaded', {url: rejection.config.url});
             if (reqsCompleted >= reqsTotal) {
               setComplete();
             } else {
@@ -258,7 +267,6 @@ angular.module('chieffancypants.loadingBar', [])
         includeSpinner : this.includeSpinner,
         parentSelector : this.parentSelector
       };
-
 
 
     }];     //

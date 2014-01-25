@@ -1,12 +1,14 @@
-<h1>{{ad.jobRole}}
-    <span ng-show="!!ad.jobRole" class="label label-info">{{org.name}}</span>
-</h1>
-<h3>
-    <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Posted {{postedOn}}
-    <span ng-show="!!ad.expiredOn">
-        <span class="glyphicon glyphicon-calendar"></span>&nbsp;Expires {{expiresOn()}}
-    </span>
-</h3>
+<div ng-hide="hide">
+    <h1>{{ad.jobRole}}
+        <span ng-show="!!ad.jobRole" class="label label-info">{{org.name}}</span>
+    </h1>
+    <p>
+        <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Posted <span am-time-ago="ad.postedOn"></span>&nbsp;&nbsp;
+        <span ng-show="!!ad.expiredOn">
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;Expires <span am-time-ago="ad.expiredOn"></span>
+        </span>
+    </p>
 
-<hr>
-<p ng-bind-html="ad.description"></p>
+    <hr>
+    <p ng-bind-html="ad.description"></p>
+</div>
