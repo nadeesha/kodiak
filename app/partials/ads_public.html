@@ -1,10 +1,4 @@
 <h1>All advertisements</h1>
 <input type="text" id="input" placeholder="Search here for the designation or organization" class="form-control" value="" required="required" ng-model="searchText">
 <hr>
-<div class="gr-ad-card col-md-12" ng-repeat="ad in ads | filter:searchText | orderBy:'-postedOn'" ng-click="goto(ad)">
-	<h1 class="gr-ad-title">{{ad.jobRole}}</h1>
-	<p>
-	<span class="label label-info">{{ad.organization.name}}</span>
-	<span class="label label-info" am-time-ago="ad.postedOn"></span>
-	</p>
-</div>
+<div search-text="searchText" ads="ads" gr-ad-preview></div>

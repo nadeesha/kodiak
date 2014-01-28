@@ -207,6 +207,13 @@ app.config(function($stateProvider,
             controller: 'EditOrgCtrl'
         });
 
+    $stateProvider
+        .state('viewOrganization', {
+            url: '/organization/:orgId/view',
+            templateUrl: 'partials/organization_view.html',
+            controller: 'ViewOrgProfileCtrl'
+        });
+
     // cross platform date time parsing for ngQuickDate
     ngQuickDateDefaultsProvider.set('parseDateFunction', function(str) {
         var d = moment(str);

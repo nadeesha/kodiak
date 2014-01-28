@@ -1,7 +1,6 @@
 'use strict';
 
 /* Controllers */
-
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
 controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
@@ -445,7 +444,7 @@ controllers.controller('EditOrgCtrl', [
                 }
 
                 window.URL.revokeObjectURL(img.src);
-            }
+            };
 
 
         };
@@ -466,6 +465,10 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 notificationService.handleError(err.message);
                 return;
             }
+
+            $scope.org = {
+                _id: $rootScope.u.affiliation
+            };
 
             $scope.campaigns = data.advertisements;
         });
@@ -1059,7 +1062,7 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 ]);
 
 controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationService', '$location',
-    function($scope, adService, notificationService, $location) {
+    function($scope, adService, notificationService) {
         $scope.ads = [];
 
         adService.getAdsPublic(function(err, data) {
@@ -1070,10 +1073,6 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationServ
 
             $scope.ads = data.ads;
         });
-
-        $scope.goto = function(ad) {
-            $location.url('/organization/' + ad.organization._id + '/post/' + ad._id + '/public');
-        };
     }
 ]);
 
@@ -1178,3 +1177,19 @@ controllers.controller('ChangePasswordCtrl', [
         };
     }
 ]);
+
+controllers.controller('ViewOrgProfileCtrl', function ($scope, $stateParams, $rootScope, orgService) {
+    
+    $scope.org = {
+        _id: $stateParams.orgId
+    };
+
+    orgService.getOrg($stateParams.orgId)
+        .success(function (data) {
+            $scope.org = data.organization;
+        });
+
+    orgService.getAds($stateParams.orgId, function (err, data) {
+        $scope.ads = data.advertisements;
+    })
+});
