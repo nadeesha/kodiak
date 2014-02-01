@@ -729,9 +729,11 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
 
                     if (relevantResponse) {
                         $scope.status = relevantResponse.status;
+                        getAdvertisement(adService.getAd);
+                    } else {
+                        getAdvertisement(adService.getAdPublic);
                     }
 
-                    getAdvertisement(adService.getAd);
                 } else {
                     getAdvertisement(adService.getAdPublic);
                 }
@@ -1178,18 +1180,71 @@ controllers.controller('ChangePasswordCtrl', [
     }
 ]);
 
-controllers.controller('ViewOrgProfileCtrl', function ($scope, $stateParams, $rootScope, orgService) {
-    
+controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $rootScope, orgService) {
+
     $scope.org = {
         _id: $stateParams.orgId
     };
 
     orgService.getOrg($stateParams.orgId)
-        .success(function (data) {
+        .success(function(data) {
             $scope.org = data.organization;
         });
 
-    orgService.getAds($stateParams.orgId, function (err, data) {
+    orgService.getAds($stateParams.orgId, function(err, data) {
         $scope.ads = data.advertisements;
-    })
+    });
+});
+
+controllers.controller('LandingCtrl', function($scope, $timeout) {
+    var index = 0;
+
+    var incrementIndex = function() {
+        if (index == taunts.length - 1) {
+            index = 0;
+        } else {
+            index++;
+        }
+    };
+
+    var fadeOut = function(callback) {
+        $scope.animateCss = 'animated fadeOutDown';
+        $timeout(callback, 500);
+    };
+
+    var fadeIn = function() {
+        $scope.animateCss = 'animated fadeInUp';
+    };
+
+    var taunts = [{
+        who: 'people',
+        what: 'find better jobs'
+    }, {
+        who: 'companies',
+        what: 'find candidates faster'
+    }, {
+        who: 'undergrads',
+        what: 'find awesome internships'
+    }, {
+        who: 'recruiters',
+        what: 'find the best candidate for the job'
+    }, {
+        who: 'job seekers',
+        what: 'save time finding jobs'
+    }, {
+        who: 'hr departments',
+        what: 'cut down recruitement costs'
+    }];
+
+    var changeTaunt = function() {
+        fadeOut(function() {
+            $scope.who = taunts[index].who;
+            $scope.what = taunts[index].what;
+            fadeIn();
+            incrementIndex();
+            $timeout(changeTaunt, 5000);
+        });
+    };
+
+    $timeout(changeTaunt, 0);
 });
