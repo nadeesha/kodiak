@@ -1,4 +1,4 @@
-<div class="gr-ad-card col-md-12" ng-repeat="ad in ads | filter:searchText | orderBy:'-postedOn'" ng-click="goto(ad)" ui-sref="viewAdvertisementPublic({orgId: org._id, adId: ad._id})" ng-hide="ads.length===0">
+<div class="gr-ad-card col-md-12" ng-repeat="ad in ads | filter:searchText | orderBy:'-postedOn'" ng-click="goto(ad)" ui-sref="viewAdvertisementPublic({orgId: ad.organization._id, adId: ad._id})" ng-hide="ads.length===0">
     <h3 class="gr-ad-title">{{ad.jobRole}}<span class="gr-info label label-default" am-time-ago="ad.postedOn"></span><span class="label label-info gr-info">{{ad.organization.name}}</span></h3>
 </div>
 <div class="alert alert-info" ng-show="ads.length===0">

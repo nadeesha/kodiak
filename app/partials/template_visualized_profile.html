@@ -14,8 +14,8 @@
                     <h4>{{t.position}}
                         <label class="label label-default pull-right">{{view.getDuration(t.startedOn, t.endedOn).years}}y {{view.getDuration(t.startedOn, t.endedOn).months}}m</label>
                     </h4>
-                    <div ng-repeat="c in view.getTimesForDate(t.startedOn, t.endedOn) track by $index" class="gr-vis-year"><span class="glyphicon glyphicon-record"></span></div>
-                    <div ng-hide="view.getTimesForDate(t.startedOn, t.endedOn).length>0" class="gr-vis-year"><span class="glyphicon glyphicon-record"></span></div>
+                    <div ng-repeat="c in view.getTimesForDate(t.startedOn, t.endedOn) track by $index" class="gr-vis-year circle"></div>
+                    <div ng-hide="view.getTimesForDate(t.startedOn, t.endedOn).length>0" class="gr-vis-year circle"></div>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                             <h4>{{q.name}}
                                 <label class="label label-default pull-right">{{view.getDuration(q.startedOn, q.endedOn).years}}y {{view.getDuration(q.startedOn, q.endedOn).months}}m</label>
                             </h4>
-                            <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year"><span class="glyphicon glyphicon-record"></span></div>
+                            <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year circle"></div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                                 <h4>{{s.name}}
                                     <label class="label label-default pull-right">{{s.experience}}y</label>
                                 </h4>
-                                <div ng-repeat="c in view.getTimes(s.experience) track by $index" class="gr-vis-year"><span class="glyphicon glyphicon-record"></span></div>
+                                <div ng-repeat="c in view.getTimes(s.experience) track by $index" class="gr-vis-year circle"></div>
                             </div>
                         </div>
                     </div>

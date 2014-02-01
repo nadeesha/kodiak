@@ -60,7 +60,8 @@ app.config(function($stateProvider,
     $stateProvider
         .state('home', {
             url: '/',
-            templateUrl: 'partials/landing.html'
+            templateUrl: 'partials/landing.html',
+            controller: 'LandingCtrl'
         });
 
     $stateProvider

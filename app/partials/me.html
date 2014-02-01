@@ -129,11 +129,9 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="btn btn-primary btn-lg gr-summary-label pull-right" style="width:150px">
-                        <span class="large-text">+{{stats.score}}</span>
-                        <br/>
-                        <span class="small-text">Profile Score</span>
+                        <span class="large-text">{{stats.score}}</span>
                     </div>
-                    <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle" style="opacity:{{$index/stats.score < 0.20 ? 0.20 : $index/stats.score}}"></div>
+                    <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle"></div>
                 </div>
             </div>
             

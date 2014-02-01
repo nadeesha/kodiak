@@ -1,3 +1,21 @@
+/** bootstrap overloads **/
+
+.navbar-brand {
+    float: left;
+    padding: 10px 15px;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+/** bootstrap overloads **/
+
+
+
+
+
+
+
+
 html {
     /*scrollbar always visible*/
     /*overflow: -moz-scrollbars-vertical;*/
@@ -11,6 +29,9 @@ h1 {
 }
 h3 {
     letter-spacing: -1px;
+}
+a {
+    text-decoration: none !important;
 }
 .gr-container {
 }
@@ -145,9 +166,10 @@ div.well>h2 {
 }
 /*.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }*/
  .large-text {
-    font-size: 2.5em;
-    line-height: 50px;
-    letter-spacing: -2px;
+    font-size: 5em;
+    /*line-height: 50px;*/
+    letter-spacing: -10px;
+    text-shadow: 0px 2px 0px darkslategray;
 }
 .small-text {
     font-size: 0.7em;
@@ -190,7 +212,7 @@ div.well>h2 {
 
 #loading-bar .bar {
     background: coral;
-    height: 5px;
+    height: 3px;
 }
 #loading-bar .peg {
     box-shadow: 0 0 10px coral, 0 0 5px coral;
@@ -277,4 +299,125 @@ div.well>h2 {
     margin-left: 15px;
     opacity: 0.4;
     font-size: 80% !important;
+}
+
+.gr-middle {
+    position: absolute;
+    top: 40%;
+    left:10%;
+    right:10%;
+    background-color: rgba(0,0,0,0.5);
+    padding: 15px;
+    /*width: 100%;*/
+    color: white;
+}
+
+.gr-back-img {
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    width:100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg');
+}
+
+/** Animations **/
+
+@-webkit-keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animated.hinge {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+}
+
+@-webkit-keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+}
+
+.fadeOutDown {
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+
+@-webkit-keyframes fadeOutDownBig {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(2000px);
+    transform: translateY(2000px);
+  }
 }
