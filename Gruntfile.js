@@ -15,7 +15,8 @@ module.exports = function(grunt) {
         'angular-loading-bar/build/loading-bar.min.js',
         'textAngular/textAngular.min.js',
         'ngQuickDate/dist/ng-quick-date.min.js',
-        'ng-file-upload/angular-file-upload.js'
+        'ng-file-upload/angular-file-upload.js',
+        'bootstrap/js/collapse.js'
     ];
 
     var cssFilesCombined = [
