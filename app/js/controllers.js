@@ -247,12 +247,10 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
             loadProfileStats();
         });
 
-        var bindAddEditModal = function(index, templateUrl, instanceController, collection) {
-            var addition = angular.isUndefined(index); // add = true if this is new vs. an edit 
-
+        var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
             // holds a copy of the referred object so that edits won't appear instantaneously
             // if it's an addition, returns a new object
-            var objToManipulate = addition ? {} : _.clone(collection[index]);
+            var objToManipulate = itemToEdit || {};
 
 
             var modal = $modal.open({
@@ -265,13 +263,11 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 }
             });
 
-            // when the user has clicked ok, either push the "new" object here
-            // or change the existing object in the parent scope
             modal.result.then(function(manipulated) {
-                if (addition) {
-                    collection.push(manipulated);
+                if (itemToEdit) {
+                    collection[collection.indexOf(itemToEdit)] = manipulated;
                 } else {
-                    collection[index] = manipulated;
+                    collection.push(manipulated);
                 }
 
                 $scope.saveProfile();
@@ -335,32 +331,31 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
 
         // qualification modal
-        $scope.openQualificationModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_qualification.html',
+        $scope.openQualificationModal = function(qualification) {
+            bindAddEditModal(qualification, 'partials/modal_me_qualification.html',
                 'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
         };
 
         // tenure modal
-        $scope.openTenureModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
+        $scope.openTenureModal = function(tenure) {
+            bindAddEditModal(tenure, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
                 $scope.user.tenures);
         };
 
         // skills modal
-        $scope.openSkillModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl',
+        $scope.openSkillModal = function(skill) {
+            bindAddEditModal(skill, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl',
                 $scope.user.skills);
         };
 
         // deletes any element by position of the collection after seeking user confirmation
-        $scope.openDeleteModal = function(pos, collection) {
+        $scope.openDeleteModal = function(item, collection) {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_me_confirmation.html'
             });
 
             modal.result.then(function() {
-                if (~pos) collection.splice(pos, 1);
-
+                collection.splice(collection.indexOf(item), 1);
                 $scope.saveProfile();
             });
         };
@@ -457,7 +452,7 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 .success(function(data) {
                     $scope.users = data.users;
                 });
-        }
+        };
 
         orgService.getAds($rootScope.u.affiliation, function(err, data) {
             if (err) {

@@ -57,10 +57,10 @@
                     </h2>
                     <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
                         <h3>{{qualification.name}}
-                            <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal($index)">
+                            <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal($index, user.qualifications)">
+                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(qualification, user.qualifications)">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                             </a>
                         </h3>
@@ -73,7 +73,6 @@
                             <span class="label label-success gr-right-5" ng-show="qualification.complete">Completed</span>
                             <span class="label label-warning gr-right-5" ng-show="!qualification.complete">Incomplete</span>
                         </h4>
-                        <span class="label label-default" ng-repeat="result in qualification.result">{{result.name}}: {{result.value}}</span>
                     </div>
                 </div>
                 <div class="well">
@@ -84,10 +83,10 @@
                     </h2>
                     <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
                         <h3>{{tenure.position}}
-                            <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal($index)">
+                            <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal($index, user.tenures)">
+                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(tenure, user.tenures)">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                             </a>
                         </h3>
@@ -111,10 +110,10 @@
                     </h2>
 
                     <h4 class="line-spacing-regular">
-                        <div class="nowrap gr-personal-block" ng-repeat="skill in user.skills track by $index">
+                        <div class="nowrap gr-personal-block" ng-repeat="skill in user.skills">
                             {{skill.name}}
                             <span class="label label-primary gr-right-5">{{skill.experience}}y</span>
-                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" style="margin-left:-5px;" ng-click="openDeleteModal($index, user.skills)">
+                            <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" style="margin-left:-5px;" ng-click="openDeleteModal(skill, user.skills)">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                             </a>
                         </div>
@@ -131,7 +130,7 @@
                     <div class="btn btn-primary btn-lg gr-summary-label pull-right" style="width:150px">
                         <span class="large-text">{{stats.score}}</span>
                     </div>
-                    <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle"></div>
+                    <div ng-repeat="c in getTimes(stats.score)" class="gr-vis-year circle"></div>
                 </div>
             </div>
             
