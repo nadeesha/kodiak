@@ -3,28 +3,15 @@
 /* Controllers */
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
+controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService',
+    'notificationService',
     function($scope, $http, $location, userService, notificationService) {
         $scope.create = function(user) {
-            userService.create(user, function(err, data) {
-                if (!err) {
-                    notificationService.notify({
-                        title: 'Account created!',
-                        text: 'But before you begin, check your e-mail inbox and click the confirmation link, please.',
-                        type: 'success',
-                        hide: true
-                    });
-                } else if (err === 409) {
-                    notificationService.notify({
-                        title: 'Account already exists!',
-                        text: 'We already have an account for ' + user.email + '. Please <a href="#/login">log in</a> to your account instead.',
-                        type: 'error',
-                        hide: true
-                    });
-                } else {
-                    notificationService.handleError(data.message);
-                }
-            });
+            userService.create(user)
+                .success(function() {
+                    notificationService.handleSuccess('Account created. But you will have ' +
+                        'to login to your email and click the activation link first.');
+                });
         };
     }
 ]);
@@ -55,7 +42,8 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                 } else if (err === 403) {
                     notificationService.notify({
                         title: 'Account is inactive!',
-                        text: 'This account is currently inactive. If you just signed up, please click the activation link we sent to your email.',
+                        text: 'This account is currently inactive. If you just signed up, please ' +
+                            'click the activation link we sent to your email.',
                         type: 'error',
                         hide: true
                     });
@@ -67,28 +55,39 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     }
 ]);
 
-controllers.controller('ActivateCtrl', ['$scope', '$http', '$location', 'userService', 'notificationService',
-    function($scope, $http, $location, userService, notificationService) {
-        $scope.response = {
-            incorrect: false,
-            success: false
-        };
-        var user = {
-            email: ($location.search()).email,
-            token: ($location.search()).token
+controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'userService',
+    'notificationService', '$state',
+    function($scope, $http, $stateParams, userService, notificationService, $state) {
+        $scope.user = {
+            token: $stateParams.token
         };
 
-        userService.activate(user, function(err, data) {
-            if (!err) {
-                $scope.response.incorrect = false;
-                $scope.response.success = true;
-            } else if (err === 400) {
-                $scope.response.incorrect = false;
-                $scope.response.success = true;
-            } else {
-                notificationService.handleError(data.message);
+        $scope.submit = function() {
+            if ($stateParams.resetRequired) {
+                if ($scope.pass1.length < 8) {
+                    notificationService.handleError('Your new password must contain at least 8 characters');
+                    return;
+                } else if ($scope.pass1 !== $scope.pass2) {
+                    notificationService.handleError('Your new password and password confirmation must match');
+                    return;
+                }
             }
-        });
+
+            $scope.user.password = $scope.pass1;
+
+            userService.activate($scope.user).success(function() {
+                notificationService.handleSuccess('Your account had been activated successfully. Please log in');
+                $state.go('login');
+            });
+        };
+
+        console.log($stateParams);
+
+        if ($stateParams.resetrequired) {
+            $scope.showPasswordReset = true;
+        } else {
+            $scope.submit(); // if no reset is required, we'll just submit
+        }
     }
 ]);
 
@@ -104,12 +103,15 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
         $scope.submit = function() {
             try {
                 if ($scope.data.dateOfBirth) {
-                    validationService.mustBeTrue(moment($scope.data.dateOfBirth).isValid(), 'Date of birth is invalid');
-                    validationService.mustBeTrue(moment($scope.data.dateOfBirth) < moment().subtract('years', 15), 'You must be at least 15 years old');
+                    validationService.mustBeTrue(moment($scope.data.dateOfBirth).isValid(),
+                        'Date of birth is invalid');
+                    validationService.mustBeTrue(moment($scope.data.dateOfBirth) <
+                        moment().subtract('years', 15), 'You must be at least 15 years old');
                 }
 
                 if ($scope.data.contactNumber) {
-                    validationService.mustBeTrue($scope.data.contactNumber.length >= 10, 'Contact Number should have 10 digits at least');
+                    validationService.mustBeTrue($scope.data.contactNumber.length >= 10,
+                        'Contact Number should have 10 digits at least');
                 }
             } catch (e) {
                 return;
@@ -120,7 +122,8 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
     }
 ]);
 
-controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS', 'validationService',
+controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS',
+    'validationService',
     function($scope, data, MONTHS, validationService) {
         $scope.data = data;
 
@@ -185,14 +188,18 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             try {
                 if (t === 'q') { // if this is a qualification
                     validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
-                    validationService.mustBeTrue(this.data.issuedBy, 'Issued School/University/Institute should be defined');
+                    validationService.mustBeTrue(this.data.issuedBy,
+                        'Issued School/University/Institute should be defined');
                     if (this.complete)
-                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
+                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                            'Start date should be before the end date');
                 } else {
                     validationService.mustBeTrue(this.data.position, 'Your position must be defined');
-                    validationService.mustBeTrue(this.data.organization, 'The organization you worked at must be defined');
+                    validationService.mustBeTrue(this.data.organization,
+                        'The organization you worked at must be defined');
                     if (!this.current)
-                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn, 'Start date should be before the end date');
+                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                            'Start date should be before the end date');
                 }
 
                 validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
@@ -329,17 +336,20 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         // qualification modal
         $scope.openQualificationModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_qualification.html', 'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
+            bindAddEditModal(index, 'partials/modal_me_qualification.html',
+                'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
         };
 
         // tenure modal
         $scope.openTenureModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl', $scope.user.tenures);
+            bindAddEditModal(index, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
+                $scope.user.tenures);
         };
 
         // skills modal
         $scope.openSkillModal = function(index) {
-            bindAddEditModal(index, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl', $scope.user.skills);
+            bindAddEditModal(index, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl',
+                $scope.user.skills);
         };
 
         // deletes any element by position of the collection after seeking user confirmation
@@ -358,7 +368,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
     }
 ]);
 
-controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location', 'userService', 'notificationService',
+controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location',
+    'userService', 'notificationService',
     function($scope, $http, orgService, $location, userService, notificationService) {
 
         $scope.submit = function(org, admin) {
@@ -376,37 +387,15 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                         firstName: admin.name,
                         email: admin.email,
                         password: admin.pass,
-                        affiliation: data.id
+                        affiliation: data.organization._id
                     };
 
-                    userService.create(user, function(err) {
-                        if (!err) {
-                            notificationService.notify({
-                                title: 'Admin account created!',
-                                text: 'Please check your e-mail inbox and click the confirmation link, please.',
-                                type: 'success',
-                                hide: true
-                            });
-                        } else if (err === 409) {
-                            notificationService.notify({
-                                title: 'Account already exists!',
-                                text: 'We already have an account for ' + user.email + '. Please select another email for your admin account instead.',
-                                type: 'error',
-                                hide: true
-                            });
-                        } else {
-                            $location.url('/500');
-                        }
-                    });
-                } else if (err.message) {
-                    notificationService.notify({
-                        title: 'Ooops!',
-                        text: err.message,
-                        type: 'error',
-                        hide: true
-                    });
-                } else {
-                    $location.url('/500');
+                    userService.createOrgUser(user)
+                        .success(function() {
+                            notificationService.handleSuccess('Please check your e-mail inbox ' +
+                                'and click the confirmation link, please',
+                                'Admin account created!');
+                        });
                 }
             });
         };
@@ -458,8 +447,18 @@ controllers.controller('EditOrgCtrl', [
     }
 ]);
 
-controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService',
-    function($scope, userService, orgService, $rootScope, notificationService) {
+controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$rootScope',
+    'notificationService', '$modal',
+    function($scope, userService, orgService, $rootScope, notificationService, $modal) {
+        $scope.currentUserId = $rootScope.u._id;
+
+        var getUsers = function() {
+            orgService.getUsers($rootScope.u.affiliation)
+                .success(function(data) {
+                    $scope.users = data.users;
+                });
+        }
+
         orgService.getAds($rootScope.u.affiliation, function(err, data) {
             if (err) {
                 notificationService.handleError(err.message);
@@ -472,11 +471,49 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
 
             $scope.campaigns = data.advertisements;
         });
+
+        getUsers();
+
+        $scope.openUserDeleteModal = function(id) {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_org_user_delete_confirmation.html'
+            });
+
+            modal.result.then(function() {
+                orgService.deactivateUser($scope.org._id, id)
+                    .success(function() {
+                        notificationService.handleSuccess('User was deactivated');
+                        getUsers();
+                    });
+            });
+        };
+
+        $scope.openCreateUserModal = function() {
+            var modal = $modal.open({
+                templateUrl: 'partials/modal_org_user_create.html'
+            });
+
+            modal.result.then(function(data) {
+                var user = {
+                    firstName: data.name,
+                    email: data.email,
+                    affiliation: $rootScope.u.affiliation
+                };
+
+                userService.createOrgUser(user)
+                    .success(function() {
+                        notificationService.handleSuccess('User account created. We have ' +
+                            'sent an email notifying the new user');
+                    });
+            });
+        };
     }
 ]);
 
-controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope', 'notificationService', 'adService', '$stateParams', 'searchService', 'adResponseService',
-    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams, searchService, adResponseService) {
+controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope',
+    'notificationService', 'adService', '$stateParams', 'searchService', 'adResponseService',
+    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams,
+        searchService, adResponseService) {
         $scope.selectedCandidate = [];
 
         $scope.gridOptions = {
@@ -559,14 +596,15 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
         });
 
         $scope.save = function(response, status, tags) {
-            adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status, tags, function(err) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
+            adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status,
+                tags, function(err) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                        return;
+                    }
 
-                notificationService.handleSuccess('Successfully updated the candidate');
-            });
+                    notificationService.handleSuccess('Successfully updated the candidate');
+                });
         };
     }
 ]);
@@ -580,7 +618,8 @@ controllers.controller('CreateAdCtrl', ['$scope',
     '$stateParams',
     '$state',
 
-    function($scope, orgService, userService, adService, notificationService, $location, $stateParams, $state) {
+    function($scope, orgService, userService, adService, notificationService, $location, $stateParams,
+        $state) {
 
         // initiate the organization details
         orgService.getOrg(userService.user().affiliation)
@@ -667,7 +706,8 @@ controllers.controller('CreateAdCtrl', ['$scope',
     }
 ]);
 
-controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService', 'notificationService',
+controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService',
+    'notificationService',
     function($scope, orgService, adService, $stateParams, userService, notificationService) {
         $scope.org = {};
         $scope.ad = {};
@@ -689,22 +729,25 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
     }
 ]);
 
-controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService', 'notificationService', 'adResponseService', '$rootScope',
-    function($scope, orgService, adService, $stateParams, userService, notificationService, adResponseService, $rootScope) {
+controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams',
+    'userService', 'notificationService', 'adResponseService', '$rootScope',
+    function($scope, orgService, adService, $stateParams, userService, notificationService,
+        adResponseService, $rootScope) {
         $scope.org = {};
         $scope.ad = {};
 
         $scope.apply = function() {
-            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, function(err) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
+            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null,
+                function(err) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                        return;
+                    }
 
-                notificationService.handleSuccess('Saved your application successfully');
+                    notificationService.handleSuccess('Saved your application successfully');
 
-                $scope.status = 'applied';
-            });
+                    $scope.status = 'applied';
+                });
         };
 
         var getAdvertisement = function(method) {
@@ -753,8 +796,10 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
     }
 ]);
 
-controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'userService', 'adService', 'searchService', 'notificationService', 'validationService', '$modal', '$location', 'adResponseService',
-    function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService, validationService, $modal, $location, adResponseService) {
+controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'userService', 'adService',
+    'searchService', 'notificationService', 'validationService', '$modal', '$location', 'adResponseService',
+    function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
+        validationService, $modal, $location, adResponseService) {
         $scope.displayNameCollection = {
             AGE_BETWEEN: {
                 name: 'Age between',
@@ -817,7 +862,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
                     // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
                     for (var i = 0; i < $scope.search.criteria.length; i++) {
-                        $scope.search.criteria[i].displayName = $scope.displayNameCollection[$scope.search.criteria[i].name].name;
+                        $scope.search.criteria[i].displayName =
+                            $scope.displayNameCollection[$scope.search.criteria[i].name].name;
                     }
                 }
             });
@@ -828,7 +874,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                 notificationService.handleError(err.message);
             else {
                 $scope.ad = data.advertisement;
-                $scope.search.name = $scope.ad.jobRole + ' - ' + moment($scope.ad.publishedOn).format('MMM YY');
+                $scope.search.name = $scope.ad.jobRole + ' - ' +
+                    moment($scope.ad.publishedOn).format('MMM YY');
             }
         });
 
@@ -860,12 +907,13 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                     }
                 });
             } else {
-                searchService.editSearch(userService.user().affiliation, $scope.searchId, search, function(err) {
-                    if (err)
-                        notificationService.handleError(err.message);
-                    else
-                        notificationService.handleSuccess('Search updated successfully.');
-                });
+                searchService.editSearch(userService.user().affiliation, $scope.searchId, search,
+                    function(err) {
+                        if (err)
+                            notificationService.handleError(err.message);
+                        else
+                            notificationService.handleSuccess('Search updated successfully.');
+                    });
             }
         };
 
@@ -876,7 +924,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                 validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
                 if ($scope.displayNameCollection[criterion.name].isRange) {
                     validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
-                    // if the user is going to define filter criteria like age and years of experience more than once
+                    // if the user is going to define filter criteria like age and years of experience 
+                    // more than once
                     validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
                         return c.name == $scope.criterion.name;
                     })), 'You can not specify multiple search criteria of this kind');
@@ -904,18 +953,19 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         };
 
         $scope.invite = function(id, tags) {
-            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags, function(err) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
+            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags,
+                function(err) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                        return;
+                    }
 
-                $scope.user.invited = true;
+                    $scope.user.invited = true;
 
-                notificationService.handleSuccess('Candidate was invited successfully');
+                    notificationService.handleSuccess('Candidate was invited successfully');
 
-                markInvitedCandidates($scope.allResults);
-            });
+                    markInvitedCandidates($scope.allResults);
+                });
         };
 
         $scope.loadProfile = function(id, invited) {
@@ -936,41 +986,44 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         };
 
         function markInvitedCandidates(results) {
-            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
+            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId,
+                function(err, data) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                        return;
+                    }
 
-                var invitedList = _.pluck(data.responses, 'user');
-                var fullList = _.pluck(results, '_id');
+                    var invitedList = _.pluck(data.responses, 'user');
+                    var fullList = _.pluck(results, '_id');
 
-                var resultsToBeMarked = _.intersection(invitedList, fullList);
+                    var resultsToBeMarked = _.intersection(invitedList, fullList);
 
-                for (var i = 0; i < resultsToBeMarked.length; i++) {
-                    for (var j = 0; j < results.length; j++) {
-                        if (resultsToBeMarked[i] == results[j]._id) {
-                            results[j].invited = true;
-                            continue;
+                    for (var i = 0; i < resultsToBeMarked.length; i++) {
+                        for (var j = 0; j < results.length; j++) {
+                            if (resultsToBeMarked[i] == results[j]._id) {
+                                results[j].invited = true;
+                                continue;
+                            }
                         }
                     }
-                }
-            });
+                });
         }
 
         $scope.doSearch = function() {
-            searchService.getSearchResults(userService.user().affiliation, $scope.searchId, function(err, data) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                } else {
-                    if (data.scores.hits.hits.length !== 0) {
-                        $scope.allResults = data.scores.hits.hits;
-                        markInvitedCandidates(data.scores.hits.hits);
-                        $scope.showTop(10);
-                    } else
-                        notificationService.handleInfo('No candidates found matching that criteria', 'Nothing to show!');
-                }
-            });
+            searchService.getSearchResults(userService.user().affiliation, $scope.searchId,
+                function(err, data) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                    } else {
+                        if (data.scores.hits.hits.length !== 0) {
+                            $scope.allResults = data.scores.hits.hits;
+                            markInvitedCandidates(data.scores.hits.hits);
+                            $scope.showTop(10);
+                        } else
+                            notificationService.handleInfo('No candidates found matching that criteria',
+                                'Nothing to show!');
+                    }
+                });
         };
     }
 ]);
@@ -981,7 +1034,8 @@ controllers.controller('LogoutCtrl', ['$scope', 'userService',
     }
 ]);
 
-controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService', '$modal', 'adResponseService',
+controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService',
+    '$modal', 'adResponseService',
     function($scope, userService, $rootScope, notificationService, $modal, adResponseService) {
         $scope.responses = [];
 
@@ -991,14 +1045,15 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 
 
         var changeStatus = function(status, response, successMsg) {
-            adResponseService.editResponse(response.advertisement.organization._id, response.advertisement._id, response._id, status, null, function(err) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                } else {
-                    notificationService.handleSuccess(successMsg);
-                    loadResponses();
-                }
-            });
+            adResponseService.editResponse(response.advertisement.organization._id,
+                response.advertisement._id, response._id, status, null, function(err) {
+                    if (err) {
+                        notificationService.handleError(err.message);
+                    } else {
+                        notificationService.handleSuccess(successMsg);
+                        loadResponses();
+                    }
+                });
         };
 
         $scope.accept = function(response) {
@@ -1007,7 +1062,8 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
             });
 
             modal.result.then(function() {
-                changeStatus('accepted', response, 'You have successfully accepted the invitation from' + response.advertisement.organization.name);
+                changeStatus('accepted', response, 'You have successfully accepted the invitation from' +
+                    response.advertisement.organization.name);
             });
 
         };
@@ -1018,7 +1074,8 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
             });
 
             modal.result.then(function() {
-                changeStatus('withdrawn', response, 'You have rejected the invitation from ' + response.advertisement.organization.name);
+                changeStatus('withdrawn', response, 'You have rejected the invitation from ' +
+                    response.advertisement.organization.name);
             });
         };
 
@@ -1028,14 +1085,16 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
             });
 
             modal.result.then(function() {
-                changeStatus('withdrawn', response, 'You have withdrawn your application to ' + response.advertisement.organization.name);
+                changeStatus('withdrawn', response, 'You have withdrawn your application to ' +
+                    response.advertisement.organization.name);
             });
         };
 
         var loadResponses = function() {
             userService.getResponses().success(function(data) {
                 if (data.responses.length === 0) {
-                    notificationService.handleInfo('You do not have any active applications', 'No applications');
+                    notificationService.handleInfo('You do not have any active applications',
+                        'No applications');
                     return;
                 }
 
@@ -1078,7 +1137,8 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationServ
     }
 ]);
 
-controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayService', 'notificationService', '$location',
+controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayService',
+    'notificationService', '$location',
     function($scope, $rootScope, subwayService, notificationService, $location) {
         $scope.markAsRead = function(notification) {
             subwayService.markAsRead(notification._id).success(function(data) {

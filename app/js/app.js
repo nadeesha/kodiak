@@ -80,7 +80,7 @@ app.config(function($stateProvider,
 
     $stateProvider
         .state('activate', {
-            url: '/activate',
+            url: '/activate?email&token&resetrequired',
             templateUrl: 'partials/activate.html',
             controller: 'ActivateCtrl'
         });

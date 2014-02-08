@@ -14,30 +14,48 @@
     <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
+                <h3 class="panel-title">Campaign Credit</h3>
+            </div>
+            <div class="panel-body">
+                <p>Your organization has
+                    <span class="label label-success">*</span> remaining campaigns.</p>
+                <a type="button" class="btn btn-success">Add more</a>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
                 <h3 class="panel-title">My Organization</h3>
             </div>
             <ul class="list-group">
                 <li class="list-group-item gr-clickable">
                     <a ui-sref="editOrganization">
-                		Edit Organization Profile
-                	</a>
+                        Edit Organization Profile
+                    </a>
                 </li>
                 <li class="list-group-item gr-clickable">
                     <a ui-sref="viewOrganization({orgId: org._id})">
-                		View Organization Profile
-                	</a>
+                        View Organization Profile
+                    </a>
+                </li>
+                <li class="list-group-item gr-clickable">
+                    <a ng-click="openCreateUserModal()">
+                        Create New User
+                    </a>
                 </li>
             </ul>
         </div>
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Campaign Credit</h3>
+                <h3 class="panel-title">Current Users</h3>
             </div>
-            <div class="panel-body">
-                <h4>Your organization has
-                    <span class="label label-success">4</span>remaining campaigns.</h4>
-                <a type="button" class="btn btn-success">Add more</a>
-            </div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="user in users">
+                    {{user.email}}&nbsp;
+                    <a ng-click="openUserDeleteModal(user._id)" class="gr-clickable" ng-hide="user._id === currentUserId">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

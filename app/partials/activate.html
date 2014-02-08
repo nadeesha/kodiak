@@ -1,6 +1,27 @@
-<div ng-show="response.incorrect" class="alert alert-warning">
-    <b>Bad Request!</b> You sent us an invalid URL. Please make sure you entered it correctly if you copied and pasted it.
-</div>
 <div ng-show="response.success" class="alert alert-success">
     <b>Account Activated!</b> We just activated your account. Please <a href='#/login'>log in</a>.
+</div>
+
+
+<div ng-show="showPasswordReset">
+    <div class="alert alert-info">
+        Please define a new password before you activate your account.
+    </div>
+    <form class="form-horizontal" role="form">
+        <div class="form-group row">
+            <div class="col-md-4">
+                <input class="form-control" placeholder="Your new password" ng-model="pass1" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-4">
+                <input class="form-control" type="password" placeholder="Password" ng-model="pass2" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button ng-click="submit()" class="btn btn-primary">Activate</button>
+            </div>
+        </div>
+    </form>
 </div>

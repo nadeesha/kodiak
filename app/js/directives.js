@@ -11,7 +11,6 @@ directives.directive('bsNavbar', function($location) {
             scope.$watch(function() {
                 return $location.path();
             }, function(newValue) {
-
                 $('li[data-match-route]', element).each(function(k, li) {
                     var $li = angular.element(li),
                         // data('match-route') does not work with dynamic attributes
@@ -128,13 +127,12 @@ directives.directive('grAvatar', [
 ]);
 
 directives.directive('grSubway', [
-
     function() {
         return {
             restrict: 'A',
             controller: function($scope, $rootScope, subwayService, notificationService, $modal) {
                 $scope.showNotifications = function() {
-                    var modal = $modal.open({
+                    $modal.open({
                         templateUrl: 'partials/modal_notifications.html',
                         controller: 'NotificationsNavCtrl'
                     });
