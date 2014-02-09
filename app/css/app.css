@@ -290,7 +290,7 @@ div.well>h2 {
 }
 .gr-info {
     margin-left: 15px;
-    opacity: 0.4;
+    /*opacity: 0.4;*/
     font-size: 80% !important;
 }
 
