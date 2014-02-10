@@ -22,11 +22,10 @@ app.config(function($httpProvider, $provide) {
     $httpProvider.defaults.useXDomain = true;
 
     // register the interceptor as a service
-    $provide.factory('myHttpInterceptor', function($q, $location, notificationService) {
+    $provide.factory('errorHandler', function($q, $location, notificationService, $rootScope) {
         return {
             // optional method
             'responseError': function(rejection) {
-                console.log(rejection);
                 if (rejection.status === 401 && $location.$$path !== '/login') {
                     $location.url('/login?to=' + encodeURIComponent($location.$$url));
 
@@ -38,11 +37,18 @@ app.config(function($httpProvider, $provide) {
                 }
 
                 return $q.reject(rejection);
+            },
+
+            'request' : function (config) {
+                if ($rootScope.u) {
+                    config.headers.Authorization = 'Bearer ' + $rootScope.u.access_token || '';
+                    return config;
+                }
             }
         };
     });
 
-    $httpProvider.interceptors.push('myHttpInterceptor');
+    $httpProvider.interceptors.push('errorHandler');
 });
 
 app.config(function($stateProvider,
