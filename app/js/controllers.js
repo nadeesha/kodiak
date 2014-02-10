@@ -612,12 +612,13 @@ controllers.controller('CreateAdCtrl', ['$scope',
     '$location',
     '$stateParams',
     '$state',
+    '$rootScope',
 
     function($scope, orgService, userService, adService, notificationService, $location, $stateParams,
-        $state) {
+        $state, $rootScope) {
 
         // initiate the organization details
-        orgService.getOrg(userService.user().affiliation)
+        orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
                 $scope.org = data.organization;
             }).error(function(err) {
@@ -631,7 +632,7 @@ controllers.controller('CreateAdCtrl', ['$scope',
         if ($state.is('editAdvertisement')) {
             $scope.heading = 'Edit Advertisement';
 
-            adService.getAd(userService.user().affiliation, $stateParams.adId, function(err, data) {
+            adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
                 if (err)
                     notificationService.handleError(err.message);
 
@@ -682,7 +683,7 @@ controllers.controller('CreateAdCtrl', ['$scope',
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
             if ($state.is('createAdvertisement'))
-                adService.createAd(userService.user().affiliation, ad, function(err, data) {
+                adService.createAd($rootScope.u.affiliation, ad, function(err, data) {
                     if (err) {
                         notificationService.handleError(err.message);
                     } else {
@@ -690,7 +691,7 @@ controllers.controller('CreateAdCtrl', ['$scope',
                     }
                 });
             else
-                adService.editAd(userService.user().affiliation, $scope.ad.id, ad, function(err) {
+                adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad, function(err) {
                     if (err) {
                         notificationService.handleError(err.message);
                     } else {
@@ -702,12 +703,12 @@ controllers.controller('CreateAdCtrl', ['$scope',
 ]);
 
 controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService',
-    'notificationService',
-    function($scope, orgService, adService, $stateParams, userService, notificationService) {
+    'notificationService', '$rootScope',
+    function($scope, orgService, adService, $stateParams, userService, notificationService, $rootScope) {
         $scope.org = {};
         $scope.ad = {};
 
-        adService.getAd(userService.user().affiliation, $stateParams.adId, function(err, data) {
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
             if (err)
                 notificationService.handleError(err.message);
             else {
@@ -715,7 +716,7 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
             }
         });
 
-        orgService.getOrg(userService.user().affiliation)
+        orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
                 $scope.org = data.organization;
             }).error(function(err) {
@@ -849,7 +850,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
         // if this is a edit
         if ($scope.searchId) {
-            searchService.getSearch(userService.user().affiliation, $scope.searchId, function(err, data) {
+            searchService.getSearch($rootScope.u.affiliation, $scope.searchId, function(err, data) {
                 if (err)
                     notificationService.handleError(err.message);
                 else {
@@ -864,7 +865,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
             });
         }
 
-        adService.getAd(userService.user().affiliation, $stateParams.adId, function(err, data) {
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
             if (err)
                 notificationService.handleError(err.message);
             else {
@@ -893,7 +894,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
             // if this is a new search
             if (!$scope.searchId) {
-                searchService.createSearch(userService.user().affiliation, search, function(err, data) {
+                searchService.createSearch($rootScope.u.affiliation, search, function(err, data) {
                     if (err)
                         notificationService.handleError(err.message);
                     else {
@@ -902,7 +903,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                     }
                 });
             } else {
-                searchService.editSearch(userService.user().affiliation, $scope.searchId, search,
+                searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search,
                     function(err) {
                         if (err)
                             notificationService.handleError(err.message);
@@ -1005,7 +1006,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         }
 
         $scope.doSearch = function() {
-            searchService.getSearchResults(userService.user().affiliation, $scope.searchId,
+            searchService.getSearchResults($rootScope.u.affiliation, $scope.searchId,
                 function(err, data) {
                     if (err) {
                         notificationService.handleError(err.message);

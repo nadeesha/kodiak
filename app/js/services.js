@@ -9,32 +9,17 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             var tokenExpiration = $rootScope.u.expiration;
             var stateRestored = $rootScope.u.restored;
 
-            if (stateRestored && isOrgUser && moment().isBefore(tokenExpiration))
+            if (stateRestored && isOrgUser && moment().isBefore(tokenExpiration)) {
                 $rootScope.u.type = 'ORG';
-            else if (stateRestored && !isOrgUser &&
-                tokenExpiration && moment().isBefore(tokenExpiration))
+            } else if (stateRestored && !isOrgUser &&
+                tokenExpiration && moment().isBefore(tokenExpiration)) {
                 $rootScope.u.type = 'PERSONAL';
-            else
+            } else {
                 $rootScope.u.type = 'NEW';
+            }
         };
 
         var service = {
-            authHeader: function() {
-                var config = {
-                    headers: {
-                        Authorization: 'Bearer ' + $rootScope.u.access_token || ''
-                    }
-                };
-
-                return config;
-            },
-
-            // TODO : deprecate
-            user: function() {
-                return _.pick($rootScope.u, 'firstName', 'lastName', 'email', 'affiliation');
-            },
-
-
             saveState: function() {
                 $localStorage.user = angular.toJson($rootScope.u);
             },
@@ -56,8 +41,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             createOrgUser: function(user) {
-                return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user),
-                    service.authHeader());
+                return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
             },
 
             login: function(user, callback) {
@@ -104,7 +88,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     id = 'me';
                 }
 
-                $http.get(GRIZZLY_URL + '/user/' + id + '/profile', service.authHeader())
+                $http.get(GRIZZLY_URL + '/user/' + id + '/profile')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -113,7 +97,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             getProfileStats: function(callback) {
-                $http.get(GRIZZLY_URL + '/user/me/profile/stats', service.authHeader())
+                $http.get(GRIZZLY_URL + '/user/me/profile/stats')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -127,8 +111,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 };
 
                 $http.post(GRIZZLY_URL + '/user/me/profile',
-                    JSON.stringify(user),
-                    service.authHeader()
+                    JSON.stringify(user)
                 ).success(function() {
                     callback();
                 }).error(function(data) {
@@ -137,9 +120,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             getResponses: function() {
-                return $http.get(GRIZZLY_URL + '/user/me/applications',
-                    service.authHeader()
-                );
+                return $http.get(GRIZZLY_URL + '/user/me/applications');
             },
 
             logout: function() {
@@ -173,8 +154,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                         '/user/' + $rootScope.u._id + '/account/password',
                         JSON.stringify({
                             password: password
-                        }),
-                        service.authHeader()
+                        })
                     );
                 }
             }
@@ -185,10 +165,10 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 ]);
 
 services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootScope',
-    function($http, GRIZZLY_URL, userService) {
+    function($http, GRIZZLY_URL) {
         var service = {
             createOrg: function(org, callback) {
-                $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org), userService.authHeader())
+                $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
                     .success(function(data) {
                         callback(null, data);
                     })
@@ -197,8 +177,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     });
             },
             editOrg: function(id, org) {
-                return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org),
-                    userService.authHeader());
+                return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org));
             },
             getOrg: function(id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/public');
@@ -212,7 +191,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     });
             },
             getAds: function(id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + id + '/posts', userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + id + '/posts')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -220,7 +199,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     });
             },
             getSearches: function(id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + id + '/searches', userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + id + '/searches')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -233,25 +212,21 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     formData.append('file_' + i, files[i]);
                 }
 
-                console.log(formData);
-
-                var headers = userService.authHeader().headers;
-                headers['Content-Type'] = undefined;
-
                 return $http({
                     method: 'PUT',
                     url: GRIZZLY_URL + '/organization/' + id + '/logo',
                     data: formData,
-                    headers: headers,
+                    headers: {
+                        'Content-Type': 'undefined'
+                    },
                     transformRequest: angular.identity
                 });
             },
             getUsers: function(id) {
-                return $http.get(GRIZZLY_URL + '/organization/' + id + '/users', userService.authHeader());
+                return $http.get(GRIZZLY_URL + '/organization/' + id + '/users');
             },
             deactivateUser: function(orgId, userId) {
-                return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/user/' + userId,
-                    userService.authHeader());
+                return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/user/' + userId);
             }
         };
 
@@ -260,11 +235,10 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
 ]);
 
 services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL, userService) {
+    function($http, GRIZZLY_URL) {
         var service = {
             createAd: function(orgId, ad, callback) {
-                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', JSON.stringify(ad),
-                    userService.authHeader())
+                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', JSON.stringify(ad))
                     .success(function(data) {
                         callback(null, data);
                     })
@@ -273,8 +247,7 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             editAd: function(orgId, id, ad, callback) {
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id, JSON.stringify(ad),
-                    userService.authHeader())
+                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id, JSON.stringify(ad))
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -282,7 +255,7 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getAd: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id, userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id)
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -306,8 +279,7 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             deleteAd: function(orgId, id, callback) {
-                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id,
-                    userService.authHeader())
+                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id)
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -321,11 +293,10 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL, userService) {
+    function($http, GRIZZLY_URL) {
         var service = {
             createSearch: function(orgId, search, callback) {
-                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/', JSON.stringify(search),
-                    userService.authHeader())
+                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/', JSON.stringify(search))
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -334,7 +305,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
             },
             editSearch: function(orgId, id, search, callback) {
                 $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
-                    JSON.stringify(search), userService.authHeader())
+                    JSON.stringify(search))
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -342,8 +313,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             deleteSearch: function(orgId, id, callback) {
-                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
-                    userService.authHeader())
+                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id)
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -351,7 +321,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getSearch: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id, userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id)
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -359,8 +329,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getSearchForAd: function(orgId, adId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search',
-                    userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -368,8 +337,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getSearchResults: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results',
-                    userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -384,7 +352,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/hit',
-                    JSON.stringify(o), userService.authHeader())
+                    JSON.stringify(o))
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -399,7 +367,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/invite',
-                    JSON.stringify(o), userService.authHeader())
+                    JSON.stringify(o))
                     .success(function() {
                         callback();
                     }).error(function(data) {
@@ -413,7 +381,7 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL, userService) {
+    function($http, GRIZZLY_URL) {
         var service = {
             createResponse: function(userId, orgId, adId, tags, callback) {
                 var o = {
@@ -422,7 +390,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
-                    JSON.stringify(o), userService.authHeader())
+                    JSON.stringify(o))
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -436,7 +404,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId, JSON.stringify(o), userService.authHeader())
+                    responseId, JSON.stringify(o))
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -445,7 +413,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
             },
             getResponse: function(orgId, adId, responseId, callback) {
                 $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId, userService.authHeader())
+                    responseId)
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -453,8 +421,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                     });
             },
             getAllResponses: function(orgId, adId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses',
-                    userService.authHeader())
+                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses')
                     .success(function(data) {
                         callback(null, data);
                     }).error(function(data) {
@@ -468,26 +435,24 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL, userService) {
+    function($http, GRIZZLY_URL) {
         var service = {
             getAllNotifications: function() {
-                return $http.get(GRIZZLY_URL + '/user/notifications', userService.authHeader());
+                return $http.get(GRIZZLY_URL + '/user/notifications');
             },
             markAsRead: function(id) {
                 var o = {
                     isRead: true
                 };
 
-                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o),
-                    userService.authHeader());
+                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o));
             },
             markAsUnread: function(id) {
                 var o = {
                     isRead: false
                 };
 
-                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o),
-                    userService.authHeader());
+                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o));
             }
         };
 
