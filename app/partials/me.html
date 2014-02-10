@@ -130,7 +130,7 @@
                     <div class="btn btn-primary btn-lg gr-summary-label pull-right" style="width:150px">
                         <span class="large-text">{{stats.score}}</span>
                     </div>
-                    <div ng-repeat="c in getTimes(stats.score)" class="gr-vis-year circle"></div>
+                    <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle"></div>
                 </div>
             </div>
             
