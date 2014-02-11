@@ -2,13 +2,13 @@
     <div class="col-md-8">
         <h1>Campaigns</h1>
         <hr>
-        <h3 class="gr-big-li" ng-repeat="campaign in campaigns"><a href="#/organization/campaign/{{campaign._id}}">{{campaign.jobRole}}</a>
+        <p class="gr-big-li" ng-repeat="campaign in campaigns"><a href="#/organization/campaign/{{campaign._id}}">{{campaign.jobRole}}</a>
             <span class="label label-success">{{moment(campaign.postedOn).format('Do MMM')}}</span>
             <span class="label label-success" ng-show="campaign.published">Published</span>
             <span class="label label-warning" ng-show="!campaign.published">Draft</span>
             <span class="label label-danger" ng-show="campaign.public">Public</span>
             <span class="label label-info" ng-show="!campaign.public">Private</span>
-        </h3>
+        </p>
         <div class="alert alert-info" ng-hide="campaigns.length > 0">You have no running campaigns</div>
     </div>
     <div class="col-md-4">

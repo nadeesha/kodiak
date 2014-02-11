@@ -5716,7 +5716,7 @@ label, .control-label, .help-block, .checkbox, .radio {
     color:#999
 }
 .list-group {
-    /*font-size:12px;*/
+    font-size:12px;
     font-weight:300
 }
 /*.alert {
