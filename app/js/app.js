@@ -14,8 +14,7 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'ngSanitize',
     'ngProgress',
     'chieffancypants.loadingBar',
-    'ngGrid',
-    'ngQuickDate'
+    'ngGrid'
 ]);
 
 app.config(function($httpProvider, $provide) {
@@ -48,8 +47,7 @@ app.config(function($httpProvider, $provide) {
 app.config(function($stateProvider,
     $urlRouterProvider,
     $locationProvider,
-    cfpLoadingBarProvider,
-    ngQuickDateDefaultsProvider) {
+    cfpLoadingBarProvider) {
 
     cfpLoadingBarProvider.includeSpinner = true;
 
@@ -214,12 +212,6 @@ app.config(function($stateProvider,
             templateUrl: 'partials/organization_view.html',
             controller: 'ViewOrgProfileCtrl'
         });
-
-    // cross platform date time parsing for ngQuickDate
-    ngQuickDateDefaultsProvider.set('parseDateFunction', function(str) {
-        var d = moment(str);
-        return d.isValid() ? d : null;
-    });
 
 });
 
