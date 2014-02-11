@@ -20,10 +20,8 @@ var app = angular.module('kodiak', ['kodiak.filters',
 app.config(function($httpProvider, $provide) {
     $httpProvider.defaults.useXDomain = true;
 
-    // register the interceptor as a service
     $provide.factory('myHttpInterceptor', function($q, $location, notificationService) {
         return {
-            // optional method
             'responseError': function(rejection) {
                 console.log(rejection);
                 if (rejection.status === 401 && $location.$$path !== '/login') {
