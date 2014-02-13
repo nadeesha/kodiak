@@ -95,9 +95,21 @@ controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validati
     function($scope, data, validationService) {
         $scope.data = data;
 
+        $scope.minimumBirthdate = new Date(moment().subtract('years', 70)); // sorry grandpa
+        $scope.maximumBirthdate = new Date(moment().subtract('years', 15)); // sorry kid
+        $scope.opened = false;
+        $scope.format = 'yyyy-MM-dd'
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
         // parse date string -> Date()
         if ($scope.data.dateOfBirth) {
-            $scope.data.dateOfBirth = moment($scope.data.dateOfBirth);
+            $scope.data.dateOfBirth = new Date(moment($scope.data.dateOfBirth));
         }
 
         $scope.submit = function() {

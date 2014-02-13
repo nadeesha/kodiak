@@ -19,32 +19,32 @@
                         </a>
                     </h2>
                     <h4 class="line-spacing-regular">
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-home"></span>Location:
+                        <div class="nowrap" ng-show="user.location">
+                            <span class="glyphicon gr-glyphicon glyphicon-home"></span>Location:
                             <span class="label label-primary gr-right-5">{{user.location}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-user"></span>Gender:
+                        <div class="nowrap" ng-show="convertGender(user.gender)">
+                            <span class="glyphicon gr-glyphicon glyphicon-user"></span>Gender:
                             <span class="label label-primary gr-right-5">{{convertGender(user.gender)}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-phone"></span>Contact Number:
+                        <div class="nowrap" ng-show="user.contactNumber">
+                            <span class="glyphicon gr-glyphicon glyphicon-phone"></span>Contact Number:
                             <span class="label label-primary gr-right-5">{{user.contactNumber}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-envelope"></span>E-mail:
+                        <div class="nowrap" ng-show="user.email">
+                            <span class="glyphicon gr-glyphicon glyphicon-envelope"></span>E-mail:
                             <span class="label label-primary gr-right-5">{{user.email}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-bullhorn"></span>Languages:
+                        <div class="nowrap" ng-show="user.languages.length>0">
+                            <span class="glyphicon gr-glyphicon glyphicon-bullhorn"></span>Languages:
                             <span class="label label-primary gr-right-5" ng-repeat="language in user.languages">{{language}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-asterisk"></span>National Identifier:
+                        <div class="nowrap" ng-show="user.nationalIdentifier">
+                            <span class="glyphicon gr-glyphicon glyphicon-asterisk"></span>National Identifier:
                             <span class="label label-primary gr-right-5">{{user.nationalIdentifier}}</span>
                         </div>
-                        <div class="nowrap gr-personal-block">
-                            <span class="glyphicon gr-glyphicon gr-mild-left glyphicon-calendar"></span>Date of Birth:
+                        <div class="nowrap" ng-show="user.dateOfBirth">
+                            <span class="glyphicon gr-glyphicon glyphicon-calendar"></span>Date of Birth:
                             <span class="label label-primary gr-right-5">{{user.dateOfBirth | date:'dd MMM yyyy'}}</span>
                         </div>
                     </h4>
