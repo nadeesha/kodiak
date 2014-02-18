@@ -1,3 +1,5 @@
+/* jshint indent: false */
+
 'use strict';
 
 /* Controllers */
@@ -9,12 +11,13 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
         $scope.create = function(user) {
             userService.create(user)
                 .success(function() {
-                    notificationService.handleSuccess('Account created. But you will have ' +
-                        'to login to your email and click the activation link first.');
+                    notificationService.handleSuccess('Account created. But you will have to login to ' +
+                        'your email and click the activation link first.');
                 });
         };
     }
 ]);
+
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
     'notificationService', '$rootScope', '$stateParams',
@@ -190,16 +193,18 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
                     validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
                     validationService.mustBeTrue(this.data.issuedBy,
                         'Issued School/University/Institute should be defined');
-                    if (this.complete)
+                    if (this.complete) {
                         validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
                             'Start date should be before the end date');
+                    }
                 } else {
                     validationService.mustBeTrue(this.data.position, 'Your position must be defined');
                     validationService.mustBeTrue(this.data.organization,
                         'The organization you worked at must be defined');
-                    if (!this.current)
+                    if (!this.current) {
                         validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
                             'Start date should be before the end date');
+                    }
                 }
 
                 validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
@@ -221,31 +226,24 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
 controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
     function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
 
-        if ($state.is('editProfile'))
+        if ($state.is('editProfile')) {
             $scope.edit = true;
+        }
 
         $scope.getTimes = utilService.getTimes;
 
         var loadProfileStats = function() {
-            userService.getProfileStats(function(err, stats) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
-
-                $scope.stats = stats;
-            });
+            userService.getProfileStats()
+                .success(function(stats) {
+                    $scope.stats = stats;
+                });
         };
 
-        userService.getProfile(function(err, user) {
-            if (err) {
-                notificationService.handleError(err.message);
-                return;
-            }
-
-            $scope.user = $scope.latestValid = user;
-            loadProfileStats();
-        });
+        userService.getProfile()
+            .success(function(data) {
+                $scope.user = $scope.latestValid = data;
+                loadProfileStats();
+            });
 
         var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
             // holds a copy of the referred object so that edits won't appear instantaneously
@@ -275,17 +273,16 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         };
 
         $scope.convertGender = function(gender) {
-            if (gender)
+            if (gender) {
                 return 'Male';
-            else if (gender === false)
+            } else if (gender === false) {
                 return 'Female';
+            }
         };
 
         $scope.saveProfile = function() {
-            userService.saveProfile($scope.user, function(err) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                } else {
+            userService.saveProfile($scope.user)
+                .success(function() {
                     $scope.latestValid = $scope.user;
                     loadProfileStats();
                     notificationService.notify({
@@ -294,8 +291,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                         type: 'success',
                         hide: true
                     });
-                }
-            });
+                });
         };
 
         // personal modal
@@ -322,7 +318,9 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 profile.contactNumber = personalData.contactNumber;
                 profile.languages = personalData.languages;
                 profile.nationalIdentifier = personalData.nationalIdentifier;
-                if (personalData.dateOfBirth) profile.dateOfBirth = new Date(personalData.dateOfBirth);
+                if (personalData.dateOfBirth) {
+                    profile.dateOfBirth = new Date(personalData.dateOfBirth);
+                }
                 profile.gender = personalData.gender;
 
                 $scope.saveProfile();
@@ -454,12 +452,7 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 });
         };
 
-        orgService.getAds($rootScope.u.affiliation, function(err, data) {
-            if (err) {
-                notificationService.handleError(err.message);
-                return;
-            }
-
+        orgService.getAds($rootScope.u.affiliation).success(function(data) {
             $scope.org = {
                 _id: $rootScope.u.affiliation
             };
@@ -544,8 +537,9 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
 
         // on change for the selected candidate, change the gr-visualized-profile
         $scope.$watch('selectedCandidate[0]', function() {
-            if ($scope.selectedCandidate.length === 0)
+            if ($scope.selectedCandidate.length === 0) {
                 return;
+            }
 
             $scope.data = {};
 
@@ -559,45 +553,35 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
             });
         });
 
-        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-
-            $scope.ad = data.advertisement;
-            $scope.ad.name = $scope.ad.jobRole + '-' + moment($scope.ad.createdOn).format('MMM DD');
-        });
-
-        searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-
-            $scope.search = data.search;
-        });
-
-        adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-
-            $scope.responses = _.map(data.responses, function(r) {
-                return {
-                    id: r._id,
-                    user: r.user._id ? r.user._id : r.user,
-                    name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
-                    status: r.status,
-                    updated: moment(r.lastUpdatedOn).fromNow(),
-                    tags: r.tags.join(', ')
-                };
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+            .success(function(data) {
+                $scope.ad = data.advertisement;
+                $scope.ad.name = $scope.ad.jobRole + '-' + moment($scope.ad.createdOn).format('MMM DD');
             });
-        });
+
+        searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId)
+            .success(function(data) {
+                $scope.search = data.search;
+            });
+
+        adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
+            .success(function(data) {
+                $scope.responses = _.map(data.responses, function(r) {
+                    return {
+                        id: r._id,
+                        user: r.user._id ? r.user._id : r.user,
+                        name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
+                        status: r.status,
+                        updated: moment(r.lastUpdatedOn).fromNow(),
+                        tags: r.tags.join(', ')
+                    };
+                });
+            });
 
         $scope.save = function(response, status, tags) {
             adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status,
-                tags, function(err) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                        return;
-                    }
-
+                tags)
+                .success(function() {
                     notificationService.handleSuccess('Successfully updated the candidate');
                 });
         };
@@ -632,32 +616,30 @@ controllers.controller('CreateAdCtrl', ['$scope',
         if ($state.is('editAdvertisement')) {
             $scope.heading = 'Edit Advertisement';
 
-            adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-                if (err)
-                    notificationService.handleError(err.message);
+            adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+                .success(function(data) {
+                    $scope.ad = data.advertisement;
 
-                $scope.ad = data.advertisement;
+                    // transforming the questions
+                    var q = $scope.ad.questions;
 
-                // transforming the questions
-                var q = $scope.ad.questions;
-
-                // re-initialize $scope array holders
-                $scope.ad.questions = [];
-                _.each(q, function(v) {
-                    $scope.ad.questions.push({
-                        value: v
+                    // re-initialize $scope array holders
+                    $scope.ad.questions = [];
+                    _.each(q, function(v) {
+                        $scope.ad.questions.push({
+                            value: v
+                        });
                     });
+
+                    // convert the stringified date to a Date object
+                    // ui-date (date picker) requires so
+                    $scope.ad.expiredOn = new Date($scope.ad.expiredOn);
+
+                    $scope.postedOn = moment().calendar();
+                    $scope.expiresOn = function() {
+                        return moment($scope.ad.expiredOn).calendar();
+                    };
                 });
-
-                // convert the stringified date to a Date object
-                // ui-date (date picker) requires so
-                $scope.ad.expiredOn = new Date($scope.ad.expiredOn);
-
-                $scope.postedOn = moment().calendar();
-                $scope.expiresOn = function() {
-                    return moment($scope.ad.expiredOn).calendar();
-                };
-            });
         } else { // this should be the create state then
             $scope.heading = 'Create Advertisement';
 
@@ -682,22 +664,17 @@ controllers.controller('CreateAdCtrl', ['$scope',
             // currently they are nested under obj.value properties
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
-            if ($state.is('createAdvertisement'))
-                adService.createAd($rootScope.u.affiliation, ad, function(err, data) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                    } else {
+            if ($state.is('createAdvertisement')) {
+                adService.createAd($rootScope.u.affiliation, ad)
+                    .success(function(data) {
                         $location.url('/organization/ad/' + data.id + '/view');
-                    }
-                });
-            else
-                adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad, function(err) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                    } else {
+                    });
+            } else {
+                adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad)
+                    .success(function() {
                         $location.url('/organization/ad/' + $scope.ad.id + '/view');
-                    }
-                });
+                    });
+            }
         };
     }
 ]);
@@ -708,13 +685,11 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
         $scope.org = {};
         $scope.ad = {};
 
-        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-            else {
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+            .success(function(data) {
+
                 $scope.ad = data.advertisement;
-            }
-        });
+            });
 
         orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
@@ -733,27 +708,18 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
         $scope.ad = {};
 
         $scope.apply = function() {
-            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null,
-                function(err) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                        return;
-                    }
-
+            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null)
+                .success(function() {
                     notificationService.handleSuccess('Saved your application successfully');
-
                     $scope.status = 'applied';
                 });
         };
 
         var getAdvertisement = function(method) {
-            method($stateParams.orgId, $stateParams.adId, function(err, data) {
-                if (err)
-                    notificationService.handleError(err.message);
-                else {
+            method($stateParams.orgId, $stateParams.adId)
+                .success(function(data) {
                     $scope.ad = data.advertisement;
-                }
-            });
+                });
         };
 
         if ($stateParams.from === 'email') {
@@ -850,10 +816,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
         // if this is a edit
         if ($scope.searchId) {
-            searchService.getSearch($rootScope.u.affiliation, $scope.searchId, function(err, data) {
-                if (err)
-                    notificationService.handleError(err.message);
-                else {
+            searchService.getSearch($rootScope.u.affiliation, $scope.searchId)
+                .success(function(data) {
                     $scope.search = data.search;
 
                     // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
@@ -861,19 +825,15 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                         $scope.search.criteria[i].displayName =
                             $scope.displayNameCollection[$scope.search.criteria[i].name].name;
                     }
-                }
-            });
+                });
         }
 
-        adService.getAd($rootScope.u.affiliation, $stateParams.adId, function(err, data) {
-            if (err)
-                notificationService.handleError(err.message);
-            else {
+        adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+            .success(function(data) {
                 $scope.ad = data.advertisement;
                 $scope.search.name = $scope.ad.jobRole + ' - ' +
                     moment($scope.ad.publishedOn).format('MMM YY');
-            }
-        });
+            });
 
         var resetCriterion = function() {
             $scope.criterion = {
@@ -894,21 +854,15 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
             // if this is a new search
             if (!$scope.searchId) {
-                searchService.createSearch($rootScope.u.affiliation, search, function(err, data) {
-                    if (err)
-                        notificationService.handleError(err.message);
-                    else {
+                searchService.createSearch($rootScope.u.affiliation, search)
+                    .success(function(data) {
                         notificationService.handleSuccess('Search updated successfully.');
                         $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
-                    }
-                });
+                    });
             } else {
-                searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search,
-                    function(err) {
-                        if (err)
-                            notificationService.handleError(err.message);
-                        else
-                            notificationService.handleSuccess('Search updated successfully.');
+                searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search)
+                    .success(function() {
+                        notificationService.handleSuccess('Search updated successfully.');
                     });
             }
         };
@@ -923,7 +877,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                     // if the user is going to define filter criteria like age and years of experience 
                     // more than once
                     validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
-                        return c.name == $scope.criterion.name;
+                        return c.name === $scope.criterion.name;
                     })), 'You can not specify multiple search criteria of this kind');
                 }
 
@@ -949,17 +903,10 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         };
 
         $scope.invite = function(id, tags) {
-            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags,
-                function(err) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                        return;
-                    }
-
+            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags)
+                .success(function() {
                     $scope.user.invited = true;
-
                     notificationService.handleSuccess('Candidate was invited successfully');
-
                     markInvitedCandidates($scope.allResults);
                 });
         };
@@ -982,13 +929,8 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         };
 
         function markInvitedCandidates(results) {
-            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId,
-                function(err, data) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                        return;
-                    }
-
+            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
+                .success(function(data) {
                     var invitedList = _.pluck(data.responses, 'user');
                     var fullList = _.pluck(results, '_id');
 
@@ -996,7 +938,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
 
                     for (var i = 0; i < resultsToBeMarked.length; i++) {
                         for (var j = 0; j < results.length; j++) {
-                            if (resultsToBeMarked[i] == results[j]._id) {
+                            if (resultsToBeMarked[i] === results[j]._id) {
                                 results[j].invited = true;
                                 continue;
                             }
@@ -1006,18 +948,15 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         }
 
         $scope.doSearch = function() {
-            searchService.getSearchResults($rootScope.u.affiliation, $scope.searchId,
-                function(err, data) {
-                    if (err) {
-                        notificationService.handleError(err.message);
+            searchService.getSearchResults($rootScope.u.affiliation, $scope.searchId)
+                .success(function(data) {
+                    if (data.scores.hits.hits.length !== 0) {
+                        $scope.allResults = data.scores.hits.hits;
+                        markInvitedCandidates(data.scores.hits.hits);
+                        $scope.showTop(10);
                     } else {
-                        if (data.scores.hits.hits.length !== 0) {
-                            $scope.allResults = data.scores.hits.hits;
-                            markInvitedCandidates(data.scores.hits.hits);
-                            $scope.showTop(10);
-                        } else
-                            notificationService.handleInfo('No candidates found matching that criteria',
-                                'Nothing to show!');
+                        notificationService.handleInfo('No candidates found matching that criteria',
+                            'Nothing to show!');
                     }
                 });
         };
@@ -1042,13 +981,10 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 
         var changeStatus = function(status, response, successMsg) {
             adResponseService.editResponse(response.advertisement.organization._id,
-                response.advertisement._id, response._id, status, null, function(err) {
-                    if (err) {
-                        notificationService.handleError(err.message);
-                    } else {
-                        notificationService.handleSuccess(successMsg);
-                        loadResponses();
-                    }
+                response.advertisement._id, response._id, status, null)
+                .success(function() {
+                    notificationService.handleSuccess(successMsg);
+                    loadResponses();
                 });
         };
 
@@ -1109,8 +1045,6 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
                         $scope.responses.inactive.push(response);
                     }
                 });
-            }).error(function(err) {
-                notificationService.handleError(err.message);
             });
         };
 
@@ -1119,15 +1053,10 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 ]);
 
 controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationService', '$location',
-    function($scope, adService, notificationService) {
+    function($scope, adService) {
         $scope.ads = [];
 
-        adService.getAdsPublic(function(err, data) {
-            if (err) {
-                notificationService.handleError(err.message);
-                return;
-            }
-
+        adService.getAdsPublic().success(function(data) {
             $scope.ads = data.ads;
         });
     }
@@ -1181,9 +1110,6 @@ controllers.controller('ResetPasswordCtrl', [
                 .success(function() {
                     notificationService.handleSuccess(
                         'A password reset link was sent to your email address');
-                })
-                .error(function(err) {
-                    notificationService.handleError(err.message);
                 });
         };
     }
@@ -1228,9 +1154,6 @@ controllers.controller('ChangePasswordCtrl', [
                             ' new password.'
                         );
                     }
-                })
-                .error(function(err) {
-                    notificationService.handleError(err.message);
                 });
         };
     }
@@ -1247,16 +1170,17 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
             $scope.org = data.organization;
         });
 
-    orgService.getAds($stateParams.orgId, function(err, data) {
-        $scope.ads = data.advertisements;
-    });
+    orgService.getAds($stateParams.orgId)
+        .success(function(data) {
+            $scope.ads = data.advertisements;
+        });
 });
 
 controllers.controller('LandingCtrl', function($scope, $timeout) {
     var index = 0;
 
     var incrementIndex = function() {
-        if (index == taunts.length - 1) {
+        if (index === taunts.length - 1) {
             index = 0;
         } else {
             index++;
