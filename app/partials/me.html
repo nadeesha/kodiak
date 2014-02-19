@@ -2,11 +2,6 @@
     <div class="row">
         <div class="col-md-7">
             <h1>
-                <span>
-                    <a href="http://www.gravatar.com/{{user.email}}" target="_blank">
-                        <img email="{{user.email}}" class="img-circle" style="margin: -5px 0;" size="60" src gr-avatar/>
-                    </a>
-                </span>
                 <span>{{user.firstName}}</span>
                 <span>{{user.lastName}}</span>
             </h1>
@@ -128,7 +123,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="btn btn-primary btn-lg gr-summary-label pull-right" style="width:150px">
-                        <span class="large-text">{{stats.score}}</span>
+                        <div class="large-text">{{stats.score}}</div>
+                        <span class="gr-profile-score">Profile Score</span>
                     </div>
                     <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle"></div>
                 </div>

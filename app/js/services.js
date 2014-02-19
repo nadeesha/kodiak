@@ -1,3 +1,5 @@
+/* jshint indent: false */
+
 'use strict';
 
 var services = angular.module('kodiak.services', []);
@@ -25,8 +27,9 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             restoreState: function() {
-                if (!$rootScope.u)
+                if (!$rootScope.u) {
                     $rootScope.u = {};
+                }
 
                 if (!$rootScope.u.restored && $localStorage.user) {
                     $rootScope.u = angular.fromJson($localStorage.user);
@@ -82,41 +85,25 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
             },
 
-            getProfile: function(id, callback) {
-                if (!callback && typeof id === 'function') {
-                    callback = id;
+            getProfile: function(id) {
+                if (!id) {
                     id = 'me';
                 }
 
-                $http.get(GRIZZLY_URL + '/user/' + id + '/profile')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data, null);
-                    });
+                return $http.get(GRIZZLY_URL + '/user/' + id + '/profile');
             },
 
-            getProfileStats: function(callback) {
-                $http.get(GRIZZLY_URL + '/user/me/profile/stats')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data, null);
-                    });
+            getProfileStats: function() {
+                return $http.get(GRIZZLY_URL + '/user/me/profile/stats');
             },
 
-            saveProfile: function(profile, callback) {
+            saveProfile: function(profile) {
                 var user = {
                     profile: profile
                 };
 
-                $http.post(GRIZZLY_URL + '/user/me/profile',
-                    JSON.stringify(user)
-                ).success(function() {
-                    callback();
-                }).error(function(data) {
-                    callback(data);
-                });
+                return $http.post(GRIZZLY_URL + '/user/me/profile',
+                    JSON.stringify(user));
             },
 
             getResponses: function() {
@@ -168,13 +155,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
     function($http, GRIZZLY_URL) {
         var service = {
             createOrg: function(org, callback) {
-                $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
-                    .success(function(data) {
-                        callback(null, data);
-                    })
-                    .error(function(data) {
-                        callback(data, null);
-                    });
+                return $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
             },
             editOrg: function(id, org) {
                 return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org));
@@ -182,29 +163,8 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
             getOrg: function(id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/public');
             },
-            getAdsPublic: function(id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + id + '/public/posts')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
-            },
-            getAds: function(id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + id + '/posts')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
-            },
-            getSearches: function(id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + id + '/searches')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getAds: function(id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + id + '/posts');
             },
             uploadLogo: function(id, files) {
                 var formData = new FormData();
@@ -237,54 +197,24 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
 services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
-            createAd: function(orgId, ad, callback) {
-                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', JSON.stringify(ad))
-                    .success(function(data) {
-                        callback(null, data);
-                    })
-                    .error(function(data) {
-                        callback(data, null);
-                    });
+            createAd: function(orgId, ad) {
+                return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', JSON.stringify(ad));
             },
-            editAd: function(orgId, id, ad, callback) {
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id, JSON.stringify(ad))
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            editAd: function(orgId, id, ad) {
+                return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id,
+                    JSON.stringify(ad));
             },
-            getAd: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id)
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getAd: function(orgId, id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id);
             },
-            getAdPublic: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/public/post/' + id)
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getAdPublic: function(orgId, id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/public/post/' + id);
             },
-            getAdsPublic: function(callback) {
-                $http.get(GRIZZLY_URL + '/ads/public')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getAdsPublic: function() {
+                return $http.get(GRIZZLY_URL + '/ads/public');
             },
-            deleteAd: function(orgId, id, callback) {
-                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id)
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            deleteAd: function(orgId, id) {
+                return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id);
             }
         };
 
@@ -295,84 +225,22 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
 services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
-            createSearch: function(orgId, search, callback) {
-                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/', JSON.stringify(search))
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            createSearch: function(orgId, search) {
+                return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/',
+                    JSON.stringify(search));
             },
-            editSearch: function(orgId, id, search, callback) {
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
-                    JSON.stringify(search))
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            editSearch: function(orgId, id, search) {
+                return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
+                    JSON.stringify(search));
             },
-            deleteSearch: function(orgId, id, callback) {
-                $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id)
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getSearch: function(orgId, id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id);
             },
-            getSearch: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id)
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getSearchForAd: function(orgId, adId) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search');
             },
-            getSearchForAd: function(orgId, adId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
-            },
-            getSearchResults: function(orgId, id, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
-            },
-            hitUser: function(orgId, id, userId, callback) {
-                var o = {
-                    user: {
-                        id: userId
-                    }
-                };
-
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/hit',
-                    JSON.stringify(o))
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
-            },
-            inviteUser: function(orgId, id, userId, callback) {
-                var o = {
-                    user: {
-                        id: userId
-                    }
-                };
-
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/invite',
-                    JSON.stringify(o))
-                    .success(function() {
-                        callback();
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getSearchResults: function(orgId, id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results');
             }
         };
 
@@ -383,50 +251,30 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
 services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
-            createResponse: function(userId, orgId, adId, tags, callback) {
+            createResponse: function(userId, orgId, adId, tags) {
                 var o = {
                     user: userId,
                     tags: tags
                 };
 
-                $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
-                    JSON.stringify(o))
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+                return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
+                    JSON.stringify(o));
             },
-            editResponse: function(orgId, adId, responseId, status, tags, callback) {
+            editResponse: function(orgId, adId, responseId, status, tags) {
                 var o = {
                     status: status,
                     tags: tags
                 };
 
-                $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId, JSON.stringify(o))
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+                return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
+                    responseId, JSON.stringify(o));
             },
-            getResponse: function(orgId, adId, responseId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId)
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getResponse: function(orgId, adId, responseId) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
+                    responseId);
             },
-            getAllResponses: function(orgId, adId, callback) {
-                $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses')
-                    .success(function(data) {
-                        callback(null, data);
-                    }).error(function(data) {
-                        callback(data);
-                    });
+            getAllResponses: function(orgId, adId) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses');
             }
         };
 
@@ -519,8 +367,9 @@ services.factory('utilService', [
     function() {
         return {
             getTimes: function(n) {
-                if (!n)
+                if (!n) {
                     return;
+                }
 
                 return new Array(Number(n));
             }

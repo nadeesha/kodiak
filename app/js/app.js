@@ -14,16 +14,18 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'ngSanitize',
     'ngProgress',
     'chieffancypants.loadingBar',
-    'ngGrid'
+    'ngGrid',
+    'ngQuickDate'
 ]);
 
 app.config(function($httpProvider, $provide) {
     $httpProvider.defaults.useXDomain = true;
 
-    $provide.factory('myHttpInterceptor', function($q, $location, notificationService) {
+    // register the interceptor as a service
+    $provide.factory('errorHandler', function($q, $location, notificationService, $rootScope) {
         return {
+            // optional method
             'responseError': function(rejection) {
-                console.log(rejection);
                 if (rejection.status === 401 && $location.$$path !== '/login') {
                     $location.url('/login?to=' + encodeURIComponent($location.$$url));
 
@@ -35,17 +37,25 @@ app.config(function($httpProvider, $provide) {
                 }
 
                 return $q.reject(rejection);
+            },
+
+            'request' : function (config) {
+                if ($rootScope.u) {
+                    config.headers.Authorization = 'Bearer ' + $rootScope.u.access_token;
+                    return config;
+                }
             }
         };
     });
 
-    $httpProvider.interceptors.push('myHttpInterceptor');
+    $httpProvider.interceptors.push('errorHandler');
 });
 
 app.config(function($stateProvider,
     $urlRouterProvider,
     $locationProvider,
-    cfpLoadingBarProvider) {
+    cfpLoadingBarProvider,
+    ngQuickDateDefaultsProvider) {
 
     cfpLoadingBarProvider.includeSpinner = true;
 
@@ -210,6 +220,12 @@ app.config(function($stateProvider,
             templateUrl: 'partials/organization_view.html',
             controller: 'ViewOrgProfileCtrl'
         });
+
+    // cross platform date time parsing for ngQuickDate
+    ngQuickDateDefaultsProvider.set('parseDateFunction', function(str) {
+        var d = moment(str);
+        return d.isValid() ? d : null;
+    });
 
 });
 
