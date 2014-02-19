@@ -20,8 +20,8 @@ module.exports = function(grunt) {
     ];
 
     var cssFilesCombined = [
-        'app/css/bootstrap-theme.min.css',
         'components/bootstrap/dist/css/bootstrap.min.css',
+        'app/css/bootstrap-theme.min.css',
         'components/dist/ngQuickDate/ng-quick-date.css',
         'app/components/pnotify/jquery.pnotify.default.css',
         'app/components/pnotify/jquery.pnotify.default.icons.css',
