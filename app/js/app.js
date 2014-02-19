@@ -41,7 +41,7 @@ app.config(function($httpProvider, $provide) {
 
             'request' : function (config) {
                 if ($rootScope.u) {
-                    config.headers.Authorization = 'Bearer ' + $rootScope.u.access_token || '';
+                    config.headers.Authorization = 'Bearer ' + $rootScope.u.access_token;
                     return config;
                 }
             }
