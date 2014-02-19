@@ -55,7 +55,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                             firstName: data.firstName,
                             lastName: data.lastName,
                             email: user.email,
-                            accessToken: data.accessToken,
+                            access_token: data.access_token,
                             expiration: data.expiration,
                             affiliation: data.affiliation,
                             restored: true,
@@ -74,7 +74,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             },
 
             isLoggedIn: function() {
-                if ($rootScope.u.accessToken && moment($rootScope.u.expiration).isAfter(moment())) {
+                if ($rootScope.u.access_token && moment($rootScope.u.expiration).isAfter(moment())) {
                     return true;
                 } else {
                     return false;
@@ -85,26 +85,25 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
             },
 
-            getProfile: function(id, callback) {
-                if (!callback && typeof id === 'function') {
-                    callback = id;
+            getProfile: function(id) {
+                if (!id) {
                     id = 'me';
                 }
 
-                return $http.get(GRIZZLY_URL + '/user/' + id + '/profile')
+                return $http.get(GRIZZLY_URL + '/user/' + id + '/profile');
             },
 
-            getProfileStats: function(callback) {
-                return $http.get(GRIZZLY_URL + '/user/me/profile/stats')
+            getProfileStats: function() {
+                return $http.get(GRIZZLY_URL + '/user/me/profile/stats');
             },
 
-            saveProfile: function(profile, callback) {
+            saveProfile: function(profile) {
                 var user = {
                     profile: profile
                 };
 
                 return $http.post(GRIZZLY_URL + '/user/me/profile',
-                    JSON.stringify(user))
+                    JSON.stringify(user));
             },
 
             getResponses: function() {
@@ -156,13 +155,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
     function($http, GRIZZLY_URL) {
         var service = {
             createOrg: function(org, callback) {
-                $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
-                    .success(function(data) {
-                        callback(null, data);
-                    })
-                    .error(function(data) {
-                        callback(data, null);
-                    });
+                return $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
             },
             editOrg: function(id, org) {
                 return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org));
@@ -267,21 +260,21 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
                     JSON.stringify(o));
             },
-            editResponse: function(orgId, adId, responseId, status, tags, callback) {
+            editResponse: function(orgId, adId, responseId, status, tags) {
                 var o = {
                     status: status,
                     tags: tags
                 };
 
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId, JSON.stringify(o))
+                    responseId, JSON.stringify(o));
             },
-            getResponse: function(orgId, adId, responseId, callback) {
+            getResponse: function(orgId, adId, responseId) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId)
+                    responseId);
             },
-            getAllResponses: function(orgId, adId, callback) {
-                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses')
+            getAllResponses: function(orgId, adId) {
+                return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses');
             }
         };
 

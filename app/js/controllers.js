@@ -234,8 +234,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         var loadProfileStats = function() {
             userService.getProfileStats()
-                .success(function(stats) {
-                    $scope.stats = stats;
+                .success(function(data) {
+                    $scope.stats = data;
                 });
         };
 
@@ -366,8 +366,8 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
     function($scope, $http, orgService, $location, userService, notificationService) {
 
         $scope.submit = function(org, admin) {
-            orgService.createOrg(org, function(err, data) {
-                if (!err) {
+            orgService.createOrg(org)
+                .success(function(data) {
                     notificationService.notify({
                         title: 'Success!',
                         text: 'Organization Created',
@@ -389,8 +389,7 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                                 'and click the confirmation link, please',
                                 'Admin account created!');
                         });
-                }
-            });
+                });
         };
     }
 ]);
@@ -543,14 +542,10 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
 
             $scope.data = {};
 
-            userService.getProfile($scope.selectedCandidate[0].user, function(err, data) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
-
-                $scope.user = data;
-            });
+            userService.getProfile($scope.selectedCandidate[0].user)
+                .success(function(data) {
+                    $scope.user = data;
+                });
         });
 
         adService.getAd($rootScope.u.affiliation, $stateParams.adId)
@@ -605,8 +600,6 @@ controllers.controller('CreateAdCtrl', ['$scope',
         orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
                 $scope.org = data.organization;
-            }).error(function(err) {
-                notificationService.handleError(err.message);
             });
 
         $scope.ad = {};
@@ -694,8 +687,6 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
         orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
                 $scope.org = data.organization;
-            }).error(function(err) {
-                notificationService.handleError(err.message);
             });
     }
 ]);
@@ -742,8 +733,6 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
                 } else {
                     getAdvertisement(adService.getAdPublic);
                 }
-            }).error(function(err) {
-                notificationService.handleError(err.message);
             });
         } else {
             getAdvertisement(adService.getAdPublic);
@@ -752,8 +741,6 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
         orgService.getOrg($stateParams.orgId)
             .success(function(data) {
                 $scope.org = data.organization;
-            }).error(function(err) {
-                notificationService.handleError(err.message);
             });
     }
 ]);
@@ -912,16 +899,12 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
         };
 
         $scope.loadProfile = function(id, invited) {
-            userService.getProfile(id, function(err, data) {
-                if (err) {
-                    notificationService.handleError(err.message);
-                    return;
-                }
-
-                $scope.user = data;
-                $scope.user.id = id;
-                $scope.user.invited = invited;
-            });
+            userService.getProfile(id)
+                .success(function(data) {
+                    $scope.user = data;
+                    $scope.user.id = id;
+                    $scope.user.invited = invited;
+                });
         };
 
         $scope.showTop = function(count) {
@@ -1069,8 +1052,6 @@ controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayS
             subwayService.markAsRead(notification._id).success(function(data) {
                 $rootScope.$broadcast('refreshNotifications');
                 $rootScope.notifications = data;
-            }).error(function(data) {
-                notificationService.handleError(data.message);
             });
         };
 
