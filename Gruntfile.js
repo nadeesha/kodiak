@@ -2,7 +2,7 @@
 
 module.exports = function(grunt) {
 
-    if (grunt.option('target') == 'stg' || grunt.option('target') == 'prod') {
+    if (grunt.option('target') === 'stg' || grunt.option('target') === 'prod') {
         console.log('setting configuration: ', grunt.option('target'));
     } else {
         console.log('invalid --target: ', grunt.option('target'));
@@ -20,7 +20,6 @@ module.exports = function(grunt) {
     ];
 
     var cssFilesCombined = [
-        'components/bootstrap/dist/css/bootstrap.min.css',
         'app/css/bootstrap-theme.min.css',
         'components/dist/ngQuickDate/ng-quick-date.css',
         'app/components/pnotify/jquery.pnotify.default.css',
@@ -47,7 +46,16 @@ module.exports = function(grunt) {
     ];
 
     grunt.initConfig({
-        clean: ['dist/*.js', 'dist/*.css', 'dist/*.jpg', 'dist/*.html', 'dist/Procfile', 'dist/*.json'],
+        clean: [
+            'dist/**/*.js',
+            'dist/**/*.css',
+            'dist/**/*.jpg',
+            'dist/**/*.html',
+            'dist/Procfile',
+            'dist/**/*.json',
+            'dist/**/*.gz',
+            'dist/**/*.map'
+        ],
 
         // copy files that need no minification
         copy: {
@@ -109,7 +117,7 @@ module.exports = function(grunt) {
         cssmin: {
             combine: {
                 files: {
-                    'dist/css/styles.css': cssFilesCombined
+                    'dist/css/styles.min.css': ['dist/css/styles.css']
                 }
             }
         },
@@ -137,6 +145,34 @@ module.exports = function(grunt) {
                     }]
                 }
             }
+        },
+
+        uncss: {
+            dist: {
+                files: {
+                    'dist/css/styles.min.css': ['dist/index.html', 'dist/partials/*']
+                }
+            }
+        },
+
+        concat: {
+            dist: {
+                src: cssFilesCombined,
+                dest: 'dist/css/styles.css'
+            }
+        },
+
+        compress: {
+            main: {
+                options: {
+                    mode: 'gzip',
+                    pretty: true
+                },
+                expand: true,
+                cwd: 'dist/',
+                src: ['js/**/*.js', '**/*.css', '**/*.html', '**/*.jpg', '**/*.png', '**/*.woff'],
+                dest: 'dist/'
+            }
         }
     });
 
@@ -149,7 +185,20 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-uncss');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     // Default task(s).
-    grunt.registerTask('default', ['clean', 'uglify', 'cssmin', 'processhtml', 'copy', 'string-replace']);
+    grunt.registerTask('default', [
+        'clean',
+        'concat',
+        'processhtml',
+        'copy',
+        'string-replace',
+        'cssmin',
+        // 'uncss',
+        'uglify',
+        'compress'
+    ]);
 };
