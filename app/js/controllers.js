@@ -84,7 +84,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
                     notificationService.handleError('Your new password must contain at least 8 characters');
                     return;
                 } else if ($scope.pass1 !== $scope.pass2) {
-                    notificationService.handleError('Your new password and password confirmation must match');
+                    notificationService.handleError('Password and password confirmation must match');
                     return;
                 }
             }
