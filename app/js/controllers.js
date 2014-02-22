@@ -5,10 +5,25 @@
 /* Controllers */
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService',
+controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'validationService',
     'notificationService',
-    function($scope, $http, $location, userService, notificationService) {
+    function($scope, $http, $location, userService, validationService, notificationService) {
+        $scope.user = {};
+
         $scope.create = function(user) {
+            try {
+                validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName, 
+                    'First and last names are required');
+                validationService.mustBeTrue($scope.user.email,
+                    'Your e-mail address is required');
+                validationService.mustBeTrue($scope.user.password && $scope.user.password.length >= 8,
+                    'Your password must be at least 8 characters');
+                validationService.mustBeTrue($scope.user.password === $scope.user.passwordConfirmation,
+                    'Your password and password confirmation do not match');
+            } catch(e) {
+                return;
+            }
+
             userService.create(user)
                 .success(function() {
                     notificationService.handleSuccess('Account created. But you will have to login to ' +
@@ -50,8 +65,6 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                         type: 'error',
                         hide: true
                     });
-                } else {
-                    notificationService.handleError(data.message);
                 }
             });
         };
@@ -66,7 +79,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
         };
 
         $scope.submit = function() {
-            if ($stateParams.resetRequired) {
+            if ($stateParams.resetRequired==='true') {
                 if ($scope.pass1.length < 8) {
                     notificationService.handleError('Your new password must contain at least 8 characters');
                     return;
@@ -86,7 +99,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
 
         console.log($stateParams);
 
-        if ($stateParams.resetrequired) {
+        if ($stateParams.resetrequired==='true') {
             $scope.showPasswordReset = true;
         } else {
             $scope.submit(); // if no reset is required, we'll just submit
@@ -391,7 +404,6 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                     var user = {
                         firstName: admin.name,
                         email: admin.email,
-                        password: admin.pass,
                         affiliation: data.organization._id
                     };
 

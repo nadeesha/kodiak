@@ -427,3 +427,15 @@ div.well>h2 {
     position: relative;
     top: -10px;
 }
+
+.gr-pic-credit {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    margin: 10px;
+    color: lightcoral;
+    font-weight: 100;
+    background: rgba(0,0,0,0.6);
+    padding: 5px;
+    font-size: 0.7em;
+}
