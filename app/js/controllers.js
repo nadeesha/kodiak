@@ -5,14 +5,13 @@
 /* Controllers */
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userService', 'validationService',
-    'notificationService',
-    function($scope, $http, $location, userService, validationService, notificationService) {
+controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService, 
+    notificationService, $state) {
         $scope.user = {};
 
         $scope.create = function(user) {
             try {
-                validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName, 
+                validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName,
                     'First and last names are required');
                 validationService.mustBeTrue($scope.user.email,
                     'Your e-mail address is required');
@@ -20,7 +19,7 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
                     'Your password must be at least 8 characters');
                 validationService.mustBeTrue($scope.user.password === $scope.user.passwordConfirmation,
                     'Your password and password confirmation do not match');
-            } catch(e) {
+            } catch (e) {
                 return;
             }
 
@@ -28,10 +27,11 @@ controllers.controller('SignupCtrl', ['$scope', '$http', '$location', 'userServi
                 .success(function() {
                     notificationService.handleSuccess('Account created. But you will have to login to ' +
                         'your email and click the activation link first.');
+
+                    $state.go('home');
                 });
         };
-    }
-]);
+    });
 
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
@@ -79,7 +79,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
         };
 
         $scope.submit = function() {
-            if ($stateParams.resetRequired==='true') {
+            if ($stateParams.resetRequired === 'true') {
                 if ($scope.pass1.length < 8) {
                     notificationService.handleError('Your new password must contain at least 8 characters');
                     return;
@@ -99,7 +99,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
 
         console.log($stateParams);
 
-        if ($stateParams.resetrequired==='true') {
+        if ($stateParams.resetrequired === 'true') {
             $scope.showPasswordReset = true;
         } else {
             $scope.submit(); // if no reset is required, we'll just submit
