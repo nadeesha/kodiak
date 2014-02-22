@@ -219,6 +219,24 @@ app.config(function($stateProvider,
             controller: 'ViewOrgProfileCtrl'
         });
 
+    $stateProvider
+        .state('termsOfService', {
+            url: '/tos',
+            templateUrl: 'partials/tos.html'
+        });
+
+    $stateProvider
+        .state('privacyPolicy', {
+            url: '/pp',
+            templateUrl: 'partials/pp.html'
+        });
+
+    $stateProvider
+        .state('contact', {
+            url: '/contact',
+            templateUrl: 'partials/contact.html'
+        });
+
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService) {
