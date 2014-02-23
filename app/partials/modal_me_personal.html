@@ -19,13 +19,13 @@
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Contact Number</label>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <input class="form-control" placeholder="Contact Number" ng-model="data.contactNumber" name="contactNumber" popover="Companies will try to contact you on this number. Make sure this number is valid and we can reach you here." popover-trigger="focus">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Languages</label>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <input class="form-control" placeholder="Languages" ng-model="data.languages" popover="Seperate multiple languages with commas. Example: English, Sinhala, Tamil" popover-trigger="focus" ng-list>
                 </div>
             </div>
@@ -37,8 +37,14 @@
             </div>
             <div class="form-group">
                 <label class="col-lg-4 control-label">Date of Birth</label>
-                <div class="col-lg-6">
-                    <input class="form-control" datepicker-popup="{{format}}" ng-model="data.dateOfBirth" is-open="opened" min="minimumBirthdate" max="maximumBirthdate" placeholder="{{format}}">
+                <div class="col-lg-2">
+                    <select class="form-control" ng-options="year for year in years" ng-model="dateOfBirth.year"/>
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control" ng-options="month for month in months" ng-model="dateOfBirth.month"/>
+                </div>
+                <div class="col-lg-2">
+                    <input class="form-control" placeholder="day" ng-model="dateOfBirth.date">
                 </div>
             </div>
         </form>

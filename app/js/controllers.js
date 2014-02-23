@@ -5,33 +5,33 @@
 /* Controllers */
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService, 
+controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService,
     notificationService, $state) {
-        $scope.user = {};
+    $scope.user = {};
 
-        $scope.create = function(user) {
-            try {
-                validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName,
-                    'First and last names are required');
-                validationService.mustBeTrue($scope.user.email,
-                    'Your e-mail address is required');
-                validationService.mustBeTrue($scope.user.password && $scope.user.password.length >= 8,
-                    'Your password must be at least 8 characters');
-                validationService.mustBeTrue($scope.user.password === $scope.user.passwordConfirmation,
-                    'Your password and password confirmation do not match');
-            } catch (e) {
-                return;
-            }
+    $scope.create = function(user) {
+        try {
+            validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName,
+                'First and last names are required');
+            validationService.mustBeTrue($scope.user.email,
+                'Your e-mail address is required');
+            validationService.mustBeTrue($scope.user.password && $scope.user.password.length >= 8,
+                'Your password must be at least 8 characters');
+            validationService.mustBeTrue($scope.user.password === $scope.user.passwordConfirmation,
+                'Your password and password confirmation do not match');
+        } catch (e) {
+            return;
+        }
 
-            userService.create(user)
-                .success(function() {
-                    notificationService.handleSuccess('Account created. But you will have to login to ' +
-                        'your email and click the activation link first.');
+        userService.create(user)
+            .success(function() {
+                notificationService.handleSuccess('Account created. But you will have to login to ' +
+                    'your email and click the activation link first.');
 
-                    $state.go('home');
-                });
-        };
-    });
+                $state.go('home');
+            });
+    };
+});
 
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
@@ -107,48 +107,47 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
     }
 ]);
 
-controllers.controller('PersonalModalInstanceCtrl', ['$scope', 'data', 'validationService',
-    function($scope, data, validationService) {
-        $scope.data = data;
+controllers.controller('PersonalModalInstanceCtrl', function($scope, data, validationService, MONTHS) {
+    $scope.data = data;
 
-        $scope.minimumBirthdate = new Date(moment().subtract('years', 70)); // sorry grandpa
-        $scope.maximumBirthdate = new Date(moment().subtract('years', 15)); // sorry kid
-        $scope.opened = false;
-        $scope.format = 'yyyy-MM-dd'
+    $scope.months = MONTHS;
+    $scope.years = [];
 
-        $scope.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
+    var now = moment().year();
+    for (var i = now - 15; i >= now - 70; i--) {
+        $scope.years.push(i.toString());
+    }
 
-            $scope.opened = true;
-        };
+    if ($scope.data.dateOfBirth) {
+        var dob = $scope.data.dateOfBirth = moment($scope.data.dateOfBirth);
 
-        // parse date string -> Date()
-        if ($scope.data.dateOfBirth) {
-            $scope.data.dateOfBirth = new Date(moment($scope.data.dateOfBirth));
-        }
+        $scope.dateOfBirth = {};
+        $scope.dateOfBirth.year = dob.year();
+        $scope.dateOfBirth.month = dob.month(String);
+        $scope.dateOfBirth.date = dob.date();
+    }
 
-        $scope.submit = function() {
-            try {
-                if ($scope.data.dateOfBirth) {
-                    validationService.mustBeTrue(moment($scope.data.dateOfBirth).isValid(),
-                        'Date of birth is invalid');
-                    validationService.mustBeTrue(moment($scope.data.dateOfBirth) <
-                        moment().subtract('years', 15), 'You must be at least 15 years old');
-                }
+    $scope.submit = function() {
+        try {
+            if ($scope.dateOfBirth) {
+                $scope.data.dateOfBirth = moment($scope.dateOfBirth.date + '-' +
+                    $scope.dateOfBirth.month + '-' + $scope.dateOfBirth.year, 'DD-MMMM-YYYY');
 
-                if ($scope.data.contactNumber) {
-                    validationService.mustBeTrue($scope.data.contactNumber.length >= 10,
-                        'Contact Number should have 10 digits at least');
-                }
-            } catch (e) {
-                return;
+                validationService.mustBeTrue($scope.data.dateOfBirth.isValid(),
+                    'Date of birth is invalid');
             }
 
-            $scope.$close(data);
-        };
-    }
-]);
+            if ($scope.data.contactNumber) {
+                validationService.mustBeTrue($scope.data.contactNumber.length >= 10,
+                    'Contact Number should have 10 digits at least');
+            }
+        } catch (e) {
+            return;
+        }
+
+        $scope.$close(data);
+    };
+});
 
 controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS',
     'validationService',
@@ -173,9 +172,9 @@ controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data'
             }
         };
 
-        var now = new Date();
+        var now = moment().year();
 
-        for (var i = now.getFullYear(); i >= now.getFullYear() - 40; i--) {
+        for (var i = now; i >= now - 40; i--) {
             $scope.years.push(i.toString());
         }
 
