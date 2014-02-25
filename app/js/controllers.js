@@ -119,22 +119,24 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
     }
 
     if ($scope.data.dateOfBirth) {
-        var dob = $scope.data.dateOfBirth = moment($scope.data.dateOfBirth);
+        var dob = $scope.data.dateOfBirth = moment(new Date($scope.data.dateOfBirth));
 
         $scope.dateOfBirth = {};
-        $scope.dateOfBirth.year = dob.year();
-        $scope.dateOfBirth.month = dob.month(String);
-        $scope.dateOfBirth.date = dob.date();
+        $scope.dateOfBirth.year = dob.format('YYYY');
+        $scope.dateOfBirth.month = dob.format('MMMM');
+        $scope.dateOfBirth.date = dob.format('DD');
     }
 
     $scope.submit = function() {
         try {
             if ($scope.dateOfBirth) {
-                $scope.data.dateOfBirth = moment($scope.dateOfBirth.date + '-' +
+                var dob = moment($scope.dateOfBirth.date + '-' +
                     $scope.dateOfBirth.month + '-' + $scope.dateOfBirth.year, 'DD-MMMM-YYYY');
 
-                validationService.mustBeTrue($scope.data.dateOfBirth.isValid(),
+                validationService.mustBeTrue(dob.isValid(),
                     'Date of birth is invalid');
+
+                $scope.data.dateOfBirth = new Date(dob.format()); //back to a date object
             }
 
             if ($scope.data.contactNumber) {
@@ -626,7 +628,7 @@ controllers.controller('CreateAdCtrl', ['$scope',
             });
 
         $scope.ad = {};
-        $scope.ad.questions = [{}];
+        $scope.ad.questions = [];
 
         // if state.current is edit, we need to transform the ad properties and fill the $scope.ad
         if ($state.is('editAdvertisement')) {
