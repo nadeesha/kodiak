@@ -1090,7 +1090,7 @@ controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayS
 
                 var fullUrl = notification.link;
                 var path = fullUrl.substring(fullUrl.indexOf('#') + 1);
-                $location.path(path);
+                $location.url(path);
                 $scope.$dismiss();
             });
         };
