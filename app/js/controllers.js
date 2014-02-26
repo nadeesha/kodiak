@@ -593,7 +593,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                         name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
                         status: r.status,
                         updated: moment(r.lastUpdatedOn).fromNow(),
-                        tags: r.tags.join(', ')
+                        tags: r.tags && r.tags.join(', ')
                     };
                 });
             });
@@ -629,6 +629,9 @@ controllers.controller('CreateAdCtrl', ['$scope',
 
         $scope.ad = {};
         $scope.ad.questions = [];
+
+        $scope.today = moment().format('YYYY-MM-DD');
+        $scope.threeWeeksLater = moment().add('weeks',3).format('YYYY-MM-DD');
 
         // if state.current is edit, we need to transform the ad properties and fill the $scope.ad
         if ($state.is('editAdvertisement')) {
