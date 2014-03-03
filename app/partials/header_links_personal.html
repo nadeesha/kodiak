@@ -1,24 +1,12 @@
 <ul class="nav navbar-nav">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a href="#/me/view">View Profile</a>
-            </li>
-            <li><a href="#/me/edit">Edit Profile</a>
-            </li>
-            <li><a href="#/me/export">Export as CV</a>
-            </li>
-            <li><a href="#/me/public">View Public Profile</a>
-            </li>
-            <li><a href="#/me/limited">View Limited Profile</a>
-            </li>
-        </ul>
+    <li>
+        <a ui-sref="viewProfile">My Profile</a>
     </li>
     <li>
-        <a href="#/ads">Job Board</a>
+        <a ui-sref="jobBoard">Public Ads</a>
     </li>
     <li>
-        <a href="#/me/applications">My Applications</a>
+        <a ui-sref="myApplications">My Applications</a>
     </li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
