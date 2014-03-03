@@ -254,6 +254,16 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         if ($state.is('editProfile')) {
             $scope.edit = true;
+        } else {
+            $scope.edit = false;
+        }
+
+        $scope.enableEdit = function () {
+            $scope.edit = true;
+        }
+
+        $scope.disableEdit = function () {
+            $scope.edit = false;
         }
 
         $scope.getTimes = utilService.getTimes;

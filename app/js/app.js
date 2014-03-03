@@ -112,7 +112,7 @@ app.config(function($stateProvider,
 
     $stateProvider
         .state('viewProfile', {
-            url: '/me/view',
+            url: '/me',
             templateUrl: 'partials/me.html',
             controller: 'MeCtrl'
         });

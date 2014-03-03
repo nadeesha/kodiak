@@ -164,6 +164,9 @@ div.well>h2 {
     letter-spacing: -10px;
     /*text-shadow: 0px 2px 0px darkslategray;*/
 }
+.small-line-height {
+    line-height:1em;
+}
 .small-text {
     font-size: 0.7em;
 }
@@ -171,7 +174,7 @@ div.well>h2 {
     font-size: 0.6em;
 }
 .gr-summary-label {
-    width: 100px;
+    width: auto;
 }
 .panel-title {
     font-size:1.5em;

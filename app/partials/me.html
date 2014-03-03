@@ -4,6 +4,8 @@
             <h1>
                 <span>{{user.firstName}}</span>
                 <span>{{user.lastName}}</span>
+                <button type="button" class="btn btn-warning btn-lg" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
+                <button type="button" class="btn btn-success btn-lg" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
             </h1>
             <hr>
             <div>
@@ -120,22 +122,27 @@
         <div class="col-md-4">
 
             <!--Profile Score -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="btn btn-primary btn-lg gr-summary-label pull-right" style="width:150px">
-                        <div class="large-text">{{stats.score}}</div>
-                        <span class="gr-profile-score">Profile Score</span>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score
+                    </h3>
+                </div>
+                 <div class="panel-body">
+                    <div class="btn btn-primary btn-lg gr-summary-label pull-right">
+                        <div class="large-text small-line-height">{{stats.score}}</div>
                     </div>
                     <div ng-repeat="c in getTimes(stats.score) track by $index" class="gr-vis-year circle"></div>
                 </div>
             </div>
-            
+
             <!--Edit Profile-->
-            <div ng-show="edit">             
+            <div ng-show="edit">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            <span class="glyphicon glyphicon-th-list gr-right-5"></span>Get more points!</h3>
+                            <span class="glyphicon glyphicon-th-list gr-right-5"></span>Get more points!
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <div class="row tips" ng-repeat="tip in stats.tips | orderBy: 'done'">
@@ -154,6 +161,6 @@
             <div ng-show="!edit" gr-visualized-profile>
             </div>
 
-        </div>        
+        </div>
     </div>
 </div>
