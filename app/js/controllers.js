@@ -543,7 +543,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
             data: 'responses',
             showGroupPanel: true,
             selectedItems: $scope.selectedCandidate,
-            multiselect: false,
+            multiSelect: false,
             showFilter: true,
             showColumnMenu: true,
             columnDefs: [{
