@@ -35,8 +35,8 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
 
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
-    'notificationService', '$rootScope', '$stateParams',
-    function($scope, $http, $location, userService, notificationService, $rootScope,
+    'notificationService', '$rootScope', '$state', '$stateParams',
+    function($scope, $http, $location, userService, notificationService, $rootScope, $state,
         $stateParams) {
         $scope.validate = function(user) {
             userService.login(user, function(err, data) {
@@ -46,9 +46,9 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                     if ($stateParams.to) {
                         $location.url(decodeURIComponent($stateParams.to));
                     } else if (data.affiliation) {
-                        $location.url('/organization/dashboard');
+                        $state.go('organizationDashboard');
                     } else {
-                        $location.url('/me/view');
+                        $state.go('viewProfile');
                     }
                 } else if (err === 401) {
                     notificationService.notify({
@@ -109,6 +109,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
 
 controllers.controller('PersonalModalInstanceCtrl', function($scope, data, validationService, MONTHS) {
     $scope.data = data;
+    $scope.dateOfBirth = {};
 
     $scope.months = MONTHS;
     $scope.years = [];
@@ -258,13 +259,13 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
             $scope.edit = false;
         }
 
-        $scope.enableEdit = function () {
+        $scope.enableEdit = function() {
             $scope.edit = true;
-        }
+        };
 
-        $scope.disableEdit = function () {
+        $scope.disableEdit = function() {
             $scope.edit = false;
-        }
+        };
 
         $scope.getTimes = utilService.getTimes;
 
@@ -594,25 +595,30 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                 $scope.search = data.search;
             });
 
-        adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
-            .success(function(data) {
-                $scope.responses = _.map(data.responses, function(r) {
-                    return {
-                        id: r._id,
-                        user: r.user._id ? r.user._id : r.user,
-                        name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
-                        status: r.status,
-                        updated: moment(r.lastUpdatedOn).fromNow(),
-                        tags: r.tags && r.tags.join(', ')
-                    };
+        var loadResponses = function() {
+            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
+                .success(function(data) {
+                    $scope.responses = _.map(data.responses, function(r) {
+                        return {
+                            id: r._id,
+                            user: r.user._id ? r.user._id : r.user,
+                            name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
+                            status: r.status,
+                            updated: moment(r.lastUpdatedOn).fromNow(),
+                            tags: r.tags && r.tags.join(', ')
+                        };
+                    });
                 });
-            });
+        };
+
+        loadResponses();
 
         $scope.save = function(response, status, tags) {
             adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status,
                 tags)
                 .success(function() {
                     notificationService.handleSuccess('Successfully updated the candidate');
+                    loadResponses();
                 });
         };
     }
@@ -641,7 +647,7 @@ controllers.controller('CreateAdCtrl', ['$scope',
         $scope.ad.questions = [];
 
         $scope.today = moment().format('YYYY-MM-DD');
-        $scope.threeWeeksLater = moment().add('weeks',3).format('YYYY-MM-DD');
+        $scope.maxDate = moment().add('weeks', 4).format('YYYY-MM-DD');
 
         // if state.current is edit, we need to transform the ad properties and fill the $scope.ad
         if ($state.is('editAdvertisement')) {

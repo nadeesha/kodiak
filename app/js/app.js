@@ -38,7 +38,7 @@ app.config(function($httpProvider, $provide) {
                 return $q.reject(rejection);
             },
 
-            'request' : function (config) {
+            'request': function(config) {
                 if ($rootScope.u) {
                     config.headers.Authorization = 'Bearer ' + $rootScope.u.access_token;
                     return config;
@@ -65,91 +65,130 @@ app.config(function($stateProvider,
         .state('home', {
             url: '/',
             templateUrl: 'partials/landing.html',
-            controller: 'LandingCtrl'
+            controller: 'LandingCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('signup', {
             url: '/signup',
             templateUrl: 'partials/signup.html',
-            controller: 'SignupCtrl'
+            controller: 'SignupCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('login', {
             url: '/login?to',
             templateUrl: 'partials/login.html',
-            controller: 'LoginCtrl'
+            controller: 'LoginCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('activate', {
             url: '/activate?email&token&resetrequired',
             templateUrl: 'partials/activate.html',
-            controller: 'ActivateCtrl'
+            controller: 'ActivateCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('myApplications', {
             url: '/me/applications',
             templateUrl: 'partials/dashboard_me.html',
-            controller: 'MeDashboardCtrl'
+            controller: 'MeDashboardCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('jobBoard', {
             url: '/ads',
             templateUrl: 'partials/ads_public.html',
-            controller: 'JobBoardCtrl'
+            controller: 'JobBoardCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('editProfile', {
             url: '/me/edit',
             templateUrl: 'partials/me.html',
-            controller: 'MeCtrl'
+            controller: 'MeCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('viewProfile', {
             url: '/me',
             templateUrl: 'partials/me.html',
-            controller: 'MeCtrl'
+            controller: 'MeCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('createOrganization', {
             url: '/organization/create',
             templateUrl: 'partials/organization_create.html',
-            controller: 'CreateOrgCtrl'
+            controller: 'CreateOrgCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('organizationDashboard', {
             url: '/organization/dashboard',
             templateUrl: 'partials/dashboard_org.html',
-            controller: 'ViewOrgCtrl'
+            controller: 'ViewOrgCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('campaignHome', {
             url: '/organization/campaign/:adId',
             templateUrl: 'partials/campaign_home.html',
-            controller: 'ViewCampaignCtrl'
+            controller: 'ViewCampaignCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('createAdvertisement', {
             url: '/organization/ad/create',
             templateUrl: 'partials/ad_create.html',
-            controller: 'CreateAdCtrl'
+            controller: 'CreateAdCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('viewAdvertisement', {
             url: '/organization/ad/{adId}/view',
             templateUrl: 'partials/ad_view.html',
-            controller: 'ViewAdCtrl'
+            controller: 'ViewAdCtrl',
+            data: {
+                public: false
+            }
         });
 
     // TODO: rename all html ad references to post like this:
@@ -158,35 +197,50 @@ app.config(function($stateProvider,
         .state('viewAdvertisementPublic', {
             url: '/organization/{orgId}/post/{adId}/public?from',
             templateUrl: 'partials/post_view_public.html',
-            controller: 'ViewPublicAdCtrl'
+            controller: 'ViewPublicAdCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('editAdvertisement', {
             url: '/organization/ad/{adId}/edit',
             templateUrl: 'partials/ad_create.html',
-            controller: 'CreateAdCtrl'
+            controller: 'CreateAdCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('createSearch', {
             url: '/organization/ad/{adId}/search/create',
             templateUrl: 'partials/search.html',
-            controller: 'SearchCtrl'
+            controller: 'SearchCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('viewSearch', {
             url: '/organization/ad/{adId}/search/{searchId}',
             templateUrl: 'partials/search.html',
-            controller: 'SearchCtrl'
+            controller: 'SearchCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('logout', {
             url: '/logout',
             templateUrl: 'partials/logout.html',
-            controller: 'LogoutCtrl'
+            controller: 'LogoutCtrl',
+            data: {
+                public: true
+            }
         });
 
     // token will only be there if the change password request comes through
@@ -195,51 +249,72 @@ app.config(function($stateProvider,
         .state('changePassword', {
             url: '/me/changepassword?token',
             templateUrl: 'partials/change_password.html',
-            controller: 'ChangePasswordCtrl'
+            controller: 'ChangePasswordCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('resetPassword', {
             url: '/resetpassword',
             templateUrl: 'partials/reset_password.html',
-            controller: 'ResetPasswordCtrl'
+            controller: 'ResetPasswordCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('editOrganization', {
             url: '/organization/edit',
             templateUrl: 'partials/organization_create.html',
-            controller: 'EditOrgCtrl'
+            controller: 'EditOrgCtrl',
+            data: {
+                public: false
+            }
         });
 
     $stateProvider
         .state('viewOrganization', {
             url: '/organization/:orgId/view',
             templateUrl: 'partials/organization_view.html',
-            controller: 'ViewOrgProfileCtrl'
+            controller: 'ViewOrgProfileCtrl',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('termsOfService', {
             url: '/tos',
-            templateUrl: 'partials/tos.html'
+            templateUrl: 'partials/tos.html',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('privacyPolicy', {
             url: '/pp',
-            templateUrl: 'partials/pp.html'
+            templateUrl: 'partials/pp.html',
+            data: {
+                public: true
+            }
         });
 
     $stateProvider
         .state('contact', {
             url: '/contact',
-            templateUrl: 'partials/contact.html'
+            templateUrl: 'partials/contact.html',
+            data: {
+                public: true
+            }
         });
 
 });
 
-app.run(function($rootScope, userService, subwayService, notificationService) {
+app.run(function($rootScope, userService, subwayService, notificationService, $state) {
     $rootScope.$on('restorestate', userService.restoreState);
 
     $rootScope.$on('refreshNotifications', function() {
@@ -251,6 +326,14 @@ app.run(function($rootScope, userService, subwayService, notificationService) {
         }).error(function(err) {
             notificationService.handleError(err.message);
         });
+    });
+
+    $rootScope.$on('$stateChangeStart', function(ev, toState, toParams, fromState) {
+        // Check if this state is protected
+        if ((!toState.data || (toState.data && toState.data.public === false)) && !userService.isLoggedIn()) {
+            ev.preventDefault();
+            $state.transitionTo('login');
+        }
     });
 
     $rootScope.$broadcast('restorestate');

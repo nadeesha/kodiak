@@ -297,8 +297,12 @@ div.well>h2 {
 }
 .gr-info {
     margin-left: 15px;
-    /*opacity: 0.4;*/
     font-size: 80% !important;
+}
+
+.gr-info-profile {
+    opacity: 0.5;
+    font-size: 100% !important;
 }
 
 .gr-middle {
