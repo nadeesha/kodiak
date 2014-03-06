@@ -42,7 +42,8 @@ module.exports = function(grunt) {
         'app/js/filters.js',
         'app/js/directives.js',
         'app/js/uservoice.js',
-        'app/js/config.' + grunt.option('target') + '.js'
+        'app/js/config.' + grunt.option('target') + '.js',
+        'app/js/3p.js'
     ];
 
     grunt.initConfig({
