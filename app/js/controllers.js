@@ -97,8 +97,6 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
             });
         };
 
-        console.log($stateParams);
-
         if ($stateParams.resetrequired === 'true') {
             $scope.showPasswordReset = true;
         } else {
@@ -905,7 +903,7 @@ controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'u
                 validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
                 if ($scope.displayNameCollection[criterion.name].isRange) {
                     validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
-                    // if the user is going to define filter criteria like age and years of experience 
+                    // if the user is going to define filter criteria like age and years of experience
                     // more than once
                     validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
                         return c.name === $scope.criterion.name;

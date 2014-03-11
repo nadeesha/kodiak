@@ -82,6 +82,10 @@
                             <span class="glyphicon glyphicon-plus-sign"></span>
                         </a>
                     </h2>
+                    <p class="gr-info-profile" ng-show="!user.tenures || user.tenures.length===0">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        You can add your work experience here. This includes your present and past jobs. If you don't have any work experience yet, feel free to keep this blank.
+                    </p>
                     <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
                         <h3>{{tenure.position}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
@@ -109,7 +113,10 @@
                             <span class="glyphicon glyphicon-plus-sign"></span>
                         </a>
                     </h2>
-
+                    <p class="gr-info-profile" ng-show="!user.skills || user.skills.length===0">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        You can add your skills here. They may include your job functions, subjects of expertise, or things you're good at...
+                    </p>
                     <h4 class="line-spacing-regular">
                         <div class="nowrap gr-personal-block" ng-repeat="skill in user.skills">
                             {{skill.name}}
