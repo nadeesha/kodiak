@@ -45,7 +45,7 @@
 				success_icon: "icon-ok-sign",
 				error: "alert-danger",
 				error_icon: "icon-warning-sign",
-				closer: "icon-remove",
+				closer: "glyphicon glyphicon-remove",
 				pin_up: "icon-pause",
 				pin_down: "icon-play",
 				hi_menu: "well",
