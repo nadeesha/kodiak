@@ -12,7 +12,7 @@
                 <div class="well">
                     <h2>Personal
                         <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openPersonalModal(user)">
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="glyphicon glyphicon-edit"></span> edit
                         </a>
                     </h2>
                     <h4 class="line-spacing-regular">
@@ -49,7 +49,7 @@
                 <div class="well">
                     <h2>Qualifications
                         <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <span class="glyphicon glyphicon-plus-sign"></span> add
                         </a>
                     </h2>
                     <p class="gr-info-profile" ng-show="!user.qualifications || user.qualifications.length===0">
@@ -59,7 +59,7 @@
                     <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
                         <h3>{{qualification.name}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
-                                <span class="glyphicon glyphicon-edit"></span>
+                                <span class="glyphicon glyphicon-edit"></span> edit
                             </a>
                             <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(qualification, user.qualifications)">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
@@ -79,7 +79,7 @@
                 <div class="well">
                     <h2>Work Experience
                         <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <span class="glyphicon glyphicon-plus-sign"></span> add
                         </a>
                     </h2>
                     <p class="gr-info-profile" ng-show="!user.tenures || user.tenures.length===0">
@@ -89,7 +89,7 @@
                     <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
                         <h3>{{tenure.position}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
-                                <span class="glyphicon glyphicon-edit"></span>
+                                <span class="glyphicon glyphicon-edit"></span> edit
                             </a>
                             <a class="btn btn-xs btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(tenure, user.tenures)">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
@@ -110,7 +110,7 @@
                 <div class="well">
                     <h2>Skills
                         <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openSkillModal()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <span class="glyphicon glyphicon-plus-sign"></span> add
                         </a>
                     </h2>
                     <p class="gr-info-profile" ng-show="!user.skills || user.skills.length===0">
