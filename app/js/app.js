@@ -73,7 +73,7 @@ app.config(function($stateProvider,
 
     $stateProvider
         .state('signup', {
-            url: '/signup',
+            url: '/signup?token',
             templateUrl: 'partials/signup.html',
             controller: 'SignupCtrl',
             data: {

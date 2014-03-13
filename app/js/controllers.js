@@ -6,8 +6,10 @@
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
 controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService,
-    notificationService, $state) {
+    notificationService, $state, $stateParams) {
     $scope.user = {};
+
+    $scope.user.token = $stateParams.token;
 
     $scope.create = function(user) {
         try {
