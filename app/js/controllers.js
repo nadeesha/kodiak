@@ -250,6 +250,15 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     }
 ]);
 
+controllers.controller('PrivateMeCtrl', function ($scope, userService) {
+  userService.getProfile()
+      .success(function(data) {
+          $scope.user = data;
+      });
+
+
+})
+
 controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
     function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
 

@@ -142,6 +142,16 @@ app.config(function($stateProvider,
         });
 
     $stateProvider
+        .state('viewProfilePrivate', {
+            url: '/me/private',
+            templateUrl: 'partials/private_me.html',
+            controller: 'PrivateMeCtrl',
+            data: {
+                public: false
+            }
+        });
+
+    $stateProvider
         .state('createOrganization', {
             url: '/organization/create',
             templateUrl: 'partials/organization_create.html',
