@@ -48,6 +48,11 @@ directives.directive('grVisualizedProfile', [
                             return;
 
                         var years = moment(endedOn).diff(moment(startedOn), 'years') * 3;
+
+                        if (years === 0) {
+                          years = 1; // just give one circle if it's less than a year
+                        }
+
                         return new Array(years);
                     },
                     getTimes: utilService.getTimes,
