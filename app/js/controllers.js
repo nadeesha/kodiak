@@ -130,7 +130,7 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
 
     $scope.submit = function() {
         try {
-            if ($scope.dateOfBirth) {
+            if ($scope.dateOfBirth.year || $scope.dateOfBirth.month || $scope.dateOfBirth.date) {
                 var dob = moment($scope.dateOfBirth.date + '-' +
                     $scope.dateOfBirth.month + '-' + $scope.dateOfBirth.year, 'DD-MMMM-YYYY');
 
