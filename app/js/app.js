@@ -271,7 +271,7 @@ app.config(function($stateProvider,
             templateUrl: 'partials/reset_password.html',
             controller: 'ResetPasswordCtrl',
             data: {
-                public: false
+                public: true
             }
         });
 
