@@ -61,6 +61,12 @@ a {
 .gr-right-5 {
     margin-right: 5px;
 }
+.gr-left-5 {
+    margin-left: 5px;
+}
+.popover-content {
+    letter-spacing: 0px;
+}
 .gr-inline-select {
     width: 40%;
     margin-right: 5px;
