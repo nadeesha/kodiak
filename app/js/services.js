@@ -25,7 +25,6 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             saveState: function() {
                 $localStorage.user = angular.toJson($rootScope.u);
             },
-
             restoreState: function() {
                 if (!$rootScope.u) {
                     $rootScope.u = {};
@@ -38,15 +37,12 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 
                 setUserType();
             },
-
             create: function(user) {
                 return $http.put(GRIZZLY_URL + '/user', JSON.stringify(user));
             },
-
             createOrgUser: function(user) {
                 return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
             },
-
             login: function(user, callback) {
                 $http.put(GRIZZLY_URL + '/user/token', JSON.stringify(user))
                     .success(function(data) {
@@ -72,7 +68,6 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                         callback(status, data);
                     });
             },
-
             isLoggedIn: function() {
                 if ($rootScope.u.access_token && moment($rootScope.u.expiration).isAfter(moment())) {
                     return true;
@@ -80,11 +75,9 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     return false;
                 }
             },
-
             activate: function(user) {
                 return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
             },
-
             getProfile: function(id) {
                 if (!id) {
                     id = 'me';
@@ -92,11 +85,9 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 
                 return $http.get(GRIZZLY_URL + '/user/' + id + '/profile');
             },
-
             getProfileStats: function() {
                 return $http.get(GRIZZLY_URL + '/user/me/profile/stats');
             },
-
             saveProfile: function(profile) {
                 var user = {
                     profile: profile
@@ -105,11 +96,9 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 return $http.post(GRIZZLY_URL + '/user/me/profile',
                     JSON.stringify(user));
             },
-
             getResponses: function() {
                 return $http.get(GRIZZLY_URL + '/user/me/applications');
             },
-
             logout: function() {
                 $rootScope.u = {
                     type: 'NEW'
@@ -119,7 +108,6 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 
                 service.saveState();
             },
-
             requestPasswordReset: function(email) {
                 return $http.put(GRIZZLY_URL + '/user/account/password/token',
                     JSON.stringify({
@@ -127,7 +115,6 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     })
                 );
             },
-
             changePassword: function(password, resetcode) {
                 if (!service.isLoggedIn()) {
                     return $http.post(GRIZZLY_URL + '/user/account/password',
@@ -144,7 +131,23 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                         })
                     );
                 }
-            }
+            },
+            uploadCv: function(files) {
+                var formData = new FormData();
+                for (var i in files) {
+                    formData.append('file_' + i, files[i]);
+                }
+
+                return $http({
+                    method: 'PUT',
+                    url: GRIZZLY_URL + '/organization/' + id + '/logo',
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'undefined'
+                    },
+                    transformRequest: angular.identity
+                });
+            },
         };
 
         return service;
