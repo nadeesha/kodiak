@@ -44,7 +44,7 @@ directives.directive('grVisualizedProfile', [
                         return moment().year();
                     },
                     getTimesForDate: function(startedOn, endedOn) {
-                        if (!startedOn)
+                        if (!startedOn || !endedOn)
                             return;
 
                         var years = moment(endedOn).diff(moment(startedOn), 'years') * 3;
