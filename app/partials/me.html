@@ -4,11 +4,17 @@
             <h1>
                 <span>{{user.firstName}}</span>
                 <span>{{user.lastName}}</span>
+                <button type="button" class="btn btn-danger btn-lg" ng-show="!edit && !cvUploaded" ng-click="openUploadCVModal()"><span class="glyphicon glyphicon-upload" ></span> Upload from CV</button>
                 <button type="button" class="btn btn-warning btn-lg" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
                 <button type="button" class="btn btn-success btn-lg" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
             </h1>
             <hr>
             <div>
+                <div class="alert alert-danger" ng-show="user.errors">
+                    <ul>
+                        <li ng-repeat="error in user.errors">{{error}}</li>
+                    </ul>
+                </div>
                 <div class="well">
                     <h2>Personal
                         <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openPersonalModal(user)">
@@ -57,6 +63,11 @@
                         This is where you add all your qualifications. If you are still studying, you can add that qualification and mark it as 'Incomplete'.
                     </p>
                     <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
+                        <div class="alert alert-danger" ng-show="qualification.errors">
+                            <ul>
+                                <li ng-repeat="error in qualification.errors">{{error}}</li>
+                            </ul>
+                        </div>
                         <h3>{{qualification.name}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
                                 <span class="glyphicon glyphicon-edit"></span> edit
@@ -87,6 +98,11 @@
                         You can add your work experience here. This includes your present and past jobs. If you don't have any work experience yet, feel free to keep this blank.
                     </p>
                     <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
+                        <div class="alert alert-danger" ng-show="tenure.errors">
+                            <ul>
+                                <li ng-repeat="error in tenure.errors">{{error}}</li>
+                            </ul>
+                        </div>
                         <h3>{{tenure.position}}
                             <a class="btn btn-xs btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
                                 <span class="glyphicon glyphicon-edit"></span> edit
