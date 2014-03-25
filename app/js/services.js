@@ -139,15 +139,15 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 }
 
                 return $http({
-                    method: 'PUT',
-                    url: GRIZZLY_URL + '/organization/' + id + '/logo',
+                    method: 'POST',
+                    url: GRIZZLY_URL + '/user/cv',
                     data: formData,
                     headers: {
-                        'Content-Type': 'undefined'
+                        'Content-Type': undefined
                     },
                     transformRequest: angular.identity
                 });
-            },
+            }
         };
 
         return service;
@@ -157,8 +157,8 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
 services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootScope',
     function($http, GRIZZLY_URL) {
         var service = {
-            createOrg: function(org, callback) {
-                return $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org))
+            createOrg: function(org) {
+                return $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org));
             },
             editOrg: function(id, org) {
                 return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org));
@@ -180,7 +180,7 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     url: GRIZZLY_URL + '/organization/' + id + '/logo',
                     data: formData,
                     headers: {
-                        'Content-Type': 'undefined'
+                        'Content-Type': undefined
                     },
                     transformRequest: angular.identity
                 });
