@@ -250,14 +250,24 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     }
 ]);
 
-controllers.controller('PrivateMeCtrl', function ($scope, userService) {
-  userService.getProfile()
-      .success(function(data) {
-          $scope.user = data;
-      });
+controllers.controller('CVUploadCtrl', function($scope, userService, notificationService, $rootScope) {
+    $scope.uploadFile = function(files) {
+        userService.uploadCv(files)
+            .success(function(data) {
+                notificationService.handleSuccess('CV Uploaded and analyzed successfully.');
+                $scope.$close(data.profile);
+            }).error(function () {
+                $scope.$dismiss();
+            })
+    };
+});
 
-
-})
+controllers.controller('PrivateMeCtrl', function($scope, userService) {
+    userService.getProfile()
+        .success(function(data) {
+            $scope.user = data;
+        });
+});
 
 controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
     function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
@@ -287,7 +297,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         userService.getProfile()
             .success(function(data) {
-                $scope.user = $scope.latestValid = data;
+                $scope.user = data;
                 loadProfileStats();
             });
 
@@ -328,8 +338,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         $scope.saveProfile = function() {
             userService.saveProfile($scope.user)
-                .success(function() {
-                    $scope.latestValid = $scope.user;
+                .success(function(data) {
                     loadProfileStats();
                     notificationService.notify({
                         title: 'Change(s) saved!',
@@ -337,6 +346,10 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                         type: 'success',
                         hide: true
                     });
+                }).error(function(data) {
+                    if (data.profile) {
+                        $scope.user = data.profile;
+                    }
                 });
         };
 
@@ -373,6 +386,24 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
             });
         };
 
+        $scope.openUploadCVModal = function() {
+            var cvModal = $modal.open({
+                templateUrl: 'partials/modal_me_cv.html',
+                controller: 'CVUploadCtrl'
+            });
+
+            cvModal.result.then(function(profile) {
+                $scope.cvUploaded = true;
+                $scope.user.location = profile.location;
+                $scope.user.contactNumber = profile.contactNumber;
+                $scope.user.qualifications = profile.qualifications;
+                $scope.user.tenures = profile.tenures;
+                $scope.user.skills = profile.skills;
+                $scope.edit = true;
+
+                $scope.saveProfile();
+            });
+        };
 
         // qualification modal
         $scope.openQualificationModal = function(qualification) {
@@ -471,8 +502,6 @@ controllers.controller('EditOrgCtrl', [
 
                 window.URL.revokeObjectURL(img.src);
             };
-
-
         };
 
         $scope.submit = function(org) {
