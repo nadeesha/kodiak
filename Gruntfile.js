@@ -148,14 +148,6 @@ module.exports = function(grunt) {
             }
         },
 
-        uncss: {
-            dist: {
-                files: {
-                    'dist/css/styles.min.css': ['dist/index.html', 'dist/partials/*']
-                }
-            }
-        },
-
         concat: {
             dist: {
                 src: cssFilesCombined,
@@ -198,7 +190,6 @@ module.exports = function(grunt) {
         'copy',
         'string-replace',
         'cssmin',
-        // 'uncss',
         'uglify',
         'compress'
     ]);
