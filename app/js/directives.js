@@ -44,10 +44,10 @@ directives.directive('grVisualizedProfile', [
                         return moment().year();
                     },
                     getTimesForDate: function(startedOn, endedOn) {
-                        if (!startedOn || !endedOn)
+                        if (!startedOn)
                             return;
 
-                        var years = moment(endedOn).diff(moment(startedOn), 'years') * 3;
+                        var years = moment(endedOn).diff(moment(startedOn), 'years') * 2;
 
                         if (years === 0) {
                           years = 1; // just give one circle if it's less than a year
