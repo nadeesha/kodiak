@@ -35,6 +35,9 @@ directives.directive('grVisualizedProfile', [
                         if (!startedOn)
                             return;
 
+                        if(!endedOn)
+                            endedOn = Date.now();
+
                         return {
                             years: moment(endedOn).diff(startedOn, 'years'),
                             months: moment(endedOn).diff(startedOn, 'months') % 12,
@@ -46,6 +49,10 @@ directives.directive('grVisualizedProfile', [
                     getTimesForDate: function(startedOn, endedOn) {
                         if (!startedOn)
                             return;
+
+                        if(!endedOn) {
+                            endedOn = Date.now();
+                        }
 
                         var years = moment(endedOn).diff(moment(startedOn), 'years') * 2;
 
@@ -196,7 +203,7 @@ directives.directive('fileUploader', function() {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" accept="image/png,image/jpeg,image/gif" />',
+        template: '<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" enctype="multipart/form-data" accept="image/png,image/jpeg,image/gif,application/pdf" />',
         scope: '=',
         link: function($scope, $element) {
             var fileInput = $element.find('input[type="file"]');
