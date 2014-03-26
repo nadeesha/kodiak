@@ -374,6 +374,8 @@ services.factory('utilService', [
                     return;
                 }
 
+                n = Math.floor(n);
+
                 return new Array(Number(n));
             }
         };
