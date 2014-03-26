@@ -203,9 +203,11 @@ directives.directive('fileUploader', function() {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" enctype="multipart/form-data" accept="image/png,image/jpeg,image/gif,application/pdf" />',
+        template: '<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" enctype="multipart/form-data" accept={{acceptedtypes}} />',
         scope: '=',
-        link: function($scope, $element) {
+        link: function($scope, $element, $attrs) {
+            $scope.acceptedtypes = $attrs.acceptedtypes;
+            console.log($scope);
             var fileInput = $element.find('input[type="file"]');
             fileInput.bind('change', function(e) {
                 $scope.notReady = e.target.files.length === 0;
