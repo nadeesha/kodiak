@@ -1,13 +1,17 @@
+/* jshint indent:false */
+
 'use strict';
 
 module.exports = function(grunt) {
-
     if (grunt.option('target') === 'stg' || grunt.option('target') === 'prod') {
         console.log('setting configuration: ', grunt.option('target'));
     } else {
         console.log('invalid --target: ', grunt.option('target'));
         return;
     }
+
+    var pkg = require('./package.json');
+    var env = grunt.option('target');
 
     var jsCopiedFromAppComponents = [
         'angular-sanitize/angular-sanitize.min.js',
@@ -48,14 +52,14 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         clean: [
-            'dist/**/*.js',
-            'dist/**/*.css',
-            'dist/**/*.jpg',
-            'dist/**/*.html',
-            'dist/Procfile',
-            'dist/**/*.json',
-            'dist/**/*.gz',
-            'dist/**/*.map'
+            'dist-' + env + '/**/*.js',
+            'dist-' + env + '/**/*.css',
+            'dist-' + env + '/**/*.jpg',
+            'dist-' + env + '/**/*.html',
+            'dist-' + env + '/Procfile',
+            'dist-' + env + '/**/*.json',
+            'dist-' + env + '/**/*.gz',
+            'dist-' + env + '/**/*.map'
         ],
 
         // copy files that need no minification
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'app/partials/',
                         src: ['**'],
-                        dest: 'dist/partials/',
+                        dest: 'dist-' + env + '/partials/',
                         filter: 'isFile'
                     },
                     // all the images
@@ -75,7 +79,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'app/img/',
                         src: ['**'],
-                        dest: 'dist/img/',
+                        dest: 'dist-' + env + '/img/',
                         filter: 'isFile'
                     },
                     // js min files
@@ -83,7 +87,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'app/components/',
                         src: jsCopiedFromAppComponents,
-                        dest: 'dist/js/',
+                        dest: 'dist-' + env + '/js/',
                         filter: 'isFile'
                     },
                     // fonts
@@ -91,12 +95,12 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'app/fonts/',
                         src: ['**'],
-                        dest: 'dist/fonts/',
+                        dest: 'dist-' + env + '/fonts/',
                         filter: 'isFile'
                     }, {
                         expand: true,
                         src: ['package.json', 'Procfile'],
-                        dest: 'dist/'
+                        dest: 'dist-' + env + '/'
                     }
                 ]
             }
@@ -108,27 +112,30 @@ module.exports = function(grunt) {
                 mangle: false
             },
             everything: {
-                files: {
-                    'dist/js/app.js': jsFilesCombinedToAppJs
-                }
+                files: [{
+                    src: jsFilesCombinedToAppJs,
+                    dest: 'dist-' + env + '/js/app.js'
+                }]
             }
         },
 
         // minify all css
         cssmin: {
             combine: {
-                files: {
-                    'dist/css/styles.min.css': ['dist/css/styles.css']
-                }
+                files: [{
+                    src: 'dist-' + env + '/css/styles.css',
+                    dest: 'dist-' + env + '/css/styles.min.css'
+                }]
             }
         },
 
         // change the paths in index.html for css and js
         processhtml: {
             dist: {
-                files: {
-                    'dist/index.html': ['app/index.html']
-                }
+                files: [{
+                    src: 'app/index.html',
+                    dest: 'dist-' + env + '/index.html'
+                }]
             }
         },
 
@@ -137,7 +144,8 @@ module.exports = function(grunt) {
         'string-replace': {
             dist: {
                 files: {
-                    'dist/server.js': 'server.js'
+                    src: 'server.js',
+                    dest: 'dist-' + env + '/server.js'
                 },
                 options: {
                     replacements: [{
@@ -151,7 +159,7 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 src: cssFilesCombined,
-                dest: 'dist/css/styles.css'
+                dest: 'dist-' + env + '/css/styles.css'
             }
         },
 
@@ -162,9 +170,31 @@ module.exports = function(grunt) {
                     pretty: true
                 },
                 expand: true,
-                cwd: 'dist/',
+                cwd: 'dist-' + env + '/',
                 src: ['js/**/*.js', '**/*.css', '**/*.html', '**/*.jpg', '**/*.png', '**/*.woff'],
-                dest: 'dist/'
+                dest: 'dist-' + env + '/'
+            }
+        },
+
+        buildcontrol: {
+            options: {
+                commit: true,
+                push: true,
+                message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+            },
+            staging: {
+                options: {
+                    dir: 'dist-stg',
+                    remote: 'git@heroku.com:lentil-kodiak-stg.git',
+                    branch: 'master'
+                }
+            },
+            production: {
+                options: {
+                    dir: 'dist-prod',
+                    remote: 'git@heroku.com:lentil-kodiak.git',
+                    branch: 'master'
+                }
             }
         }
     });
@@ -178,9 +208,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-uncss');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-build-control');
 
     // Default task(s).
     grunt.registerTask('default', [

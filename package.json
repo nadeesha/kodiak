@@ -16,7 +16,8 @@
     "grunt-string-replace": "~0.2.4",
     "grunt-uncss": "~0.2.0",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-compress": "~0.7.0"
+    "grunt-contrib-compress": "~0.7.0",
+    "grunt-build-control": "~0.1.2"
   },
   "dependencies": {
     "node-static": "~0.7.2"
