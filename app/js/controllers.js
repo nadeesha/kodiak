@@ -256,7 +256,7 @@ controllers.controller('CVUploadCtrl', function($scope, userService, notificatio
             .success(function(data) {
                 notificationService.handleSuccess('CV Uploaded and analyzed successfully.');
                 $scope.$close(data.profile);
-            }).error(function () {
+            }).error(function() {
                 $scope.$dismiss();
             })
     };
@@ -418,9 +418,21 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         };
 
         // skills modal
-        $scope.openSkillModal = function(skill) {
-            bindAddEditModal(skill, 'partials/modal_me_skill.html', 'SkillModalInstanceCtrl',
-                $scope.user.skills);
+        $scope.openSkillModal = function(skills) {
+            var skillModal = $modal.open({
+                templateUrl: 'partials/modal_me_skill.html',
+                controller: 'SkillModalInstanceCtrl',
+                resolve: {
+                    data: function() {
+                        return $scope.user.skills;
+                    }
+                }
+            });
+
+            skillModal.result.then(function(manipulated) {
+                $scope.user.skills = manipulated;
+                $scope.saveProfile();
+            });
         };
 
         // deletes any element by position of the collection after seeking user confirmation
