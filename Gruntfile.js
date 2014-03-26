@@ -143,10 +143,10 @@ module.exports = function(grunt) {
         // therefore, make ./app -> ./
         'string-replace': {
             dist: {
-                files: {
+                files: [{
                     src: 'server.js',
                     dest: 'dist-' + env + '/server.js'
-                },
+                }],
                 options: {
                     replacements: [{
                         pattern: 'app',
@@ -182,17 +182,10 @@ module.exports = function(grunt) {
                 push: true,
                 message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
             },
-            staging: {
+            heroku: {
                 options: {
-                    dir: 'dist-stg',
-                    remote: 'git@heroku.com:lentil-kodiak-stg.git',
-                    branch: 'master'
-                }
-            },
-            production: {
-                options: {
-                    dir: 'dist-prod',
-                    remote: 'git@heroku.com:lentil-kodiak.git',
+                    dir: 'dist-' + env,
+                    remote: env === 'stg' ? 'git@heroku.com:lentil-kodiak-stg.git' : 'git@heroku.com:lentil-kodiak.git',
                     branch: 'master'
                 }
             }
@@ -221,6 +214,7 @@ module.exports = function(grunt) {
         'string-replace',
         'cssmin',
         'uglify',
-        'compress'
+        'compress',
+        'buildcontrol:heroku'
     ]);
 };
