@@ -173,6 +173,10 @@ div.well>h2 {
     letter-spacing: -10px;
     /*text-shadow: 0px 2px 0px darkslategray;*/
 }
+.large-input {
+    font-size: 2em;
+    height: auto;
+}
 .small-line-height {
     line-height:1em;
 }
@@ -233,7 +237,7 @@ div.well>h2 {
     padding-right: 20px;
 }
 .gr-blinker {
-    font-size:2em;
+    /*font-size:2em;*/
     letter-spacing:-2px;
 }
 #loading-bar .bar {
@@ -318,9 +322,10 @@ div.well>h2 {
     top: 30%;
     left:10%;
     right:10%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 15px;
-    /*width: 100%;*/
+    padding-bottom: 50px;
+    width: auto;
     color: white;
 }
 .gr-back-img {
@@ -333,7 +338,6 @@ div.well>h2 {
     height: 100%;
     z-index: -1;
     background: url('https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg') no-repeat center center fixed;
-    ;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -440,4 +444,13 @@ div.well>h2 {
 .gr-skill-block {
     border-bottom: 1px solid lightgrey;
     padding: 5px;
+}
+.gr-center-div {
+    margin: 0 auto;
+}
+.gr-highlight {
+    color:skyblue;
+}
+.gr-sub-highlight {
+    color:blanchedalmond;
 }

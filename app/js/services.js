@@ -311,6 +311,14 @@ services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
     }
 ]);
 
+services.factory('inviteService', function ($http, GRIZZLY_URL) {
+    return {
+        inviteUser: function (email) {
+            return $http.post(GRIZZLY_URL + '/invite', {email: email});
+        }
+    }
+})
+
 services.factory('notificationService', [
 
     function() {

@@ -1251,55 +1251,11 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, $timeout) {
-    var index = 0;
-
-    var incrementIndex = function() {
-        if (index === taunts.length - 1) {
-            index = 0;
-        } else {
-            index++;
-        }
+controllers.controller('LandingCtrl', function($scope, inviteService) {
+    $scope.invite = function(email) {
+        inviteService.inviteUser(email)
+            .success(function() {
+                $scope.invited = true;
+            });
     };
-
-    var fadeOut = function(callback) {
-        $scope.animateCss = 'animated fadeOutDown';
-        $timeout(callback, 500);
-    };
-
-    var fadeIn = function() {
-        $scope.animateCss = 'animated fadeInUp';
-    };
-
-    var taunts = [{
-        who: 'people',
-        what: 'find better jobs'
-    }, {
-        who: 'companies',
-        what: 'find candidates faster'
-    }, {
-        who: 'undergrads',
-        what: 'find awesome internships'
-    }, {
-        who: 'recruiters',
-        what: 'find the best candidate for the job'
-    }, {
-        who: 'job seekers',
-        what: 'save time finding jobs'
-    }, {
-        who: 'hr departments',
-        what: 'cut down recruitement costs'
-    }];
-
-    var changeTaunt = function() {
-        fadeOut(function() {
-            $scope.who = taunts[index].who;
-            $scope.what = taunts[index].what;
-            fadeIn();
-            incrementIndex();
-            $timeout(changeTaunt, 5000);
-        });
-    };
-
-    $timeout(changeTaunt, 0);
 });
