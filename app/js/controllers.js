@@ -250,7 +250,7 @@ controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     }
 ]);
 
-controllers.controller('CVUploadCtrl', function($scope, userService, notificationService, $rootScope) {
+controllers.controller('CVUploadCtrl', function($scope, userService, notificationService) {
     $scope.uploadFile = function(files) {
         userService.uploadCv(files)
             .success(function(data) {
@@ -258,7 +258,7 @@ controllers.controller('CVUploadCtrl', function($scope, userService, notificatio
                 $scope.$close(data.profile);
             }).error(function() {
                 $scope.$dismiss();
-            })
+            });
     };
 });
 
@@ -338,7 +338,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         $scope.saveProfile = function() {
             userService.saveProfile($scope.user)
-                .success(function(data) {
+                .success(function() {
                     loadProfileStats();
                     notificationService.notify({
                         title: 'Change(s) saved!',
@@ -418,7 +418,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
         };
 
         // skills modal
-        $scope.openSkillModal = function(skills) {
+        $scope.openSkillModal = function() {
             var skillModal = $modal.open({
                 templateUrl: 'partials/modal_me_skill.html',
                 controller: 'SkillModalInstanceCtrl',
