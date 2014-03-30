@@ -338,7 +338,7 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
 
         $scope.saveProfile = function() {
             userService.saveProfile($scope.user)
-                .success(function() {
+                .success(function(data) {
                     loadProfileStats();
                     notificationService.notify({
                         title: 'Change(s) saved!',
@@ -346,6 +346,8 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                         type: 'success',
                         hide: true
                     });
+
+                    $scope.user = data.profile;
                 }).error(function(data) {
                     if (data.profile) {
                         $scope.user = data.profile;
