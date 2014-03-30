@@ -32,12 +32,13 @@ directives.directive('grVisualizedProfile', [
             controller: function($scope, $element, $attrs, utilService) {
                 $scope.view = {
                     getDuration: function(startedOn, endedOn) {
-                        if (!startedOn)
+                        if (!startedOn) {
                             return;
+                        }
 
-                        if(!endedOn)
+                        if (!endedOn) {
                             endedOn = Date.now();
-
+                        }
                         return {
                             years: moment(endedOn).diff(startedOn, 'years'),
                             months: moment(endedOn).diff(startedOn, 'months') % 12,
@@ -48,16 +49,16 @@ directives.directive('grVisualizedProfile', [
                     },
                     getTimesForDate: function(startedOn, endedOn) {
                         if (!startedOn)
-                            return;
+                            return new Array(1);
 
-                        if(!endedOn) {
+                        if (!endedOn) {
                             endedOn = Date.now();
                         }
 
                         var years = moment(endedOn).diff(moment(startedOn), 'years') * 2;
 
                         if (years === 0) {
-                          years = 1; // just give one circle if it's less than a year
+                            years = 1; // just give one circle if it's less than a year
                         }
 
                         return new Array(years);
