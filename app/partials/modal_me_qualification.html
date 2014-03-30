@@ -6,16 +6,15 @@
         <form class="form-horizontal" role="form" name="formQualification">
             <div class="form-group">
                 <label class="col-md-4 control-label">Name of Qualification</label>
-                <div class="col-md-8">
-                    <input class="form-control" placeholder="Name of Qualification" ng-model="data.name" popover="Name of your qualification without the specialization. Like 'Bachelors of Science' or 'Charted Institute of Management Accountants'" popover-trigger="focus" />
-                </div>
+                <autocomplete class="col-md-8" attr-input-class="form-control" attr-placeholder="Name of Qualification" ng-model="data.name" data="queried.qualifications" on-type="updateQualificationsQuery"></autocomplete>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Field of Study</label>
-                <div class="col-md-8">
+                <autocomplete class="col-md-8" attr-input-class="form-control" attr-placeholder="example: Management Accounting, Computer Science" ng-model="data.field" data="queried.qualificationFields" on-type="updateQualificationFieldsQuery" click-activation="true"></autocomplete>
+<!--                 <div class="col-md-8">
                     <input class="form-control" placeholder="Field of Study" ng-model="data.field" popover="What did you specialize in? Like 'Computer Science' or 'Business Accounting'" popover-trigger="focus">
                 </div>
-            </div>
+ -->            </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Issued By</label>
                 <div class="col-md-8">

@@ -152,97 +152,119 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
     };
 });
 
-controllers.controller('QualificationTenureModalInstanceCtrl', ['$scope', 'data', 'MONTHS',
-    'validationService',
-    function($scope, data, MONTHS, validationService) {
-        $scope.data = data;
+controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, data, MONTHS, validationService, userService) {
+    $scope.data = data;
 
-        $scope.startedOn = {};
-        $scope.endedOn = {};
+    $scope.startedOn = {};
+    $scope.endedOn = {};
 
-        // setting month and year values
-        $scope.months = MONTHS;
-        $scope.years = [];
-        $scope.current = true;
+    // setting month and year values
+    $scope.months = MONTHS;
+    $scope.years = [];
+    $scope.current = true;
 
-        // reset the end date to null on selecting "I currently work here" checkbox in tenure modal
-        $scope.changeEndDate = function() {
-            if (this.current) {
-                this.endedOn = null;
-                this.data.endedOn = null;
-            } else {
-                this.data.endedOn = this.endedOn;
-            }
-        };
+    $scope.queried = {
+        qualifications: [],
+        qualificationFields: []
+    };
 
-        var now = moment().year();
-
-        for (var i = now; i >= now - 40; i--) {
-            $scope.years.push(i.toString());
+    $scope.updateQualificationsQuery = function (query) {
+        if(query.length < 2) {
+            return;
         }
 
-        // puts the date value in two select boxes
-        var setMonthAndDate = function(source, target) {
-            target.month = moment(source).format('MMMM');
-            target.year = moment(source).format('YYYY');
-        };
+        userService.getQualifications(query).success(function (data) {
+            $scope.queried.qualifications = data.results;
+        });
+    };
 
-        // converting startedOn and endedOnvalues
-        if ($scope.data.startedOn) {
-            setMonthAndDate($scope.data.startedOn, $scope.startedOn);
+    $scope.updateQualificationFieldsQuery = function (query) {
+        if(query.length < 2) {
+            return;
         }
-        if ($scope.data.endedOn) {
-            setMonthAndDate($scope.data.endedOn, $scope.endedOn);
-            $scope.current = false;
+        
+        userService.getQualificationFields(query).success(function (data) {
+            $scope.queried.qualificationFields = data.results;
+        });
+    };
+
+    // reset the end date to null on selecting "I currently work here" checkbox in tenure modal
+    $scope.changeEndDate = function() {
+        if (this.current) {
+            this.endedOn = null;
+            this.data.endedOn = null;
+        } else {
+            this.data.endedOn = this.endedOn;
         }
+    };
 
-        $scope.complete = $scope.data.complete;
+    var now = moment().year();
 
-        // converts a given datepicker month/year to javascript date
-        var convertToDate = function(year, month) {
-            if (year && month) {
-                return moment(month + ' 1 ' + year).format();
-            }
-        };
-
-        $scope.submit = function(t) {
-            this.data.complete = this.complete;
-
-            // need to parse the month/year combination before submitting
-            this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
-
-            if (!this.current || this.complete) {
-                this.data.endedOn = convertToDate(this.endedOn.year, this.endedOn.month);
-            }
-
-            try {
-                if (t === 'q') { // if this is a qualification
-                    validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
-                    validationService.mustBeTrue(this.data.issuedBy,
-                        'Issued School/University/Institute should be defined');
-                    if (this.complete) {
-                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
-                            'Start date should be before the end date');
-                    }
-                } else {
-                    validationService.mustBeTrue(this.data.position, 'Your position must be defined');
-                    validationService.mustBeTrue(this.data.organization,
-                        'The organization you worked at must be defined');
-                    if (!this.current) {
-                        validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
-                            'Start date should be before the end date');
-                    }
-                }
-
-                validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
-            } catch (e) {
-                return;
-            }
-
-            this.$close(data);
-        };
+    for (var i = now; i >= now - 40; i--) {
+        $scope.years.push(i.toString());
     }
-]);
+
+    // puts the date value in two select boxes
+    var setMonthAndDate = function(source, target) {
+        target.month = moment(source).format('MMMM');
+        target.year = moment(source).format('YYYY');
+    };
+
+    // converting startedOn and endedOnvalues
+    if ($scope.data.startedOn) {
+        setMonthAndDate($scope.data.startedOn, $scope.startedOn);
+    }
+    if ($scope.data.endedOn) {
+        setMonthAndDate($scope.data.endedOn, $scope.endedOn);
+        $scope.current = false;
+    }
+
+    $scope.complete = $scope.data.complete;
+
+    // converts a given datepicker month/year to javascript date
+    var convertToDate = function(year, month) {
+        if (year && month) {
+            return moment(month + ' 1 ' + year).format();
+        }
+    };
+
+    $scope.submit = function(t) {
+        this.data.complete = this.complete;
+
+        // need to parse the month/year combination before submitting
+        this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
+
+        if (!this.current || this.complete) {
+            this.data.endedOn = convertToDate(this.endedOn.year, this.endedOn.month);
+        }
+
+        try {
+            if (t === 'q') { // if this is a qualification
+                validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
+                validationService.mustBeTrue(this.data.issuedBy,
+                    'Issued School/University/Institute should be defined');
+                if (this.complete) {
+                    validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                        'Start date should be before the end date');
+                }
+            } else {
+                validationService.mustBeTrue(this.data.position, 'Your position must be defined');
+                validationService.mustBeTrue(this.data.organization,
+                    'The organization you worked at must be defined');
+                if (!this.current) {
+                    validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                        'Start date should be before the end date');
+                }
+            }
+
+            validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
+        } catch (e) {
+            return;
+        }
+
+        this.$close(data);
+    };
+});
 
 controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     function($scope, data) {

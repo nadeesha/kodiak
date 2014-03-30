@@ -147,6 +147,12 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     },
                     transformRequest: angular.identity
                 });
+            },
+            getQualifications: function (query) {
+                return $http.get(GRIZZLY_URL + '/user/meta/qualifications/' + query);
+            },
+            getQualificationFields: function (query) {
+                return $http.get(GRIZZLY_URL + '/user/meta/fields/' + query);
             }
         };
 

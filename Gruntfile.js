@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     ];
 
     var cssFilesCombined = [
+        'app/components/allmighty-autocomplete/style/autocomplete.css',
         'app/css/bootstrap-theme.min.css',
         'components/dist/ngQuickDate/ng-quick-date.css',
         'app/components/pnotify/jquery.pnotify.default.css',
@@ -39,6 +40,7 @@ module.exports = function(grunt) {
         'app/components/angular-ui-slider/src/slider.js',
         'app/components/angular-ui-router/release/angular-ui-router.min.js',
         'app/components/pnotify/jquery.pnotify.js',
+        'app/components/allmighty-autocomplete/script/autocomplete.js',
         'app/lib/ngStorage.js',
         'app/js/app.js',
         'app/js/services.js',
