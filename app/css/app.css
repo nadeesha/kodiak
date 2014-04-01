@@ -5,14 +5,34 @@
     font-size: 18px;
     line-height: 21px;
 }
-/** bootstrap overloads **/
- html {
-    /*scrollbar always visible*/
-    /*overflow: -moz-scrollbars-vertical;*/
-    /*overflow-y: scroll;*/
-}
+html,
 body {
-    background-color: #FFF;
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding-top:15px;
+  border-top: 1px darkgray solid;
+}
+#footer a {
+  font-size: 0.8em;
+  color: black;
+  margin: 5px;
 }
 h1 {
     letter-spacing: -2px;

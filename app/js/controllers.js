@@ -1275,11 +1275,13 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, inviteService) {
+controllers.controller('LandingCtrl', function($scope, inviteService, $rootScope) {
     $scope.invite = function(email) {
         inviteService.inviteUser(email)
             .success(function() {
                 $scope.invited = true;
             });
     };
+
+    $rootScope.footerMessage = 'Image courtesy of Dylan Seedin';
 });

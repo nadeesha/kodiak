@@ -25,6 +25,7 @@
 </head>
 
 <body>
+    <div id="wrap">
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex1-collapse">
@@ -51,8 +52,14 @@
             </div>
         </div>
     </nav>
-
     <div class="gr-container container" ui-view></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <a ui-sref="privacyPolicy">Privacy Policy</a><a ui-sref="termsOfService">Terms of Use</a><a ui-sref="contact">Contact Us</a>
+      </div>
+    </div>
 
     <!-- build:remove:dist -->
     <script src="components/underscore/underscore-min.js"></script>
