@@ -1282,6 +1282,4 @@ controllers.controller('LandingCtrl', function($scope, inviteService, $rootScope
                 $scope.invited = true;
             });
     };
-
-    $rootScope.footerMessage = 'Image courtesy of Dylan Seedin';
 });
