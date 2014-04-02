@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h3>Skill</h3>
+        <h3>Skill <button type="button" class="btn btn-success pull-right" ng-click="data.unshift({skill: {name: '', experience: ''}})">Add new skill</button></h3>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" role="form" name="formSkill">
@@ -13,7 +13,7 @@
                     <input class="form-control" placeholder="Skill name" ng-model="skill.name" required/>
                 </div>
                 <div class="col-md-2">
-                    <input class="form-control" placeholder="Years of Experience" ng-model="skill.experience" required/>
+                    <input class="form-control" placeholder="Years" ng-model="skill.experience" required/>
                 </div>
                 <a class="btn btn-xs btn-danger gr-btn-io" ng-click="data.splice($index, 1)"><span class="glyphicon glyphicon-remove-circle"></span></a>
             </div>
