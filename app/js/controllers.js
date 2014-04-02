@@ -108,7 +108,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
 ]);
 
 controllers.controller('PersonalModalInstanceCtrl', function($scope, data, validationService, MONTHS) {
-    $scope.data = data;
+    $scope.data = angular.copy(data, $scope.data);
     $scope.dateOfBirth = {};
 
     $scope.months = MONTHS;
@@ -148,12 +148,12 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
             return;
         }
 
-        $scope.$close(data);
+        $scope.$close($scope.data);
     };
 });
 
 controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, data, MONTHS, validationService, userService) {
-    $scope.data = data;
+    $scope.data = angular.copy(data, $scope.data);
 
     $scope.startedOn = {};
     $scope.endedOn = {};
@@ -229,46 +229,46 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     };
 
     $scope.submit = function(t) {
-        this.data.complete = this.complete;
+        $scope.data.complete = $scope.complete;
 
         // need to parse the month/year combination before submitting
-        this.data.startedOn = convertToDate(this.startedOn.year, this.startedOn.month);
+        $scope.data.startedOn = convertToDate($scope.startedOn.year, $scope.startedOn.month);
 
-        if (!this.current || this.complete) {
-            this.data.endedOn = convertToDate(this.endedOn.year, this.endedOn.month);
+        if (!$scope.current || $scope.complete) {
+            $scope.data.endedOn = convertToDate($scope.endedOn.year, $scope.endedOn.month);
         }
 
         try {
-            if (t === 'q') { // if this is a qualification
-                validationService.mustBeTrue(this.data.name, 'Qualification name should be defined');
-                validationService.mustBeTrue(this.data.issuedBy,
+            if (t === 'q') { // if $scope is a qualification
+                validationService.mustBeTrue($scope.data.name, 'Qualification name should be defined');
+                validationService.mustBeTrue($scope.data.issuedBy,
                     'Issued School/University/Institute should be defined');
-                if (this.complete) {
-                    validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                if ($scope.complete) {
+                    validationService.mustBeTrue($scope.data.startedOn <= $scope.data.endedOn,
                         'Start date should be before the end date');
                 }
             } else {
-                validationService.mustBeTrue(this.data.position, 'Your position must be defined');
-                validationService.mustBeTrue(this.data.organization,
+                validationService.mustBeTrue($scope.data.position, 'Your position must be defined');
+                validationService.mustBeTrue($scope.data.organization,
                     'The organization you worked at must be defined');
-                if (!this.current) {
-                    validationService.mustBeTrue(this.data.startedOn <= this.data.endedOn,
+                if (!$scope.current) {
+                    validationService.mustBeTrue($scope.data.startedOn <= $scope.data.endedOn,
                         'Start date should be before the end date');
                 }
             }
 
-            validationService.mustBeTrue(this.data.startedOn, 'Started month should be defined');
+            validationService.mustBeTrue($scope.data.startedOn, 'Started month should be defined');
         } catch (e) {
             return;
         }
 
-        this.$close(data);
+        $scope.$close($scope.data);
     };
 });
 
 controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     function($scope, data) {
-        $scope.data = data;
+        $scope.data = angular.copy(data, $scope.data);
     }
 ]);
 
