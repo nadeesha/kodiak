@@ -26,7 +26,6 @@ module.exports = function(grunt) {
     var cssFilesCombined = [
         'app/components/allmighty-autocomplete/style/autocomplete.css',
         'app/css/bootstrap-theme.min.css',
-        'components/dist/ngQuickDate/ng-quick-date.css',
         'app/components/pnotify/jquery.pnotify.default.css',
         'app/components/pnotify/jquery.pnotify.default.icons.css',
         'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
