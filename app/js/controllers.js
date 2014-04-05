@@ -1275,7 +1275,7 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, inviteService, $rootScope) {
+controllers.controller('LandingCtrl', function($scope, inviteService) {
     $scope.invite = function(email) {
         inviteService.inviteUser(email)
             .success(function() {
@@ -1285,19 +1285,19 @@ controllers.controller('LandingCtrl', function($scope, inviteService, $rootScope
 });
 
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
-    $scope.lastUpdatedOn = angular.fromJson($localStorage.admin_updatedOn);
+    $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
 
-    if (!$localStorage.admin_users || moment($scope.lastUpdatedOn).add('minutes', 60).isBefore(Date.now)) {
+    if (!$localStorage.adminUsers || moment($scope.lastUpdatedOn).add('minutes', 60).isBefore(Date.now)) {
         adminService.getAllUsers().success(function(data) {
-            $localStorage.admin_users = angular.toJson(data);
-            $localStorage.admin_updatedOn = angular.toJson(moment());
+            $localStorage.adminUsers = angular.toJson(data);
+            $localStorage.adminUpdatedOn = angular.toJson(moment());
 
             $scope.data = data;
             $scope.lastUpdatedOn = moment();
         });
     } else {
-        $scope.data = angular.fromJson($localStorage.admin_users);
-        $scope.lastUpdatedOn = angular.fromJson($localStorage.admin_updatedOn);
+        $scope.data = angular.fromJson($localStorage.adminUsers);
+        $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
     }
 });
 
@@ -1316,4 +1316,4 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
             $scope.getUninvited();
         });
     };
-})
+});
