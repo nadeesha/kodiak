@@ -321,6 +321,14 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
             .success(function(data) {
                 $scope.user = data;
                 loadProfileStats();
+
+                if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0) {
+                    $modal.open({
+                        templateUrl: 'partials/modal_me_welcome.html'
+                    }).result.then(function () {
+                        $scope.openUploadCVModal();
+                    })
+                }
             });
 
         var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
