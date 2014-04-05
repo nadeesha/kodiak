@@ -135,7 +135,7 @@ input[type='checkbox'] {
  .label {
     font-size: 100% !important;
     font-weight: normal;
-    padding: .1em .5em !important;
+    padding: .2em .5em !important;
 }
 .gr-right-align {
     text-align: right;
@@ -173,8 +173,8 @@ div.well>h2 {
  .circle {
     background: coral;
     border-radius: 50%;
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 12px;
     margin: 0;
 }
 .circle-semi {
@@ -185,13 +185,6 @@ div.well>h2 {
     display: inline-block;
     margin-right: 5px;
     color: lightslategrey;
-}
-/*.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }*/
- .large-text {
-    font-size: 5em;
-    /*line-height: 50px;*/
-    letter-spacing: -10px;
-    /*text-shadow: 0px 2px 0px darkslategray;*/
 }
 .large-input {
     font-size: 2em;
@@ -207,30 +200,16 @@ div.well>h2 {
     font-size: 0.6em;
 }
 .gr-summary-label {
-    width: auto;
-    color: lightslategrey;
-  
-/*font-family:"Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;;*/
-    /*display: block;*/
-    /*font-size: 92px;*/
-    color: lightslategrey;
-    border-bottom: 1px lightgray solid;
+    color: rgba(255,255,255,0.75);
+    padding: 0px 20px;
     margin-bottom: 10px;
-    /*text-shadow: 5px 8px 9px white, 0px -2px 1px #fff;*/
     font-weight: bold;
-    /*font-size: 5em;*/
-    letter-spacing: -4px;
-    /*text-align: center;*/
-    /*background: rgba(255,255,255,0.8);*/
-    /*position: absolute;*/
     width: 100%;
-    font-size: 150%;
-    /*text-align: right;*/
-    /*right: 25px;*/
-    /*border-radius: 20px;*/
+    font-size: 5em;
 }
 .panel-title {
     font-size:1.5em;
+    font-weight: bold;
 }
 .gr-personal-block {
     display: inline-block;
@@ -469,4 +448,33 @@ div.well>h2 {
 }
 .gr-sub-highlight {
     color:blanchedalmond;
+}
+.gr-stat {
+    font-size: 1.3em;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+    font-weight: 400;
+}
+.gr-inline-stats {
+    text-align: center;
+}
+.gr-score {
+    font-size: 4em;
+    font-weight: 800;
+    border: 10px solid white;
+    padding: 15px;
+    color: rgba(255,255,255,0.75);
+}
+.gr-inline-stats .desc {
+    font-weight: 800;
+}
+.panel-body .gr-stat .label {
+    padding: 10px !important;
+}
+.gr-timline-section-wrapper {
+    margin-bottom: 15px;
+}
+.label-wrapper {
+    margin-top: 18px;
+    margin-bottom: 18px;
 }
