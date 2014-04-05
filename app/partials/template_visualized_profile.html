@@ -1,8 +1,13 @@
 <div>
-    <h3><span class="label label-success">{{user.tenures.length}}</span> Position<span ng-hide="user.tenures.length===1">s</span> held</h3>
-    <h3><span class="label label-success">{{view.getTotalExperience()}}</span> Years of experience</h3>
-    <h3><span class="label label-success">{{user.qualifications.length}}</span> Qualifications</h3>
-
+    <div class="label-success gr-simple-stat">
+        <span class="title">Position<span ng-hide="user.tenures.length===1">s</span> held</span><span class="score">{{user.tenures.length}}</span>
+    </div>
+    <div class="label-success gr-simple-stat">
+        <span class="title">Years of experience</span><span class="score">{{view.getTotalExperience()}}</span> 
+    </div>
+    <div class="label-success gr-simple-stat">
+        <span class="title">Qualifications</span><span class="score">{{user.qualifications.length}}</span>
+    </div>
     <hr>
     <div class="panel panel-primary">
         <div class="panel-heading">

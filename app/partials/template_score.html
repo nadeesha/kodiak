@@ -1,0 +1,11 @@
+<div class="gr-simple-widget label-primary">
+    <div class="left">
+        <span class="title">{{title}}</span>
+        <div class="clearfix">
+        </div>
+        <div ng-repeat="c in getTimes(dotsCount) track by $index" class="gr-vis-year circle"></div>
+    </div>
+    <div class="score right">
+        {{displayScore || score}}
+    </div>
+</div>

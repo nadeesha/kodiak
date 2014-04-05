@@ -233,3 +233,23 @@ directives.directive('grAdPreview', function() {
         }
     };
 });
+
+directives.directive('grScore', function() {
+    return {
+        restrict: 'EA',
+        templateUrl: 'partials/template_score.html',
+        scope: {
+            title: '=title',
+            score: '=score',
+            displayScore: '=displayScore',
+            multiplier: '=multiplier'
+        },
+        controller: function($scope, utilService) {
+            $scope.getTimes = utilService.getTimes;
+
+            $scope.$watch('score', function (newScore) {
+                $scope.dotsCount = $scope.score * $scope.multiplier;
+            })            
+        }
+    }
+});

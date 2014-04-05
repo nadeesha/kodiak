@@ -143,9 +143,10 @@
         </div>
 
         <div class="col-md-4">
+            <gr-score title="'Profile Score'" score="stats.score" multiplier="0.2"></gr-score>
 
             <!--Profile Score -->
-            <div class="panel panel-primary">
+            <!-- <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Profile Score is a measure of your profile accuracy and completeness. We use this number to let employers know how good your profile is overall. Higher the score, the better." popover-trigger="click" popover-placement="bottom"></span>
@@ -157,7 +158,7 @@
                     </div>
                     <div ng-repeat="c in getTimes(stats.score/2) track by $index" class="gr-vis-year circle"></div>
                 </div>
-            </div>
+            </div> -->
 
             <!--Edit Profile-->
             <div ng-show="edit">

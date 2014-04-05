@@ -470,3 +470,60 @@ div.well>h2 {
 .gr-sub-highlight {
     color:blanchedalmond;
 }
+.gr-simple-widget {
+    width: 100%;
+    padding: 10px 20px;
+    color:white;
+    margin-bottom: 20px;
+}
+.gr-simple-widget .title {
+    font-size: 18px;
+    letter-spacing: -1px;
+}
+
+.gr-simple-widget .score {
+    font-size: 5em;
+    font-weight: 600;
+}
+
+.gr-simple-widget .circle {
+    width: 7px;
+    height: 7px;
+    background-color: rgba(255,255,255,0.6);
+}
+
+.gr-simple-widget .left {
+    width: 50%;
+    display: inline-block;
+}
+
+.gr-simple-widget .right {
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+}
+
+.gr-simple-stat {
+    width: 100%;
+    padding: 10px 20px;
+    color: white;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.gr-simple-stat .title {
+    color: rgba(255,255,255,0.6);
+    font-size: 1.5em;
+    letter-spacing: -1px;
+    display: inline-block;
+    width: 70%;
+    margin-right: 10px;
+}
+
+.gr-simple-stat .score {
+    font-weight: bold;
+    font-size: 2em;
+    display: inline-bock;
+    width: 20%;
+}
