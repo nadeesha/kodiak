@@ -323,6 +323,34 @@ app.config(function($stateProvider,
             }
         });
 
+    $stateProvider
+        .state('admin', {
+            url: '/admin',
+            templateUrl: 'partials/admin.html',
+            data: {
+                public: false
+            }
+        });
+
+    $stateProvider
+        .state('adminUsers', {
+            url: '/admin/users',
+            templateUrl: 'partials/admin_users.html',
+            controller: 'AdminUsersCtrl',
+            data: {
+                public: false
+            }
+        });
+
+   $stateProvider
+        .state('adminInvites', {
+            url: '/admin/invites',
+            templateUrl: 'partials/admin_invites.html',
+            controller: 'AdminInvitesCtrl',
+            data: {
+                public: false
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {

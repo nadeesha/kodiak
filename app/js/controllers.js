@@ -168,22 +168,22 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
         qualificationFields: []
     };
 
-    $scope.updateQualificationsQuery = function (query) {
-        if(query.length < 2) {
+    $scope.updateQualificationsQuery = function(query) {
+        if (query.length < 2) {
             return;
         }
 
-        userService.getQualifications(query).success(function (data) {
+        userService.getQualifications(query).success(function(data) {
             $scope.queried.qualifications = data.results;
         });
     };
 
-    $scope.updateQualificationFieldsQuery = function (query) {
-        if(query.length < 2) {
+    $scope.updateQualificationFieldsQuery = function(query) {
+        if (query.length < 2) {
             return;
         }
-        
-        userService.getQualificationFields(query).success(function (data) {
+
+        userService.getQualificationFields(query).success(function(data) {
             $scope.queried.qualificationFields = data.results;
         });
     };
@@ -1283,3 +1283,37 @@ controllers.controller('LandingCtrl', function($scope, inviteService, $rootScope
             });
     };
 });
+
+controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
+    $scope.lastUpdatedOn = angular.fromJson($localStorage.admin_updatedOn);
+
+    if (!$localStorage.admin_users || moment($scope.lastUpdatedOn).add('minutes', 60).isBefore(Date.now)) {
+        adminService.getAllUsers().success(function(data) {
+            $localStorage.admin_users = angular.toJson(data);
+            $localStorage.admin_updatedOn = angular.toJson(moment());
+
+            $scope.data = data;
+            $scope.lastUpdatedOn = moment();
+        });
+    } else {
+        $scope.data = angular.fromJson($localStorage.admin_users);
+        $scope.lastUpdatedOn = angular.fromJson($localStorage.admin_updatedOn);
+    }
+});
+
+controllers.controller('AdminInvitesCtrl', function($scope, adminService, notificationService) {
+    $scope.getUninvited = function() {
+        adminService.getUninvited().success(function(data) {
+            $scope.data = data;
+        });
+    };
+
+    $scope.getUninvited();
+
+    $scope.inviteUser = function(id) {
+        adminService.sendInvitation(id).success(function() {
+            notificationService.handleSuccess('Invitation sent successfully.');
+            $scope.getUninvited();
+        });
+    };
+})

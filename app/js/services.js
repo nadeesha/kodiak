@@ -379,6 +379,22 @@ services.factory('validationService', ['notificationService',
     }
 ]);
 
+services.factory('adminService', function ($http, GRIZZLY_URL) {
+    return {
+        getAllUsers: function () {
+            return $http.get(GRIZZLY_URL + '/admin/users');
+        },
+
+        getUninvited: function () {
+            return $http.get(GRIZZLY_URL + '/uninvited');
+        },
+
+        sendInvitation: function (id) {
+            return $http.post(GRIZZLY_URL + '/invite/' + id);
+        }
+    };
+});
+
 services.factory('utilService', [
 
     function() {
