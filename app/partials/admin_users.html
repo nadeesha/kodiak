@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-md-3">Name</div>
+	<div class="col-md-4">Email</div>
+	<div class="col-md-1">Parsed</div>
+	<div class="col-md-4">Profile Completion</div>
+</div>
+<hr>
+<div ng-repeat="user in data" class="row">
+	<div class="col-md-3">{{user.firstName}} {{user.lastName}}</div>
+	<div class="col-md-4">{{user.email}}</div>
+	<div class="col-md-1">{{user.cvParseCount}}</div>
+	<div class="col-md-4 row">
+		<span class="label label-default col-md-3">{{user.qualifications.length}}</span>
+		<span class="label label-default col-md-3">{{user.tenures.length}}</span>
+		<span class="label label-default col-md-3">{{user.skills.length}}</span>
+		<span class="label label-success col-md-3">{{user.qualifications.length + user.tenures.length + user.skills.length}}</span>
+	</div>
+</div>
