@@ -12,7 +12,6 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'ui.slider',
     'textAngular',
     'ngSanitize',
-    'ngProgress',
     'chieffancypants.loadingBar',
     'ngGrid',
     'autocomplete'
