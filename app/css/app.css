@@ -206,6 +206,7 @@ div.well>h2 {
     font-weight: bold;
     width: 100%;
     font-size: 5em;
+    display: inline-block;
 }
 .panel-title {
     font-size:1.5em;
@@ -477,4 +478,14 @@ div.well>h2 {
 .label-wrapper {
     margin-top: 18px;
     margin-bottom: 18px;
+}
+.gr-summary-label .gr-small {
+    font-size: 12px;
+    font-weight: lighter;
+    vertical-align: super;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.gr-summary-label .gr-small : hover {
+    color: rgba(255,255,255,1.0);
 }
