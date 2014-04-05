@@ -148,11 +148,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Profile Score is a measure of your profile accuracy and completeness. We use this number to let employers know how good your profile is overall. Higher the score, the better." popover-trigger="click" popover-placement="bottom"></span>
+                        <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Bigger profile scores help you rank better when an employer searches for your profile."></span>
                     </h3>
                 </div>
                  <div class="panel-body">
-                        <div class="gr-summary-label label-success">+{{stats.score}}</div>
+                    <div>
+                        <div class="gr-summary-label label-success"><span>{{stats.score}}</span><span class="gr-small" ui-sref="editProfile">get more <span class="glyphicon glyphicon-plus-sign"></span></span></div>
+                    </div>
                     <div ng-repeat="c in getTimes(stats.score/2) track by $index" class="gr-vis-year circle"></div>
                 </div>
             </div>
