@@ -706,7 +706,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
     }
 ]);
 
-controllers.controller('CreateAdCtrl', ['$scope',
+controllers.controller('AdCtrl', ['$scope',
     'orgService',
     'userService',
     'adService',

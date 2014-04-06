@@ -185,7 +185,7 @@ app.config(function($stateProvider,
         .state('createAdvertisement', {
             url: '/organization/ad/create',
             templateUrl: 'partials/ad_create.html',
-            controller: 'CreateAdCtrl',
+            controller: 'AdCtrl',
             data: {
                 public: false
             }
@@ -217,7 +217,7 @@ app.config(function($stateProvider,
         .state('editAdvertisement', {
             url: '/organization/ad/{adId}/edit',
             templateUrl: 'partials/ad_create.html',
-            controller: 'CreateAdCtrl',
+            controller: 'AdCtrl',
             data: {
                 public: false
             }
