@@ -224,8 +224,8 @@ app.config(function($stateProvider,
         });
 
     $stateProvider
-        .state('createSearch', {
-            url: '/organization/ad/{adId}/search/create',
+        .state('search', {
+            url: '/organization/search/{searchId}',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl',
             data: {
@@ -233,15 +233,24 @@ app.config(function($stateProvider,
             }
         });
 
-    $stateProvider
-        .state('viewSearch', {
-            url: '/organization/ad/{adId}/search/{searchId}',
-            templateUrl: 'partials/search.html',
-            controller: 'SearchCtrl',
-            data: {
-                public: false
-            }
-        });
+    $stateProvider.state('results', {
+        url: '/results',
+        templateUrl: 'partials/results.html',
+        controller: 'SearchResultsCtrl',
+        data: {
+            public: false
+        }
+    });
+
+    // $stateProvider
+    //     .state('search.results', {
+    //         url: '/results',
+    //         templateUrl: 'partials/results.html',
+    //         controller: 'SearchResultsCtrl',
+    //         data: {
+    //             public: false
+    //         }
+    //     })
 
     $stateProvider
         .state('logout', {
@@ -341,7 +350,7 @@ app.config(function($stateProvider,
             }
         });
 
-   $stateProvider
+    $stateProvider
         .state('adminInvites', {
             url: '/admin/invites',
             templateUrl: 'partials/admin_invites.html',

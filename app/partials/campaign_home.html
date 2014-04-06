@@ -1,4 +1,6 @@
-<h2>{{ad.name}} <a type="button" href="#/organization/ad/{{ad.id}}/search/{{search.id}}" class="btn btn-info">Search</a></h2>
+<h2>{{ad.name}}</h2>
+<a type="button" ui-sref="editAdvertisement({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Edit Advertisement</a>
+<a type="button" ui-sref="search({searchId:search.id})" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search for Candidates</a>
 <hr/>
 <div class="row">
 	<div class="col-md-8">

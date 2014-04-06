@@ -230,6 +230,19 @@ directives.directive('grAdPreview', function() {
             ads: '=ads',
             searchText: '=searchText',
             org: '=org'
+        },
+        controller: function ($scope, $state) {
+            $scope.go = function (ad) {
+                if (ad.public === true) {   
+                    $scope.method = 'viewAdvertisementPublic';
+                } else {
+                    $scope.method = 'viewAdvertisement';
+                }
+
+                var orgId = typeof ad.organization === 'object' ? ad.organization._id :  ad.orgnaization;
+                
+                $state.go($scope.method, {orgId: orgId, adId: ad._id});
+            };
         }
     };
 });

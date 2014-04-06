@@ -325,9 +325,9 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0) {
                     $modal.open({
                         templateUrl: 'partials/modal_me_welcome.html'
-                    }).result.then(function () {
+                    }).result.then(function() {
                         $scope.openUploadCVModal();
-                    })
+                    });
                 }
             });
 
@@ -719,7 +719,6 @@ controllers.controller('AdCtrl', ['$scope',
     function($scope, orgService, userService, adService, notificationService, $location, $stateParams,
         $state, $rootScope) {
 
-        // initiate the organization details
         orgService.getOrg($rootScope.u.affiliation)
             .success(function(data) {
                 $scope.org = data.organization;
@@ -791,7 +790,7 @@ controllers.controller('AdCtrl', ['$scope',
             } else {
                 adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad)
                     .success(function() {
-                        $location.url('/organization/ad/' + $scope.ad.id + '/view');
+                        $state.go('organizationDashboard');
                     });
             }
         };
@@ -871,206 +870,202 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
     }
 ]);
 
-controllers.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', 'userService', 'adService',
-    'searchService', 'notificationService', 'validationService', '$modal', '$location', 'adResponseService',
-    function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
-        validationService, $modal, $location, adResponseService) {
-        $scope.displayNameCollection = {
-            AGE_BETWEEN: {
-                name: 'Age between',
-                isRange: true,
-                type: 'number',
-                placeholder: ['from', 'to']
-            },
-            TOTAL_EXPERIENCE_BETWEEN: {
-                name: 'Total experience between',
-                isRange: true,
-                type: 'number',
-                placeholder: ['from', 'to']
-            },
-            CURRENT_POSITION_LIKE: {
-                name: 'Current position like',
-                isRange: false,
-                type: 'string',
-                placeholder: []
-            },
-            EXPERIENCE_LIKE: {
-                name: 'Experienced in',
-                isRange: false,
-                type: 'string',
-                placeholder: []
-            },
-            QUALIFICATIONS_LIKE: {
-                name: 'Qualifications include',
-                isRange: false,
-                type: 'string',
-                placeholder: []
-            },
-            QUALIFICATIONS_FIELD_LIKE: {
-                name: 'Qualified in',
-                isRange: false,
-                type: 'string',
-                placeholder: []
-            },
-            SKILLS_LIKE: {
-                name: 'Skills include',
-                isRange: false,
-                type: 'string',
-                placeholder: []
+controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
+    validationService, $modal, $location, adResponseService, $state) {
+    $scope.displayNameCollection = {
+        AGE_BETWEEN: {
+            name: 'Age between',
+            isRange: true,
+            type: 'number',
+            placeholder: ['from', 'to']
+        },
+        TOTAL_EXPERIENCE_BETWEEN: {
+            name: 'Total experience between',
+            isRange: true,
+            type: 'number',
+            placeholder: ['from', 'to']
+        },
+        CURRENT_POSITION_LIKE: {
+            name: 'Current position like',
+            isRange: false,
+            type: 'string',
+            placeholder: []
+        },
+        EXPERIENCE_LIKE: {
+            name: 'Experienced in',
+            isRange: false,
+            type: 'string',
+            placeholder: []
+        },
+        QUALIFICATIONS_LIKE: {
+            name: 'Qualifications include',
+            isRange: false,
+            type: 'string',
+            placeholder: []
+        },
+        QUALIFICATIONS_FIELD_LIKE: {
+            name: 'Qualified in',
+            isRange: false,
+            type: 'string',
+            placeholder: []
+        },
+        SKILLS_LIKE: {
+            name: 'Skills include',
+            isRange: false,
+            type: 'string',
+            placeholder: []
+        }
+    };
+
+    $scope.ad = {};
+    $scope.searchId = $stateParams.searchId;
+
+    $scope.search = {
+        criteria: []
+    };
+
+    // if this is a edit
+    if ($scope.searchId) {
+        searchService.getSearch($rootScope.u.affiliation, $scope.searchId)
+            .success(function(data) {
+                $scope.search = data.search;
+
+                // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
+                for (var i = 0; i < $scope.search.criteria.length; i++) {
+                    $scope.search.criteria[i].displayName =
+                        $scope.displayNameCollection[$scope.search.criteria[i].name].name;
+                }
+            });
+    } else {
+        searchService.createSearch($rootScope.u.affiliation)
+            .success(function(data) {
+                notificationService.handleSuccess('Search updated successfully.');
+                $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
+            });ƒ
+    }
+
+    var resetCriterion = function() {
+        $scope.criterion = {
+            values: [],
+            weight: 1
+        };
+    };
+
+    resetCriterion();
+
+    var saveSearch = function() {
+        var search = {
+            advertisement: $stateParams.adId,
+            // note that name changes if the expiration date is extended
+            name: $scope.search.name,
+            criteria: $scope.search.criteria
+        };
+
+
+        searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search)
+            .success(function() {
+                notificationService.handleSuccess('Search updated successfully.');
+            });
+    };
+
+
+    $scope.add = function(criterion) {
+        try {
+            validationService.mustBeTrue(criterion.name, 'Search criterion type is required');
+            validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
+            if ($scope.displayNameCollection[criterion.name].isRange) {
+                validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
+                // if the user is going to define filter criteria like age and years of experience
+                // more than once
+                validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
+                    return c.name === $scope.criterion.name;
+                })), 'You can not specify multiple search criteria of this kind');
             }
-        };
 
-        $scope.ad = {};
-        $scope.searchId = $stateParams.searchId;
-
-        $scope.search = {
-            criteria: []
-        };
-
-        // if this is a edit
-        if ($scope.searchId) {
-            searchService.getSearch($rootScope.u.affiliation, $scope.searchId)
-                .success(function(data) {
-                    $scope.search = data.search;
-
-                    // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
-                    for (var i = 0; i < $scope.search.criteria.length; i++) {
-                        $scope.search.criteria[i].displayName =
-                            $scope.displayNameCollection[$scope.search.criteria[i].name].name;
-                    }
-                });
+        } catch (e) {
+            return;
         }
 
-        adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-            .success(function(data) {
-                $scope.ad = data.advertisement;
-                $scope.search.name = $scope.ad.jobRole + ' - ' +
-                    moment($scope.ad.publishedOn).format('MMM YY');
-            });
+        $scope.search.criteria.push({
+            name: criterion.name,
+            values: _.clone(criterion.values),
+            displayName: $scope.displayNameCollection[criterion.name].name,
+            weight: criterion.weight
+        });
 
-        var resetCriterion = function() {
-            $scope.criterion = {
-                values: [],
-                weight: 1
-            };
-        };
-
+        saveSearch();
         resetCriterion();
+    };
 
-        var saveSearch = function() {
-            var search = {
-                advertisement: $stateParams.adId,
-                // note that name changes if the expiration date is extended
-                name: $scope.search.name,
-                criteria: $scope.search.criteria
-            };
+    // removes an element from an array
+    $scope.removeElement = function(arr, i) {
+        arr.splice(i, 1);
+        saveSearch();
+    };
 
-            // if this is a new search
-            if (!$scope.searchId) {
-                searchService.createSearch($rootScope.u.affiliation, search)
-                    .success(function(data) {
-                        notificationService.handleSuccess('Search updated successfully.');
-                        $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
-                    });
+    $scope.doSearch = function() {
+        $state.go('results', {searchId: $scope.searchId});
+    };
+});
+
+controllers.controller('SearchResultsCtrl', function($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService) {
+    searchService.getSearchResults($rootScope.u.affiliation, $stateParams.searchId)
+        .success(function(data) {
+            if (data.scores.hits.hits.length !== 0) {
+                searchService.getSearch($rootScope.u.affiliation, $stateParams.searchId).success(function (searchData) {
+                    $scope.search = searchData.search;
+                    markInvitedCandidates(data.scores.hits.hits);
+                })
+
+                $scope.allResults = data.scores.hits.hits;
+                $scope.showTop(10);
             } else {
-                searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search)
-                    .success(function() {
-                        notificationService.handleSuccess('Search updated successfully.');
-                    });
+                notificationService.handleInfo('No candidates found matching that criteria',
+                    'Nothing to show!');
             }
-        };
+        });
 
-
-        $scope.add = function(criterion) {
-            try {
-                validationService.mustBeTrue(criterion.name, 'Search criterion type is required');
-                validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
-                if ($scope.displayNameCollection[criterion.name].isRange) {
-                    validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
-                    // if the user is going to define filter criteria like age and years of experience
-                    // more than once
-                    validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
-                        return c.name === $scope.criterion.name;
-                    })), 'You can not specify multiple search criteria of this kind');
-                }
-
-            } catch (e) {
-                return;
-            }
-
-            $scope.search.criteria.push({
-                name: criterion.name,
-                values: _.clone(criterion.values),
-                displayName: $scope.displayNameCollection[criterion.name].name,
-                weight: criterion.weight
+    $scope.invite = function(id, tags) {
+        adResponseService.createResponse(id, this.$parent.u.affiliation, $scope.adId, tags)
+            .success(function() {
+                $scope.user.invited = true;
+                notificationService.handleSuccess('Candidate was invited successfully');
+                markInvitedCandidates($scope.allResults);
             });
+    };
 
-            saveSearch();
-            resetCriterion();
-        };
+    $scope.loadProfile = function(id, invited) {
+        userService.getProfile(id)
+            .success(function(data) {
+                $scope.user = data;
+                $scope.user.id = id;
+                $scope.user.invited = invited;
+            });
+    };
 
-        // removes an element from an array
-        $scope.removeElement = function(arr, i) {
-            arr.splice(i, 1);
-            saveSearch();
-        };
+    $scope.showTop = function(count) {
+        $scope.limitResultsTo = count;
+    };
 
-        $scope.invite = function(id, tags) {
-            adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags)
-                .success(function() {
-                    $scope.user.invited = true;
-                    notificationService.handleSuccess('Candidate was invited successfully');
-                    markInvitedCandidates($scope.allResults);
-                });
-        };
+    function markInvitedCandidates(results) {
+        adResponseService.getAllResponses($rootScope.u.affiliation, $scope.search.advertisement)
+            .success(function(data) {
+                var invitedList = _.pluck(data.responses, 'user');
+                var fullList = _.pluck(results, '_id');
 
-        $scope.loadProfile = function(id, invited) {
-            userService.getProfile(id)
-                .success(function(data) {
-                    $scope.user = data;
-                    $scope.user.id = id;
-                    $scope.user.invited = invited;
-                });
-        };
+                var resultsToBeMarked = _.intersection(invitedList, fullList);
 
-        $scope.showTop = function(count) {
-            $scope.limitResultsTo = count;
-        };
-
-        function markInvitedCandidates(results) {
-            adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
-                .success(function(data) {
-                    var invitedList = _.pluck(data.responses, 'user');
-                    var fullList = _.pluck(results, '_id');
-
-                    var resultsToBeMarked = _.intersection(invitedList, fullList);
-
-                    for (var i = 0; i < resultsToBeMarked.length; i++) {
-                        for (var j = 0; j < results.length; j++) {
-                            if (resultsToBeMarked[i] === results[j]._id) {
-                                results[j].invited = true;
-                                continue;
-                            }
+                for (var i = 0; i < resultsToBeMarked.length; i++) {
+                    for (var j = 0; j < results.length; j++) {
+                        if (resultsToBeMarked[i] === results[j]._id) {
+                            results[j].invited = true;
+                            continue;
                         }
                     }
-                });
-        }
-
-        $scope.doSearch = function() {
-            searchService.getSearchResults($rootScope.u.affiliation, $scope.searchId)
-                .success(function(data) {
-                    if (data.scores.hits.hits.length !== 0) {
-                        $scope.allResults = data.scores.hits.hits;
-                        markInvitedCandidates(data.scores.hits.hits);
-                        $scope.showTop(10);
-                    } else {
-                        notificationService.handleInfo('No candidates found matching that criteria',
-                            'Nothing to show!');
-                    }
-                });
-        };
-    }
-]);
+                }
+            });
+    };
+});
 
 controllers.controller('LogoutCtrl', ['$scope', 'userService',
     function($scope, userService) {
