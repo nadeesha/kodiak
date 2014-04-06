@@ -211,11 +211,12 @@ html {
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0)
 }
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     font-size:15px;
     line-height:1.428571429;
     color:#222;
-    background-color:#fff
+    background-color:#fff;
+    font-weight: normal;
 }
 input, button, select, textarea {
     font-family:inherit;
@@ -278,8 +279,8 @@ hr {
     border:0
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight:300;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight:400;
     line-height:1.1;
     color:inherit
 }
@@ -318,7 +319,7 @@ h5, .h5 {
     font-size:15px
 }
 h6, .h6 {
-    font-size:13px
+    font-size:14px
 }
 p {
     margin:0 0 10.5px
@@ -5507,7 +5508,7 @@ th.hidden-lg, td.hidden-lg {
     }
 }
 .navbar {
-    font-size:13px;
+    font-size:14px;
     font-weight:300;
     border:0
 }
@@ -5523,7 +5524,7 @@ th.hidden-lg, td.hidden-lg {
     border:0
 }
 .navbar .dropdown-menu>li>a, .navbar .dropdown-menu>li>a:focus {
-    font-size:13px;
+    font-size:14px;
     font-weight:300;
     background-color:transparent
 }
