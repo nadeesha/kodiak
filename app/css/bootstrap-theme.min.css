@@ -211,7 +211,7 @@ html {
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0)
 }
 body {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: sans-serif;
     font-size:15px;
     line-height:1.428571429;
     color:#222;
@@ -279,7 +279,7 @@ hr {
     border:0
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: sans-serif;
     font-weight:400;
     line-height:1.1;
     color:inherit
