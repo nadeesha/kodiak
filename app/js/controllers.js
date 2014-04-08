@@ -937,7 +937,12 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
                 }
             });
     } else {
-        searchService.createSearch($rootScope.u.affiliation)
+        var search = {
+            advertisement: $scope.ad.id,
+            name: $scope.ad.jobRole
+        }
+
+        searchService.createSearch($rootScope.u.affiliation, search)
             .success(function(data) {
                 notificationService.handleSuccess('Search updated successfully.');
                 $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
