@@ -5,7 +5,6 @@
                 <span>{{user.firstName}}</span>
                 <span>{{user.lastName}}</span>
             </h1>
-            <button type="button" class="btn btn-default" ng-show="!edit && !cvUploaded" ng-click="openUploadCVModal()"><span class="glyphicon glyphicon-upload" ></span> Upload from CV</button>
             <button type="button" class="btn btn-default" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
             <button type="button" class="btn btn-success" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
             <hr>
