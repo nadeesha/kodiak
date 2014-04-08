@@ -495,3 +495,17 @@ div.well>h2 {
 .gr-summary-label .gr-small : hover {
     color: rgba(255,255,255,1.0);
 }
+.gr-logo-container {
+background-color:white;color:black;
+border-radius: 10px;
+}
+.gr-logo-container > p {
+    padding-top: 30px;
+    font-size: 1.5em;
+    letter-spacing: -1px;
+}
+.gr-home-logos {
+    display:inline-block;
+    height: 100px;
+    margin: 30px 10px;
+}
