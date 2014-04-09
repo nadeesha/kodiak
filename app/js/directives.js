@@ -232,15 +232,8 @@ directives.directive('grAdPreview', function() {
         },
         controller: function ($scope, $state) {
             $scope.go = function (ad) {
-                if (ad.public === true) {   
-                    $scope.method = 'viewAdvertisementPublic';
-                } else {
-                    $scope.method = 'viewAdvertisement';
-                }
-
-                var orgId = typeof ad.organization === 'object' ? ad.organization._id :  ad.orgnaization;
-                
-                $state.go($scope.method, {orgId: orgId, adId: ad._id});
+                var orgId = typeof ad.organization === 'object' ? ad.organization._id :  ad.organization;
+                $state.go('viewAdvertisementPublic', {orgId: orgId, adId: ad._id});
             };
         }
     };
