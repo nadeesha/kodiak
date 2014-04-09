@@ -175,6 +175,9 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
             getAds: function(id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/posts');
             },
+            getPublicAds: function(id) {
+                return $http.get(GRIZZLY_URL + '/organization/' + id + '/public/posts');
+            },
             uploadLogo: function(id, files) {
                 var formData = new FormData();
                 for (var i in files) {

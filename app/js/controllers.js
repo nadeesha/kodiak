@@ -1293,7 +1293,7 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
             $scope.org = data.organization;
         });
 
-    orgService.getAds($stateParams.orgId)
+    orgService.getPublicAds($stateParams.orgId)
         .success(function(data) {
             $scope.ads = data.advertisements;
         });
