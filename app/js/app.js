@@ -381,6 +381,12 @@ app.run(function($rootScope, userService, subwayService, notificationService, $s
             ev.preventDefault();
             $state.transitionTo('login');
         }
+
+        if (toState.name === 'home') {
+            $('body').css('background', 'url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed');
+        } else {
+            $('body').css('background', 'white');
+        }
     });
 
     $rootScope.$broadcast('restorestate');
