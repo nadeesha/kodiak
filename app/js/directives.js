@@ -208,7 +208,6 @@ directives.directive('fileUploader', function() {
         scope: '=',
         link: function($scope, $element, $attrs) {
             $scope.acceptedtypes = $attrs.acceptedtypes;
-            console.log($scope);
             var fileInput = $element.find('input[type="file"]');
             fileInput.bind('change', function(e) {
                 $scope.notReady = e.target.files.length === 0;
