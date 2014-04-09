@@ -5,38 +5,35 @@
     font-size: 18px;
     line-height: 21px;
 }
-html,
-body {
-  height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
-  -webkit-background-size: cover;
+html, body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+    -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
-
 /* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
+ #wrap {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
 }
-
 /* Set the fixed height of the footer here */
-#footer {
-  height: 60px;
-  background-color: rgba(255,255,255,0.8);
-  text-align: center;
-  padding-top:15px;
-  border-top: 1px darkgray solid;
+ #footer {
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding-top:15px;
+    border-top: 1px darkgray solid;
 }
 #footer a {
-  font-size: 0.8em;
-  color: black;
-  margin: 5px;
+    font-size: 0.8em;
+    color: black;
+    margin: 5px;
 }
 h1 {
     letter-spacing: -2px;
@@ -202,7 +199,7 @@ div.well>h2 {
     font-size: 0.6em;
 }
 .gr-summary-label {
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
     padding: 0px 20px;
     margin-bottom: 10px;
     font-weight: bold;
@@ -335,7 +332,6 @@ div.well>h2 {
     color: white;
 }
 .gr-back-img {
-    
 }
 /** Animations **/
  @-webkit-keyframes fadeInUp {
@@ -460,7 +456,7 @@ div.well>h2 {
     font-weight: 800;
     border: 10px solid white;
     padding: 15px;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
 }
 .gr-inline-stats .desc {
     font-weight: 800;
@@ -483,10 +479,10 @@ div.well>h2 {
     cursor: pointer;
 }
 .gr-summary-label .gr-small : hover {
-    color: rgba(255,255,255,1.0);
+    color: rgba(255, 255, 255, 1.0);
 }
 .gr-logo-container {
-    background-color:rgba(0,0,0,0.6);
+    background-color:rgba(0, 0, 0, 0.6);
     color:white;
     width: 100%;
     margin-top: 50px;
