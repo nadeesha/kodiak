@@ -225,7 +225,7 @@ app.config(function($stateProvider,
 
     $stateProvider
         .state('search', {
-            url: '/organization/search/{searchId}',
+            url: '/organization/ad/{adId}/search',
             templateUrl: 'partials/search.html',
             controller: 'SearchCtrl',
             data: {
@@ -234,7 +234,7 @@ app.config(function($stateProvider,
         });
 
     $stateProvider.state('results', {
-        url: '/results',
+        url: '/organization/ad/{adId}/search/{searchId}/results',
         templateUrl: 'partials/results.html',
         controller: 'SearchResultsCtrl',
         data: {

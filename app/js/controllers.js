@@ -672,11 +672,6 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                 $scope.ad.name = $scope.ad.jobRole + '-' + moment($scope.ad.createdOn).format('MMM DD');
             });
 
-        searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId)
-            .success(function(data) {
-                $scope.search = data.search;
-            });
-
         var loadResponses = function() {
             adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
                 .success(function(data) {
@@ -785,7 +780,9 @@ controllers.controller('AdCtrl', ['$scope',
             if ($state.is('createAdvertisement')) {
                 adService.createAd($rootScope.u.affiliation, ad)
                     .success(function(data) {
-                        $location.url('/organization/ad/' + data.id + '/view');
+                        $state.go('campaignHome', {
+                            adId: data.id
+                        });
                     });
             } else {
                 adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad)
@@ -917,36 +914,51 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
         }
     };
 
-    $scope.ad = {};
+    $scope.ad = null;
     $scope.searchId = $stateParams.searchId;
+    $scope.searchCreated = false; // fix for a phantom promise return
 
-    $scope.search = {
-        criteria: []
-    };
+    searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId)
+        .success(function(data) {
+            $scope.search = data.search;
+            initiate();
 
-    // if this is a edit
-    if ($scope.searchId) {
-        searchService.getSearch($rootScope.u.affiliation, $scope.searchId)
-            .success(function(data) {
-                $scope.search = data.search;
+        }).error(function(data, status) {
+            adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+                .success(function(data) {
+                    if ($scope.searchCreated) {
+                        return;
+                    } else {
+                        $scope.searchCreated = true;
+                    }
 
-                // generating display names for the criteria.. i.e. AGE_BETWEEN -> Age between
-                for (var i = 0; i < $scope.search.criteria.length; i++) {
-                    $scope.search.criteria[i].displayName =
-                        $scope.displayNameCollection[$scope.search.criteria[i].name].name;
-                }
-            });
-    } else {
-        var search = {
-            advertisement: $scope.ad.id,
-            name: $scope.ad.jobRole
+                    $scope.ad = data.advertisement;
+
+                    var search = {
+                        advertisement: $scope.ad.id,
+                        name: $scope.ad.jobRole
+                    };
+
+                    searchService.createSearch($rootScope.u.affiliation, search)
+                        .success(function(data) {
+                            searchService.getSearch($rootScope.u.affiliation, data.id)
+                                .success(function(data) {
+                                    $scope.search = data.search;
+                                    initiate();
+                                });
+                        });
+                });
+        });
+
+    var initiate = function() {
+        if (!$scope.search.criteria) {
+            $scope.search.criteria = [];
         }
 
-        searchService.createSearch($rootScope.u.affiliation, search)
-            .success(function(data) {
-                notificationService.handleSuccess('Search updated successfully.');
-                $location.url('/organization/ad/' + $scope.ad.id + '/search/' + data.id);
-            });ƒ
+        for (var i = 0; i < $scope.search.criteria.length; i++) {
+            $scope.search.criteria[i].displayName =
+                $scope.displayNameCollection[$scope.search.criteria[i].name].name;
+        }
     }
 
     var resetCriterion = function() {
@@ -960,14 +972,12 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
 
     var saveSearch = function() {
         var search = {
-            advertisement: $stateParams.adId,
-            // note that name changes if the expiration date is extended
             name: $scope.search.name,
             criteria: $scope.search.criteria
         };
 
 
-        searchService.editSearch($rootScope.u.affiliation, $scope.searchId, search)
+        searchService.editSearch($rootScope.u.affiliation, $scope.search.id, search)
             .success(function() {
                 notificationService.handleSuccess('Search updated successfully.');
             });
@@ -1009,22 +1019,26 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
     };
 
     $scope.doSearch = function() {
-        $state.go('results', {searchId: $scope.searchId});
+        $state.go('results', {
+            adId: $stateParams.adId,
+            searchId: $scope.search.id
+        });
     };
 });
 
-controllers.controller('SearchResultsCtrl', function($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService) {
+controllers.controller('SearchResultsCtrl', function($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService, notificationService) {
     searchService.getSearchResults($rootScope.u.affiliation, $stateParams.searchId)
         .success(function(data) {
             if (data.scores.hits.hits.length !== 0) {
-                searchService.getSearch($rootScope.u.affiliation, $stateParams.searchId).success(function (searchData) {
+                searchService.getSearch($rootScope.u.affiliation, $stateParams.searchId).success(function(searchData) {
                     $scope.search = searchData.search;
                     markInvitedCandidates(data.scores.hits.hits);
-                })
+                });
 
                 $scope.allResults = data.scores.hits.hits;
                 $scope.showTop(10);
             } else {
+                allResults = [];
                 notificationService.handleInfo('No candidates found matching that criteria',
                     'Nothing to show!');
             }
@@ -1069,7 +1083,7 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
                     }
                 }
             });
-    };
+    }
 });
 
 controllers.controller('LogoutCtrl', ['$scope', 'userService',
