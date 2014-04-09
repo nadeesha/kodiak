@@ -959,7 +959,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
             $scope.search.criteria[i].displayName =
                 $scope.displayNameCollection[$scope.search.criteria[i].name].name;
         }
-    }
+    };
 
     var resetCriterion = function() {
         $scope.criterion = {
