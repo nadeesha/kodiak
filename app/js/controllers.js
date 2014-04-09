@@ -521,7 +521,8 @@ controllers.controller('EditOrgCtrl', [
     'notificationService',
     'GRIZZLY_URL',
     'userService',
-    function($scope, orgService, $rootScope, notificationService) {
+    '$state',
+    function($scope, orgService, $rootScope, notificationService, $state) {
         $scope.editMode = true;
 
         orgService.getOrg($rootScope.u.affiliation)
@@ -552,6 +553,7 @@ controllers.controller('EditOrgCtrl', [
             orgService.editOrg($rootScope.u.affiliation, org)
                 .success(function() {
                     notificationService.handleSuccess('Organization details updated');
+                    $state.go('organizationDashboard');
                 });
         };
     }
@@ -923,7 +925,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
             $scope.search = data.search;
             initiate();
 
-        }).error(function(data, status) {
+        }).error(function() {
             adService.getAd($rootScope.u.affiliation, $stateParams.adId)
                 .success(function(data) {
                     if ($scope.searchCreated) {
