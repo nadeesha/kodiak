@@ -1038,7 +1038,7 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
                 $scope.allResults = data.scores.hits.hits;
                 $scope.showTop(10);
             } else {
-                allResults = [];
+                $scope.allResults = [];
                 notificationService.handleInfo('No candidates found matching that criteria',
                     'Nothing to show!');
             }
