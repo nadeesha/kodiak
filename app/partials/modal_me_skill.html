@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h3>Skill <button type="button" class="btn btn-success pull-right" ng-click="data.unshift({skill: {name: '', experience: ''}})">Add new skill</button></h3>
+        <h3>{{data.meta.heading || 'Skill'}} <button type="button" class="btn btn-success pull-right" ng-click="data.skills.unshift({skill: {name: '', experience: ''}})">Add new skill</button></h3>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" role="form" name="formSkill">
@@ -8,14 +8,14 @@
             <div class="col-md-8">Skill Name</div>
             <div class="col-md-4">Years of Experience</div>
         </div>
-            <div class="form-group" ng-repeat="skill in data | orderBy: '-experience'">
+            <div class="form-group" ng-repeat="skill in data.skills track by $index | orderBy: '-experience'">
                 <div class="col-md-8">
-                    <input class="form-control" placeholder="Skill name" ng-model="skill.name" required/>
+                    <input class="form-control" placeholder="example: {{examples[   %5]}}" ng-model="skill.name" required/>
                 </div>
                 <div class="col-md-2">
                     <input class="form-control" placeholder="Years" ng-model="skill.experience" required/>
                 </div>
-                <a class="btn btn-xs btn-danger gr-btn-io" ng-click="data.splice($index, 1)"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                <a class="btn btn-xs btn-danger gr-btn-io" ng-click="data.skills.splice($index, 1)"><span class="glyphicon glyphicon-remove-circle"></span></a>
             </div>
         </form>
     </div>

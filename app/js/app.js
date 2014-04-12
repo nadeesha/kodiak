@@ -359,6 +359,36 @@ app.config(function($stateProvider,
                 public: false
             }
         });
+
+    $stateProvider
+        .state('profileBuilder', {
+            url: '/me/builder',
+            templateUrl: 'partials/builder.html',
+            controller: 'ProfileBuilderCtrl',
+            data: {
+                public: false
+            }
+        });
+
+    $stateProvider
+        .state('profileBuilder.1', {
+            url: '/1',
+            templateUrl: 'partials/builder-welcome.html',
+            controller: 'ProfileBuilderCtrl',
+            data: {
+                public: false
+            }
+        });
+
+    $stateProvider
+        .state('profileBuilder.2', {
+            url: '/2',
+            templateUrl: 'partials/modal_me_tenure.html',
+            controller: 'ProfileBuilderCtrl',
+            data: {
+                public: false
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {

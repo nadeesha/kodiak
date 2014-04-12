@@ -1,11 +1,11 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h3>Job Tenure</h3>
+        <h3>{{meta.heading || 'Job Tenure'}}</h3>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" role="form" name="formTenure">
             <div class="form-group">
-                <label class="col-md-4 control-label">Position</label>
+                <label class="col-md-4 control-label">Designation</label>
                 <div class="col-md-8">
                     <input class="form-control" placeholder="Job Role" ng-model="data.position" popover="What is your official designation?" popover-trigger="focus" />
                 </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">What I did here</label>
-                <div class="col-md-11 col-md-offset-1" text-angular ng-model="data.responsibilities" ta-toolbar="[['bold', 'italics', 'ul', 'ol', 'redo', 'undo'], []]"></div>
+                <div placeholder="Example: As a special weapons expert at Wayne Enterprises, I worked directly under the supervision of my CEO to create next-generation weaponry to keep Gotham City clean. My responsibilities included: <ul><li>R n D on a car that can also fly, but has a very uncomfortable seating position</li><li>An EMP gun that disables any electronics nearby, and sometimes itself</li><li>A strong miniaturized laser used as a cutting tool</li></ul> I also was part of a team that built a 3D environment mapping tool using cellphone waves, which was commissioned by National Security Agency. This later got decommissioned in light of the Snowden revelations." class="col-md-11 col-md-offset-1" text-angular ng-model="data.responsibilities" ta-toolbar="[['bold', 'italics', 'ul', 'ol', 'redo', 'undo'], []]"></div>
             </div>
         </form>
     </div>

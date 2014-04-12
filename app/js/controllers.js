@@ -154,6 +154,7 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
 
 controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, data, MONTHS, validationService, userService) {
     $scope.data = angular.copy(data, $scope.data);
+    $scope.meta = data.meta;
 
     $scope.startedOn = {};
     $scope.endedOn = {};
@@ -269,6 +270,8 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
 controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
     function($scope, data) {
         $scope.data = angular.copy(data, $scope.data);
+
+        $scope.examples = ['Fixed Asset Accounting', 'Nuclear Physics', 'Recruitment and Selection', 'Javascript', 'Negative Asset Management'];
     }
 ]);
 
@@ -448,7 +451,9 @@ controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'use
                 controller: 'SkillModalInstanceCtrl',
                 resolve: {
                     data: function() {
-                        return $scope.user.skills;
+                        return {
+                            skills: $scope.user.skills
+                        };
                     }
                 }
             });
@@ -1332,4 +1337,63 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
             $scope.getUninvited();
         });
     };
+});
+
+controllers.controller('ProfileBuilderCtrl', function($scope, $modal) {
+    $scope.step = 0;
+
+    $scope.inputs = {};
+
+    $scope.openTenureModal = function() {
+        var modal = $modal.open({
+            templateUrl: 'partials/modal_me_tenure.html',
+            controller: 'QualificationTenureModalInstanceCtrl',
+            resolve: {
+                data: function() {
+                    return {
+                        // i am establishing a child object here to pass some special properties without
+                        // altering the behavior of the edit profile features. meta will only be used for this purpose
+                        // and nothing more. or so I'd hope.
+                        meta: {
+                            heading: 'Tell us about your current job'
+                        }
+                    };
+                }
+            }
+        });
+
+        modal.result.then(function(tenure) {
+            $scope.inputs.tenure = tenure;
+            $scope.next();
+        });
+    };
+
+    $scope.openSkillModal = function() {
+        var skillModal = $modal.open({
+            templateUrl: 'partials/modal_me_skill.html',
+            controller: 'SkillModalInstanceCtrl',
+            resolve: {
+                data: function() {
+                    return {
+                        skills: new Array(5),
+                        meta: {
+                            heading: 'What would you say your top 5 skills are?'
+                        }
+                    };
+                }
+            }
+        });
+
+        skillModal.result.then(function(skills) {
+            $scope.inputs.skills = skills;
+        });
+    };
+
+    $scope.steps = [$scope.openTenureModal, $scope.openSkillModal];
+
+    $scope.next = function() {
+        $scope.steps[$scope.step]();
+        $scope.step++;
+    };
+
 });
