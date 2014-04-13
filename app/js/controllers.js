@@ -62,8 +62,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                 } else if (err === 403) {
                     notificationService.notify({
                         title: 'Account is inactive!',
-                        text: 'This account is currently inactive. If you just signed up, please ' +
-                            'click the activation link we sent to your email.',
+                        text: 'This account is currently inactive. If you just signed up, please ' + 'click the activation link we sent to your email.',
                         type: 'error',
                         hide: true
                     });
@@ -294,190 +293,193 @@ controllers.controller('PrivateMeCtrl', function($scope, userService) {
         });
 });
 
-controllers.controller('MeCtrl', ['$scope', '$http', '$location', '$modal', 'userService', 'notificationService', 'utilService', '$state',
-    function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
+controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
 
-        if ($state.is('editProfile')) {
-            $scope.edit = true;
-        } else {
-            $scope.edit = false;
-        }
+    if ($state.is('editProfile')) {
+        $scope.edit = true;
+    } else {
+        $scope.edit = false;
+    }
 
-        $scope.enableEdit = function() {
-            $scope.edit = true;
-        };
+    $scope.enableEdit = function() {
+        $scope.edit = true;
+    };
 
-        $scope.disableEdit = function() {
-            $scope.edit = false;
-        };
+    $scope.disableEdit = function() {
+        $scope.edit = false;
+    };
 
-        $scope.getTimes = utilService.getTimes;
+    $scope.getTimes = utilService.getTimes;
 
-        var loadProfileStats = function() {
-            userService.getProfileStats()
-                .success(function(data) {
-                    $scope.stats = data;
-                });
-        };
-
-        userService.getProfile()
+    var loadProfileStats = function() {
+        userService.getProfileStats()
             .success(function(data) {
+                $scope.stats = data;
+            });
+    };
+
+    userService.getProfile()
+        .success(function(data) {
+            // redirect the user if profile is relatively empty and not from builder
+            if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0 && $scope.edit === false) {
+                $state.go('profileBuilder');
+            } else {
                 $scope.user = data;
                 loadProfileStats();
-            });
-
-        var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
-            // holds a copy of the referred object so that edits won't appear instantaneously
-            // if it's an addition, returns a new object
-            var objToManipulate = itemToEdit || {};
-
-
-            var modal = $modal.open({
-                templateUrl: templateUrl,
-                controller: instanceController,
-                resolve: {
-                    data: function() {
-                        return objToManipulate;
-                    }
-                }
-            });
-
-            modal.result.then(function(manipulated) {
-                if (itemToEdit) {
-                    collection[collection.indexOf(itemToEdit)] = manipulated;
-                } else {
-                    collection.push(manipulated);
-                }
-
-                $scope.saveProfile();
-            });
-        };
-
-        $scope.convertGender = function(gender) {
-            if (gender) {
-                return 'Male';
-            } else if (gender === false) {
-                return 'Female';
             }
-        };
+        });
 
-        $scope.saveProfile = function() {
-            userService.saveProfile($scope.user)
-                .success(function(data) {
-                    loadProfileStats();
-                    notificationService.notify({
-                        title: 'Change(s) saved!',
-                        text: 'Successfully saved change(s) made to your profile.',
-                        type: 'success',
-                        hide: true
-                    });
+    var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
+        // holds a copy of the referred object so that edits won't appear instantaneously
+        // if it's an addition, returns a new object
+        var objToManipulate = itemToEdit || {};
 
-                    $scope.user = data.profile;
-                }).error(function(data) {
-                    if (data.profile) {
-                        $scope.user = data.profile;
-                    }
+
+        var modal = $modal.open({
+            templateUrl: templateUrl,
+            controller: instanceController,
+            resolve: {
+                data: function() {
+                    return objToManipulate;
+                }
+            }
+        });
+
+        modal.result.then(function(manipulated) {
+            if (itemToEdit) {
+                collection[collection.indexOf(itemToEdit)] = manipulated;
+            } else {
+                collection.push(manipulated);
+            }
+
+            $scope.saveProfile();
+        });
+    };
+
+    $scope.convertGender = function(gender) {
+        if (gender) {
+            return 'Male';
+        } else if (gender === false) {
+            return 'Female';
+        }
+    };
+
+    $scope.saveProfile = function() {
+        userService.saveProfile($scope.user)
+            .success(function(data) {
+                loadProfileStats();
+                notificationService.notify({
+                    title: 'Change(s) saved!',
+                    text: 'Successfully saved change(s) made to your profile.',
+                    type: 'success',
+                    hide: true
                 });
-        };
 
-        // personal modal
-        $scope.openPersonalModal = function(profile) {
-            var personalModal = $modal.open({
-                templateUrl: 'partials/modal_me_personal.html',
-                controller: 'PersonalModalInstanceCtrl',
-                resolve: { // we're sending these data from this controller to the modal's controller
-                    data: function() {
-                        return {
-                            location: profile.location,
-                            contactNumber: profile.contactNumber,
-                            languages: profile.languages,
-                            nationalIdentifier: profile.nationalIdentifier,
-                            dateOfBirth: profile.dateOfBirth,
-                            gender: profile.gender
-                        };
-                    }
+                $scope.user = data.profile;
+            }).error(function(data) {
+                if (data.profile) {
+                    $scope.user = data.profile;
                 }
             });
+    };
 
-            personalModal.result.then(function(personalData) { // when the modal returns a result
-                profile.location = personalData.location;
-                profile.contactNumber = personalData.contactNumber;
-                profile.languages = personalData.languages;
-                profile.nationalIdentifier = personalData.nationalIdentifier;
-                if (personalData.dateOfBirth) {
-                    profile.dateOfBirth = new Date(personalData.dateOfBirth);
+    // personal modal
+    $scope.openPersonalModal = function(profile) {
+        var personalModal = $modal.open({
+            templateUrl: 'partials/modal_me_personal.html',
+            controller: 'PersonalModalInstanceCtrl',
+            resolve: { // we're sending these data from this controller to the modal's controller
+                data: function() {
+                    return {
+                        location: profile.location,
+                        contactNumber: profile.contactNumber,
+                        languages: profile.languages,
+                        nationalIdentifier: profile.nationalIdentifier,
+                        dateOfBirth: profile.dateOfBirth,
+                        gender: profile.gender
+                    };
                 }
-                profile.gender = personalData.gender;
+            }
+        });
 
-                $scope.saveProfile();
-            });
-        };
+        personalModal.result.then(function(personalData) { // when the modal returns a result
+            profile.location = personalData.location;
+            profile.contactNumber = personalData.contactNumber;
+            profile.languages = personalData.languages;
+            profile.nationalIdentifier = personalData.nationalIdentifier;
+            if (personalData.dateOfBirth) {
+                profile.dateOfBirth = new Date(personalData.dateOfBirth);
+            }
+            profile.gender = personalData.gender;
 
-        $scope.openUploadCVModal = function() {
-            var cvModal = $modal.open({
-                templateUrl: 'partials/modal_me_cv.html',
-                controller: 'CVUploadCtrl'
-            });
+            $scope.saveProfile();
+        });
+    };
 
-            cvModal.result.then(function(profile) {
-                $scope.cvUploaded = true;
-                $scope.user.location = profile.location;
-                $scope.user.contactNumber = profile.contactNumber;
-                $scope.user.qualifications = profile.qualifications;
-                $scope.user.tenures = profile.tenures;
-                $scope.user.skills = profile.skills;
-                $scope.edit = true;
+    $scope.openUploadCVModal = function() {
+        var cvModal = $modal.open({
+            templateUrl: 'partials/modal_me_cv.html',
+            controller: 'CVUploadCtrl'
+        });
 
-                $scope.saveProfile();
-            });
-        };
+        cvModal.result.then(function(profile) {
+            $scope.cvUploaded = true;
+            $scope.user.location = profile.location;
+            $scope.user.contactNumber = profile.contactNumber;
+            $scope.user.qualifications = profile.qualifications;
+            $scope.user.tenures = profile.tenures;
+            $scope.user.skills = profile.skills;
+            $scope.edit = true;
 
-        // qualification modal
-        $scope.openQualificationModal = function(qualification) {
-            bindAddEditModal(qualification, 'partials/modal_me_qualification.html',
-                'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
-        };
+            $scope.saveProfile();
+        });
+    };
 
-        // tenure modal
-        $scope.openTenureModal = function(tenure) {
-            bindAddEditModal(tenure, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
-                $scope.user.tenures);
-        };
+    // qualification modal
+    $scope.openQualificationModal = function(qualification) {
+        bindAddEditModal(qualification, 'partials/modal_me_qualification.html',
+            'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
+    };
 
-        // skills modal
-        $scope.openSkillModal = function() {
-            var skillModal = $modal.open({
-                templateUrl: 'partials/modal_me_skill.html',
-                controller: 'SkillModalInstanceCtrl',
-                resolve: {
-                    data: function() {
-                        return {
-                            skills: $scope.user.skills
-                        };
-                    }
+    // tenure modal
+    $scope.openTenureModal = function(tenure) {
+        bindAddEditModal(tenure, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
+            $scope.user.tenures);
+    };
+
+    // skills modal
+    $scope.openSkillModal = function() {
+        var skillModal = $modal.open({
+            templateUrl: 'partials/modal_me_skill.html',
+            controller: 'SkillModalInstanceCtrl',
+            resolve: {
+                data: function() {
+                    return {
+                        skills: $scope.user.skills
+                    };
                 }
-            });
+            }
+        });
 
-            skillModal.result.then(function(manipulated) {
-                $scope.user.skills = manipulated;
-                $scope.saveProfile();
-            });
-        };
+        skillModal.result.then(function(manipulated) {
+            $scope.user.skills = manipulated;
+            $scope.saveProfile();
+        });
+    };
 
-        // deletes any element by position of the collection after seeking user confirmation
-        $scope.openDeleteModal = function(item, collection) {
-            var modal = $modal.open({
-                templateUrl: 'partials/modal_me_confirmation.html'
-            });
+    // deletes any element by position of the collection after seeking user confirmation
+    $scope.openDeleteModal = function(item, collection) {
+        var modal = $modal.open({
+            templateUrl: 'partials/modal_me_confirmation.html'
+        });
 
-            modal.result.then(function() {
-                collection.splice(collection.indexOf(item), 1);
-                $scope.saveProfile();
-            });
-        };
+        modal.result.then(function() {
+            collection.splice(collection.indexOf(item), 1);
+            $scope.saveProfile();
+        });
+    };
 
-    }
-]);
+});
 
 controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location',
     'userService', 'notificationService',

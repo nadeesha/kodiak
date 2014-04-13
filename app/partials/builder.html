@@ -1,4 +1,40 @@
-<h1>Let's build your awesome profile!</h1>
-<p><strong>Why?</strong> Employers at hirewire.lk will search for you directly using your profile. So, it's important to have atleast a few details to help them find you.</p>
-<br/>
-<button type="button" class="btn btn-default btn-success btn-lg" ng-click="next()">Sure, I've go 5 minutes</button> <button type="button" class="btn btn-default btn-warning btn-lg">Not now, send me a reminder tonight</button>
+<div class="jumbotron row" ng-show="!step">
+    <h1>Let's build your profile in 3 minutes!</h1>
+    <hr>
+    <div class="col-md-5">
+        <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/onmac.png" class="img-responsive img-rounded" alt="Image">
+    </div>
+    <div class="col-md-7">
+        <strong>Why?</strong>
+        <ul>
+            <li>Let us recommend you to employers automatically</li>
+            <li>Get your contacted by interested employers directly</li>
+            <li>Create a beautiful downloadable CV <i>(coming soon)</i></li>
+            <li>Apply to any public ad posted</li>
+        </ul>
+        <p><a class="btn btn-primary btn-lg" role="button" ng-click="start();">Sure, I've got 3 minutes now</a><a class="btn btn-warning btn-lg" role="button" ng-click="skip();">Skip to my profile</a>
+        </p>
+    </div>
+</div>
+<div class="gr-train" ng-show="step">
+    <h1>Let's build your profile in 3 minutes!</h1>
+    <hr>
+    <ul>
+        <li ng-class="steps[0].status" ng-click="open(1)">
+            <h1>
+                <span class="glyphicon glyphicon-briefcase"></span>
+            </h1>
+            <h3>Step 1</h3>Your current job/qualification</li>
+        <li ng-class="steps[1].status" ng-click="open(2)">
+            <h1>
+                <span class="glyphicon glyphicon-wrench"></span>
+            </h1>
+            <h3>Step 2</h3>Top 5 skills</li>
+        <li ng-class="steps[2].status" ng-click="open(3)">
+            <h1>
+                <span class="glyphicon glyphicon-calendar"></span>
+            </h1>
+            <h3>Step 3</h3>Date of Birth</li>
+    </ul>
+    <hr>
+</div>

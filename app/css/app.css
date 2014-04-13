@@ -459,7 +459,7 @@ div.well>h2 {
     color: rgba(255, 255, 255, 0.75);
 }
 .gr-inline-stats .desc {
-    font-weight: 800;
+    font-weight: 700;
 }
 .panel-body .gr-stat .label {
     padding: 10px !important;
@@ -505,4 +505,23 @@ div.well>h2 {
 }
 .placeholder-text {
     color: gray;
+}
+.gr-train li {
+    list-style-type: none;
+    float: left;
+    position: relative;
+    padding-bottom: 20px;
+    background-color: gray;
+    width: 33%%;
+    text-align: center;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.gr-train li.init {
+    opacity: 0.5;
+    background-color: gray;
+}
+.gr-train li.done {
+    opacity: 1.0;
+    background-color: #43ac6a;
 }
