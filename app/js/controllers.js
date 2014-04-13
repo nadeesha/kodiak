@@ -1339,31 +1339,25 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
     };
 });
 
-controllers.controller('ProfileBuilderCtrl', function($scope, $modal) {
-    $scope.step = 0;
-
-    $scope.inputs = {};
-
+controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state) {
     $scope.openTenureModal = function() {
         var modal = $modal.open({
             templateUrl: 'partials/modal_me_tenure.html',
             controller: 'QualificationTenureModalInstanceCtrl',
             resolve: {
                 data: function() {
-                    return {
-                        // i am establishing a child object here to pass some special properties without
-                        // altering the behavior of the edit profile features. meta will only be used for this purpose
-                        // and nothing more. or so I'd hope.
-                        meta: {
-                            heading: 'Tell us about your current job'
-                        }
+                    var data = $scope.steps[0].data;
+                    data.meta = {
+                        heading: 'Tell us about your current job'
                     };
+
+                    return data;
                 }
             }
         });
 
         modal.result.then(function(tenure) {
-            $scope.inputs.tenure = tenure;
+            $scope.step.data = tenure;
             $scope.next();
         });
     };
@@ -1375,7 +1369,10 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal) {
             resolve: {
                 data: function() {
                     return {
-                        skills: new Array(5),
+                        skills: $scope.steps[1].data.skills ? $scope.steps[1].data.skills : [{
+                            name: null,
+                            experience: null
+                        }],
                         meta: {
                             heading: 'What would you say your top 5 skills are?'
                         }
@@ -1385,15 +1382,80 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal) {
         });
 
         skillModal.result.then(function(skills) {
-            $scope.inputs.skills = skills;
+            $scope.step.data = skills;
+            $scope.next();
         });
     };
 
-    $scope.steps = [$scope.openTenureModal, $scope.openSkillModal];
+    $scope.openDateOfBirthModal = function() {
+        var personalModal = $modal.open({
+            templateUrl: 'partials/modal_me_dateofbirth.html',
+            controller: 'PersonalModalInstanceCtrl',
+            resolve: { // we're sending these data from this controller to the modal's controller
+                data: function() {
+                    return $scope.steps[2].data;
+                }
+            }
+        });
 
-    $scope.next = function() {
-        $scope.steps[$scope.step]();
-        $scope.step++;
+        personalModal.result.then(function(personalData) { // when the modal returns a result
+            $scope.step.data = new Date(personalData.dateOfBirth);
+            $scope.next();
+        });
     };
 
+    $scope.save = function() {
+        var profile = {
+            tenures: [$scope.steps[0].data],
+            skills: $scope.steps[1].data,
+            dateOfBirth: $scope.steps[2].data
+        };
+
+        userService.saveProfile(profile)
+            .success(function() {
+                notificationService.handleSuccess('Profile Saved Successfully');
+                $state.go('editProfile');
+            });
+    };
+
+    $scope.skip = function() {
+        $state.go('editProfile', {
+            from: 'builder'
+        });
+    }
+
+    $scope.steps = [{
+        order: 1,
+        fn: $scope.openTenureModal,
+        status: 'init',
+        data: {}
+    }, {
+        order: 2,
+        fn: $scope.openSkillModal,
+        status: 'init',
+        data: {}
+    }, {
+        order: 3,
+        fn: $scope.openDateOfBirthModal,
+        status: 'init',
+        data: {}
+    }, {
+        order: 4,
+        fn: $scope.save
+    }];
+
+    $scope.next = function() {
+        // if the user had been working on a step, mar it as done now
+        if ($scope.step) {
+            $scope.step.status = 'done';
+        }
+
+        var next = $scope.step ? $scope.step.order + 1 : 1;
+        $scope.open(next);
+    };
+
+    $scope.open = function(step) {
+        $scope.step = $scope.steps[step - 1];
+        $scope.step.fn();
+    };
 });
