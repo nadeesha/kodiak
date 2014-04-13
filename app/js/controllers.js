@@ -1340,6 +1340,29 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
 });
 
 controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state) {
+    var employed = null;
+
+    $scope.start = function() {
+        $modal.open({
+            templateUrl: 'partials/modal_yes_no.html',
+            controller: function($scope) {
+                $scope.question = 'Are you employed somewhere, or have been emplyed before?';
+                $scope.yesOption = 'Yes, I have/had a job';
+                $scope.noOption = 'No, I have never had a job before';
+            }
+        }).result.then(function(result) {
+            if (result === 'yes') {
+                $scope.steps[0].fn = $scope.openTenureModal;
+                employed = true;
+            } else {
+                $scope.steps[0].fn = $scope.openQualificationModal;
+                employed = false;
+            }
+
+            $scope.next();
+        });
+    };
+
     $scope.openTenureModal = function() {
         var modal = $modal.open({
             templateUrl: 'partials/modal_me_tenure.html',
@@ -1358,6 +1381,28 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
 
         modal.result.then(function(tenure) {
             $scope.step.data = tenure;
+            $scope.next();
+        });
+    };
+
+    $scope.openQualificationModal = function() {
+        var modal = $modal.open({
+            templateUrl: 'partials/modal_me_qualification.html',
+            controller: 'QualificationTenureModalInstanceCtrl',
+            resolve: {
+                data: function() {
+                    var data = $scope.steps[0].data;
+                    data.meta = {
+                        heading: 'Tell us about the qualification you are following'
+                    };
+
+                    return data;
+                }
+            }
+        });
+
+        modal.result.then(function(qualification) {
+            $scope.step.data = qualification;
             $scope.next();
         });
     };
@@ -1406,7 +1451,8 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
 
     $scope.save = function() {
         var profile = {
-            tenures: [$scope.steps[0].data],
+            tenures: employed === true ? [$scope.steps[0].data] : [],
+            qualifications: employed === false ? [$scope.steps[0].data] : [],
             skills: $scope.steps[1].data,
             dateOfBirth: $scope.steps[2].data
         };
@@ -1419,10 +1465,8 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
     };
 
     $scope.skip = function() {
-        $state.go('editProfile', {
-            from: 'builder'
-        });
-    }
+        $state.go('editProfile');
+    };
 
     $scope.steps = [{
         order: 1,
