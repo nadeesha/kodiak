@@ -1,7 +1,7 @@
 var static = require('node-static');
 
 var fileServer = new static.Server('./app', {
-	cache: 3600,
+	cache: 7200,
 	gzip: true
 });
 
