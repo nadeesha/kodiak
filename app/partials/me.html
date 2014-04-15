@@ -5,7 +5,7 @@
                 <span>{{user.firstName}}</span>
                 <span>{{user.lastName}}</span>
             </h1>
-            <button type="button" class="btn btn-default" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
+            <button type="button" class="btn btn-default" ng-hide="viewedByOrg" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
             <button type="button" class="btn btn-success" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
             <hr>
             <div>
@@ -57,7 +57,7 @@
                             <span class="glyphicon glyphicon-plus-sign"></span> add
                         </a>
                     </h2>
-                    <p class="gr-info-profile" ng-show="!user.qualifications || user.qualifications.length===0">
+                    <p class="gr-info-profile" ng-show="!user.qualifications || user.qualifications.length===0" ng-hide="viewedByOrg">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         This is where you add all your qualifications. If you are still studying, you can add that qualification and mark it as 'Incomplete'.
                     </p>
@@ -92,7 +92,7 @@
                             <span class="glyphicon glyphicon-plus-sign"></span> add
                         </a>
                     </h2>
-                    <p class="gr-info-profile" ng-show="!user.tenures || user.tenures.length===0">
+                    <p class="gr-info-profile" ng-show="!user.tenures || user.tenures.length===0" ng-hide="viewedByOrg">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         You can add your work experience here. This includes your present and past jobs. If you don't have any work experience yet, feel free to keep this blank.
                     </p>
@@ -128,7 +128,7 @@
                             <span class="glyphicon glyphicon-edit"></span> edit
                         </a>
                     </h2>
-                    <p class="gr-info-profile" ng-show="!user.skills || user.skills.length===0">
+                    <p class="gr-info-profile" ng-show="!user.skills || user.skills.length===0" ng-hide="viewedByOrg">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         You can add your skills here. They may include your job functions, subjects of expertise, or things you're good at...
                     </p>
@@ -144,7 +144,7 @@
         <div class="col-md-4">
 
             <!--Profile Score -->
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-hide="viewedByOrg">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Bigger profile scores help you rank better when an employer searches for your profile."></span>
@@ -152,7 +152,7 @@
                 </div>
                  <div class="panel-body">
                     <div>
-                        <div class="gr-summary-label label-success"><span>{{stats.score}}</span><span class="gr-small" ui-sref="editProfile">get more <span class="glyphicon glyphicon-plus-sign"></span></span></div>
+                        <div class="gr-summary-label label-success"><span>{{stats.score}}</span><span class="gr-small" ui-sref="editProfile">get more <span class="glyphicon glyphicon-plus-sign" ng-hide="viewedByOrg"></span></span></div>
                     </div>
                     <div ng-repeat="c in getTimes(stats.score/2) track by $index" class="gr-vis-year circle"></div>
                 </div>

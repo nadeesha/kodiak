@@ -286,10 +286,12 @@ controllers.controller('CVUploadCtrl', function($scope, userService, notificatio
     };
 });
 
-controllers.controller('PrivateMeCtrl', function($scope, userService) {
-    userService.getProfile()
+controllers.controller('PrivateMeCtrl', function($scope, userService, $rootScope) {
+    userService.getProfile($rootScope.u._id)
         .success(function(data) {
             $scope.user = data;
+            // simulate what the employer sees here.
+            $scope.forEmployer = true;
         });
 });
 
@@ -622,6 +624,9 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
         searchService, adResponseService) {
         $scope.selectedCandidate = [];
 
+        // so that we can see the limited profile meant for employers
+        $scope.forEmployer = true;
+
         $scope.gridOptions = {
             data: 'responses',
             showGroupPanel: true,
@@ -680,7 +685,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                         return {
                             id: r._id,
                             user: r.user._id ? r.user._id : r.user,
-                            name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : '[undisclosed]',
+                            name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : r.user.limitedName,
                             status: r.status,
                             updated: moment(r.lastUpdatedOn).fromNow(),
                             tags: r.tags && r.tags.join(', ')
@@ -1505,3 +1510,12 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $scope.step.fn();
     };
 });
+
+controllers.controller('OrgMeCtrl', function ($scope, userService, $stateParams) {
+    $scope.viewedByOrg = true;
+
+    userService.getProfile($stateParams.userId)
+        .success(function (data) {
+            $scope.user = data;
+        });
+})
