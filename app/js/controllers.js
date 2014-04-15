@@ -479,6 +479,12 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         });
     };
 
+    $scope.downloadCV = function() {
+        $modal.open({
+            templateUrl: 'partials/modal_me_cv_download.html',
+            controller: 'DownloadCVCtrl'
+        });
+    }
 });
 
 controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location',
@@ -1505,3 +1511,21 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $scope.step.fn();
     };
 });
+
+controllers.controller('DownloadCVCtrl', function($scope, $location) {
+    $scope.download = function() {
+        $('#gr-view btn').hide();
+        $('.gr-profile-score').hide();
+
+        html2canvas($('#gr-view').get(0), {
+            onrendered: function(canvas) {
+                $('#gr-view btn').show();
+                $('.gr-profile-score').show();
+                var jpgURI = canvas.toDataURL('image/jpeg', 1.0);
+                var doc = new jsPDF();
+                doc.addImage(jpgURI, 'JPEG', 15, 5, 200, 0);
+                doc.output('dataurl');
+            }
+        });
+    }
+})

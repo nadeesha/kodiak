@@ -7,6 +7,7 @@
             </h1>
             <button type="button" class="btn btn-default" ng-show="!edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
             <button type="button" class="btn btn-success" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
+            <button type="button" class="btn btn-default" ng-show="!edit" ng-click="downloadCV()"><span class="glyphicon glyphicon-download" ></span> Download</button>
             <hr>
             <div>
                 <div class="alert alert-danger" ng-show="user.errors">
@@ -144,7 +145,7 @@
         <div class="col-md-4">
 
             <!--Profile Score -->
-            <div class="panel panel-default">
+            <div class="panel panel-default gr-profile-score">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Bigger profile scores help you rank better when an employer searches for your profile."></span>
