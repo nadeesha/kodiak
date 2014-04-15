@@ -1,8 +1,5 @@
 <div>
-<!--     <p class="gr-stat"><span class="label label-success">{{user.tenures.length}}</span> Position<span ng-hide="user.tenures.length===1">s</span> held</p>
-    <p class="gr-stat"><span class="label label-success">{{view.getTotalExperience()}}</span> Years of experience</p>
-    <p class="gr-stat"><span class="label label-success">{{user.qualifications.length}}</span> Qualifications</p>
- -->
+    <h1 ng-show="forEmployer">{{user.limitedName}}. <a ui-sref="viewProfileForOrg({name: user.firstName, userId: user._id})" class="btn btn-warning" ng-show="user._id"> <span class="glyphicon glyphicon-user"></span></a></h1>
     <div class="row gr-inline-stats">
         <div class="col-md-4 col-sm-4 col-xs-4 gr-score label-success">{{user.tenures.length}}</div>
         <div class="col-md-4 col-sm-4 col-xs-4 gr-score label-success">{{view.getTotalExperience()}}</div>
@@ -13,7 +10,6 @@
         <div class="col-md-4 col-sm-4 col-xs-4 desc">Years of experience</div>
         <div class="col-md-4 col-sm-4 col-xs-4 desc">Qualification<span ng-hide="user.qualifications.length===1">s</span></div>
     </div>
-
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -22,11 +18,12 @@
             </div>
             <div class="panel-body">
                 <div ng-repeat="t in user.tenures | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
-                    <p class="gr-stat">{{t.position}}
+                    <p class="gr-stat">{{t.position}} <span ng-show="forEmployer && t.organization">at {{t.organization}}</span>
                         <label class="label label-success pull-right">{{view.getDuration(t.startedOn, t.endedOn).years}}Y {{view.getDuration(t.startedOn, t.endedOn).months}}M</label>
                     </p>
                     <div ng-repeat="c in view.getTimesForDate(t.startedOn, t.endedOn) track by $index" class="gr-vis-year circle"></div>
                     <div ng-hide="view.getTimesForDate(t.startedOn, t.endedOn).length>0" class="gr-vis-year circle"></div>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -44,6 +41,7 @@
                             </p>
                             <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year circle"></div>
                         </div>
+                        <hr>
                     </div>
                 </div>
             </div>

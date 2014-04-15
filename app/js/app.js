@@ -142,6 +142,16 @@ app.config(function($stateProvider,
         });
 
     $stateProvider
+        .state('viewProfileForOrg', {
+            url: '/user/:name/:userId',
+            templateUrl: 'partials/me.html',
+            controller: 'OrgMeCtrl',
+            data: {
+                public: false
+            }
+        });
+
+    $stateProvider
         .state('viewProfilePrivate', {
             url: '/me/private',
             templateUrl: 'partials/private_me.html',
@@ -241,16 +251,6 @@ app.config(function($stateProvider,
             public: false
         }
     });
-
-    // $stateProvider
-    //     .state('search.results', {
-    //         url: '/results',
-    //         templateUrl: 'partials/results.html',
-    //         controller: 'SearchResultsCtrl',
-    //         data: {
-    //             public: false
-    //         }
-    //     })
 
     $stateProvider
         .state('logout', {
