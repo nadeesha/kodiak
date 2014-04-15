@@ -1033,6 +1033,8 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
 });
 
 controllers.controller('SearchResultsCtrl', function($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService, notificationService) {
+    $scope.forEmployer = true;
+
     searchService.getSearchResults($rootScope.u.affiliation, $stateParams.searchId)
         .success(function(data) {
             if (data.scores.hits.hits.length !== 0) {
@@ -1051,7 +1053,7 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
         });
 
     $scope.invite = function(id, tags) {
-        adResponseService.createResponse(id, this.$parent.u.affiliation, $scope.adId, tags)
+        adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags)
             .success(function() {
                 $scope.user.invited = true;
                 notificationService.handleSuccess('Candidate was invited successfully');
