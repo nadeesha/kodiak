@@ -214,9 +214,12 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     if ($scope.data.startedOn) {
         setMonthAndDate($scope.data.startedOn, $scope.startedOn);
     }
+
     if ($scope.data.endedOn) {
         setMonthAndDate($scope.data.endedOn, $scope.endedOn);
         $scope.data.current = false;
+    } else {
+        $scope.data.current = true;
     }
 
     // $scope.complete = $scope.data.complete;
