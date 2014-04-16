@@ -161,7 +161,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     // setting month and year values
     $scope.months = MONTHS;
     $scope.years = [];
-    $scope.current = true;
+    // $scope.current = true;
 
     $scope.queried = {
         qualifications: [],
@@ -190,11 +190,11 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
 
     // reset the end date to null on selecting "I currently work here" checkbox in tenure modal
     $scope.changeEndDate = function() {
-        if (this.current) {
-            this.endedOn = null;
-            this.data.endedOn = null;
+        if ($scope.data.current) {
+            $scope.endedOn = null;
+            $scope.data.endedOn = null;
         } else {
-            this.data.endedOn = this.endedOn;
+            $scope.data.endedOn = $scope.endedOn;
         }
     };
 
@@ -214,12 +214,15 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     if ($scope.data.startedOn) {
         setMonthAndDate($scope.data.startedOn, $scope.startedOn);
     }
+
     if ($scope.data.endedOn) {
         setMonthAndDate($scope.data.endedOn, $scope.endedOn);
-        $scope.current = false;
+        $scope.data.current = false;
+    } else {
+        $scope.data.current = true;
     }
 
-    $scope.complete = $scope.data.complete;
+    // $scope.complete = $scope.data.complete;
 
     // converts a given datepicker month/year to javascript date
     var convertToDate = function(year, month) {
@@ -229,12 +232,12 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     };
 
     $scope.submit = function(t) {
-        $scope.data.complete = $scope.complete;
+        // $scope.data.complete = $scope.complete;
 
         // need to parse the month/year combination before submitting
         $scope.data.startedOn = convertToDate($scope.startedOn.year, $scope.startedOn.month);
 
-        if (!$scope.current || $scope.complete) {
+        if (!$scope.data.current || $scope.data.complete) {
             $scope.data.endedOn = convertToDate($scope.endedOn.year, $scope.endedOn.month);
         }
 
@@ -243,7 +246,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
                 validationService.mustBeTrue($scope.data.name, 'Qualification name should be defined');
                 validationService.mustBeTrue($scope.data.issuedBy,
                     'Issued School/University/Institute should be defined');
-                if ($scope.complete) {
+                if ($scope.data.complete) {
                     validationService.mustBeTrue($scope.data.startedOn <= $scope.data.endedOn,
                         'Start date should be before the end date');
                 }
@@ -251,7 +254,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
                 validationService.mustBeTrue($scope.data.position, 'Your position must be defined');
                 validationService.mustBeTrue($scope.data.organization,
                     'The organization you worked at must be defined');
-                if (!$scope.current) {
+                if (!$scope.data.current) {
                     validationService.mustBeTrue($scope.data.startedOn <= $scope.data.endedOn,
                         'Start date should be before the end date');
                 }
