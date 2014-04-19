@@ -5,6 +5,11 @@
 	<div class="col-md-4">Profile Completion</div>
 </div>
 <hr>
+<div>
+	<h2>Total users: <span class="label label-success">{{data.length}}</span></h2>
+	<h2>Filled users: <span class="label label-success">{{goodUsers.length}}</span></h2>
+</div>
+<hr>
 <div ng-repeat="user in data" class="row">
 	<div class="col-md-3">{{user.firstName}} {{user.lastName}}</div>
 	<div class="col-md-4">{{user.email}}</div>
@@ -16,3 +21,4 @@
 		<span class="label label-success col-md-3">{{user.qualifications.length + user.tenures.length + user.skills.length}}</span>
 	</div>
 </div>
+
