@@ -325,14 +325,15 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
 
     userService.getProfile()
         .success(function(data) {
+            $scope.user = data;
+
             // redirect the user if profile is relatively empty and not from builder
             if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0 && $scope.edit === false) {
                 $state.go('profileBuilder');
-            } else {
-                $scope.user = data;
-                loadProfileStats();
             }
         });
+
+    loadProfileStats();
 
     var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
         // holds a copy of the referred object so that edits won't appear instantaneously
@@ -1320,18 +1321,13 @@ controllers.controller('LandingCtrl', function($scope, inviteService) {
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
     $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
 
-    if (!$localStorage.adminUsers || moment($scope.lastUpdatedOn).add('minutes', 60).isBefore(Date.now)) {
-        adminService.getAllUsers().success(function(data) {
-            $localStorage.adminUsers = angular.toJson(data);
-            $localStorage.adminUpdatedOn = angular.toJson(moment());
+    adminService.getAllUsers().success(function(data) {
+        $scope.data = data;
 
-            $scope.data = data;
-            $scope.lastUpdatedOn = moment();
+        $scope.goodUsers = _.filter(data, function (user) {
+            return user.tenures.length + user.qualifications.length + user.skills.length > 0
         });
-    } else {
-        $scope.data = angular.fromJson($localStorage.adminUsers);
-        $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
-    }
+    });
 });
 
 controllers.controller('AdminInvitesCtrl', function($scope, adminService, notificationService) {
@@ -1516,11 +1512,11 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
     };
 });
 
-controllers.controller('OrgMeCtrl', function ($scope, userService, $stateParams) {
+controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) {
     $scope.viewedByOrg = true;
 
     userService.getProfile($stateParams.userId)
-        .success(function (data) {
+        .success(function(data) {
             $scope.user = data;
         });
 })
