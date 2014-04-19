@@ -14,7 +14,8 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'ngSanitize',
     'chieffancypants.loadingBar',
     'ngGrid',
-    'autocomplete'
+    'autocomplete',
+    'pasvaz.bindonce'
 ]);
 
 app.config(function($httpProvider, $provide) {
