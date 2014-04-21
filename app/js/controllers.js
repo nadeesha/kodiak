@@ -1520,7 +1520,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             if (obj.year) {
                 return moment({
                     years: obj.year,
-                    months: obj.month || 1,
+                    months: obj.month-1 || 0,
                     days: obj.day || 1
                 });
             } else {
@@ -1552,6 +1552,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                         qualification.issuedBy = edu.schoolName;
                         qualification.startedOn = convertDate(edu.startDate);
                         qualification.endedOn = convertDate(edu.endDate);
+                        qualification.complete = qualification.endedOn !== null;
 
                         qualifications.push(qualification);
                     });
