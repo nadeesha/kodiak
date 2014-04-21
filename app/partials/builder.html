@@ -9,14 +9,24 @@
         <ul>
             <li>Let us recommend you to employers automatically</li>
             <li>Get contacted by interested employers directly</li>
-            <li>Create a beautiful downloadable CV <i>(coming soon)</i></li>
+            <li>Create a beautiful downloadable CV <i>(coming soon)</i>
+            </li>
             <li>Apply to any public ad posted</li>
         </ul>
-        <p><a class="btn btn-primary btn-lg" role="button" ng-click="start();">Sure, I've got 3 minutes now</a><a class="btn btn-warning btn-lg" role="button" ng-click="skip();">Skip to my profile</a>
+        <p>
+            <div class="small-text gr-center-align">
+                <p class="gr-linkedin-login">Get data from LinkedIn
+                    <script type="in/Login"></script>
+                </p>
+                <p>or</p>
+                <a class="btn btn-primary" role="button" ng-click="start();">Fill information manually</a>
+                <a class="btn btn-default" role="button" ng-click="skip();">Skip</a>
+
+            </div>
         </p>
     </div>
 </div>
-<div class="gr-train" ng-show="step">
+<div id="train" class="gr-train" ng-show="step">
     <h1>Let's build your profile in 3 minutes!</h1>
     <hr>
     <ul>
@@ -38,3 +48,22 @@
     </ul>
     <hr>
 </div>
+
+<script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 75ftgfyz0rxcmi
+    onLoad: onLinkedInLoad
+</script>
+
+<script type="text/javascript">
+function onLinkedInLoad() {
+    IN.Event.on(IN, "auth", onLinkedInAuth);
+}
+
+function onLinkedInAuth() {
+    console.log('...');
+    angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
+        console.log($scope);
+        $scope.linkedIn();
+    });
+}
+</script>
