@@ -1520,7 +1520,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             if (obj.year) {
                 return moment({
                     years: obj.year,
-                    months: obj.month || 1,
+                    months: obj.month-1 || 0,
                     days: obj.day || 1
                 });
             } else {
