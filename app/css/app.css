@@ -525,3 +525,10 @@ div.well>h2 {
     opacity: 1.0;
     background-color: #43ac6a;
 }
+.gr-score div {
+    font-size: small;
+    opacity: 0.8;
+}
+.gr-label-row {
+    line-height: 1.8em;
+}

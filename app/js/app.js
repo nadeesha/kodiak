@@ -370,6 +370,16 @@ app.config(function($stateProvider,
                 public: false
             }
         });
+
+    $stateProvider
+        .state('dashboard', {
+            url: '/me/dashboard',
+            templateUrl: 'partials/dashboard.html',
+            controller: 'DashboardCtrl',
+            data: {
+                public: false
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {

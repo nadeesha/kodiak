@@ -1354,7 +1354,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $modal.open({
             templateUrl: 'partials/modal_yes_no.html',
             controller: function($scope) {
-                $scope.question = 'Are you employed somewhere, or have been emplyed before?';
+                $scope.question = 'Are you employed somewhere, or have been employed before?';
                 $scope.yesOption = 'Yes, I have/had a job';
                 $scope.noOption = 'No, I have never had a job before';
             }
@@ -1519,4 +1519,10 @@ controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) 
         .success(function(data) {
             $scope.user = data;
         });
+});
+
+controllers.controller('DashboardCtrl', function ($scope, userService) {
+    userService.getProfile().success(function (data) {
+        $scope.user = data;
+    });
 })
