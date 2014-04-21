@@ -1324,8 +1324,8 @@ controllers.controller('AdminUsersCtrl', function($scope, adminService, $localSt
     adminService.getAllUsers().success(function(data) {
         $scope.data = data;
 
-        $scope.goodUsers = _.filter(data, function (user) {
-            return user.tenures.length + user.qualifications.length + user.skills.length > 0
+        $scope.goodUsers = _.filter(data, function(user) {
+            return user.tenures.length + user.qualifications.length + user.skills.length > 0;
         });
     });
 });
@@ -1457,7 +1457,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         });
     };
 
-    $scope.save = function() {
+    $scope.makeProfileFromSteps = function() {
         var profile = {
             tenures: employed === true ? [$scope.steps[0].data] : [],
             qualifications: employed === false ? [$scope.steps[0].data] : [],
@@ -1465,6 +1465,10 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             dateOfBirth: $scope.steps[2].data
         };
 
+        $scope.save(profile);
+    };
+
+    $scope.save = function(profile) {
         userService.saveProfile(profile)
             .success(function() {
                 notificationService.handleSuccess('Profile Saved Successfully');
@@ -1493,7 +1497,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         data: {}
     }, {
         order: 4,
-        fn: $scope.save
+        fn: $scope.makeProfileFromSteps
     }];
 
     $scope.next = function() {
@@ -1510,6 +1514,112 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $scope.step = $scope.steps[step - 1];
         $scope.step.fn();
     };
+
+    $scope.linkedIn = function() {
+        function convertDate(obj) {
+            if (obj.year) {
+                return moment({
+                    years: obj.year,
+                    months: obj.month || 1,
+                    days: obj.day || 1
+                });
+            } else {
+                return null;
+            }
+        }
+
+        IN.API.Profile('me').fields(['educations', 'certifications', 'positions', 'date-of-birth', 'phone-numbers', 'skills']).result(function(result) {
+            $scope.$apply(function() {
+                if (result._total === 0) {
+                    notificationService.handleError('Error retireving profile');
+                    return;
+                }
+
+                var inProfile = result.values[0];
+
+                var userProfile = {};
+
+                userProfile.dateOfBirth = convertDate(inProfile.dateOfBirth);
+
+                var qualifications = [];
+
+                if (inProfile.educations && inProfile.educations._total > 0) {
+                    inProfile.educations.values.forEach(function(edu) {
+                        var qualification = {};
+
+                        qualification.name = edu.degree;
+                        qualification.field = edu.fieldOfStudy;
+                        qualification.issuedBy = edu.schoolName;
+                        qualification.startedOn = convertDate(edu.startDate);
+                        qualification.endedOn = convertDate(edu.endDate);
+
+                        qualifications.push(qualification);
+                    });
+                }
+
+                if (inProfile.certifications && inProfile.certifications._total > 0) {
+                    inProfile.certifications.forEach(function(cert) {
+                        var certification = {};
+
+                        certification.name = cert.name;
+                        certification.field = null;
+                        certification.issuedBy = cert.authority;
+                        certification.startedOn = convertDate(cert.startDate);
+                        certification.endedOn = convertDate(cert.endDate);
+
+                        qualifications.push(certification);
+                    });
+                }
+
+                userProfile.qualifications = qualifications;
+
+                if (inProfile.phoneNumbers && inProfile.phoneNumbers._total > 0) {
+                    var contactNumber = _.find(inProfile.phoneNumbers.values, function(pnumber) {
+                        return pnumber.phoneType === 'mobile';
+                    }).phoneNumber;
+
+                    if (!contactNumber) {
+                        contactNumber = inProfile.phoneNumbers.values[0].phoneNumber;
+                    }
+
+                    userProfile.contactNumber = contactNumber;
+                }
+
+                var tenures = [];
+
+                if (inProfile.positions && inProfile.positions._total) {
+                    inProfile.positions.values.forEach(function(position) {
+                        var tenure = {};
+
+                        tenure.organization = position.company.name;
+                        tenure.position = position.title;
+                        tenure.startedOn = convertDate(position.startDate);
+                        tenure.endedOn = position.isCurrent ? null : convertDate(position.endDate);
+                        tenure.responsibilities = position.summary;
+
+                        tenures.push(tenure);
+                    });
+                }
+
+                userProfile.tenures = tenures;
+
+                var skills = [];
+
+                if (inProfile.skills && inProfile.skills._total > 0) {
+                    inProfile.skills.values.forEach(function(skillObj) {
+                        skills.push({
+                            name: skillObj.skill.name,
+                            experience: 1
+                        });
+                    });
+                }
+
+                userProfile.skills = skills;
+
+                $scope.save(userProfile);
+            });
+        });
+    };
 });
 
 controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) {
@@ -1519,4 +1629,4 @@ controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) 
         .success(function(data) {
             $scope.user = data;
         });
-})
+});
