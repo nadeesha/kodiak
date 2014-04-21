@@ -1552,6 +1552,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                         qualification.issuedBy = edu.schoolName;
                         qualification.startedOn = convertDate(edu.startDate);
                         qualification.endedOn = convertDate(edu.endDate);
+                        qualification.complete = qualification.endedOn !== null;
 
                         qualifications.push(qualification);
                     });
