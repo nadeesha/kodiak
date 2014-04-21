@@ -60,7 +60,6 @@ function onLinkedInLoad() {
 }
 
 function onLinkedInAuth() {
-    console.log('...');
     angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
         console.log($scope);
         $scope.linkedIn();
