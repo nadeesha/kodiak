@@ -1517,7 +1517,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
 
     $scope.linkedIn = function() {
         function convertDate(obj) {
-            if (obj.year) {
+            if (obj && obj.year) {
                 return moment({
                     years: obj.year,
                     months: obj.month-1 || 0,
