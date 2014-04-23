@@ -1347,7 +1347,15 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
     };
 });
 
-controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state) {
+controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar) {
+    cfpLoadingBar.start();
+    $scope.linkedInLoaded = false;
+
+    $scope.endLoadingLinkedIn = function(argument) {
+        cfpLoadingBar.complete();
+        $scope.linkedInLoaded = true;
+    }
+
     var employed = null;
 
     $scope.start = function() {
@@ -1520,7 +1528,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             if (obj && obj.year) {
                 return moment({
                     years: obj.year,
-                    months: obj.month-1 || 0,
+                    months: obj.month - 1 || 0,
                     days: obj.day || 1
                 });
             } else {

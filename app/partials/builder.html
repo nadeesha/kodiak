@@ -15,9 +15,11 @@
         </ul>
         <p>
             <div class="small-text gr-center-align">
-                <p class="gr-linkedin-login">Get data from LinkedIn
+                <p class="gr-linkedin-login" ng-show="linkedInLoaded && !linkedInAuthenticated">Get data from LinkedIn
                     <script type="in/Login"></script>
                 </p>
+                <div ng-hide="linkedInLoaded"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Loading linkedIn</div>
+                <div ng-show="linkedInAuthenticated"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Reading your data</div>
                 <p>or</p>
                 <a class="btn btn-primary" role="button" ng-click="start();">Fill information manually</a>
                 <a class="btn btn-default" role="button" ng-click="skip();">Skip</a>
@@ -57,11 +59,15 @@
 <script type="text/javascript">
 function onLinkedInLoad() {
     IN.Event.on(IN, "auth", onLinkedInAuth);
+
+    angular.element(document.getElementById('train')).scope().$apply(function ($scope) {
+        $scope.endLoadingLinkedIn();
+    })
 }
 
 function onLinkedInAuth() {
     angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
-        console.log($scope);
+        $scope.linkedInAuthenticated = true;
         $scope.linkedIn();
     });
 }
