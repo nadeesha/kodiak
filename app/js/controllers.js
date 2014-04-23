@@ -1309,11 +1309,13 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, inviteService) {
+controllers.controller('LandingCtrl', function($scope, inviteService, $state) {
     $scope.invite = function(email) {
         inviteService.inviteUser(email)
             .success(function() {
-                $scope.invited = true;
+                $state.go('inviteRequested', {
+                    referrer: encodeURIComponent(email)
+                });
             });
     };
 });
@@ -1351,10 +1353,10 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
     cfpLoadingBar.start();
     $scope.linkedInLoaded = false;
 
-    $scope.endLoadingLinkedIn = function(argument) {
+    $scope.endLoadingLinkedIn = function() {
         cfpLoadingBar.complete();
         $scope.linkedInLoaded = true;
-    }
+    };
 
     var employed = null;
 
@@ -1638,4 +1640,17 @@ controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) 
         .success(function(data) {
             $scope.user = data;
         });
+});
+
+controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteService, notificationService) {
+    $scope.storeInvite = function() {
+        var emails = [$scope.email1, $scope.email2];
+
+        var referrer = decodeURIComponent($stateParams.referrer);
+
+        inviteService.sendInvitationReferrer(emails, referrer)
+            .success(function(data) {
+                notificationService.handleSuccess('Invitations will be sent soon to your friends.');
+            });
+    }
 });

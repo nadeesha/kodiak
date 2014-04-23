@@ -148,10 +148,10 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     transformRequest: angular.identity
                 });
             },
-            getQualifications: function (query) {
+            getQualifications: function(query) {
                 return $http.get(GRIZZLY_URL + '/user/meta/qualifications/' + query);
             },
-            getQualificationFields: function (query) {
+            getQualificationFields: function(query) {
                 return $http.get(GRIZZLY_URL + '/user/meta/fields/' + query);
             }
         };
@@ -320,13 +320,22 @@ services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
     }
 ]);
 
-services.factory('inviteService', function ($http, GRIZZLY_URL) {
+services.factory('inviteService', function($http, GRIZZLY_URL) {
     return {
-        inviteUser: function (email) {
-            return $http.post(GRIZZLY_URL + '/invite', {email: email});
+        inviteUser: function(email) {
+            return $http.post(GRIZZLY_URL + '/invite', {
+                email: email
+            });
+        },
+
+        sendInvitationReferrer: function(emails, referrer) {
+            return $http.post(GRIZZLY_URL +'/invite/friends', {
+                emails: emails,
+                referrer: referrer
+            });
         }
-    }
-})
+    };
+});
 
 services.factory('notificationService', [
 
@@ -382,17 +391,17 @@ services.factory('validationService', ['notificationService',
     }
 ]);
 
-services.factory('adminService', function ($http, GRIZZLY_URL) {
+services.factory('adminService', function($http, GRIZZLY_URL) {
     return {
-        getAllUsers: function () {
+        getAllUsers: function() {
             return $http.get(GRIZZLY_URL + '/admin/users');
         },
 
-        getUninvited: function () {
+        getUninvited: function() {
             return $http.get(GRIZZLY_URL + '/uninvited');
         },
 
-        sendInvitation: function (id) {
+        sendInvitation: function(id) {
             return $http.post(GRIZZLY_URL + '/invite/' + id);
         }
     };

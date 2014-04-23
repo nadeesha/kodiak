@@ -370,14 +370,25 @@ app.config(function($stateProvider,
                 public: false
             }
         });
+
+    $stateProvider
+        .state('inviteRequested', {
+            url: '/inviteRequested/:referrer',
+            templateUrl: 'partials/invite_requested.html',
+            controller: 'FriendShareCtrl',
+            data: {
+                public: true
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
     $rootScope.$on('restorestate', userService.restoreState);
 
     $rootScope.$on('refreshNotifications', function() {
-        if (!userService.isLoggedIn())
+        if (!userService.isLoggedIn()) {
             return;
+        }
 
         subwayService.getAllNotifications().success(function(data) {
             $rootScope.notifications = data.notifications;
@@ -386,7 +397,7 @@ app.run(function($rootScope, userService, subwayService, notificationService, $s
         });
     });
 
-    $rootScope.$on('$stateChangeStart', function(ev, toState, toParams, fromState) {
+    $rootScope.$on('$stateChangeStart', function(ev, toState) {
         // Check if this state is protected
         if ((!toState.data || (toState.data && toState.data.public === false)) && !userService.isLoggedIn()) {
             ev.preventDefault();
