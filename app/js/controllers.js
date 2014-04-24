@@ -1644,13 +1644,14 @@ controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) 
 
 controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteService, notificationService) {
     $scope.storeInvite = function() {
+        $scope.invitations = false;
         var emails = [$scope.email1, $scope.email2];
-
         var referrer = decodeURIComponent($stateParams.referrer);
 
         inviteService.sendInvitationReferrer(emails, referrer)
-            .success(function(data) {
+            .success(function() {
+                $scope.invitations = true;
                 notificationService.handleSuccess('Invitations will be sent soon to your friends.');
             });
-    }
+    };
 });

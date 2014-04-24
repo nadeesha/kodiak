@@ -9,7 +9,8 @@
         <div class="clearfix"></div>
         <hr>
         <p>
-            <a class="btn btn-primary btn-lg" ng-click="storeInvite()">Invite</a>
+            <a class="btn btn-primary btn-lg" ng-click="storeInvite()" ng-hide="invitations">Invite</a>
+            <p ng-show="invitations">Done, thanks!</p>
         </p>
     </div>
 </div>
