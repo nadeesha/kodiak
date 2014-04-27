@@ -403,6 +403,10 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
 
         sendInvitation: function(id) {
             return $http.post(GRIZZLY_URL + '/invite/' + id);
+        },
+
+        declineInvitation: function (id) {
+            return $http.delete(GRIZZLY_URL + '/invite/' + id);
         }
     };
 });

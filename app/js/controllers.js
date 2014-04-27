@@ -1347,6 +1347,13 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
             $scope.getUninvited();
         });
     };
+
+    $scope.declineUser = function (id) {
+        adminService.declineInvitation(id).success(function () {
+            notificationService.handleSuccess('Invitation declined.');
+            $scope.getUninvited();
+        });
+    };
 });
 
 controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar) {
