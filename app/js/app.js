@@ -404,9 +404,6 @@ app.run(function($rootScope, userService, subwayService, notificationService, $s
             $state.transitionTo('login');
         }
 
-        // I regret doing this. I'm really sorry. I've search near and far and
-        // come to the conclusion that this is the only.. only way to do this without
-        // writing a custom directive. TODO: Write a damn custom directive.
         if (toState.name === 'home') {
             $('body').css('background', 'url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed');
         } else {
