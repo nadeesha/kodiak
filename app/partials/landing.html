@@ -1,8 +1,15 @@
 <div class="gr-middle center-block">
-    <!-- Begin LaunchRock Widget -->
-    <div id="lr-widget" rel="4K3Y6UL0"></div>
-    <script type="text/javascript" src="//ignition.launchrock.com/ignition-current.min.js"></script>
-    <!-- End LaunchRock Widget -->
+    <h1 class="gr-center-align">We help
+        <span class="gr-highlight">great companies </span>hire
+        <span class="gr-highlight">great people</span>.</h1>
+    <h3 class="gr-center-align gr-sub-highlight" ng-hide="invited">Insert your e-mail below to sign up for an invitation.</h3>
+    <br/>
+    <div class="input-group input-group-lg gr-center-div col-md-8 col-lg-6">
+        <input type="text" placeholder="your e-mail address here" class="form-control" ng-model="email">
+        <span class="input-group-btn">
+            <button class="btn btn-default btn-success" type="button" ng-click="invite(email)">Sign up!</button>
+        </span>
+    </div>
 </div>
 <div class="gr-logo-container text-center">
     <p>These companies use hirewire.lk to directly hire candidates.</p>
