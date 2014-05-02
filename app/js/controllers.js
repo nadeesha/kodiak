@@ -298,7 +298,7 @@ controllers.controller('PrivateMeCtrl', function($scope, userService, $rootScope
         });
 });
 
-controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state) {
+controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state, $localStorage) {
 
     if ($state.is('editProfile')) {
         $scope.edit = true;
@@ -326,6 +326,17 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
     userService.getProfile()
         .success(function(data) {
             $scope.user = data;
+
+            // if the temp profile exists from a previous unsuccessful profile update,
+            // let's try to save it now so the user gets alerted
+            if($localStorage.tempProfile) {
+                var profile = angular.fromJson($localStorage.tempProfile);
+                $scope.user.tenures = profile.tenures;
+                $scope.user.skills = profile.skills;
+                $scope.user.qualifications = profile.qualifications;
+                $scope.user.dateOfBirth = profile.dateOfBirth;
+                $scope.saveProfile();
+            }
 
             // redirect the user if profile is relatively empty and not from builder
             if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0 && $scope.edit === false) {
@@ -382,10 +393,16 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
                 });
 
                 $scope.user = data.profile;
+
+                if($localStorage.tempProfile) {
+                    delete $localStorage.tempProfile;
+                }
             }).error(function(data) {
                 if (data.profile) {
                     $scope.user = data.profile;
                 }
+
+                $localStorage.tempProfile = angular.toJson(data.profile);
             });
     };
 
@@ -1356,7 +1373,7 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
     };
 });
 
-controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar) {
+controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar, $localStorage) {
     cfpLoadingBar.start();
     $scope.linkedInLoaded = false;
 
@@ -1634,7 +1651,8 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
 
                 userProfile.skills = skills;
 
-                $scope.save(userProfile);
+                $localStorage.tempProfile = angular.toJson(userProfile);
+                $state.go('editProfile');
             });
         });
     };
