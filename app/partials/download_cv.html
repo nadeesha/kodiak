@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-9">
+        <h1>{{profile.firstName}} {{profile.lastName}}</h1>
+        <span class="glyphicon glyphicon-phone"></span> {{profile.contactNumber}} |
+        <span class="glyphicon glyphicon-envelope"></span> {{profile.email}}
+        <hr>
+        <div class="well">
+            <h2>Work Experience
+                <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal()">
+                    <span class="glyphicon glyphicon-plus-sign"></span>add
+                </a>
+            </h2>
+            <div class="gr-wexp" ng-repeat="tenure in profile.tenures | orderBy:'-startedOn'">
+                <h3>{{tenure.position}}
+                    <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
+                        <span class="glyphicon glyphicon-edit"></span>edit
+                    </a>
+                    <a class="btn btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(tenure, profile.tenures)">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </a>
+                </h3>
+                <h4>
+                    <span>{{tenure.organization}}</span>
+                </h4>
+                <h4 class="label-wrapper">
+                    <span class="label label-primary gr-right-5">{{tenure.startedOn | date:'MMM yyyy'}}
+                        <span ng-show="!!tenure.endedOn">- {{tenure.endedOn | date:'MMM yyyy'}}</span>
+                    </span>
+                    <span class="label label-info gr-right-5" ng-show="!tenure.endedOn">Currently employed</span>
+                </h4>
+                <div ng-bind-html="tenure.responsibilities" style="word-break: break-word;"></div>
+            </div>
+        </div>
+        <div class="well">
+            <h2>Qualifications
+                <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal()">
+                    <span class="glyphicon glyphicon-plus-sign"></span>add
+                </a>
+            </h2>
+            <div class="gr-qual" ng-repeat="qualification in profile.qualifications | orderBy:'-startedOn'">
+                <h3>{{qualification.name}}
+                    <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
+                        <span class="glyphicon glyphicon-edit"></span>edit
+                    </a>
+                    <a class="btn btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(qualification, profile.qualifications)">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </a>
+                </h3>
+                <h4>{{qualification.field}}</h4>
+                <h4>{{qualification.issuedBy}}</h4>
+                <h4 class="label-wrapper">
+                    <span class="label label-primary gr-right-5">{{qualification.startedOn|date:'MMM yyyy'}}
+                        <span ng-show="qualification.complete">- {{qualification.endedOn|date:'MMM yyyy'}}</span>
+                    </span>
+                    <span class="label label-success gr-right-5" ng-show="qualification.complete">Completed</span>
+                    <span class="label label-warning gr-right-5" ng-show="!qualification.complete">Incomplete</span>
+                </h4>
+            </div>
+        </div>
+        <div class="well">
+        	<h2>Skills</h2>
+            <h4 class="line-spacing-regular">
+                <div class="nowrap gr-skill-block" ng-repeat="skill in profile.skills | orderBy: '-experience'">
+                    <span class="label label-primary gr-right-10">{{skill.experience}}y</span>
+                    <span class="gr-right-5">{{skill.name}}</span>
+                </div>
+            </h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+    	<button type="button" class="btn btn-success gr-major-btn" ng-click="editLayout()">Edit Layout</button>
+	</div>
+</div>

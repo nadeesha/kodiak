@@ -380,6 +380,16 @@ app.config(function($stateProvider,
                 public: true
             }
         });
+
+    $stateProvider
+        .state('downloadCV', {
+            url: '/downloadCv',
+            templateUrl: 'partials/download_cv.html',
+            controller: 'DownloadCvCtrl',
+            data: {
+                public: false
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {

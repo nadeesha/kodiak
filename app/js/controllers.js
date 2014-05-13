@@ -1680,3 +1680,28 @@ controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteS
             });
     };
 });
+
+controllers.controller('DownloadCvCtrl', function ($scope, userService, editLayout, $modal) {
+    userService.getProfile().success(function (profile) {
+        $scope.profile = profile;
+    });
+
+    $scope.editLayout = function () {
+        $scope.editLayoutModal = $modal.open({
+            templateUrl: 'partials/modal_cv_layout.html',
+            controller: 'CVLayoutCtrl',
+            resolve: {
+                data: function () {
+                    return $scope.order;
+                }
+            }
+        }).result.then(function (data) {
+            $scope.order = data;
+            $scope.save();
+        });
+    };
+
+    $scope.save = function () {
+        console.debug('save not implemented');
+    };
+});

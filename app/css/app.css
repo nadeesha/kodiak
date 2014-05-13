@@ -503,6 +503,9 @@ div.well>h2 {
     font-size: 1.5em;
     width: 100%;
 }
+.gr-major-btn {
+    width: 100%;
+}
 .placeholder-text {
     color: gray;
 }
@@ -528,4 +531,8 @@ div.well>h2 {
 .gr-linkedin-login {
     padding: 10px;
     border: 1px solid lightgrey;
+}
+.gr-new-feature {
+    vertical-align: super;
+    font-size: xx-small;
 }
