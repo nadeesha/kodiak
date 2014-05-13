@@ -329,7 +329,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
 
             // if the temp profile exists from a previous unsuccessful profile update,
             // let's try to save it now so the user gets alerted
-            if($localStorage.tempProfile) {
+            if ($localStorage.tempProfile) {
                 var profile = angular.fromJson($localStorage.tempProfile);
                 $scope.user.tenures = profile.tenures;
                 $scope.user.skills = profile.skills;
@@ -394,7 +394,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
 
                 $scope.user = data.profile;
 
-                if($localStorage.tempProfile) {
+                if ($localStorage.tempProfile) {
                     delete $localStorage.tempProfile;
                 }
             }).error(function(data) {
@@ -1326,15 +1326,48 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, inviteService, $state) {
-    $scope.invite = function(email) {
-        inviteService.inviteUser(email)
-            .success(function() {
-                $state.go('inviteRequested', {
-                    referrer: encodeURIComponent(email)
-                });
-            });
+controllers.controller('LandingCtrl', function($scope, $timeout) {
+    var index = 0;
+
+    var incrementIndex = function() {
+        if (index === taunts.length - 1) {
+            index = 0;
+        } else {
+            index++;
+        }
     };
+
+    var fadeOut = function(callback) {
+        $scope.animateCss = 'animated fadeOutDown';
+        $timeout(callback, 500);
+    };
+
+    var fadeIn = function() {
+        $scope.animateCss = 'animated fadeInUp';
+    };
+
+    var taunts = [{
+        what: 'faster'
+    }, {
+        what: 'easier'
+    }, {
+        what: 'by better companies'
+    }, {
+        what: 'without a CV'
+    }, {
+        what: 'for a better job'
+    }];
+
+    var changeTaunt = function() {
+        fadeOut(function() {
+            $scope.what = taunts[index].what;
+            fadeIn();
+            incrementIndex();
+            $timeout(changeTaunt, 5000);
+        });
+    };
+
+    $timeout(changeTaunt, 0);
 });
 
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
@@ -1365,8 +1398,8 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
         });
     };
 
-    $scope.declineUser = function (id) {
-        adminService.declineInvitation(id).success(function () {
+    $scope.declineUser = function(id) {
+        adminService.declineInvitation(id).success(function() {
             notificationService.handleSuccess('Invitation declined.');
             $scope.getUninvited();
         });
