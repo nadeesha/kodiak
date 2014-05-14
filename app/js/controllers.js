@@ -30,6 +30,19 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                 notificationService.handleSuccess('Account created. But you will have to login to ' +
                     'your email and click the activation link first.');
 
+                <!-- Facebook Conversion Code for signup for invites -->
+                var fb_param = {};
+                fb_param.pixel_id = '6012934240312';
+                fb_param.value = '0.01';
+                fb_param.currency = 'USD';
+                (function() {
+                    var fpw = document.createElement('script');
+                    fpw.async = true;
+                    fpw.src = '//connect.facebook.net/en_US/fp.js';
+                    var ref = document.getElementsByTagName('script')[0];
+                    ref.parentNode.insertBefore(fpw, ref);
+                })();
+
                 $state.go('home');
             });
     };
