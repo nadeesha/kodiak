@@ -43,7 +43,7 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                     ref.parentNode.insertBefore(fpw, ref);
                 })();
 
-                $state.go('home');
+                $state.go('signupCompleted');
             });
     };
 });

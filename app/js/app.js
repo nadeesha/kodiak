@@ -380,6 +380,15 @@ app.config(function($stateProvider,
                 public: true
             }
         });
+
+    $stateProvider
+        .state('signupCompleted', {
+            url: '/signup/completed',
+            templateUrl: 'partials/signup_completed.html',
+            data: {
+                public: true
+            }
+        });
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
