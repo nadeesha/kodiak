@@ -349,6 +349,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
                 $scope.user.qualifications = profile.qualifications;
                 $scope.user.dateOfBirth = profile.dateOfBirth;
                 $scope.saveProfile();
+                $scope.edit = true;
             }
 
             // redirect the user if profile is relatively empty and not from builder

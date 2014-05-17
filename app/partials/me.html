@@ -62,11 +62,7 @@
                         This is where you add all your qualifications. If you are still studying, you can add that qualification and mark it as 'Incomplete'.
                     </p>
                     <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
-                        <div class="alert alert-danger" ng-show="qualification.errors">
-                            <ul>
-                                <li ng-repeat="error in qualification.errors">{{error}}</li>
-                            </ul>
-                        </div>
+                        <div class="alert alert-danger" ng-show="qualification.errors" errors="qualification.errors" gr-profile-error></div>
                         <h3>{{qualification.name}}
                             <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
                                 <span class="glyphicon glyphicon-edit"></span> edit

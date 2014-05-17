@@ -230,11 +230,29 @@ directives.directive('grAdPreview', function() {
             searchText: '=searchText',
             org: '=org'
         },
-        controller: function ($scope, $state) {
-            $scope.go = function (ad) {
-                var orgId = typeof ad.organization === 'object' ? ad.organization._id :  ad.organization;
-                $state.go('viewAdvertisementPublic', {orgId: orgId, adId: ad._id});
+        controller: function($scope, $state) {
+            $scope.go = function(ad) {
+                var orgId = typeof ad.organization === 'object' ? ad.organization._id : ad.organization;
+                $state.go('viewAdvertisementPublic', {
+                    orgId: orgId,
+                    adId: ad._id
+                });
             };
         }
     };
+});
+
+directives.directive('grProfileError', function() {
+    return {
+        restrict: 'A',
+        template: 'Please edit and correct these errors (or delete this section): <ul><li ng-repeat="error in errors">{{error}}</li></ul>',
+        scope: {
+            errors: '=errors'
+        },
+        controller: function($scope, $element) {
+            if ($scope.errors && $scope.errors.length > 0) {
+                angular.element($element).parent().css('background-color', '#f0b9b6');
+            }
+        }
+    }
 });
