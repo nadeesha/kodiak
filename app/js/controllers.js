@@ -53,6 +53,8 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     'notificationService', '$rootScope', '$state', '$stateParams',
     function($scope, $http, $location, userService, notificationService, $rootScope, $state,
         $stateParams) {
+        $scope.user = {};
+
         $scope.validate = function(user) {
             userService.login(user, function(err, data) {
                 if (!err) {
@@ -1265,7 +1267,7 @@ controllers.controller('ResetPasswordCtrl', [
     function($scope, userService, notificationService, validationService) {
         $scope.submit = function(email) {
             try {
-                validationService.mustBeTrue( !! email, 'Email cannot be empty');
+                validationService.mustBeTrue(!!email, 'Email cannot be empty');
             } catch (e) {
                 return;
             }
@@ -1294,7 +1296,7 @@ controllers.controller('ChangePasswordCtrl', [
 
         $scope.submit = function(password) {
             try {
-                validationService.mustBeTrue( !! password,
+                validationService.mustBeTrue(!!password,
                     'Password can not be empty'
                 );
 
