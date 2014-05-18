@@ -55,6 +55,16 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
         $stateParams) {
         $scope.user = {};
 
+        if ($stateParams.to) {
+            notificationService.handleInfo('You need to login first.');
+        }
+
+        $scope.$watch('user.rememberMe', function(remembered) {
+            if (remembered) {
+                notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
+            }
+        });
+
         $scope.validate = function(user) {
             userService.login(user, function(err, data) {
                 if (!err) {
@@ -1374,6 +1384,10 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
         what: 'for a better job'
     }];
 
+    new WOW({
+        offset: 150
+    }).init();
+
     var changeTaunt = function() {
         fadeOut(function() {
             $scope.what = taunts[index].what;
@@ -1383,7 +1397,7 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
         });
     };
 
-    $timeout(changeTaunt, 0);
+    $timeout(changeTaunt, 3000);
 });
 
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {

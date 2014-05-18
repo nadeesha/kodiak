@@ -410,13 +410,9 @@ app.run(function($rootScope, userService, subwayService, notificationService, $s
         // Check if this state is protected
         if ((!toState.data || (toState.data && toState.data.public === false)) && !userService.isLoggedIn()) {
             ev.preventDefault();
-            $state.transitionTo('login');
-        }
-
-        if (toState.name === 'home') {
-            $('body').css('background', 'url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed');
-        } else {
-            $('body').css('background', 'white');
+            $state.transitionTo('login', {
+                to: encodeURIComponent(toState.url)
+            });
         }
     });
 

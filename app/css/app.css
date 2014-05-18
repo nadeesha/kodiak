@@ -7,12 +7,6 @@
 }
 html, body {
     height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-color: white;
 }
 /* Wrapper for page content to push down footer */
  #wrap {
@@ -26,7 +20,7 @@ html, body {
 /* Set the fixed height of the footer here */
  #footer {
     height: 60px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: white;
     text-align: center;
     padding-top:15px;
     border-top: 1px darkgray solid;
@@ -326,7 +320,7 @@ div.well>h2 {
 .gr-middle {
     margin-top: 100px;
     margin-bottom: 50px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 15px;
     padding-bottom: 50px;
     width: auto;
@@ -334,101 +328,18 @@ div.well>h2 {
 }
 .gr-back-img {
 }
-/** Animations **/
- @-webkit-keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateY(20px);
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-    }
-}
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateY(20px);
-        -ms-transform: translateY(20px);
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        -ms-transform: translateY(0);
-        transform: translateY(0);
-    }
-}
-.fadeInUp {
-    -webkit-animation-name: fadeInUp;
-    animation-name: fadeInUp;
-}
-.animated {
-    -webkit-animation-duration: 0.5s;
-    animation-duration: 0.5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-.animated.hinge {
-    -webkit-animation-duration: 0.5s;
-    animation-duration: 0.5s;
-}
-@-webkit-keyframes fadeOutDown {
-    0% {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translateY(20px);
-        transform: translateY(20px);
-    }
-}
-@keyframes fadeOutDown {
-    0% {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        -ms-transform: translateY(0);
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translateY(20px);
-        -ms-transform: translateY(20px);
-        transform: translateY(20px);
-    }
-}
-.fadeOutDown {
-    -webkit-animation-name: fadeOutDown;
-    animation-name: fadeOutDown;
-}
-@-webkit-keyframes fadeOutDownBig {
-    0% {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translateY(2000px);
-        transform: translateY(2000px);
-    }
-}
 .gr-profile-score {
     position: relative;
     top: -10px;
 }
 .gr-pic-credit {
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     color: lightcoral;
     font-weight: 100;
     background: rgba(0, 0, 0, 0.4);
     padding: 10px;
     font-size: 0.7em;
-    float: right;
+    /*float: right;*/
 }
 .gr-skill-block {
     border-bottom: 1px solid lightgrey;
@@ -529,4 +440,42 @@ div.well>h2 {
 .gr-linkedin-login {
     padding: 10px;
     border: 1px solid lightgrey;
+}
+.gr-landing .back-img {
+    background:url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed; 
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    box-shadow: grey 0px 0px 20px 5px;
+}
+.gr-landing .top {
+    top: 0;
+    bottom: 0;
+}
+.gr-landing .filler {
+    height: 200px;
+    color: white;
+}
+.gr-landing .content .content-img {
+    font-size: 100px;
+    color: lightgrey;
+}
+.gr-landing .content .content-text {
+    color: black;
+}
+.gr-landing .content h1 {
+    font-size:60px;
+    text-align: center;
+    /*margin-bottom: 20px;*/
+}
+.gr-landing .well {
+    margin-bottom: 50px;
+}
+.accessory {
+  height: 6px;
+background-image: radial-gradient(closest-side, lightgrey, rgba(255, 255, 255, 0) 100%);
+position: relative;
+border: 0;
+margin: 50px;
 }

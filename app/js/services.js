@@ -367,6 +367,14 @@ services.factory('notificationService', [
                     type: 'info',
                     hide: true
                 });
+            },
+            handleWarning: function(msg, title) {
+                this.notify({
+                    title: title || 'Warning!',
+                    text: msg || 'That might cause problems, my friend!',
+                    type: 'warning',
+                    hide: true
+                });
             }
         };
     }
