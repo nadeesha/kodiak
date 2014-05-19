@@ -1656,7 +1656,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 }
 
                 if (inProfile.certifications && inProfile.certifications._total > 0) {
-                    inProfile.certifications.forEach(function(cert) {
+                    inProfile.certifications.values.forEach(function(cert) {
                         var certification = {};
 
                         certification.name = cert.name;
