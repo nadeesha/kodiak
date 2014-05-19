@@ -1,3 +1,25 @@
+<script type="text/javascript">
+function onLinkedInLoad() {
+    IN.Event.on(IN, "auth", onLinkedInAuth);
+
+    angular.element(document.getElementById('train')).scope().$apply(function ($scope) {
+        $scope.endLoadingLinkedIn();
+    })
+}
+
+function onLinkedInAuth() {
+    angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
+        $scope.linkedInAuthenticated = true;
+        $scope.linkedIn();
+    });
+}
+</script>
+
+<script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 75ftgfyz0rxcmi
+    onLoad: onLinkedInLoad
+</script>
+
 <div class="jumbotron row" ng-show="!step">
     <h1>Let's build your profile in 3 minutes!</h1>
     <hr>
@@ -50,25 +72,3 @@
     </ul>
     <hr>
 </div>
-
-<script type="text/javascript" src="//platform.linkedin.com/in.js">
-    api_key: 75ftgfyz0rxcmi
-    onLoad: onLinkedInLoad
-</script>
-
-<script type="text/javascript">
-function onLinkedInLoad() {
-    IN.Event.on(IN, "auth", onLinkedInAuth);
-
-    angular.element(document.getElementById('train')).scope().$apply(function ($scope) {
-        $scope.endLoadingLinkedIn();
-    })
-}
-
-function onLinkedInAuth() {
-    angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
-        $scope.linkedInAuthenticated = true;
-        $scope.linkedIn();
-    });
-}
-</script>
