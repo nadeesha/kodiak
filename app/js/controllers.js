@@ -65,8 +65,8 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
             }
         });
 
-        $scope.validate = function(user) {
-            userService.login(user, function(err, data) {
+        $scope.validate = function() {
+            userService.login($scope.user, function(err, data) {
                 if (!err) {
                     $rootScope.$broadcast('refreshNotifications');
 
