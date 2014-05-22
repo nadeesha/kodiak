@@ -1230,13 +1230,21 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
     }
 ]);
 
-controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'notificationService', '$location',
-    function($scope, adService) {
+controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
+    function($scope, adService, userService) {
         $scope.ads = [];
 
         adService.getAdsPublic().success(function(data) {
             $scope.ads = data.ads;
         });
+
+        userService.getProfile().success(function (data) {
+            if (data.tenures.length === 0 && data.qualifications.length === 0) {
+                $scope.emptyProfile = true;
+            } else {
+                $scope.emptyProfile = false;
+            }
+        })
     }
 ]);
 
