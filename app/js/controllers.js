@@ -30,7 +30,6 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                 notificationService.handleSuccess('Account created. But you will have to login to ' +
                     'your email and click the activation link first.');
 
-                <!-- Facebook Conversion Code for signup for invites -->
                 var fb_param = {};
                 fb_param.pixel_id = '6012934240312';
                 fb_param.value = '0.01';
@@ -1237,13 +1236,13 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
             $scope.ads = data.ads;
         });
 
-        userService.getProfile().success(function (data) {
+        userService.getProfile().success(function(data) {
             if (data.tenures.length === 0 && data.qualifications.length === 0) {
                 $scope.emptyProfile = true;
             } else {
                 $scope.emptyProfile = false;
             }
-        })
+        });
     }
 ]);
 
@@ -1391,9 +1390,6 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
         what: 'for a better job'
     }];
 
-    new WOW({
-        offset: 150
-    }).init();
 
     var changeTaunt = function() {
         fadeOut(function() {
@@ -1443,14 +1439,19 @@ controllers.controller('AdminInvitesCtrl', function($scope, adminService, notifi
     };
 });
 
-controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar, $localStorage) {
-    cfpLoadingBar.start();
+controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar, $localStorage, $timeout) {
     $scope.linkedInLoaded = false;
 
     $scope.endLoadingLinkedIn = function() {
-        cfpLoadingBar.complete();
         $scope.linkedInLoaded = true;
     };
+
+    // if linkedin hasn't loaded in 10 seconds, refresh the page so that it has a chance to load again
+    $timeout(function() {
+        if (!$scope.linkedInLoaded) {
+            location.reload();
+        }
+    }, 8000);
 
     var employed = null;
 

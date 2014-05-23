@@ -27,20 +27,14 @@ function onLinkedInAuth() {
         <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/onmac.png" class="img-responsive img-rounded" alt="Image">
     </div>
     <div class="col-md-7">
-        <strong>Why?</strong>
-        <ul>
-            <li>Let us recommend you to employers automatically</li>
-            <li>Get contacted by interested employers directly</li>
-            <li>Create a beautiful downloadable CV <i>(coming soon)</i>
-            </li>
-            <li>Apply to any public ad posted</li>
-        </ul>
+        <p><strong>Why?</strong> Till you fill up your profile, we won't be able to recommend you to our employers. A complete profile will open more possibilities for you to get hired sooner through this platform.</p>
+        <br>
         <p>
             <div class="small-text gr-center-align">
-                <p class="gr-linkedin-login" ng-show="linkedInLoaded && !linkedInAuthenticated">Get data from LinkedIn
+                <div ng-hide="linkedInLoaded"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Loading linkedIn</div>
+                <p class="gr-linkedin-login" ng-show="!linkedInAuthenticated">Get data from LinkedIn
                     <script type="in/Login"></script>
                 </p>
-                <div ng-hide="linkedInLoaded"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Loading linkedIn</div>
                 <div ng-show="linkedInAuthenticated"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Reading your data</div>
                 <p>or</p>
                 <a class="btn btn-primary" role="button" ng-click="start();">Fill information manually</a>

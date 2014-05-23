@@ -139,6 +139,15 @@
 
         <div class="col-md-4">
 
+            <div class="alert alert-danger" ng-show="user.qualifications.length===0 && user.tenures.length===0">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h3>Your profile is not discoverable by employers yet.</h3>
+                <hr>
+                <p>We need at least one qualification or a professional tenure to start recommending your profile to our employers.</p>
+                <br>
+                <button type="button" class="btn btn-success" ui-sref="profileBuilder">Fix this</button>
+            </div>
+
             <!--Profile Score -->
             <div class="panel panel-default" ng-hide="viewedByOrg">
                 <div class="panel-heading">
