@@ -53,20 +53,19 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     'notificationService', '$rootScope', '$state', '$stateParams',
     function($scope, $http, $location, userService, notificationService, $rootScope, $state,
         $stateParams) {
-        $scope.user = {};
 
         if ($stateParams.to) {
             notificationService.handleInfo('You need to login first.');
         }
 
-        $scope.$watch('user.rememberMe', function(remembered) {
+        $scope.$watch('userRememberMe', function(remembered) {
             if (remembered) {
                 notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
             }
         });
 
         $scope.validate = function() {
-            userService.login($scope.user, function(err, data) {
+            userService.login($scope.userEmail, $scope.userPassword, function(err, data) {
                 if (!err) {
                     $rootScope.$broadcast('refreshNotifications');
 
