@@ -336,6 +336,7 @@ app.config(function($stateProvider,
         .state('admin', {
             url: '/admin',
             templateUrl: 'partials/admin.html',
+            controller: 'AdminCtrl',
             data: {
                 public: false
             }

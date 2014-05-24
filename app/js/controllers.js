@@ -1403,6 +1403,14 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
     $timeout(changeTaunt, 3000);
 });
 
+controllers.controller('AdminCtrl', function(adminService, $scope, notificationService) {
+    $scope.refreshUsers = function() {
+        adminService.updateUsers().success(function() {
+            notificationService.handleSuccess('Users are being updated. Check the logs.');
+        });
+    };
+});
+
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
     $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
 

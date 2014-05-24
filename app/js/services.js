@@ -405,16 +405,8 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
             return $http.get(GRIZZLY_URL + '/admin/users');
         },
 
-        getUninvited: function() {
-            return $http.get(GRIZZLY_URL + '/uninvited');
-        },
-
-        sendInvitation: function(id) {
-            return $http.post(GRIZZLY_URL + '/invite/' + id);
-        },
-
-        declineInvitation: function (id) {
-            return $http.delete(GRIZZLY_URL + '/invite/' + id);
+        updateUsers: function () {
+            return $http.put(GRIZZLY_URL + '/admin/updateusers');
         }
     };
 });
