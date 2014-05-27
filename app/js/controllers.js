@@ -53,7 +53,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     function($scope, $http, $location, userService, notificationService, $rootScope, $state,
         $stateParams) {
 
-        $scope.userEmail == $scope.userPassword = '';
+        $scope.user = {};
 
         if ($stateParams.to) {
             notificationService.handleInfo('You need to login first.');
@@ -66,7 +66,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
         });
 
         $scope.validate = function() {
-            userService.login($scope.userEmail, $scope.userPassword, function(err, data) {
+            userService.login($scope.user, function(err, data) {
                 if (!err) {
                     $rootScope.$broadcast('refreshNotifications');
 

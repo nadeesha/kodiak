@@ -47,11 +47,8 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             createOrgUser: function(user) {
                 return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
             },
-            login: function(email, password, callback) {
-                $http.put(GRIZZLY_URL + '/user/token', JSON.stringify({
-                    email: email,
-                    password: password
-                })).success(function(data) {
+            login: function(user, callback) {
+                $http.put(GRIZZLY_URL + '/user/token', JSON.stringify(user)).success(function(data) {
                     $rootScope.u = {
                         _id: data._id,
                         firstName: data.firstName,
