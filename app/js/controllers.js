@@ -53,6 +53,8 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
     function($scope, $http, $location, userService, notificationService, $rootScope, $state,
         $stateParams) {
 
+        $scope.userEmail == $scope.userPassword = '';
+
         if ($stateParams.to) {
             notificationService.handleInfo('You need to login first.');
         }

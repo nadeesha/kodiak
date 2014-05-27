@@ -51,29 +51,28 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 $http.put(GRIZZLY_URL + '/user/token', JSON.stringify({
                     email: email,
                     password: password
-                }))
-                    .success(function(data) {
-                        $rootScope.u = {
-                            _id: data._id,
-                            firstName: data.firstName,
-                            lastName: data.lastName,
-                            email: email,
-                            access_token: data.access_token,
-                            expiration: data.expiration,
-                            affiliation: data.affiliation,
-                            restored: true,
-                            type: null // ORG, NEW or PERSONAL
-                        };
+                })).success(function(data) {
+                    $rootScope.u = {
+                        _id: data._id,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        email: email,
+                        access_token: data.access_token,
+                        expiration: data.expiration,
+                        affiliation: data.affiliation,
+                        restored: true,
+                        type: null // ORG, NEW or PERSONAL
+                    };
 
-                        service.saveState();
-                        setUserType();
+                    service.saveState();
+                    setUserType();
 
-                        $rootScope.$broadcast('loggedIn', !!data.affiliation);
+                    $rootScope.$broadcast('loggedIn', !!data.affiliation);
 
-                        callback(null, data);
-                    }).error(function(data, status) {
-                        callback(status, data);
-                    });
+                    callback(null, data);
+                }).error(function(data, status) {
+                    callback(status, data);
+                });
             },
             isLoggedIn: function() {
                 if ($rootScope.u.access_token && moment($rootScope.u.expiration).isAfter(moment())) {
