@@ -1305,8 +1305,9 @@ controllers.controller('ChangePasswordCtrl', [
     'notificationService',
     'validationService',
     '$stateParams',
+    '$state',
     function($scope, userService, notificationService, validationService,
-        $stateParams) {
+        $stateParams, $state) {
 
         if ($stateParams.token) {
             $scope.token = $stateParams.token;
@@ -1339,6 +1340,8 @@ controllers.controller('ChangePasswordCtrl', [
                         );
                     }
                 });
+
+            $state.go('login');
         };
     }
 ]);
