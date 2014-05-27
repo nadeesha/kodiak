@@ -7,7 +7,7 @@ var services = angular.module('kodiak.services', []);
 services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZLY_URL',
     function($rootScope, $localStorage, $http, GRIZZLY_URL) {
         var setUserType = function() {
-            var isOrgUser = !! $rootScope.u.affiliation;
+            var isOrgUser = !!$rootScope.u.affiliation;
             var tokenExpiration = $rootScope.u.expiration;
             var stateRestored = $rootScope.u.restored;
 
@@ -19,6 +19,10 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             } else {
                 $rootScope.u.type = 'NEW';
             }
+
+            window.trackJs.configure({
+                userId: $rootScope.u.email
+            });
         };
 
         var service = {
@@ -44,7 +48,10 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
             },
             login: function(email, password, callback) {
-                $http.put(GRIZZLY_URL + '/user/token', JSON.stringify({email: email, password: password}))
+                $http.put(GRIZZLY_URL + '/user/token', JSON.stringify({
+                    email: email,
+                    password: password
+                }))
                     .success(function(data) {
                         $rootScope.u = {
                             _id: data._id,
@@ -61,7 +68,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                         service.saveState();
                         setUserType();
 
-                        $rootScope.$broadcast('loggedIn', !! data.affiliation);
+                        $rootScope.$broadcast('loggedIn', !!data.affiliation);
 
                         callback(null, data);
                     }).error(function(data, status) {
@@ -329,7 +336,7 @@ services.factory('inviteService', function($http, GRIZZLY_URL) {
         },
 
         sendInvitationReferrer: function(emails, referrer) {
-            return $http.post(GRIZZLY_URL +'/invite/friends', {
+            return $http.post(GRIZZLY_URL + '/invite/friends', {
                 emails: emails,
                 referrer: referrer
             });
@@ -405,7 +412,7 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
             return $http.get(GRIZZLY_URL + '/admin/users');
         },
 
-        updateUsers: function () {
+        updateUsers: function() {
             return $http.put(GRIZZLY_URL + '/admin/updateusers');
         }
     };

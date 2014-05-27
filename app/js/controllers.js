@@ -1401,6 +1401,10 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
     };
 
     $timeout(changeTaunt, 3000);
+
+    window.trackJs.configure({
+        trackAjaxFail: false
+    });
 });
 
 controllers.controller('AdminCtrl', function(adminService, $scope, notificationService) {
