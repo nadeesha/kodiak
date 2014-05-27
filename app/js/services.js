@@ -53,7 +53,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                         _id: data._id,
                         firstName: data.firstName,
                         lastName: data.lastName,
-                        email: email,
+                        email: user.email,
                         access_token: data.access_token,
                         expiration: data.expiration,
                         affiliation: data.affiliation,
@@ -135,22 +135,6 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                     );
                 }
             },
-            uploadCv: function(files) {
-                var formData = new FormData();
-                for (var i in files) {
-                    formData.append('file_' + i, files[i]);
-                }
-
-                return $http({
-                    method: 'POST',
-                    url: GRIZZLY_URL + '/user/cv',
-                    data: formData,
-                    headers: {
-                        'Content-Type': undefined
-                    },
-                    transformRequest: angular.identity
-                });
-            },
             getQualifications: function(query) {
                 return $http.get(GRIZZLY_URL + '/user/meta/qualifications/' + query);
             },
@@ -184,7 +168,9 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
             uploadLogo: function(id, files) {
                 var formData = new FormData();
                 for (var i in files) {
-                    formData.append('file_' + i, files[i]);
+                    if (files.hasOwnProperty(i)) {
+                        formData.append('file_' + i, files[i]);
+                    }
                 }
 
                 return $http({
