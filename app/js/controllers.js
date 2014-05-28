@@ -49,9 +49,9 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
 
 
 controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
-    'notificationService', '$rootScope', '$state', '$stateParams',
+    'notificationService', '$rootScope', '$state', '$stateParams', 'validationService',
     function($scope, $http, $location, userService, notificationService, $rootScope, $state,
-        $stateParams) {
+        $stateParams, validationService) {
 
         $scope.user = {};
 
@@ -65,8 +65,17 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
             }
         });
 
-        $scope.validate = function() {
-            userService.login($scope.user, function(err, data) {
+        $scope.login = function(credentials) {
+            try {
+                validationService.mustBeTrue(credentials.email, 'E-mail should be a valid e-mail address');
+                validationService.mustBeTrue(credentials.password, 'Password is required');
+            } catch (e) {
+                // login error tracking: delete this line after you figure out the weird login issue
+                track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length);
+                return;
+            }
+
+            userService.login(credentials, function(err, data) {
                 if (!err) {
                     $rootScope.$broadcast('refreshNotifications');
 
