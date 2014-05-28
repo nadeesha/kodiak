@@ -61,7 +61,7 @@ directives.directive('grVisualizedProfile', [
                             years = 1; // just give one circle if it's less than a year
                         }
 
-                        return new Array(years);
+                        return new Array(Math.floor(years));
                     },
                     getTimes: utilService.getTimes,
                     getTotalExperience: function() {
