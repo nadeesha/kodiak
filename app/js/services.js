@@ -405,6 +405,10 @@ services.factory('utilService', [
     function() {
         return {
             getTimes: function(n) {
+                if(!n) {
+                    return [];
+                }
+
                 var times;
 
                 try {
