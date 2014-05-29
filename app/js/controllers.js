@@ -71,7 +71,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
                 validationService.mustBeTrue(credentials.password, 'Password is required');
             } catch (e) {
                 // login error tracking: delete this line after you figure out the weird login issue
-                track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length);
+                track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length + ' credentials:' + JSON.stringify(credentials) + ' $scope.user:' + JSON.stringify($scope.user));
                 return;
             }
 
