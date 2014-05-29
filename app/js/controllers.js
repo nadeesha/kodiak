@@ -59,7 +59,7 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
             notificationService.handleInfo('You need to login first.');
         }
 
-        $scope.$watch('userRememberMe', function(remembered) {
+        $scope.$watch('user.rememberMe', function(remembered) {
             if (remembered) {
                 notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
             }
@@ -72,7 +72,17 @@ controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userServic
             } catch (e) {
                 // login error tracking: delete this line after you figure out the weird login issue
                 track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length + ' credentials:' + JSON.stringify(credentials) + ' $scope.user:' + JSON.stringify($scope.user));
-                return;
+
+                // until i figure what's causing this goddamn login issue, i'm going to just go for the
+                // nuclear solution here.
+                if($('#login-email').val() && $('#login-password').val().length > 0) {
+                    credentials.email = $('#login-email').val();
+                    credentials.password = $('#login-password').val();
+                    track('corrected the login issue, credentials set: ' + credentials);
+                } else {
+                    return;
+                }
+
             }
 
             userService.login(credentials, function(err, data) {

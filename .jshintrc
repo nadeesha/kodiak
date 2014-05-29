@@ -110,7 +110,7 @@
     // [4]: http://www.jshint.com/options/
 
     "maxerr": 100, // Maximum errors before stopping.
-    "predef": [ "moment", "angular", "_", "IN"
+    "predef": [ "moment", "angular", "_", "IN", "track"
     ],
     "indent": 4 // Specify indentation spacing
 }
