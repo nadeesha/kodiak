@@ -405,13 +405,17 @@ services.factory('utilService', [
     function() {
         return {
             getTimes: function(n) {
-                if (!n) {
-                    return;
+                var times;
+
+                try {
+                    times = Number(n);
+                } catch(e) {
+                    track('Invalid number in getTimes: ' + n);
                 }
 
-                n = Math.floor(n);
+                times = Math.floor(times);
 
-                return new Array(Number(n));
+                return new Array(times);
             }
         };
     }
