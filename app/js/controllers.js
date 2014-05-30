@@ -138,7 +138,7 @@ controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'user
 
             userService.activate($scope.user).success(function() {
                 notificationService.handleSuccess('Your account had been activated successfully. Please log in');
-                $state.go('login');
+                $scope.success = true;
             });
         };
 
