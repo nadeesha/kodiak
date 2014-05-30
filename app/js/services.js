@@ -405,7 +405,7 @@ services.factory('utilService', [
     function() {
         return {
             getTimes: function(n) {
-                if(!n) {
+                if (!n) {
                     return [];
                 }
 
@@ -413,13 +413,18 @@ services.factory('utilService', [
 
                 try {
                     times = Number(n);
-                } catch(e) {
+                } catch (e) {
                     track('Invalid number in getTimes: ' + n);
                 }
 
                 times = Math.floor(times);
 
-                return new Array(times);
+                try {
+                    return new Array(times);
+                } catch (e) {
+                    track('Got an array length of: ' + times + ' and an n: ' + n);
+                    return [];
+                }
             }
         };
     }
