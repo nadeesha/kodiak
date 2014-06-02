@@ -473,9 +473,9 @@ div.well>h2 {
     margin-bottom: 50px;
 }
 .accessory {
-  height: 6px;
-background-image: radial-gradient(closest-side, lightgrey, rgba(255, 255, 255, 0) 100%);
-position: relative;
-border: 0;
-margin: 50px;
+    height: 6px;
+    background-image: radial-gradient(closest-side, lightgrey, rgba(255, 255, 255, 0) 100%);
+    position: relative;
+    border: 0;
+    margin: 50px;
 }

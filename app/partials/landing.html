@@ -9,9 +9,12 @@
                 <span class="{{animateCss}} gr-highlight">{{what}}</span>.
             </h1>
             <br/>
-            <p class="gr-center-align">
+            <p class="gr-center-align" ng-hide="loggedIn">
                 <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="signup">Sign up</button>
                 <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.3s" ui-sref="login">Log in</button>
+            </p>
+            <p class="gr-center-align" ng-show="loggedIn">
+                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="viewProfile">My Profile</button>
             </p>
         </div>
 

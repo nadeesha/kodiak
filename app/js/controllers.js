@@ -1382,7 +1382,7 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, $timeout) {
+controllers.controller('LandingCtrl', function($scope, $timeout, userService) {
     var index = 0;
 
     var incrementIndex = function() {
@@ -1414,6 +1414,7 @@ controllers.controller('LandingCtrl', function($scope, $timeout) {
         what: 'for a better job'
     }];
 
+    $scope.loggedIn = userService.isLoggedIn();
 
     var changeTaunt = function() {
         fadeOut(function() {
