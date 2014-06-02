@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-7">
+        <h1>{{org.name}}</h1>
+        <hr/>
+        <h4>{{org.description}}</h4>
+    </div>
+    <div class="col-md-5">
+        <img src="https://s3-ap-southeast-1.amazonaws.com/hirewire-org-logos/{{org._id}}.png">
+    </div>
+</div>
+<div>
+    <h3>
+        <span class="label label-info">{{org.contactNumber}}</span>
+        <span class="label label-info">{{org.address}}</span>
+        <span class="label label-info"><a style="color:white" href="{{org.url}}" target="_blank">Website</a></span>
+    </h3>
+</div>
+<hr>
+<h2>Advertised Positions</h2>
+<div ads="ads" org="org" gr-ad-preview></div>

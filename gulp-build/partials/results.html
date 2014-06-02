@@ -1,0 +1,19 @@
+<h1>Search Results</h1>
+<span class="label label-info">{{allResults.length || 'loading'}}</span> result(s)
+<hr>
+<div class="row">
+    <div class="col-md-8">
+        <div ng-repeat="result in allResults | limitTo:limitResultsTo" class="gr-search-result" ng-class="{'gr-invited-result': result.invited}" ng-click="loadProfile(result._id, result.invited)">
+            {{(result._score*100).toFixed(1)}}
+            <div class="gr-search-progress" style="width: {{result._score*200/allResults.max_score}}px"></div>
+        </div>
+    </div>
+
+    <div class="col-md-4" ng-show="user">
+        <input type="text" class="form-control" style="width:100%; margin-bottom:5px;" placeholder="tags: comma seperated" ng-model="user.tags" ng-disabled="user.invited">
+        <a type="button" class="btn btn-success" ng-class="{disabled: user.invited}" ng-click="invite(user.id, user.tags)" style="width:100%;">{{user.invited ? 'Alredy Invited' : 'Invite this Candidate'}}</a>
+        <hr>
+        <div gr-visualized-profile>
+        </div>
+    </div>
+</div>

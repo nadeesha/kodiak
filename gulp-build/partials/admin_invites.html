@@ -1,0 +1,12 @@
+<div ng-repeat="uninvited in data.all" class="row">
+    <div class="col-md-4">
+        {{uninvited.email}}
+    </div>
+    <div class="col-md-4">
+        {{uninvited.referredBy}}
+    </div>
+    <div class="col-md-4">
+        <button type="button" ng-click="inviteUser(uninvited._id)" class="btn btn-success">Invite</button>
+        <button type="button" ng-click="declineUser(uninvited._id)" class="btn btn-danger">Decline</button>
+    </div>
+</div>

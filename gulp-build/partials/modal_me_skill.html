@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>{{data.meta.heading || 'Skill'}} <button type="button" class="btn btn-success pull-right" ng-click="data.skills.unshift({skill: {name: '', experience: ''}})">Add new skill</button></h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form" name="formSkill">
+        <div class="row gr-bottom-10" ng-show="data.skills.length>0">
+            <div class="col-md-8">Skill Name</div>
+            <div class="col-md-4">Years of Experience</div>
+        </div>
+            <div class="form-group" ng-repeat="skill in data.skills track by $index | orderBy: '-experience'">
+                <div class="col-md-8">
+                    <input class="form-control" placeholder="example: {{examples[$index%5]}}" ng-model="skill.name" required/>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" placeholder="Years" ng-model="skill.experience" required/>
+                </div>
+                <a class="btn btn-xs btn-danger gr-btn-io" ng-click="data.skills.splice($index, 1)"><span class="glyphicon glyphicon-remove-circle"></span></a>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-disabled="formSkill.$dirty && formSkill.$invalid" ng-click="$close(data.skills)">OK</button>
+        <button class="btn btn-warning" ng-click="$dismiss('cancel')">Cancel</button>
+    </div>
+</div>

@@ -6,7 +6,7 @@
 }
 
 .autocomplete input{
-  /*font-size: 1.2em;*/
+  font-size: 1.2em;
   width: 100%;
   padding:0.4em;
 }
@@ -19,7 +19,6 @@
   border-right: 1px solid #888;
   border-bottom: 1px solid #888;
   z-index: 1;
-  background-color: #fff;
 }
 
 .autocomplete li{
@@ -28,7 +27,6 @@
   width: 100%;
   padding:0.4em;
   background-color: #fff;
-  font-size: 12px;
 }
 
 .autocomplete li.active{

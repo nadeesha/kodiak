@@ -1,0 +1,68 @@
+<script type="text/javascript">
+function onLinkedInLoad() {
+    IN.Event.on(IN, "auth", onLinkedInAuth);
+
+    angular.element(document.getElementById('train')).scope().$apply(function ($scope) {
+        $scope.endLoadingLinkedIn();
+    })
+}
+
+function onLinkedInAuth() {
+    angular.element(document.getElementById('train')).scope().$apply(function  ($scope) {
+        $scope.linkedInAuthenticated = true;
+        $scope.linkedIn();
+    });
+}
+</script>
+
+<script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 75ftgfyz0rxcmi
+    onLoad: onLinkedInLoad
+</script>
+
+<div class="jumbotron row" ng-show="!step">
+    <h1>Let's build your profile in 3 minutes!</h1>
+    <hr>
+    <div class="col-md-5">
+        <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/onmac.png" class="img-responsive img-rounded" alt="Image">
+    </div>
+    <div class="col-md-7">
+        <p><strong>Why?</strong> Till you fill up your profile, we won't be able to recommend you to our employers. A complete profile will open more possibilities for you to get hired sooner through this platform.</p>
+        <br>
+        <p>
+            <div class="small-text gr-center-align">
+                <div ng-hide="linkedInLoaded"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Loading linkedIn</div>
+                <p class="gr-linkedin-login" ng-show="!linkedInAuthenticated">Get data from LinkedIn
+                    <script type="in/Login"></script>
+                </p>
+                <div ng-show="linkedInAuthenticated"><img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/495.GIF"> Reading your data</div>
+                <p>or</p>
+                <a class="btn btn-primary" role="button" ng-click="start();">Fill information manually</a>
+                <a class="btn btn-default" role="button" ng-click="skip();">Skip</a>
+
+            </div>
+        </p>
+    </div>
+</div>
+<div id="train" class="gr-train" ng-show="step">
+    <h1>Let's build your profile in 3 minutes!</h1>
+    <hr>
+    <ul>
+        <li ng-class="steps[0].status" ng-click="open(1)">
+            <h1>
+                <span class="glyphicon glyphicon-briefcase"></span>
+            </h1>
+            <h3>Step 1</h3>Your current job/qualification</li>
+        <li ng-class="steps[1].status" ng-click="open(2)">
+            <h1>
+                <span class="glyphicon glyphicon-wrench"></span>
+            </h1>
+            <h3>Step 2</h3>Top 5 skills</li>
+        <li ng-class="steps[2].status" ng-click="open(3)">
+            <h1>
+                <span class="glyphicon glyphicon-calendar"></span>
+            </h1>
+            <h3>Step 3</h3>Date of Birth</li>
+    </ul>
+    <hr>
+</div>

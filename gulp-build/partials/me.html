@@ -1,0 +1,193 @@
+<div>
+    <div class="row">
+        <div class="col-md-7">
+            <h1>
+                <span>{{user.firstName}}</span>
+                <span>{{user.lastName}}</span>
+            </h1>
+            <button type="button" class="btn btn-default" ng-hide="viewedByOrg || edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
+            <button type="button" class="btn btn-success" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
+            <hr>
+            <div>
+                <div class="alert alert-danger" ng-show="user.errors">
+                    <ul>
+                        <li ng-repeat="error in user.errors">{{error}}</li>
+                    </ul>
+                </div>
+                <div class="well">
+                    <h2>Personal
+                        <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openPersonalModal(user)">
+                            <span class="glyphicon glyphicon-edit"></span> edit
+                        </a>
+                    </h2>
+                    <h4 class="line-spacing-regular">
+                        <div class="nowrap" ng-show="user.location">
+                            <span class="glyphicon gr-glyphicon glyphicon-home"></span>Location:
+                            <span class="label label-primary gr-right-5">{{user.location}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="convertGender(user.gender)">
+                            <span class="glyphicon gr-glyphicon glyphicon-user"></span>Gender:
+                            <span class="label label-primary gr-right-5">{{convertGender(user.gender)}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="user.contactNumber">
+                            <span class="glyphicon gr-glyphicon glyphicon-phone"></span>Contact Number:
+                            <span class="label label-primary gr-right-5">{{user.contactNumber}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="user.email">
+                            <span class="glyphicon gr-glyphicon glyphicon-envelope"></span>E-mail:
+                            <span class="label label-primary gr-right-5">{{user.email}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="user.languages.length>0">
+                            <span class="glyphicon gr-glyphicon glyphicon-bullhorn"></span>Languages:
+                            <span class="label label-primary gr-right-5" ng-repeat="language in user.languages">{{language}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="user.nationalIdentifier">
+                            <span class="glyphicon gr-glyphicon glyphicon-asterisk"></span>National Identifier:
+                            <span class="label label-primary gr-right-5">{{user.nationalIdentifier}}</span>
+                        </div>
+                        <div class="nowrap" ng-show="user.dateOfBirth">
+                            <span class="glyphicon gr-glyphicon glyphicon-calendar"></span>Date of Birth:
+                            <span class="label label-primary gr-right-5">{{user.dateOfBirth | date:'dd MMM yyyy'}}</span>
+                        </div>
+                    </h4>
+                </div>
+                <div class="well">
+                    <h2>Qualifications
+                        <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal()">
+                            <span class="glyphicon glyphicon-plus-sign"></span> add
+                        </a>
+                    </h2>
+                    <p class="gr-info-profile" ng-show="!user.qualifications || user.qualifications.length===0" ng-hide="viewedByOrg">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        This is where you add all your qualifications. If you are still studying, you can add that qualification and mark it as 'Incomplete'.
+                    </p>
+                    <div class="gr-qual" ng-repeat="qualification in user.qualifications | orderBy:'-startedOn'">
+                        <div class="alert alert-danger" ng-show="qualification.errors" errors="qualification.errors" gr-profile-error></div>
+                        <h3>{{qualification.name}}
+                            <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openQualificationModal(qualification)">
+                                <span class="glyphicon glyphicon-edit"></span> edit
+                            </a>
+                            <a class="btn btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(qualification, user.qualifications)">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </a>
+                        </h3>
+                        <h4>{{qualification.field}}</h4>
+                        <h4>{{qualification.issuedBy}}</h4>
+                        <h4 class="label-wrapper">
+                            <span class="label label-primary gr-right-5">{{qualification.startedOn|date:'MMM yyyy'}}
+                                <span ng-show="qualification.complete">- {{qualification.endedOn|date:'MMM yyyy'}}</span>
+                            </span>
+                            <span class="label label-success gr-right-5" ng-show="qualification.complete">Completed</span>
+                            <span class="label label-warning gr-right-5" ng-show="!qualification.complete">Incomplete</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>Work Experience
+                        <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal()">
+                            <span class="glyphicon glyphicon-plus-sign"></span> add
+                        </a>
+                    </h2>
+                    <p class="gr-info-profile" ng-show="!user.tenures || user.tenures.length===0" ng-hide="viewedByOrg">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        You can add your work experience here. This includes your present and past jobs. If you don't have any work experience yet, feel free to keep this blank.
+                    </p>
+                    <div class="gr-wexp" ng-repeat="tenure in user.tenures | orderBy:'-startedOn'">
+                        <div class="alert alert-danger" ng-show="tenure.errors">
+                            <ul>
+                                <li ng-repeat="error in tenure.errors">{{error}}</li>
+                            </ul>
+                        </div>
+                        <h3>{{tenure.position}}
+                            <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openTenureModal(tenure)">
+                                <span class="glyphicon glyphicon-edit"></span> edit
+                            </a>
+                            <a class="btn btn-danger gr-btn-io" ng-show="edit" ng-click="openDeleteModal(tenure, user.tenures)">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </a>
+                        </h3>
+                        <h4>
+                            <span>{{tenure.organization}}</span>
+                        </h4>
+                        <h4 class="label-wrapper">
+                            <span class="label label-primary gr-right-5">{{tenure.startedOn | date:'MMM yyyy'}}
+                                <span ng-show="!!tenure.endedOn">- {{tenure.endedOn | date:'MMM yyyy'}}</span>
+                            </span>
+                            <span class="label label-info gr-right-5" ng-show="!tenure.endedOn">Currently employed</span>
+                        </h4>
+                        <div ng-bind-html="tenure.responsibilities" style="word-break: break-word;"></div>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>Skills
+                        <a class="btn btn-default gr-btn-io" ng-show="edit" ng-click="openSkillModal()">
+                            <span class="glyphicon glyphicon-edit"></span> edit
+                        </a>
+                    </h2>
+                    <p class="gr-info-profile" ng-show="!user.skills || user.skills.length===0" ng-hide="viewedByOrg">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        You can add your skills here. They may include your job functions, subjects of expertise, or things you're good at...
+                    </p>
+                    <h4 class="line-spacing-regular">
+                        <div class="nowrap gr-skill-block" ng-repeat="skill in user.skills | orderBy: '-experience'">
+                            <span class="label label-primary gr-right-10">{{skill.experience}}y</span><span class="gr-right-5">{{skill.name}}</span>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="alert alert-danger" ng-show="user.qualifications.length===0 && user.tenures.length===0">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h3>Your profile is not discoverable by employers yet.</h3>
+                <hr>
+                <p>We need at least one qualification or a professional tenure to start recommending your profile to our employers.</p>
+                <br>
+                <button type="button" class="btn btn-success" ui-sref="profileBuilder">Fix this</button>
+            </div>
+
+            <!--Profile Score -->
+            <div class="panel panel-default" ng-hide="viewedByOrg">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-star gr-right-5"></span>Profile Score<span class="glyphicon glyphicon-question-sign gr-left-5 gr-clickable" popover="Bigger profile scores help you rank better when an employer searches for your profile."></span>
+                    </h3>
+                </div>
+                 <div class="panel-body">
+                    <div>
+                        <div class="gr-summary-label label-success"><span>{{stats.score}}</span><span class="gr-small" ui-sref="editProfile">get more <span class="glyphicon glyphicon-plus-sign" ng-hide="viewedByOrg"></span></span></div>
+                    </div>
+                    <div ng-repeat="c in getTimes(stats.score/2) track by $index" class="gr-vis-year circle animated flash"></div>
+                </div>
+            </div>
+
+            <!--Edit Profile-->
+            <div ng-show="edit">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-th-list gr-right-5"></span>Get more points!
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row tips" ng-repeat="tip in stats.tips | orderBy: ['done', '-pts']">
+                            <div class="col-md-2 gr-right-align">
+                                <p class="label label-success gr-strike-{{tip.done}}">+{{tip.pts}}</p>
+                            </div>
+                            <div class="col-md-9">
+                                <p class="gr-strike-{{tip.done}}">{{tip.msg}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Profile (Visualizer) -->
+            <div ng-show="!edit" gr-visualized-profile>
+            </div>
+
+        </div>
+    </div>
+</div>

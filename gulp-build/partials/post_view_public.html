@@ -1,0 +1,12 @@
+<div>
+	<div class="alert alert-info" ng-show="status==='applied'">
+		You have applied to this advertisement. You may review it's status on <a href="#/me/applications">your applications page</a>.
+	</div>
+	<div class="alert alert-info" ng-show="status==='invited'">
+		You have been invited to apply for this position. You may approve or reject this request on <a href="#/me/applications">your applications page</a>.
+	</div>
+    <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{disabled: status}">Apply to this ad</a>
+    <a type="button" class="btn  btn-primary disabled">Tell a friend</a>
+</div>
+<br/>
+<div gr-ad></div>

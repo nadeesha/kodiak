@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-8">
+        <h1>Campaigns</h1>
+        <hr>
+        <p class="gr-big-li" ng-repeat="campaign in campaigns"><a href="#/organization/campaign/{{campaign._id}}">{{campaign.jobRole}}</a>
+            <span class="label label-success">{{moment(campaign.postedOn).format('Do MMM')}}</span>
+            <span class="label label-success" ng-show="campaign.published">Published</span>
+            <span class="label label-warning" ng-show="!campaign.published">Draft</span>
+            <span class="label label-danger" ng-show="campaign.public">Public</span>
+            <span class="label label-info" ng-show="!campaign.public">Private</span>
+        </p>
+        <div class="alert alert-info" ng-hide="campaigns.length > 0">You have no running campaigns</div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Campaign Credit</h3>
+            </div>
+            <div class="panel-body">
+                <p>Your organization has
+                    <span class="label label-success">*</span> remaining campaigns.</p>
+                <a type="button" class="btn btn-success">Add more</a>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">My Organization</h3>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item gr-clickable">
+                    <a ui-sref="editOrganization">
+                        Edit Organization Profile
+                    </a>
+                </li>
+                <li class="list-group-item gr-clickable">
+                    <a ui-sref="viewOrganization({orgId: org._id})">
+                        View Organization Profile
+                    </a>
+                </li>
+                <li class="list-group-item gr-clickable">
+                    <a ng-click="openCreateUserModal()">
+                        Create New User
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Current Users</h3>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="user in users">
+                    {{user.email}}&nbsp;
+                    <a ng-click="openUserDeleteModal(user._id)" class="gr-clickable" ng-hide="user._id === currentUserId">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

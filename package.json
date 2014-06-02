@@ -23,9 +23,15 @@
     "gulp-bower-files": "~0.2.4",
     "gulp-filter": "~0.4.1",
     "gulp-concat": "~2.2.0",
-    "gulp-uglify": "~0.3.0"
+    "gulp-uglify": "~0.3.0",
+    "gulp-filesize": "0.0.6",
+    "gulp-minify-css": "~0.3.4"
   },
   "dependencies": {
-    "node-static": "~0.7.2"
+    "node-static": "~0.7.2",
+    "yargs": "~1.2.2",
+    "gulp-if": "~1.2.1",
+    "gulp-uglify": "~0.3.0",
+    "gulp": "~3.7.0"
   }
 }

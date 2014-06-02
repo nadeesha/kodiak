@@ -1,0 +1,56 @@
+<h1>{{heading}}</h1>
+<tabset>
+    <tab heading="Create">
+        <br>
+        <form role="form" class="form-horizontal" name="adForm">
+            <div class="form-group">
+                <label class="col-md-3 control-label">Job Role</label>
+                <div class="col-md-4">
+                    <input placeholder="Position for the recruitment" name="jobRole" class="form-control" ng-model="ad.jobRole">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Description</label>
+                    <div class="col-md-8" ng-model="ad.description" ta-toolbar="[['bold','italics','underline'],['h1', 'h2', 'h3', 'p', 'pre', 'quote', 'ul', 'ol'],
+    ['justifyLeft','justifyCenter','justifyRight','insertLink']]" text-angular/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Questions <a class="btn btn-success btn-xs" ng-click="addElement(ad.questions)">+</a>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-group" ng-repeat="question in ad.questions">
+                        <input class="form-control" ng-model="question.value" />
+                        <span class="input-group-btn">
+                            <a class="btn btn-danger" ng-click="removeElement(ad.questions,$index)">x</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Expires On</label>
+                <div class="col-md-3">
+                    <!-- <datepicker class="gr-top-10" ng-model="ad.expiredOn"> -->
+                    <input type="text" class="form-control" datepicker-popup="{{'dd/MM/yyyy'}}" ng-model="ad.expiredOn" is-open="opened" min="today" popover="Your ad will be available to the candidates till this date" popover-trigger="focus" max="threeWeeksLater" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-10">
+                    <input type="checkbox" ng-model="ad.public"><label class="control-label">Make Public (Publish this ad to the job board so anyone can apply)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-5">
+                    <button ng-click="submit(ad)" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </tab>
+    <tab heading="Preview">
+        <br>
+        <div class="alert alert-danger" ng-show="!ad.jobRole || !ad.expiredOn">
+            You should enter the Job Role and the Expiration Date
+        </div>
+        <div gr-ad ng-show="ad.jobRole && ad.expiredOn"></div>
+    </tab>
+</tabset>

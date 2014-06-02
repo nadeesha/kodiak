@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>What's your date of birth?</h3>
+        <p><strong>Why do you need this?</strong> This helps us to determine your level of work experience. We will not expose this to a 3rd party without your consent.</p>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form" name="formPersonal">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Date of Birth</label>
+                <div class="col-lg-2">
+                    <select class="form-control" ng-options="year for year in years" ng-model="dateOfBirth.year"/>
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control" ng-options="month for month in months" ng-model="dateOfBirth.month"/>
+                </div>
+                <div class="col-lg-2">
+                    <input class="form-control" placeholder="day" ng-model="dateOfBirth.date">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="submit()">OK</button>
+        <button class="btn btn-warning" ng-click="$dismiss('cancel')">Cancel</button>
+    </div>
+</div>
