@@ -17,7 +17,13 @@
     "grunt-uncss": "~0.2.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-compress": "~0.7.0",
-    "grunt-build-control": "~0.1.2"
+    "grunt-build-control": "~0.1.2",
+    "gulp": "~3.7.0",
+    "gulp-htmlbuild": "~0.2.0",
+    "gulp-bower-files": "~0.2.4",
+    "gulp-filter": "~0.4.1",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.3.0"
   },
   "dependencies": {
     "node-static": "~0.7.2"
