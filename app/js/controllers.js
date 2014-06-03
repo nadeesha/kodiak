@@ -48,107 +48,101 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
 });
 
 
-controllers.controller('LoginCtrl', ['$scope', '$http', '$location', 'userService',
-    'notificationService', '$rootScope', '$state', '$stateParams', 'validationService',
-    function($scope, $http, $location, userService, notificationService, $rootScope, $state,
-        $stateParams, validationService) {
+controllers.controller('LoginCtrl', function($scope, $http, $location, userService, notificationService, $rootScope, $state,
+    $stateParams, validationService) {
 
-        $scope.user = {};
+    $scope.user = {};
 
-        if ($stateParams.to) {
-            notificationService.handleInfo('You need to login first.');
+    if ($stateParams.to) {
+        notificationService.handleInfo('You need to login first.');
+    }
+
+    $scope.$watch('user.rememberMe', function(remembered) {
+        if (remembered) {
+            notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
+        }
+    });
+
+    $scope.login = function(credentials) {
+        try {
+            validationService.mustBeTrue(credentials.email, 'E-mail should be a valid e-mail address');
+            validationService.mustBeTrue(credentials.password, 'Password is required');
+        } catch (e) {
+            // login error tracking: delete this line after you figure out the weird login issue
+            track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length + ' credentials:' + JSON.stringify(credentials) + ' $scope.user:' + JSON.stringify($scope.user));
+
+            // until i figure what's causing this goddamn login issue, i'm going to just go for the
+            // nuclear solution here.
+            if ($('#login-email').val() && $('#login-password').val().length > 0) {
+                credentials.email = $('#login-email').val();
+                credentials.password = $('#login-password').val();
+                track('corrected the login issue, credentials set: ' + credentials);
+            } else {
+                return;
+            }
+
         }
 
-        $scope.$watch('user.rememberMe', function(remembered) {
-            if (remembered) {
-                notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
+        userService.login(credentials, function(err, data) {
+            if (!err) {
+                $rootScope.$broadcast('refreshNotifications');
+
+                if ($stateParams.to) {
+                    $location.url(decodeURIComponent($stateParams.to));
+                } else if (data.affiliation) {
+                    $state.go('organizationDashboard');
+                } else {
+                    $state.go('viewProfile');
+                }
+            } else if (err === 401) {
+                notificationService.notify({
+                    title: 'Invalid e-mail address/password!',
+                    text: 'Please try again',
+                    type: 'error',
+                    hide: true
+                });
+            } else if (err === 403) {
+                notificationService.notify({
+                    title: 'Account is inactive!',
+                    text: 'This account is currently inactive. If you just signed up, please ' + 'click the activation link we sent to your email.',
+                    type: 'error',
+                    hide: true
+                });
             }
         });
+    };
+});
 
-        $scope.login = function(credentials) {
-            try {
-                validationService.mustBeTrue(credentials.email, 'E-mail should be a valid e-mail address');
-                validationService.mustBeTrue(credentials.password, 'Password is required');
-            } catch (e) {
-                // login error tracking: delete this line after you figure out the weird login issue
-                track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length + ' credentials:' + JSON.stringify(credentials) + ' $scope.user:' + JSON.stringify($scope.user));
+controllers.controller('ActivateCtrl', function($scope, $http, $stateParams, userService, notificationService) {
+    $scope.user = {
+        token: $stateParams.token
+    };
 
-                // until i figure what's causing this goddamn login issue, i'm going to just go for the
-                // nuclear solution here.
-                if($('#login-email').val() && $('#login-password').val().length > 0) {
-                    credentials.email = $('#login-email').val();
-                    credentials.password = $('#login-password').val();
-                    track('corrected the login issue, credentials set: ' + credentials);
-                } else {
-                    return;
-                }
-
+    $scope.submit = function() {
+        if ($stateParams.resetRequired === 'true') {
+            if ($scope.pass1.length < 8) {
+                notificationService.handleError('Your new password must contain at least 8 characters');
+                return;
+            } else if ($scope.pass1 !== $scope.pass2) {
+                notificationService.handleError('Password and password confirmation must match');
+                return;
             }
-
-            userService.login(credentials, function(err, data) {
-                if (!err) {
-                    $rootScope.$broadcast('refreshNotifications');
-
-                    if ($stateParams.to) {
-                        $location.url(decodeURIComponent($stateParams.to));
-                    } else if (data.affiliation) {
-                        $state.go('organizationDashboard');
-                    } else {
-                        $state.go('viewProfile');
-                    }
-                } else if (err === 401) {
-                    notificationService.notify({
-                        title: 'Invalid e-mail address/password!',
-                        text: 'Please try again',
-                        type: 'error',
-                        hide: true
-                    });
-                } else if (err === 403) {
-                    notificationService.notify({
-                        title: 'Account is inactive!',
-                        text: 'This account is currently inactive. If you just signed up, please ' + 'click the activation link we sent to your email.',
-                        type: 'error',
-                        hide: true
-                    });
-                }
-            });
-        };
-    }
-]);
-
-controllers.controller('ActivateCtrl', ['$scope', '$http', '$stateParams', 'userService',
-    'notificationService', '$state',
-    function($scope, $http, $stateParams, userService, notificationService, $state) {
-        $scope.user = {
-            token: $stateParams.token
-        };
-
-        $scope.submit = function() {
-            if ($stateParams.resetRequired === 'true') {
-                if ($scope.pass1.length < 8) {
-                    notificationService.handleError('Your new password must contain at least 8 characters');
-                    return;
-                } else if ($scope.pass1 !== $scope.pass2) {
-                    notificationService.handleError('Password and password confirmation must match');
-                    return;
-                }
-            }
-
-            $scope.user.password = $scope.pass1;
-
-            userService.activate($scope.user).success(function() {
-                notificationService.handleSuccess('Your account had been activated successfully. Please log in');
-                $scope.success = true;
-            });
-        };
-
-        if ($stateParams.resetrequired === 'true') {
-            $scope.showPasswordReset = true;
-        } else {
-            $scope.submit(); // if no reset is required, we'll just submit
         }
+
+        $scope.user.password = $scope.pass1;
+
+        userService.activate($scope.user).success(function() {
+            notificationService.handleSuccess('Your account had been activated successfully. Please log in');
+            $scope.success = true;
+        });
+    };
+
+    if ($stateParams.resetrequired === 'true') {
+        $scope.showPasswordReset = true;
+    } else {
+        $scope.submit(); // if no reset is required, we'll just submit
     }
-]);
+});
 
 controllers.controller('PersonalModalInstanceCtrl', function($scope, data, validationService, MONTHS) {
     $scope.data = angular.copy(data, $scope.data);
