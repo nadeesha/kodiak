@@ -36,7 +36,7 @@
                 <div class="panel-body">
                     <div ng-repeat="q in user.qualifications | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
                         <div class="gr-timeline-section">
-                            <p class="gr-stat">{{q.name}}
+                            <p class="gr-stat">{{q.name}} - {{q.field}}
                                 <label class="label label-success pull-right">{{view.getDuration(q.startedOn, q.endedOn).years}}Y {{view.getDuration(q.startedOn, q.endedOn).months}}M</label>
                             </p>
                             <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year circle"></div>
