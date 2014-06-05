@@ -11,10 +11,9 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             var tokenExpiration = $rootScope.u.expiration;
             var stateRestored = $rootScope.u.restored;
 
-            if (stateRestored && isOrgUser && moment().isBefore(tokenExpiration)) {
+            if (stateRestored && isOrgUser) {
                 $rootScope.u.type = 'ORG';
-            } else if (stateRestored && !isOrgUser &&
-                tokenExpiration && moment().isBefore(tokenExpiration)) {
+            } else if (stateRestored && !isOrgUser && tokenExpiration) {
                 $rootScope.u.type = 'PERSONAL';
             } else {
                 $rootScope.u.type = 'NEW';
@@ -72,7 +71,7 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 });
             },
             isLoggedIn: function() {
-                if ($rootScope.u.access_token && moment($rootScope.u.expiration).isAfter(moment())) {
+                if ($rootScope.u.access_token) {
                     return true;
                 } else {
                     return false;
