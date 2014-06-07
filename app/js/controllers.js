@@ -1137,7 +1137,7 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
     function markInvitedCandidates(results) {
         adResponseService.getAllResponses($rootScope.u.affiliation, $scope.search.advertisement)
             .success(function(data) {
-                var invitedList = _.pluck(data.responses, 'user');
+                var invitedList = _.pluck(_.pluck(data.responses, 'user'), '_id');
                 var fullList = _.pluck(results, '_id');
 
                 var resultsToBeMarked = _.intersection(invitedList, fullList);
@@ -1421,9 +1421,11 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService) {
 
     $timeout(changeTaunt, 3000);
 
-    window.trackJs.configure({
-        trackAjaxFail: false
-    });
+    if (window.trackJs) {
+        window.trackJs.configure({
+            trackAjaxFail: false
+        });
+    }
 });
 
 controllers.controller('AdminCtrl', function(adminService, $scope, notificationService) {

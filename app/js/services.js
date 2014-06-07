@@ -19,9 +19,11 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
                 $rootScope.u.type = 'NEW';
             }
 
-            window.trackJs.configure({
-                userId: $rootScope.u.email
-            });
+            if (window.trackJs) {
+                window.trackJs.configure({
+                    userId: $rootScope.u.email
+                });
+            }
         };
 
         var service = {
