@@ -4,11 +4,11 @@
 
 var services = angular.module('kodiak.services', []);
 
-services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZLY_URL',
+angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZLY_URL',
     function($rootScope, $localStorage, $http, GRIZZLY_URL) {
         var setUserType = function() {
             var isOrgUser = !!$rootScope.u.affiliation;
-            var tokenExpiration = $rootScope.u.expiration;
+            var tokenExpiration = $rootScope.u.sessionExpiredAt;
             var stateRestored = $rootScope.u.restored;
 
             if (stateRestored && isOrgUser) {
@@ -26,125 +26,144 @@ services.factory('userService', ['$rootScope', '$localStorage', '$http', 'GRIZZL
             }
         };
 
-        var service = {
-            saveState: function() {
-                $localStorage.user = angular.toJson($rootScope.u);
-            },
-            restoreState: function() {
-                if (!$rootScope.u) {
-                    $rootScope.u = {};
-                }
+        var saveState = function() {
+            $localStorage.user = angular.toJson($rootScope.u);
+        };
 
-                if (!$rootScope.u.restored && $localStorage.user) {
-                    $rootScope.u = angular.fromJson($localStorage.user);
-                    $rootScope.u.restored = true;
-                }
+        var restoreState = function() {
+            if (!$rootScope.u) {
+                $rootScope.u = {};
+            }
 
-                setUserType();
-            },
-            create: function(user) {
-                return $http.put(GRIZZLY_URL + '/user', JSON.stringify(user));
-            },
-            createOrgUser: function(user) {
-                return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
-            },
-            login: function(user, callback) {
-                $http.put(GRIZZLY_URL + '/user/token', JSON.stringify(user)).success(function(data) {
-                    $rootScope.u = {
-                        _id: data._id,
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        email: user.email,
-                        access_token: data.access_token,
-                        expiration: data.expiration,
-                        affiliation: data.affiliation,
-                        restored: true,
-                        type: null // ORG, NEW or PERSONAL
-                    };
+            if (!$rootScope.u.restored && $localStorage.user) {
+                $rootScope.u = angular.fromJson($localStorage.user);
+                $rootScope.u.restored = true;
+            }
 
-                    service.saveState();
-                    setUserType();
+            setUserType();
+        };
 
-                    $rootScope.$broadcast('loggedIn', !!data.affiliation);
+        this.create = function(user) {
+            return $http.put(GRIZZLY_URL + '/user', JSON.stringify(user));
+        };
 
-                    callback(null, data);
-                }).error(function(data, status) {
-                    callback(status, data);
-                });
-            },
-            isLoggedIn: function() {
-                if ($rootScope.u.access_token) {
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            activate: function(user) {
-                return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
-            },
-            getProfile: function(id) {
-                if (!id) {
-                    id = 'me';
-                }
+        this.createOrgUser = function(user) {
+            return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
+        };
 
-                return $http.get(GRIZZLY_URL + '/user/' + id + '/profile');
-            },
-            getProfileStats: function() {
-                return $http.get(GRIZZLY_URL + '/user/me/profile/stats');
-            },
-            saveProfile: function(profile) {
-                var user = {
-                    profile: profile
-                };
+        this.login = function(user, callback) {
+            $http.put(GRIZZLY_URL + '/user/token', JSON.stringify(user)).success(function(data) {
 
-                return $http.post(GRIZZLY_URL + '/user/me/profile',
-                    JSON.stringify(user));
-            },
-            getResponses: function() {
-                return $http.get(GRIZZLY_URL + '/user/me/applications');
-            },
-            logout: function() {
                 $rootScope.u = {
-                    type: 'NEW'
+                    _id: data._id,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: user.email,
+                    access_token: data.access_token,
+                    affiliation: data.affiliation,
+                    sessionExpiredAt: Date.now() + data.secondsRemaining * 1000,
+                    restored: true,
+                    type: null // ORG, NEW or PERSONAL
                 };
 
-                $rootScope.$broadcast('loggedOut');
+                saveState();
+                setUserType();
 
-                service.saveState();
-            },
-            requestPasswordReset: function(email) {
-                return $http.put(GRIZZLY_URL + '/user/account/password/token',
-                    JSON.stringify({
-                        email: email
-                    })
-                );
-            },
-            changePassword: function(password, resetcode) {
-                if (!service.isLoggedIn()) {
-                    return $http.post(GRIZZLY_URL + '/user/account/password',
-                        JSON.stringify({
-                            token: resetcode,
-                            password: password
-                        })
-                    );
-                } else {
-                    return $http.post(GRIZZLY_URL +
-                        '/user/' + $rootScope.u._id + '/account/password',
-                        JSON.stringify({
-                            password: password
-                        })
-                    );
-                }
-            },
-            getQualifications: function(query) {
-                return $http.get(GRIZZLY_URL + '/user/meta/qualifications/' + query);
-            },
-            getQualificationFields: function(query) {
-                return $http.get(GRIZZLY_URL + '/user/meta/fields/' + query);
+                $rootScope.$broadcast('loggedIn', !!data.affiliation);
+
+                callback(null, data);
+            }).error(function(data, status) {
+                callback(status, data);
+            });
+        };
+
+        this.isLoggedIn = function() {
+            if ($rootScope.u.access_token && Date.now() < $rootScope.u.sessionExpiredAt) {
+                return true;
+            } else {
+                return false;
             }
         };
 
-        return service;
+        this.activate = function(user) {
+            return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
+        };
+
+        this.getProfile = function(id) {
+            if (!id) {
+                id = 'me';
+            }
+
+            return $http.get(GRIZZLY_URL + '/user/' + id + '/profile');
+        };
+
+        this.getLimitedProfile = function() {
+            return $http.get(GRIZZLY_URL + '/user/me/profile?limited=true');
+        };
+
+        this.getProfileStats = function() {
+            return $http.get(GRIZZLY_URL + '/user/me/profile/stats');
+        };
+
+        this.saveProfile = function(profile) {
+            var user = {
+                profile: profile
+            };
+
+            return $http.post(GRIZZLY_URL + '/user/me/profile',
+                JSON.stringify(user));
+        };
+
+        this.getResponses = function() {
+            return $http.get(GRIZZLY_URL + '/user/me/applications');
+        };
+
+        this.logout = function() {
+            $rootScope.u = {
+                type: 'NEW'
+            };
+
+            $rootScope.$broadcast('loggedOut');
+
+            saveState();
+        };
+
+        this.requestPasswordReset = function(email) {
+            return $http.put(GRIZZLY_URL + '/user/account/password/token',
+                JSON.stringify({
+                    email: email
+                })
+            );
+        };
+
+        this.changePassword = function(password, resetcode) {
+            if (!this.isLoggedIn()) {
+                return $http.post(GRIZZLY_URL + '/user/account/password',
+                    JSON.stringify({
+                        token: resetcode,
+                        password: password
+                    })
+                );
+            } else {
+                return $http.post(GRIZZLY_URL +
+                    '/user/' + $rootScope.u._id + '/account/password',
+                    JSON.stringify({
+                        password: password
+                    })
+                );
+            }
+        };
+
+        this.getQualifications = function(query) {
+            return $http.get(GRIZZLY_URL + '/user/meta/qualifications/' + query);
+        };
+
+        this.getQualificationFields = function(query) {
+            return $http.get(GRIZZLY_URL + '/user/meta/fields/' + query);
+        };
+
+        // restore state upon construction
+        restoreState();
     }
 ]);
 

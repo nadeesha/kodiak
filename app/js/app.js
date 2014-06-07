@@ -393,8 +393,6 @@ app.config(function($stateProvider,
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
-    $rootScope.$on('restorestate', userService.restoreState);
-
     $rootScope.$on('refreshNotifications', function() {
         if (!userService.isLoggedIn()) {
             return;

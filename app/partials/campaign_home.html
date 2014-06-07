@@ -1,4 +1,6 @@
-<h2>{{ad.name}}</h2>
+<h2>{{ad.jobRole}} <p class="label label-info">{{ad.createdOnText}}</p></h2>
+<div></div>
+<a type="button" ui-sref="viewAdvertisement({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-asterisk"></span> View Advertisement</a>
 <a type="button" ui-sref="editAdvertisement({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Edit Advertisement</a>
 <a type="button" ui-sref="search({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search for Candidates</a>
 <hr/>

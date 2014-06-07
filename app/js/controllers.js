@@ -328,7 +328,7 @@ controllers.controller('CVUploadCtrl', function($scope, userService, notificatio
 });
 
 controllers.controller('PrivateMeCtrl', function($scope, userService, $rootScope) {
-    userService.getProfile($rootScope.u._id)
+    userService.getLimitedProfile()
         .success(function(data) {
             $scope.user = data;
             // simulate what the employer sees here.
@@ -735,7 +735,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
         adService.getAd($rootScope.u.affiliation, $stateParams.adId)
             .success(function(data) {
                 $scope.ad = data.advertisement;
-                $scope.ad.name = $scope.ad.jobRole + '-' + moment($scope.ad.createdOn).format('MMM DD');
+                $scope.ad.createdOnText = moment($scope.ad.createdOn).format('MMMM DD');
             });
 
         var loadResponses = function() {
@@ -905,6 +905,7 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
             $scope.status = 'invited';
             getAdvertisement(adService.getAd);
         } else if (userService.isLoggedIn()) {
+            debugger;
             userService.getResponses().success(function(data) {
                 if (data.responses.length > 0) {
                     var relevantResponse = _.find(data.responses, function(r) {
@@ -1376,7 +1377,7 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, $timeout, userService) {
+controllers.controller('LandingCtrl', function($scope, $timeout, userService, $rootScope) {
     var index = 0;
 
     var incrementIndex = function() {
@@ -1409,6 +1410,7 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService) {
     }];
 
     $scope.loggedIn = userService.isLoggedIn();
+    $scope.isOrgUser = !!$rootScope.u.affiliation;
 
     var changeTaunt = function() {
         fadeOut(function() {

@@ -13,8 +13,11 @@
                 <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="signup">Sign up</button>
                 <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.3s" ui-sref="login">Log in</button>
             </p>
-            <p class="gr-center-align" ng-show="loggedIn">
+            <p class="gr-center-align" ng-show="loggedIn && !isOrgUser">
                 <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="viewProfile">My Profile</button>
+            </p>
+            <p class="gr-center-align" ng-show="loggedIn && isOrgUser">
+                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="organizationDashboard">Home</button>
             </p>
         </div>
 
