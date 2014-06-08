@@ -402,6 +402,8 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         });
 
         modal.result.then(function(manipulated) {
+            manipulated._dirty = true;
+
             if (itemToEdit) {
                 collection[collection.indexOf(itemToEdit)] = manipulated;
             } else {
@@ -505,6 +507,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         });
 
         skillModal.result.then(function(manipulated) {
+            manipulated._dirty = true;
             $scope.user.skills = manipulated;
             $scope.saveProfile();
         });

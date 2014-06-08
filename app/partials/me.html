@@ -131,6 +131,11 @@
                     <h4 class="line-spacing-regular">
                         <div class="nowrap gr-skill-block" ng-repeat="skill in user.skills | orderBy: '-experience'">
                             <span class="label label-primary gr-right-10">{{skill.experience}}y</span><span class="gr-right-5">{{skill.name}}</span>
+                            <div class="alert alert-danger" ng-show="skill.errors">
+                                <ul>
+                                    <li ng-repeat="error in skill.errors">{{error}}</li>
+                                </ul>
+                            </div>
                         </div>
                     </h4>
                 </div>

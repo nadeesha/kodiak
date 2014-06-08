@@ -443,7 +443,6 @@ services.factory('utilService', [
                 try {
                     return new Array(times);
                 } catch (e) {
-                    track('Got an array length of: ' + times + ' and an n: ' + n);
                     return [];
                 }
             }
