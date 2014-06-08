@@ -327,7 +327,7 @@ controllers.controller('CVUploadCtrl', function($scope, userService, notificatio
     };
 });
 
-controllers.controller('PrivateMeCtrl', function($scope, userService, $rootScope) {
+controllers.controller('PrivateMeCtrl', function($scope, userService) {
     userService.getLimitedProfile()
         .success(function(data) {
             $scope.user = data;
@@ -905,7 +905,6 @@ controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService',
             $scope.status = 'invited';
             getAdvertisement(adService.getAd);
         } else if (userService.isLoggedIn()) {
-            debugger;
             userService.getResponses().success(function(data) {
                 if (data.responses.length > 0) {
                     var relevantResponse = _.find(data.responses, function(r) {
@@ -1422,12 +1421,6 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     };
 
     $timeout(changeTaunt, 3000);
-
-    if (window.trackJs) {
-        window.trackJs.configure({
-            trackAjaxFail: false
-        });
-    }
 });
 
 controllers.controller('AdminCtrl', function(adminService, $scope, notificationService) {

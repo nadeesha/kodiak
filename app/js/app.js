@@ -393,6 +393,12 @@ app.config(function($stateProvider,
 });
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
+    if (window.trackJs) {
+        window.trackJs.configure({
+            trackAjaxFail: false
+        });
+    }
+
     $rootScope.$on('refreshNotifications', function() {
         if (!userService.isLoggedIn()) {
             return;
@@ -415,6 +421,5 @@ app.run(function($rootScope, userService, subwayService, notificationService, $s
         }
     });
 
-    $rootScope.$broadcast('restorestate');
     $rootScope.$broadcast('refreshNotifications');
 });

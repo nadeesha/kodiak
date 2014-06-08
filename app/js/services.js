@@ -21,7 +21,8 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
 
             if (window.trackJs) {
                 window.trackJs.configure({
-                    userId: $rootScope.u.email
+                    userId: $rootScope.u.email,
+                    trackAjaxFail: false
                 });
             }
         };
@@ -44,15 +45,15 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
         };
 
         this.create = function(user) {
-            return $http.put(GRIZZLY_URL + '/user', JSON.stringify(user));
+            return $http.put(GRIZZLY_URL + '/user', angular.toJson(user));
         };
 
         this.createOrgUser = function(user) {
-            return $http.put(GRIZZLY_URL + '/organization/user', JSON.stringify(user));
+            return $http.put(GRIZZLY_URL + '/organization/user', angular.toJson(user));
         };
 
         this.login = function(user, callback) {
-            $http.put(GRIZZLY_URL + '/user/token', JSON.stringify(user)).success(function(data) {
+            $http.put(GRIZZLY_URL + '/user/token', angular.toJson(user)).success(function(data) {
 
                 $rootScope.u = {
                     _id: data._id,
@@ -86,7 +87,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
         };
 
         this.activate = function(user) {
-            return $http.post(GRIZZLY_URL + '/user/activate', JSON.stringify(user));
+            return $http.post(GRIZZLY_URL + '/user/activate', angular.toJson(user));
         };
 
         this.getProfile = function(id) {
@@ -111,7 +112,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
             };
 
             return $http.post(GRIZZLY_URL + '/user/me/profile',
-                JSON.stringify(user));
+                angular.toJson(user));
         };
 
         this.getResponses = function() {
@@ -130,7 +131,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
 
         this.requestPasswordReset = function(email) {
             return $http.put(GRIZZLY_URL + '/user/account/password/token',
-                JSON.stringify({
+                angular.toJson({
                     email: email
                 })
             );
@@ -139,7 +140,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
         this.changePassword = function(password, resetcode) {
             if (!this.isLoggedIn()) {
                 return $http.post(GRIZZLY_URL + '/user/account/password',
-                    JSON.stringify({
+                    angular.toJson({
                         token: resetcode,
                         password: password
                     })
@@ -147,7 +148,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
             } else {
                 return $http.post(GRIZZLY_URL +
                     '/user/' + $rootScope.u._id + '/account/password',
-                    JSON.stringify({
+                    angular.toJson({
                         password: password
                     })
                 );
@@ -171,10 +172,10 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
     function($http, GRIZZLY_URL) {
         var service = {
             createOrg: function(org) {
-                return $http.put(GRIZZLY_URL + '/organization', JSON.stringify(org));
+                return $http.put(GRIZZLY_URL + '/organization', angular.toJson(org));
             },
             editOrg: function(id, org) {
-                return $http.post(GRIZZLY_URL + '/organization/' + id, JSON.stringify(org));
+                return $http.post(GRIZZLY_URL + '/organization/' + id, angular.toJson(org));
             },
             getOrg: function(id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/public');
@@ -219,11 +220,11 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
             createAd: function(orgId, ad) {
-                return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', JSON.stringify(ad));
+                return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', angular.toJson(ad));
             },
             editAd: function(orgId, id, ad) {
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id,
-                    JSON.stringify(ad));
+                    angular.toJson(ad));
             },
             getAd: function(orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id);
@@ -248,11 +249,11 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
         var service = {
             createSearch: function(orgId, search) {
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/',
-                    JSON.stringify(search));
+                    angular.toJson(search));
             },
             editSearch: function(orgId, id, search) {
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
-                    JSON.stringify(search));
+                    angular.toJson(search));
             },
             getSearch: function(orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id);
@@ -279,7 +280,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
-                    JSON.stringify(o));
+                    angular.toJson(o));
             },
             editResponse: function(orgId, adId, responseId, status, tags) {
                 var o = {
@@ -288,7 +289,7 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 };
 
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
-                    responseId, JSON.stringify(o));
+                    responseId, angular.toJson(o));
             },
             getResponse: function(orgId, adId, responseId) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
@@ -314,14 +315,14 @@ services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
                     isRead: true
                 };
 
-                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o));
+                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, angular.toJson(o));
             },
             markAsUnread: function(id) {
                 var o = {
                     isRead: false
                 };
 
-                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, JSON.stringify(o));
+                return $http.post(GRIZZLY_URL + '/user/notifications/' + id, angular.toJson(o));
             }
         };
 
