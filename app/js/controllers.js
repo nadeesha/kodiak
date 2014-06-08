@@ -478,25 +478,6 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         });
     };
 
-    $scope.openUploadCVModal = function() {
-        var cvModal = $modal.open({
-            templateUrl: 'partials/modal_me_cv.html',
-            controller: 'CVUploadCtrl'
-        });
-
-        cvModal.result.then(function(profile) {
-            $scope.cvUploaded = true;
-            $scope.user.location = profile.location;
-            $scope.user.contactNumber = profile.contactNumber;
-            $scope.user.qualifications = profile.qualifications;
-            $scope.user.tenures = profile.tenures;
-            $scope.user.skills = profile.skills;
-            $scope.edit = true;
-
-            $scope.saveProfile();
-        });
-    };
-
     // qualification modal
     $scope.openQualificationModal = function(qualification) {
         bindAddEditModal(qualification, 'partials/modal_me_qualification.html',
