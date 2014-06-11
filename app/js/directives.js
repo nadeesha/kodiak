@@ -48,25 +48,27 @@ directives.directive('grVisualizedProfile', [
                         return moment().year();
                     },
                     getTimesForDate: function(startedOn, endedOn) {
-                        if (!startedOn)
+                        if (!startedOn) {
                             return new Array(1);
+                        }
 
                         if (!endedOn) {
                             endedOn = Date.now();
                         }
 
-                        var years = moment(endedOn).diff(moment(startedOn), 'years') * 2;
+                        var years = Math.floor(moment(endedOn).diff(moment(startedOn), 'years') * 2);
 
-                        if (years === 0) {
+                        if (years === 0 || isNaN(years)) {
                             years = 1; // just give one circle if it's less than a year
                         }
 
-                        return new Array(Math.floor(years));
+                        return new Array(years);
                     },
                     getTimes: utilService.getTimes,
                     getTotalExperience: function() {
-                        if (!$scope.user || !$scope.user.tenures)
+                        if (!$scope.user || !$scope.user.tenures) {
                             return 0;
+                        }
 
                         var earliest = _.min($scope.user.tenures, function(t) {
                             return new Date(t.startedOn).getTime();
@@ -214,7 +216,9 @@ directives.directive('fileUploader', function() {
                 $scope.files = [];
                 for (var i in e.target.files) {
                     //Only push if the type is object for some stupid-ass reason browsers like to include functions and other junk
-                    if (typeof e.target.files[i] == 'object') $scope.files.push(e.target.files[i]);
+                    if (typeof e.target.files[i] === 'object') {
+                        $scope.files.push(e.target.files[i]);
+                    }
                 }
             });
         }
@@ -254,5 +258,5 @@ directives.directive('grProfileError', function() {
                 angular.element($element).parent().css('background-color', '#f0b9b6');
             }
         }
-    }
+    };
 });
