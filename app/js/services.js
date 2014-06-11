@@ -432,18 +432,12 @@ services.factory('utilService', [
 
                 var times;
 
-                try {
-                    times = Number(n);
-                } catch (e) {
-                    track('Invalid number in getTimes: ' + n);
-                }
+                times = Math.floor(Number(n));
 
-                times = Math.floor(times);
-
-                try {
-                    return new Array(times);
-                } catch (e) {
+                if (isNaN(times)) {
                     return [];
+                } else {
+                    return new Array(times);
                 }
             }
         };
