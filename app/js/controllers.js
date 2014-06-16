@@ -863,59 +863,82 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
     }
 ]);
 
-controllers.controller('ViewPublicAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams',
-    'userService', 'notificationService', 'adResponseService', '$rootScope',
-    function($scope, orgService, adService, $stateParams, userService, notificationService,
-        adResponseService, $rootScope) {
-        $scope.org = {};
-        $scope.ad = {};
+controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adService, $stateParams, userService, notificationService,
+    adResponseService, $rootScope, $window, $modal) {
+    $scope.org = {};
+    $scope.ad = {};
 
-        $scope.apply = function() {
-            adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null)
-                .success(function() {
-                    notificationService.handleSuccess('Saved your application successfully');
-                    $scope.status = 'applied';
+    $scope.apply = function() {
+        adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null)
+            .success(function() {
+                notificationService.handleSuccess('Saved your application successfully');
+                $scope.status = 'applied';
+            });
+    };
+
+    $scope.getShortenedUrl = function() {
+        $scope.refurl = $window.location.href + '?ref=' + $rootScope.u._id;
+
+        $modal.open({
+            templateUrl: 'partials/modal_referral_url.html',
+            resolve: {
+                refurl: function() {
+                    return $scope.refurl;
+                },
+                bounty: function() {
+                    return $scope.ad.bounty;
+                }
+            },
+            controller: function($scope, refurl, bounty, $http, utilService) {
+                $scope.refurl = 'Shortening link...';
+                $scope.bounty = bounty;
+
+                utilService.shortenUrl(refurl).success(function (data) {
+                    $scope.refurl = data.shortened;
+                }).error(function () {
+                    $scope.refurl = refurl;
                 });
-        };
+            }
+        });
+    };
 
-        var getAdvertisement = function(method) {
-            method($stateParams.orgId, $stateParams.adId)
-                .success(function(data) {
-                    $scope.ad = data.advertisement;
+    var getAdvertisement = function(method) {
+        method($stateParams.orgId, $stateParams.adId)
+            .success(function(data) {
+                $scope.ad = data.advertisement;
+            });
+    };
+
+    if ($stateParams.from === 'email') {
+        $scope.status = 'invited';
+        getAdvertisement(adService.getAd);
+    } else if (userService.isLoggedIn()) {
+        userService.getResponses().success(function(data) {
+            if (data.responses.length > 0) {
+                var relevantResponse = _.find(data.responses, function(r) {
+                    return r.advertisement._id === $stateParams.adId;
                 });
-        };
 
-        if ($stateParams.from === 'email') {
-            $scope.status = 'invited';
-            getAdvertisement(adService.getAd);
-        } else if (userService.isLoggedIn()) {
-            userService.getResponses().success(function(data) {
-                if (data.responses.length > 0) {
-                    var relevantResponse = _.find(data.responses, function(r) {
-                        return r.advertisement._id === $stateParams.adId;
-                    });
-
-                    if (relevantResponse) {
-                        $scope.status = relevantResponse.status;
-                        getAdvertisement(adService.getAd);
-                    } else {
-                        getAdvertisement(adService.getAdPublic);
-                    }
-
+                if (relevantResponse) {
+                    $scope.status = relevantResponse.status;
+                    getAdvertisement(adService.getAd);
                 } else {
                     getAdvertisement(adService.getAdPublic);
                 }
-            });
-        } else {
-            getAdvertisement(adService.getAdPublic);
-        }
 
-        orgService.getOrg($stateParams.orgId)
-            .success(function(data) {
-                $scope.org = data.organization;
-            });
+            } else {
+                getAdvertisement(adService.getAdPublic);
+            }
+        });
+    } else {
+        getAdvertisement(adService.getAdPublic);
     }
-]);
+
+    orgService.getOrg($stateParams.orgId)
+        .success(function(data) {
+            $scope.org = data.organization;
+        });
+});
 
 controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
     validationService, $modal, $location, adResponseService, $state) {

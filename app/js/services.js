@@ -421,25 +421,27 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
     };
 });
 
-services.factory('utilService', [
-
-    function() {
-        return {
-            getTimes: function(n) {
-                if (!n) {
-                    return [];
-                }
-
-                var times;
-
-                times = Math.floor(Number(n));
-
-                if (isNaN(times)) {
-                    return [];
-                } else {
-                    return new Array(times);
-                }
+services.factory('utilService', function(GRIZZLY_URL, $http) {
+    return {
+        getTimes: function(n) {
+            if (!n) {
+                return [];
             }
-        };
-    }
-]);
+
+            var times;
+
+            times = Math.floor(Number(n));
+
+            if (isNaN(times)) {
+                return [];
+            } else {
+                return new Array(times);
+            }
+        },
+        shortenUrl: function(url) {
+            return $http.put(GRIZZLY_URL + '/common/shortenurl', angular.toJson({
+                url: url
+            }));
+        }
+    };
+});
