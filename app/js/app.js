@@ -216,7 +216,7 @@ app.config(function($stateProvider,
 
     $stateProvider
         .state('viewAdvertisementPublic', {
-            url: '/organization/{orgId}/post/{adId}/public?from',
+            url: '/organization/{orgId}/post/{adId}/public?from&ref',
             templateUrl: 'partials/post_view_public.html',
             controller: 'ViewPublicAdCtrl',
             data: {

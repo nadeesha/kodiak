@@ -699,6 +699,11 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                 displayName: 'ID',
                 visible: false,
                 width: '*'
+            }, {
+                field: 'referredBy',
+                displayName: 'Referred By',
+                visible: false,
+                width: '*'
             }]
         };
 
@@ -732,7 +737,8 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                             name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : r.user.limitedName,
                             status: r.status,
                             updated: moment(r.lastUpdatedOn).fromNow(),
-                            tags: r.tags && r.tags.join(', ')
+                            tags: r.tags && r.tags.join(', '),
+                            referredBy: r.referredBy ? r.referredBy.email : false
                         };
                     });
                 });
@@ -864,12 +870,12 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
 ]);
 
 controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adService, $stateParams, userService, notificationService,
-    adResponseService, $rootScope, $window, $modal) {
+    adResponseService, $rootScope, $window, $modal, $state) {
     $scope.org = {};
     $scope.ad = {};
 
     $scope.apply = function() {
-        adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null)
+        adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, $state.params.ref)
             .success(function() {
                 notificationService.handleSuccess('Saved your application successfully');
                 $scope.status = 'applied';

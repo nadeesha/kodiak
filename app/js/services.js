@@ -273,14 +273,13 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
 services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
-            createResponse: function(userId, orgId, adId, tags) {
-                var o = {
-                    user: userId,
-                    tags: tags
-                };
-
+            createResponse: function(userId, orgId, adId, tags, referredBy) {
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
-                    angular.toJson(o));
+                    angular.toJson({
+                        user: userId,
+                        tags: tags,
+                        referredBy: referredBy === userId ? null : referredBy
+                    }));
             },
             editResponse: function(orgId, adId, responseId, status, tags) {
                 var o = {
