@@ -10,12 +10,12 @@
                 <td>
                     <span class="label label-success" ng-show="campaign.published">Published</span>
                     <span class="label label-warning" ng-show="!campaign.published">Draft</span>
-                    <span class="label label-danger" ng-show="campaign.public">Public</span>
+                    <span class="label label-warning" ng-show="campaign.public">Public</span>
                     <span class="label label-info" ng-show="!campaign.public">Private</span>
                 </td>
                 <td>
-                    <span class="label label-default" ng-show="campaign.expired">Expired {{campaign.expiry}}</span>
-                    <span class="label label-default" ng-show="!campaign.expired">Expiring {{campaign.expiry}}</span>
+                    <span ng-show="campaign.expired">Expired {{campaign.expiry}}</span>
+                    <span ng-show="!campaign.expired">Expiring {{campaign.expiry}}</span>
                 </td>
             </tr>
         </table>
