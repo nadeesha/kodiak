@@ -335,7 +335,7 @@ controllers.controller('PrivateMeCtrl', function($scope, userService) {
         });
 });
 
-controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state, $localStorage) {
+controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state, $localStorage, $window) {
 
     if ($state.is('editProfile')) {
         $scope.edit = true;
@@ -379,6 +379,32 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
             // redirect the user if profile is relatively empty and not from builder
             if (data.tenures.length === 0 && data.qualifications.length === 0 && data.skills.length === 0 && $scope.edit === false) {
                 $state.go('profileBuilder');
+            } else {
+                // check if the user had viewed an ad before, and redirect the user accordingly
+                if ($localStorage.adViewed) {
+                    var adViewed = angular.fromJson($localStorage.adViewed);
+
+                    $modal.open({
+                        templateUrl: 'partials/modal_yes_no.html',
+                        resolve: {
+                            data: function() {
+                                return adViewed;
+                            }
+                        },
+                        controller: function($scope, data) {
+                            $scope.question = 'It seems that you were applying to an ad for ' + data.name +
+                                '. Do you want to go to that ad and complete your application?';
+                            $scope.yesOption = 'Yes, let me apply';
+                            $scope.noOption = 'No';
+                        }
+                    }).result.then(function(result) {
+                        if (result === 'yes') {
+                            $window.location.href = adViewed.url;
+                        }
+
+                        delete $localStorage.adViewed;
+                    });
+                }
             }
         });
 
@@ -620,15 +646,15 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 _id: $rootScope.u.affiliation
             };
 
-             _.each(data.advertisements, function (ad) {
-                if(moment(ad.expiredOn).isBefore(Date.now())) {
+            _.each(data.advertisements, function(ad) {
+                if (moment(ad.expiredOn).isBefore(Date.now())) {
                     ad.expired = true;
-                } 
+                }
 
                 ad.expiry = moment(ad.expiredOn).fromNow();
             });
 
-             $scope.campaigns = data.advertisements;
+            $scope.campaigns = data.advertisements;
         });
 
         getUsers();
@@ -883,6 +909,13 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
     $scope.ad = {};
 
     $scope.apply = function() {
+        if (!userService.isLoggedIn()) {
+            $localStorage.adViewed = angular.toJson({
+                url: $window.location.href,
+                name: $scope.ad.jobRole
+            });
+        }
+
         adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, $state.params.ref)
             .success(function() {
                 notificationService.handleSuccess('Saved your application successfully');
@@ -946,7 +979,6 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
         });
     } else {
         getAdvertisement(adService.getAdPublic);
-        // $localStorage.setItem('adViewed', $window.location.href);
     }
 
     orgService.getOrg($stateParams.orgId)
