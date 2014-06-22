@@ -899,9 +899,9 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
                 $scope.refurl = 'Shortening link...';
                 $scope.bounty = bounty;
 
-                utilService.shortenUrl(refurl).success(function (data) {
+                utilService.shortenUrl(refurl).success(function(data) {
                     $scope.refurl = data.shortened;
-                }).error(function () {
+                }).error(function() {
                     $scope.refurl = refurl;
                 });
             }
@@ -1241,7 +1241,9 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
                 };
 
                 _.each(data.responses, function(response) {
-                    if (response.status === 'invited') {
+                    if (moment(response.advertisement.expiredOn).isBefore(Date.now())) {
+                        $scope.responses.inactive.push(response);
+                    } else if (response.status === 'invited') {
                         $scope.responses.invited.push(response);
                     } else if (response.status === 'accepted' || response.status === 'applied') {
                         $scope.responses.active.push(response);

@@ -44,8 +44,7 @@
         <span class="label label-info gr-right-5">Applied
             <span am-time-ago="response.appliedOn"></span>
         </span>
-        <span class="label label-success gr-right-5" ng-show="response.status==='accepted'">Accepted Invitation</span>
-        <span class="label label-warning gr-right-5" ng-show="response.status==='applied'">Directly Applied</span>
+        <span class="label label-default gr-right-5" ng-show="response.status==='accepted' || response.status==='applied'">Campaign Concluded</span>
         <span class="label label-default gr-right-5" ng-show="response.status==='withdrawn' || response.status==='rejected'">Inactive</span>
     </p>
 </div>
