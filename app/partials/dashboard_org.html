@@ -2,8 +2,8 @@
     <div class="col-md-8">
         <h1>Campaigns</h1>
         <hr>
-        <table class="table table-striped">
-            <tr ng-repeat="campaign in campaigns">
+        <table class="table table-striped table-hover">
+            <tr ng-repeat="campaign in campaigns" ng-class="{'gr-faded':campaign.expired}">
                 <td>
                     <a ng-href="#/organization/campaign/{{campaign._id}}">{{campaign.jobRole}}</a>
                 </td>
@@ -12,6 +12,10 @@
                     <span class="label label-warning" ng-show="!campaign.published">Draft</span>
                     <span class="label label-danger" ng-show="campaign.public">Public</span>
                     <span class="label label-info" ng-show="!campaign.public">Private</span>
+                </td>
+                <td>
+                    <span class="label label-default" ng-show="campaign.expired">Expired {{campaign.expiry}}</span>
+                    <span class="label label-default" ng-show="!campaign.expired">Expiring {{campaign.expiry}}</span>
                 </td>
             </tr>
         </table>

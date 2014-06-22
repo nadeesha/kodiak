@@ -621,7 +621,15 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 _id: $rootScope.u.affiliation
             };
 
-            $scope.campaigns = data.advertisements;
+             _.each(data.advertisements, function (ad) {
+                if(moment(ad.expiredOn).isBefore(Date.now())) {
+                    ad.expired = true;
+                } 
+
+                ad.expiry = moment(ad.expiredOn).fromNow();
+            });
+
+             $scope.campaigns = data.advertisements;
         });
 
         getUsers();
