@@ -733,6 +733,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
             .success(function(data) {
                 $scope.ad = data.advertisement;
                 $scope.ad.createdOnText = moment($scope.ad.createdOn).format('MMMM DD');
+                $scope.ad.expired = moment(data.advertisement.expiredOn).isBefore(Date.now());
             });
 
         var loadResponses = function() {
@@ -878,7 +879,7 @@ controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$sta
 ]);
 
 controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adService, $stateParams, userService, notificationService,
-    adResponseService, $rootScope, $window, $modal, $state) {
+    adResponseService, $rootScope, $window, $modal, $state, $localStorage) {
     $scope.org = {};
     $scope.ad = {};
 
@@ -946,6 +947,7 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
         });
     } else {
         getAdvertisement(adService.getAdPublic);
+        $localStorage.setItem('adViewed', $window.location.href);
     }
 
     orgService.getOrg($stateParams.orgId)
