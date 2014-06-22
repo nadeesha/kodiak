@@ -63,23 +63,16 @@ controllers.controller('LoginCtrl', function($scope, $http, $location, userServi
     });
 
     $scope.login = function(credentials) {
+        if (!credentials || !credentials.email || !credentials.password) {
+            credentials.email = $('#login-email').val();
+            credentials.password = $('#login-password').val();
+        }
+
         try {
             validationService.mustBeTrue(credentials.email, 'E-mail should be a valid e-mail address');
             validationService.mustBeTrue(credentials.password, 'Password is required');
         } catch (e) {
-            // login error tracking: delete this line after you figure out the weird login issue
-            track('login error for email:{' + $('#login-email').val() + '} length:' + $('#login-password').val().length + ' credentials:' + JSON.stringify(credentials) + ' $scope.user:' + JSON.stringify($scope.user));
-
-            // until i figure what's causing this goddamn login issue, i'm going to just go for the
-            // nuclear solution here.
-            if ($('#login-email').val() && $('#login-password').val().length > 0) {
-                credentials.email = $('#login-email').val();
-                credentials.password = $('#login-password').val();
-                track('corrected the login issue, credentials set: ' + credentials);
-            } else {
-                return;
-            }
-
+            return;
         }
 
         userService.login(credentials, function(err, data) {
