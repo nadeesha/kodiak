@@ -329,23 +329,6 @@ services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
     }
 ]);
 
-services.factory('inviteService', function($http, GRIZZLY_URL) {
-    return {
-        inviteUser: function(email) {
-            return $http.post(GRIZZLY_URL + '/invite', {
-                email: email
-            });
-        },
-
-        sendInvitationReferrer: function(emails, referrer) {
-            return $http.post(GRIZZLY_URL + '/invite/friends', {
-                emails: emails,
-                referrer: referrer
-            });
-        }
-    };
-});
-
 services.factory('notificationService', [
 
     function() {
