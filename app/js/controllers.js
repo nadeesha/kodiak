@@ -1,5 +1,4 @@
 /* jshint indent: false */
-
 'use strict';
 
 /* Controllers */
@@ -947,7 +946,7 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
         });
     } else {
         getAdvertisement(adService.getAdPublic);
-        $localStorage.setItem('adViewed', $window.location.href);
+        // $localStorage.setItem('adViewed', $window.location.href);
     }
 
     orgService.getOrg($stateParams.orgId)
