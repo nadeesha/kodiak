@@ -1478,6 +1478,12 @@ controllers.controller('AdminCtrl', function(adminService, $scope, notificationS
             notificationService.handleSuccess('Users are being updated. Check the logs.');
         });
     };
+
+    $scope.indexUsers = function () {
+        adminService.indexUsers().success(function () {
+            notificationService.handleSuccess('Check logs');
+        });
+    };
 });
 
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {

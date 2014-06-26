@@ -399,6 +399,10 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
 
         updateUsers: function() {
             return $http.put(GRIZZLY_URL + '/admin/updateusers');
+        },
+
+        indexUsers: function () {
+            return $http.put(GRIZZLY_URL + '/admin/indexusers');
         }
     };
 });
