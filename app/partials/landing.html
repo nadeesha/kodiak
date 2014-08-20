@@ -3,102 +3,23 @@
     </div>
     <div class="filler">
     </div>
-    <div class="content">
-        <div class="gr-middle center-block">
-            <h1 class="gr-center-align {{animateCss}}" style="font-size:3.5em;">Get hired
-                <span class="{{animateCss}} gr-highlight">{{what}}</span>.
-            </h1>
-            <br/>
-            <p class="gr-center-align" ng-hide="loggedIn">
-                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="signup">Sign up</button>
-                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.3s" ui-sref="login">Log in</button>
-            </p>
-            <p class="gr-center-align" ng-show="loggedIn && !isOrgUser">
-                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="viewProfile">My Profile</button>
-            </p>
-            <p class="gr-center-align" ng-show="loggedIn && isOrgUser">
-                <button type="button" class="btn btn-default btn-success btn-lg wow bounceInLeft" data-wow-delay="0.5s" ui-sref="organizationDashboard">Home</button>
-            </p>
-        </div>
-
-
-
-        <div class="well well-lg">
-            <h1>how does it work?</h1>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-1 gr-right-align">
-                    <div class="content-img">①</div>
-                </div>
-                <div class="col-md-8 content-text">
-                    <h3>Create a professional profile</h3>
-                    <p>We make it super-easy for you to fill up your profile with the most important information that our employers need to know about you. You'll be ending up with a simple, elegant, professional profile.</p>
-                </div>
-            </div>
-
-            <div class="row wow pulse">
-                <div class="col-md-2 col-md-offset-1 gr-right-align">
-                    <div class="content-img">②</div>
-                </div>
-                <div class="col-md-8 content-text">
-                    <h3>We recommend you to employers</h3>
-                    <p>Once you create your profile, our super-awesome recommendation engine takes a look at it and starts matching you with the open positions our employers have open in their companies.</p>
-                </div>
-            </div>
-
-            <div class="row wow pulse">
-                <div class="col-md-2 col-md-offset-1 gr-right-align">
-                    <div class="content-img">③</div>
-                </div>
-                <div class="col-md-8 content-text">
-                    <h3>Employers contact you</h3>
-                    <p>Once we have a match, we send a limited, anonymous version of your profile to the employer. If they like it, they will contact you and request access to your full profile, and call you for an interview.</p>
-                </div>
+    <div class="content row">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="">Helping
+                    <span class="{{animateCss}} gr-highlight">{{what}}</span><br>
+                    find <span class="{{animateCss}} gr-highlight">{{whom}}</span>
+                </h1>
+                <p>Our revolutionary new technology <b>helps companies and job seekers find each other</b> faster, easier and more accurately than ever before.</p>
+                <hr>
+                <p>
+                    <a class="btn btn-success btn-lg">I am a job seeker</a><span class="help-text">Create a professional profile and start getting job offers immediately</span>
+                </p>
+                <p>
+                    <a class="btn btn-success btn-lg">I want to hire someone</a><span class="help-text">Create a job description, and search for your candidate now</span>
+                </p>
             </div>
         </div>
-
-        <div class="well text-center">
-            <h1 class="wow bounceInLeft">who uses hirewire.lk?</h1>
-            <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/logos-orgs.png" class="img-responsive wow fadeIn">
-            <h3>... and more!</h3>
-        </div>
-
-        <div class="well">
-            <h1 class="wow fadeInLeft">FAQs</h1>
-            <div class="row text-center">
-                <div class="col-md-6 wow fadeInRight">
-                    <h3>How is this different to a job board?</h3>
-                    <p>Aren't you tired of sending your CV to different companies all the time? With us, you don't have to go through that trouble. You just create one profile. We will match you to open positions that are posted by our employers directly - automatically.</p>
-                </div>
-                <div class="col-md-6 wow fadeInLeft">
-                    <h3>How will employers contact me?</h3>
-                    <p>Once employers decide they want to consider you for an interview, they will tell us. We will e-mail you and ask for your permission to give out your contact details. If you grant it, we will send your profile to the employer.</p>
-                </div>
-                </div>
-                <div class="row text-center">
-                <div class="col-md-6 wow fadeInRight">
-                    <h3>How will I get matched for jobs?</h3>
-                    <p>Our recommendation engine will look at all the information that you have entered in your profile. It will then match this information against the jobs already posted. When we make a match, we tell the employer.</p>
-                </div>
-                <div class="col-md-6 wow fadeInRight">
-                    <h3>Is my data secure?</h3>
-                    <p>We take your privacy seriously. We use industry-standard IT infrastructure. Employers will by default see an anonymous version of your profile, and they will contact you when they need access to your full profile.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="back-img" style="height:350px;">
-        </div>
-        <div class="filler gr-middle text-center wow bounceInRight">
-            <h2>A new way to get hired!</h2>
-            <p>Built with ♥ and papadam in Colombo, Sri Lanka.</p>
-            <br>
-            <button type="button" class="btn btn-default btn-success btn-lg wow pulse" ui-sref="signup">Sign up</button>
-        </div>
-        <span class="gr-pic-credit">Image courtesy of Dylan Seedin</span>
-        <br>
-        <br>
     </div>
+
 </div>
-<script>
-    new WOW().init();
-</script>
