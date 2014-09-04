@@ -143,6 +143,16 @@ app.config(function($stateProvider,
         });
 
     $stateProvider
+        .state('orgLanding', {
+            url: '/organization/recruiters',
+            templateUrl: '/partials/org_landing.html',
+            controller: 'OrgLandingCtrl',
+            data: {
+                public: true
+            }
+        })
+
+    $stateProvider
         .state('viewProfileForOrg', {
             url: '/user/:name/:userId',
             templateUrl: 'partials/me.html',

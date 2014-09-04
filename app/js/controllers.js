@@ -594,19 +594,16 @@ controllers.controller('EditOrgCtrl', [
             });
 
         $scope.notReady = true;
+
         $scope.uploadFile = function(files) {
             var img = new Image();
             img.src = window.URL.createObjectURL(files[0]);
 
             img.onload = function() {
-                if (img.naturalWidth === 400 && img.naturalHeight === 300) {
-                    orgService.uploadLogo($rootScope.u.affiliation, files)
-                        .success(function() {
-                            notificationService.handleSuccess('Logo uploaded successfully');
-                        });
-                } else {
-                    notificationService.handleError('Your logo should have a 400px width and a 300px height');
-                }
+                orgService.uploadLogo($rootScope.u.affiliation, files)
+                    .success(function() {
+                        notificationService.handleSuccess('Logo uploaded successfully');
+                    });
 
                 window.URL.revokeObjectURL(img.src);
             };
@@ -1448,7 +1445,7 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     var taunts = [{
         what: 'job seekers',
         whom: 'organizations'
-    },{
+    }, {
         what: 'organizations',
         whom: 'job seekers'
     }];
@@ -1479,8 +1476,8 @@ controllers.controller('AdminCtrl', function(adminService, $scope, notificationS
         });
     };
 
-    $scope.indexUsers = function () {
-        adminService.indexUsers().success(function () {
+    $scope.indexUsers = function() {
+        adminService.indexUsers().success(function() {
             notificationService.handleSuccess('Check logs');
         });
     };
@@ -1833,4 +1830,20 @@ controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteS
                 notificationService.handleSuccess('Invitations will be sent soon to your friends.');
             });
     };
+});
+
+controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService) {
+    $scope.view = {
+        created: false
+    };
+
+    $scope.submit = function() {
+        orgService.makeRequest($scope.request)
+            .success(function() {
+                notificationService.handleSuccess('Request posted successfully');
+                $scope.view.created = true;
+            });
+    };
+
+
 });
