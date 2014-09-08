@@ -362,6 +362,16 @@ app.config(function($stateProvider,
             }
         });
 
+$stateProvider
+        .state('adminOrgRequests', {
+            url: '/admin/orgrequests',
+            templateUrl: 'partials/admin_org_requests.html',
+            controller: 'AdminOrgRequestCtrl',
+            data: {
+                public: false
+            }
+        });
+
     $stateProvider
         .state('adminInvites', {
             url: '/admin/invites',

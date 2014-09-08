@@ -1847,3 +1847,12 @@ controllers.controller('OrgLandingCtrl', function($scope, orgService, notificati
 
 
 });
+
+controllers.controller('AdminOrgRequestCtrl', function ($scope, orgService) {
+    $scope.view = {};
+
+    orgService.getRequests()
+        .success(function (response) {
+            $scope.requests = response.requests; 
+        });
+})
