@@ -594,19 +594,16 @@ controllers.controller('EditOrgCtrl', [
             });
 
         $scope.notReady = true;
+
         $scope.uploadFile = function(files) {
             var img = new Image();
             img.src = window.URL.createObjectURL(files[0]);
 
             img.onload = function() {
-                if (img.naturalWidth === 400 && img.naturalHeight === 300) {
-                    orgService.uploadLogo($rootScope.u.affiliation, files)
-                        .success(function() {
-                            notificationService.handleSuccess('Logo uploaded successfully');
-                        });
-                } else {
-                    notificationService.handleError('Your logo should have a 400px width and a 300px height');
-                }
+                orgService.uploadLogo($rootScope.u.affiliation, files)
+                    .success(function() {
+                        notificationService.handleSuccess('Logo uploaded successfully');
+                    });
 
                 window.URL.revokeObjectURL(img.src);
             };
@@ -1437,24 +1434,20 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     };
 
     var fadeOut = function(callback) {
-        $scope.animateCss = 'animated fadeOutDown';
+        $scope.animateCss = 'animated fadeOutRight';
         $timeout(callback, 500);
     };
 
     var fadeIn = function() {
-        $scope.animateCss = 'animated fadeInUp';
+        $scope.animateCss = 'animated fadeInLeft';
     };
 
     var taunts = [{
-        what: 'faster'
+        what: 'job seekers',
+        whom: 'organizations'
     }, {
-        what: 'easier'
-    }, {
-        what: 'by better companies'
-    }, {
-        what: 'without a CV'
-    }, {
-        what: 'for a better job'
+        what: 'organizations',
+        whom: 'job seekers'
     }];
 
     $scope.loggedIn = userService.isLoggedIn();
@@ -1463,11 +1456,15 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     var changeTaunt = function() {
         fadeOut(function() {
             $scope.what = taunts[index].what;
+            $scope.whom = taunts[index].whom;
             fadeIn();
             incrementIndex();
             $timeout(changeTaunt, 5000);
         });
     };
+
+    $scope.what = taunts[1].what;
+    $scope.whom = taunts[1].whom;
 
     $timeout(changeTaunt, 3000);
 });
@@ -1479,8 +1476,8 @@ controllers.controller('AdminCtrl', function(adminService, $scope, notificationS
         });
     };
 
-    $scope.indexUsers = function () {
-        adminService.indexUsers().success(function () {
+    $scope.indexUsers = function() {
+        adminService.indexUsers().success(function() {
             notificationService.handleSuccess('Check logs');
         });
     };
@@ -1834,3 +1831,28 @@ controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteS
             });
     };
 });
+
+controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService) {
+    $scope.view = {
+        created: false
+    };
+
+    $scope.submit = function() {
+        orgService.makeRequest($scope.request)
+            .success(function() {
+                notificationService.handleSuccess('Request posted successfully');
+                $scope.view.created = true;
+            });
+    };
+
+
+});
+
+controllers.controller('AdminOrgRequestCtrl', function ($scope, orgService) {
+    $scope.view = {};
+
+    orgService.getRequests()
+        .success(function (response) {
+            $scope.requests = response.requests; 
+        });
+})

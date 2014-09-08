@@ -143,6 +143,16 @@ app.config(function($stateProvider,
         });
 
     $stateProvider
+        .state('orgLanding', {
+            url: '/organization/recruiters',
+            templateUrl: '/partials/org_landing.html',
+            controller: 'OrgLandingCtrl',
+            data: {
+                public: true
+            }
+        })
+
+    $stateProvider
         .state('viewProfileForOrg', {
             url: '/user/:name/:userId',
             templateUrl: 'partials/me.html',
@@ -347,6 +357,16 @@ app.config(function($stateProvider,
             url: '/admin/users',
             templateUrl: 'partials/admin_users.html',
             controller: 'AdminUsersCtrl',
+            data: {
+                public: false
+            }
+        });
+
+$stateProvider
+        .state('adminOrgRequests', {
+            url: '/admin/orgrequests',
+            templateUrl: 'partials/admin_org_requests.html',
+            controller: 'AdminOrgRequestCtrl',
             data: {
                 public: false
             }

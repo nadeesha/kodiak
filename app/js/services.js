@@ -171,6 +171,12 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
 services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootScope',
     function($http, GRIZZLY_URL) {
         var service = {
+            makeRequest: function (request) {
+                return $http.post(GRIZZLY_URL + '/organization/requests', angular.toJson(request));
+            },
+            getRequests: function () {
+                return $http.get(GRIZZLY_URL + '/organization/requests');
+            },
             createOrg: function(org) {
                 return $http.put(GRIZZLY_URL + '/organization', angular.toJson(org));
             },
