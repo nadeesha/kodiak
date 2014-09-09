@@ -15,7 +15,9 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'chieffancypants.loadingBar',
     'ngGrid',
     'autocomplete',
-    'pasvaz.bindonce'
+    'pasvaz.bindonce',
+    'angulartics',
+    'angulartics.google.analytics'
 ]);
 
 app.config(function($httpProvider, $provide) {
