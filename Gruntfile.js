@@ -21,7 +21,9 @@ module.exports = function(grunt) {
         'ngQuickDate/dist/ng-quick-date.min.js',
         'ng-file-upload/angular-file-upload.js',
         'bootstrap/js/collapse.js',
-        'angular-bindonce/bindonce.min.js'
+        'angular-bindonce/bindonce.min.js',
+        'angulartics/dist/angulartics.min.js',
+        'angulartics/dist/angulartics-ga.min.js'
     ];
 
     var cssFilesCombined = [
