@@ -1407,6 +1407,10 @@ controllers.controller('ChangePasswordCtrl', [
 
 controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $rootScope, orgService) {
 
+    if ($stateParams.orgId === 'current') {
+        $stateParams.orgId = $rootScope.u.affiliation;
+    }
+
     $scope.org = {
         _id: $stateParams.orgId
     };
@@ -1855,4 +1859,4 @@ controllers.controller('AdminOrgRequestCtrl', function ($scope, orgService) {
         .success(function (response) {
             $scope.requests = response.requests; 
         });
-})
+});

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-8">
-        <h1>Campaigns</h1>
+        <h1>Campaigns <button type="button" class="btn btn-success" ui-sref="createAdvertisement">Create New</button></h1>
         <hr>
         <table class="table table-striped table-hover">
             <tr ng-repeat="campaign in campaigns" ng-class="{'gr-faded':campaign.expired}">
@@ -24,39 +24,9 @@
     <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Campaign Credit</h3>
-            </div>
-            <div class="panel-body">
-                <p>Your organization has
-                    <span class="label label-success">*</span> remaining campaigns.</p>
-                <a type="button" class="btn btn-success">Add more</a>
-            </div>
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">My Organization</h3>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item gr-clickable">
-                    <a ui-sref="editOrganization">
-                        Edit Organization Profile
-                    </a>
-                </li>
-                <li class="list-group-item gr-clickable">
-                    <a ui-sref="viewOrganization({orgId: org._id})">
-                        View Organization Profile
-                    </a>
-                </li>
-                <li class="list-group-item gr-clickable">
-                    <a ng-click="openCreateUserModal()">
-                        Create New User
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Current Users</h3>
+                <h3 class="panel-title">Administrators <a ng-click="openCreateUserModal()" class="btn btn-success">
+                        Add new
+                    </a></h3>
             </div>
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="user in users">
@@ -66,6 +36,14 @@
                     </a>
                 </li>
             </ul>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Your Subscription</h3>
+            </div>
+            <div class="panel-body">
+                <p>You have an unlimited trial subscription</p>
+            </div>
         </div>
     </div>
 </div>
