@@ -1258,30 +1258,29 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
         };
 
         var loadResponses = function() {
+            $scope.responses = {
+                invited: [],
+                active: [],
+                inactive: []
+            };
+
             userService.getResponses().success(function(data) {
                 if (data.responses.length === 0) {
                     notificationService.handleInfo('You do not have any active applications',
                         'No applications');
-                    return;
+                } else {
+                    _.each(data.responses, function(response) {
+                        if (moment(response.advertisement.expiredOn).isBefore(Date.now())) {
+                            $scope.responses.inactive.push(response);
+                        } else if (response.status === 'invited') {
+                            $scope.responses.invited.push(response);
+                        } else if (response.status === 'accepted' || response.status === 'applied') {
+                            $scope.responses.active.push(response);
+                        } else if (response.status === 'withdrawn' || response.status === 'rejected') {
+                            $scope.responses.inactive.push(response);
+                        }
+                    });
                 }
-
-                $scope.responses = {
-                    invited: [],
-                    active: [],
-                    inactive: []
-                };
-
-                _.each(data.responses, function(response) {
-                    if (moment(response.advertisement.expiredOn).isBefore(Date.now())) {
-                        $scope.responses.inactive.push(response);
-                    } else if (response.status === 'invited') {
-                        $scope.responses.invited.push(response);
-                    } else if (response.status === 'accepted' || response.status === 'applied') {
-                        $scope.responses.active.push(response);
-                    } else if (response.status === 'withdrawn' || response.status === 'rejected') {
-                        $scope.responses.inactive.push(response);
-                    }
-                });
             });
         };
 
@@ -1406,6 +1405,10 @@ controllers.controller('ChangePasswordCtrl', [
 ]);
 
 controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $rootScope, orgService) {
+
+    if ($stateParams.orgId === 'current') {
+        $stateParams.orgId = $rootScope.u.affiliation;
+    }
 
     $scope.org = {
         _id: $stateParams.orgId
@@ -1848,11 +1851,11 @@ controllers.controller('OrgLandingCtrl', function($scope, orgService, notificati
 
 });
 
-controllers.controller('AdminOrgRequestCtrl', function ($scope, orgService) {
+controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {
     $scope.view = {};
 
     orgService.getRequests()
-        .success(function (response) {
-            $scope.requests = response.requests; 
+        .success(function(response) {
+            $scope.requests = response.requests;
         });
-})
+});

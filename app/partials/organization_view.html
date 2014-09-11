@@ -1,19 +1,25 @@
 <div class="row">
     <div class="col-md-7">
         <h1>{{org.name}}</h1>
-        <hr/>
         <h4>{{org.description}}</h4>
+        <hr>
+        <p>
+            Contact Number: <span class="label label-info">{{org.contactNumber}}</span>
+        </p>
+        <p>
+            Postal Address: <span class="label label-info">{{org.address}}</span>
+        </p>
+        <p>
+            Website: <span class="label label-info"><a style="color:white" href="{{org.url}}" target="_blank">Link</a>
+            </span>
+        </p>
     </div>
     <div class="col-md-5">
-        <img src="https://s3-ap-southeast-1.amazonaws.com/hirewire-org-logos/{{org._id}}.png">
+        <img src="https://s3-ap-southeast-1.amazonaws.com/hirewire-org-logos/{{org._id}}.png" class="img-responsive">
     </div>
 </div>
 <div>
-    <h3>
-        <span class="label label-info">{{org.contactNumber}}</span>
-        <span class="label label-info">{{org.address}}</span>
-        <span class="label label-info"><a style="color:white" href="{{org.url}}" target="_blank">Website</a></span>
-    </h3>
+
 </div>
 <hr>
 <h2>Advertised Positions</h2>
