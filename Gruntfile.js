@@ -22,8 +22,8 @@ module.exports = function(grunt) {
         'ng-file-upload/angular-file-upload.js',
         'bootstrap/js/collapse.js',
         'angular-bindonce/bindonce.min.js',
-        'angulartics/dist/angulartics.min.js',
-        'angulartics/dist/angulartics-ga.min.js'
+        'angulartics/src/angulartics.js',
+        'angulartics/src/angulartics-ga.js'
     ];
 
     var cssFilesCombined = [
