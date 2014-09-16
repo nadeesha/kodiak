@@ -62,65 +62,38 @@
 </div>
 <hr>
 <div class="well well-lg">
-    <div class="alert alert-info" ng-hide="hideinfo">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="hideinfo=true">&times;</button>
-        Please enter as much details as possible and we will create an account for your organization for trial usage.
-    </div>
     <form role="form" class="form-horizontal" ng-hide="view.created" ng-submit="submit(request)">
-        <h1>Tell us a bit about your organization</h1>
+        <div class="gr-center-align">
+            <h1>How do I get started?</h1>
+            <p>Please fill in the information below. We will get back to you with more information and a free account.</p>
+        </div>
+        <br>
         <div class="form-group">
-            <label class="col-md-2 control-label">Organization Name</label>
+            <label class="col-md-4 control-label">Organization Name</label>
             <div class="col-md-4">
                 <input placeholder="Must be the legal name" class="form-control" ng-model="request.name" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label">Contact Number</label>
+            <label class="col-md-4 control-label">Your Contact Number</label>
             <div class="col-md-4">
                 <input placeholder="Primary phone number" class="form-control" ng-model="request.contactNumber" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label">Address</label>
-            <div class="col-md-4">
-                <textarea rows="3" placeholder="Postal address" class="form-control" ng-model="request.address" required/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Web Site</label>
-            <div class="col-md-4">
-                <input placeholder="http://www.example.org" class="form-control" ng-model="request.url" type="url" required/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Email</label>
-            <div class="col-md-4">
-                <input placeholder="Email address to reach your organization" class="form-control" ng-model="request.officialEmail" type="email" required/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">About the organization</label>
-            <div class="col-md-6">
-                <textarea rows="5" placeholder="A short description of your organization" class="form-control" ng-model="request.description" required/>
-            </div>
-        </div>
-        <hr>
-        <h1>About you</h1>
-        <p>We will send you your account activation to this address. Once you activate your account, you can add more users to your account.</p>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Your Email</label>
+            <label class="col-md-4 control-label">Your Email</label>
             <div class="col-md-4">
                 <input class="form-control" ng-model="request.primaryUserEmail" placeholder="Please use an official email address" type="email" required/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label">Your Name</label>
+            <label class="col-md-4 control-label">Your Name</label>
             <div class="col-md-4">
                 <input class="form-control" ng-model="request.primaryUserName" required/>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-4 col-md-10">
                 <button class="btn btn-primary" type="submit">Go</button>
             </div>
         </div>
@@ -128,8 +101,8 @@
 
     <div class="jumbotron" ng-show="view.created">
         <div class="container">
-            <h1>Thanks for registering!</h1>
-            <p>We will need a few hours to review your request. After which, we will send you an email to your designated email address.</p>
+            <h1>Thanks for your information!</h1>
+            <p>We will get back to your shortly.</p>
             <p>
                 <a class="btn btn-primary btn-lg" ui-sref="home">Home Page</a>
                 <a class="btn btn-primary btn-lg" ui-sref="contact">Contact Us</a>
