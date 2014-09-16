@@ -1437,20 +1437,24 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     };
 
     var fadeOut = function(callback) {
-        $scope.animateCss = 'animated fadeOutRight';
+        $scope.animateCss = 'animated fadeOutDown';
         $timeout(callback, 500);
     };
 
     var fadeIn = function() {
-        $scope.animateCss = 'animated fadeInLeft';
+        $scope.animateCss = 'animated fadeInUp';
     };
 
     var taunts = [{
-        what: 'job seekers',
-        whom: 'organizations'
+        what: 'faster'
     }, {
-        what: 'organizations',
-        whom: 'job seekers'
+        what: 'easier'
+    }, {
+        what: 'by better companies'
+    }, {
+        what: 'without a CV'
+    }, {
+        what: 'for a better job'
     }];
 
     $scope.loggedIn = userService.isLoggedIn();
@@ -1459,15 +1463,11 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     var changeTaunt = function() {
         fadeOut(function() {
             $scope.what = taunts[index].what;
-            $scope.whom = taunts[index].whom;
             fadeIn();
             incrementIndex();
             $timeout(changeTaunt, 5000);
         });
     };
-
-    $scope.what = taunts[1].what;
-    $scope.whom = taunts[1].whom;
 
     $timeout(changeTaunt, 3000);
 });

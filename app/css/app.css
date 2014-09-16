@@ -350,9 +350,8 @@ div.well>h2 {
     margin: 0 auto;
 }
 .gr-highlight {
-    color:coral;
+    color:skyblue;
 }
-
 .gr-sub-highlight {
     color:blanchedalmond;
 }
@@ -467,22 +466,12 @@ div.well>h2 {
     color: black;
 }
 .gr-landing .content h1 {
-    /*font-size:60px;*/
-    /*text-align: center;*/
+    font-size:60px;
+    text-align: center;
     /*margin-bottom: 20px;*/
 }
 .gr-landing .well {
     margin-bottom: 50px;
-}
-
-.gr-landing .jumbotron {
-    background-color: rgba(255,255,255,0.9);
-}
-
-.gr-landing .help-text {
-    font-size: 17px;
-    margin-left: 5px;
-    color: gray;
 }
 .accessory {
     height: 6px;
