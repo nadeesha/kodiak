@@ -502,3 +502,7 @@ div.well>h2 {
 .gr-pitch-box > div {
     padding: 15px;
 }
+
+.price-pitch {
+    padding: 100px 60px;
+}

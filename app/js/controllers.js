@@ -1835,7 +1835,7 @@ controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteS
     };
 });
 
-controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService) {
+controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService, $location) {
     $scope.view = {
         created: false
     };
@@ -1848,7 +1848,9 @@ controllers.controller('OrgLandingCtrl', function($scope, orgService, notificati
             });
     };
 
-
+    $scope.goToStepOne = function() {
+        $location.hash('step1');
+    }
 });
 
 controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {
