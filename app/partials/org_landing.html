@@ -1,45 +1,98 @@
-<div class="alert alert-info" ng-hide="hideinfo">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="hideinfo=true">&times;</button>
-        Please enter as much details as possible and we will create an account for your organization for trial usage.
+<div class="jumbotron">
+    <div class="container">
+        <h1>We want to cut down your time-to-recruit by 80%</h1>
+        <p>Whether you're a small organization, or a mutinational giant, our affordable, intelligent, user-friendly platform will recommend you the people you want, when you want, at fraction of the time and cost of other big players.</p>
+
+        <h2 style="text-align:center;">scroll down to learn more</h2>
+        <h1 style="text-align:center;">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </h1>
+    </div>
 </div>
-<form role="form" class="form-horizontal" ng-hide="view.created" ng-submit="submit(request)">
-    <h1>Tell us a bit about your organization</h1>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Organization Name</label>
-        <div class="col-md-4">
-            <input placeholder="Must be the legal name" class="form-control" ng-model="request.name" required>
-        </div>
+<hr>
+<div class="row gr-pitch-box">
+    <div class="col-md-8">
+        <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/step1_.gif" class="img-responsive" alt="Image">
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Contact Number</label>
-        <div class="col-md-4">
-            <input placeholder="Primary phone number" class="form-control" ng-model="request.contactNumber" required>
-        </div>
+    <div class="col-md-4">
+        <h3 class="alert alert-success">Step 1: Create your J.D.</h3>
+        <p>Our tools help you create a quick job profile in seconds!</p>
+        <p>You can keep this profile secret and only forward it to the matching candidates. Or, you can make it public and let us advertise it to all our job seekers.</p>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Address</label>
-        <div class="col-md-4">
-            <textarea rows="3" placeholder="Postal address" class="form-control" ng-model="request.address" required/>
-        </div>
+</div>
+
+<div class="row gr-pitch-box">
+    <div class="col-md-8">
+        <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/step2_.gif" class="img-responsive" alt="Image">
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Web Site</label>
-        <div class="col-md-4">
-            <input placeholder="http://www.example.org" class="form-control" ng-model="request.url" type="url" required/>
-        </div>
+    <div class="col-md-4">
+        <h3 class="alert alert-success">Step 2: Search for "the" candidate</h3>
+        <p>The super-easy search interface coupled with the super-intelligent algorithm (we built in our labs) will recommend you the best possible candidates in seconds, ranked with a score, and a summary of their anonymized profiled.</p>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Email</label>
-        <div class="col-md-4">
-            <input placeholder="Email address to reach your organization" class="form-control" ng-model="request.officialEmail" type="email" required/>
-        </div>
+</div>
+<div class="row gr-pitch-box">
+    <div class="col-md-8">
+        <img src="https://s3-us-west-2.amazonaws.com/hirewire-static/images/step3_.gif" class="img-responsive" alt="Image">
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">About the organization</label>
-        <div class="col-md-6">
-            <textarea rows="5" placeholder="A short description of your organization" class="form-control" ng-model="request.description" required/>
-        </div>
+    <div class="col-md-4">
+        <h3 class="alert alert-success">Step 3: Contact the candidate</h3>
+        <p>Choose as many candidates you like and forward your invitation with a single click.</p>
+        <p>After your candidate responds, you will get access to their profiles, contact information, and more.</p>
     </div>
+</div>
+<hr>
+<div class="jumbotron well well-lg">
+    <div class="container">
+        <h1 class="alert alert-info" style="color: white;">Pricing: 0 LKR per Month</h1>
+        <p>Our platform is free for all eligible organizations until our beta period* ends. That's right! You can you it for free right now, without any strings attached.</p>
+        <p>After the free period? Well, you'd be surprised at how affordable our paid plans are!</p>
+    </div>
+    <p class="small-text pull-right">* Estimated - 31st Decelmber 2014</p>
+</div>
+<hr>
+<div class="well well-lg">
+    <div class="alert alert-info" ng-hide="hideinfo">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="hideinfo=true">&times;</button>
+        Please enter as much details as possible and we will create an account for your organization for trial usage.
+    </div>
+    <form role="form" class="form-horizontal" ng-hide="view.created" ng-submit="submit(request)">
+        <h1>Tell us a bit about your organization</h1>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Organization Name</label>
+            <div class="col-md-4">
+                <input placeholder="Must be the legal name" class="form-control" ng-model="request.name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Contact Number</label>
+            <div class="col-md-4">
+                <input placeholder="Primary phone number" class="form-control" ng-model="request.contactNumber" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Address</label>
+            <div class="col-md-4">
+                <textarea rows="3" placeholder="Postal address" class="form-control" ng-model="request.address" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Web Site</label>
+            <div class="col-md-4">
+                <input placeholder="http://www.example.org" class="form-control" ng-model="request.url" type="url" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Email</label>
+            <div class="col-md-4">
+                <input placeholder="Email address to reach your organization" class="form-control" ng-model="request.officialEmail" type="email" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">About the organization</label>
+            <div class="col-md-6">
+                <textarea rows="5" placeholder="A short description of your organization" class="form-control" ng-model="request.description" required/>
+            </div>
+        </div>
         <hr>
         <h1>About you</h1>
         <p>We will send you your account activation to this address. Once you activate your account, you can add more users to your account.</p>
@@ -55,20 +108,21 @@
                 <input class="form-control" ng-model="request.primaryUserName" required/>
             </div>
         </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" type="submit">Go</button>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" type="submit">Go</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<div class="jumbotron" ng-show="view.created">
-    <div class="container">
-        <h1>Thanks for registering!</h1>
-        <p>We will need a few hours to review your request. After which, we will send you an email to your designated email address.</p>
-        <p>
-            <a class="btn btn-primary btn-lg" ui-sref="home">Home Page</a>
-            <a class="btn btn-primary btn-lg" ui-sref="contact">Contact Us</a>
-        </p>
+    <div class="jumbotron" ng-show="view.created">
+        <div class="container">
+            <h1>Thanks for registering!</h1>
+            <p>We will need a few hours to review your request. After which, we will send you an email to your designated email address.</p>
+            <p>
+                <a class="btn btn-primary btn-lg" ui-sref="home">Home Page</a>
+                <a class="btn btn-primary btn-lg" ui-sref="contact">Contact Us</a>
+            </p>
+        </div>
     </div>
 </div>

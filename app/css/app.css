@@ -491,3 +491,11 @@ div.well>h2 {
     border: 0;
     margin: 50px;
 }
+.gr-pitch-box {
+    margin-bottom: 30px;
+    border: 1px solid lightgrey;
+    min-height: 300px;
+}
+.gr-pitch-box > div {
+    padding: 15px;
+}
