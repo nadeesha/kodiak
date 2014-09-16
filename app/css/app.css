@@ -495,6 +495,9 @@ div.well>h2 {
     margin-bottom: 30px;
     border: 1px solid lightgrey;
     min-height: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    width: 95%
 }
 .gr-pitch-box > div {
     padding: 15px;
