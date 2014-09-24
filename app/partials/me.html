@@ -6,7 +6,10 @@
                 <span>{{user.lastName}}</span>
             </h1>
             <button type="button" class="btn btn-default" ng-hide="viewedByOrg || edit" ng-click="enableEdit()"><span class="glyphicon glyphicon-edit" ></span> Edit Profile</button>
+
             <button type="button" class="btn btn-success" ng-show="edit" ng-click="disableEdit()"><span class="glyphicon glyphicon-ok-circle" ></span> Finish editing</button>
+
+            <button type="button" class="btn btn-default" ui-sref="viewProfilePrivate">How do employers see me?</button>
             <hr>
             <div>
                 <div class="alert alert-danger" ng-show="user.errors">
