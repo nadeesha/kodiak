@@ -163,6 +163,10 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
             return $http.get(GRIZZLY_URL + '/user/meta/fields/' + query);
         };
 
+        this.facebookAuth = function (fbResponse) {
+            return $http.get(GRIZZLY_URL + '/user/auth/facebook');
+        }
+
         // restore state upon construction
         restoreState();
     }

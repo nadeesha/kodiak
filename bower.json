@@ -32,7 +32,8 @@
     "angular-loading-bar": "~0.2.0",
     "ng-grid": "~2.0.11",
     "ngprogress": "~1.0.4",
-    "allmighty-autocomplete": "*"
+    "allmighty-autocomplete": "*",
+    "angular-facebook": "~0.2.3"
   },
   "resolutions": {
     "angular": "1.2.3",

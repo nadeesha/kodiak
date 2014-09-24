@@ -5,7 +5,7 @@
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
 controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService,
-    notificationService, $state, $stateParams) {
+    notificationService, $state, $stateParams, Facebook) {
     $scope.user = {};
 
     $scope.user.token = $stateParams.token;
@@ -44,6 +44,38 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                 $state.go('signupCompleted');
             });
     };
+
+    $scope.login = function() {
+        // From now on you can use the Facebook service just as Facebook api says
+        Facebook.login(function(authResponse) {
+            Facebook.api('/me', function(response) {
+                userService.facebookAuth(response)
+                    .success(function () {
+                        $state.go('viewProfile');
+                    });
+            });
+        }, {
+            scope: 'public_profile,email'
+        });
+    };
+
+    $scope.getLoginStatus = function() {
+        Facebook.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                $scope.loggedIn = true;
+            } else {
+                $scope.loggedIn = false;
+            }
+        });
+    };
+
+    $scope.me = function() {
+        Facebook.api('/me', function(response) {
+            $scope.user = response;
+        });
+    };
+
+    $scope.getLoginStatus();
 });
 
 
@@ -1850,7 +1882,7 @@ controllers.controller('OrgLandingCtrl', function($scope, orgService, notificati
 
     $scope.goToStepOne = function() {
         $location.hash('step1');
-    }
+    };
 });
 
 controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {

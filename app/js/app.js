@@ -17,10 +17,11 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'autocomplete',
     'pasvaz.bindonce',
     'angulartics',
-    'angulartics.google.analytics'
+    'angulartics.google.analytics',
+    'facebook'
 ]);
 
-app.config(function($httpProvider, $provide) {
+app.config(function($httpProvider, $provide, FacebookProvider) {
     $httpProvider.defaults.useXDomain = true;
 
     // register the interceptor as a service
@@ -51,6 +52,8 @@ app.config(function($httpProvider, $provide) {
     });
 
     $httpProvider.interceptors.push('errorHandler');
+
+    FacebookProvider.init('734914193248463')
 });
 
 app.config(function($stateProvider,
