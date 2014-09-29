@@ -1,5 +1,6 @@
 kodiak
 ======
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ncthis/kodiak?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 This is the front-end to one of my projects - hirewire.lk. It's a angularjs app with some love from angular-ui. I open sourced this at an attempt to demonstrate a few things that we got right in developing a large static app.
 
