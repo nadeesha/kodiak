@@ -269,6 +269,10 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
             },
             getSearchResults: function(orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results');
+            },
+            hitUser: function (orgId, searchId, user) {
+                return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + searchId + '/hit',
+                    angular.toJson(user));
             }
         };
 

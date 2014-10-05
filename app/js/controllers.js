@@ -1171,6 +1171,12 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
                 $scope.user = data;
                 $scope.user.id = id;
                 $scope.user.invited = invited;
+
+                return searchService.hitUser($rootScope.u.affiliation, $stateParams.searchId, {
+                    user: {
+                        _id: $scope.user.id
+                    }
+                });
             });
     };
 
@@ -1850,7 +1856,7 @@ controllers.controller('OrgLandingCtrl', function($scope, orgService, notificati
 
     $scope.goToStepOne = function() {
         $location.hash('step1');
-    }
+    };
 });
 
 controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {
