@@ -215,6 +215,9 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
             },
             deactivateUser: function(orgId, userId) {
                 return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/user/' + userId);
+            },
+            getAllOrgs: function () {
+                return $http.get(GRIZZLY_URL + '/organizations');
             }
         };
 

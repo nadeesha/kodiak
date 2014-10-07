@@ -1478,7 +1478,8 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     $timeout(changeTaunt, 3000);
 });
 
-controllers.controller('AdminCtrl', function(adminService, $scope, notificationService) {
+controllers.controller('AdminCtrl', function(adminService, $scope, notificationService,
+    orgService, $rootScope) {
     $scope.refreshUsers = function() {
         adminService.updateUsers().success(function() {
             notificationService.handleSuccess('Users are being updated. Check the logs.');
@@ -1490,6 +1491,15 @@ controllers.controller('AdminCtrl', function(adminService, $scope, notificationS
             notificationService.handleSuccess('Check logs');
         });
     };
+
+    orgService.getAllOrgs().success(function (response) {
+        $scope.orgs = response.organizations;
+    });
+
+    $scope.switch = function (_id) {
+        $rootScope.u.affiliation = _id;
+        $rootScope.u.type = 'ORG';
+    }
 });
 
 controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {

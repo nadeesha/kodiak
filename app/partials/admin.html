@@ -2,3 +2,8 @@
 <button type="button" class="btn btn-danger" ng-click="refreshUsers()">Refresh Users</button>
 <button type="button" class="btn btn-danger" ng-click="indexUsers()">Index Users</button>
 <button type="button" class="btn btn-info" ui-sref="adminOrgRequests">Organization Requests</button>
+<hr>
+<div ng-repeat="org in orgs">
+	<div>{{org.name}}</div>
+	<button type="button" class="btn btn-success" ng-click="switch(org._id)">switch</button>
+</div>
