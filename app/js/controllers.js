@@ -1852,21 +1852,7 @@ controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteS
 });
 
 controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService, $location) {
-    $scope.view = {
-        created: false
-    };
-
-    $scope.submit = function() {
-        orgService.makeRequest($scope.request)
-            .success(function() {
-                notificationService.handleSuccess('Request posted successfully');
-                $scope.view.created = true;
-            });
-    };
-
-    $scope.goToStepOne = function() {
-        $location.hash('step1');
-    };
+    
 });
 
 controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {
