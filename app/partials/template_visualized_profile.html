@@ -1,69 +1,79 @@
-<div>
-    <h1 ng-show="forEmployer">{{user.limitedName}}. <a ui-sref="viewProfileForOrg({name: user.firstName, userId: user._id})" class="btn btn-warning" ng-show="user._id"> <span class="glyphicon glyphicon-user"></span></a></h1>
+<div ng-show="user">
+    <div ng-if="forEmployer">
+        <a ui-sref="viewProfileForOrg({name: user.firstName, userId: user._id})" class="btn btn-primary" ng-disabled="user.limited" style="width:100%;">View Full Profile</a>
+        <p ng-show="user.limited" class="small-text gr-center-align">You can only view the profile if the candidates accepts your job invitation.</p>
+    </div>
+    <br>
     <div class="row gr-inline-stats">
+        <div>
+        </div>
         <div class="col-md-4 col-sm-4 col-xs-4 gr-score label-success">{{user.tenures.length}}</div>
         <div class="col-md-4 col-sm-4 col-xs-4 gr-score label-success">{{view.getTotalExperience()}}</div>
         <div class="col-md-4 col-sm-4 col-xs-4 gr-score label-success">{{user.qualifications.length}}</div>
     </div>
     <div class="row gr-inline-stats">
-        <div class="col-md-4 col-sm-4 col-xs-4 desc">Position<span ng-hide="user.tenures.length===1">s</span> held</div>
+        <div class="col-md-4 col-sm-4 col-xs-4 desc">Position
+            <span ng-hide="user.tenures.length===1">s</span>held</div>
         <div class="col-md-4 col-sm-4 col-xs-4 desc">Years of experience</div>
-        <div class="col-md-4 col-sm-4 col-xs-4 desc">Qualification<span ng-hide="user.qualifications.length===1">s</span></div>
+        <div class="col-md-4 col-sm-4 col-xs-4 desc">Qualification
+            <span ng-hide="user.qualifications.length===1">s</span>
+        </div>
     </div>
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
                 <span class="glyphicon glyphicon-briefcase"></span>&nbsp;Latest Work History</h3>
-            </div>
-            <div class="panel-body">
-                <div ng-repeat="t in user.tenures | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
-                    <p class="gr-stat">{{t.position}} <span ng-show="forEmployer && t.organization">at {{t.organization}}</span>
-                        <label class="label label-success pull-right">{{view.getDuration(t.startedOn, t.endedOn).years}}Y {{view.getDuration(t.startedOn, t.endedOn).months}}M</label>
-                    </p>
-                    <div ng-repeat="c in view.getTimesForDate(t.startedOn, t.endedOn) track by $index" class="gr-vis-year circle"></div>
-                    <div ng-hide="view.getTimesForDate(t.startedOn, t.endedOn).length>0" class="gr-vis-year circle"></div>
-                    <hr>
-                </div>
-            </div>
         </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <span class="glyphicon glyphicon-bookmark"></span>&nbsp;Latest Qualifications</h3>
-                </div>
-                <div class="panel-body">
-                    <div ng-repeat="q in user.qualifications | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
-                        <div class="gr-timeline-section">
-                            <p class="gr-stat">{{q.name}} - {{q.field}}
-                                <label class="label label-success pull-right">{{view.getDuration(q.startedOn, q.endedOn).years}}Y {{view.getDuration(q.startedOn, q.endedOn).months}}M</label>
-                            </p>
-                            <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year circle"></div>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-flash"></span>&nbsp;Top Skills</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div ng-repeat="s in user.skills | orderBy:'experience':true | limitTo:5" class="gr-timline-section-wrapper">
-                            <div class="gr-timeline-section">
-                                <p class="gr-stat">{{s.name}}
-                                    <label class="label label-success pull-right">{{s.experience}}Y</label>
-                                </p>
-                                <div ng-repeat="c in view.getTimes(s.experience) track by $index" class="gr-vis-year circle"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
+        <div class="panel-body">
+            <div ng-repeat="t in user.tenures | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
+                <p class="gr-stat">{{t.position}}
+                    <span ng-show="forEmployer && t.organization">at {{t.organization}}</span>
+                    <label class="label label-success pull-right">{{view.getDuration(t.startedOn, t.endedOn).years}}Y {{view.getDuration(t.startedOn, t.endedOn).months}}M</label>
+                </p>
+                <div ng-repeat="c in view.getTimesForDate(t.startedOn, t.endedOn) track by $index" class="gr-vis-year circle"></div>
+                <div ng-hide="view.getTimesForDate(t.startedOn, t.endedOn).length>0" class="gr-vis-year circle"></div>
+                <hr>
             </div>
         </div>
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-bookmark"></span>&nbsp;Latest Qualifications</h3>
+        </div>
+        <div class="panel-body">
+            <div ng-repeat="q in user.qualifications | orderBy:'startedOn':true | limitTo:3" class="gr-timline-section-wrapper">
+                <div class="gr-timeline-section">
+                    <p class="gr-stat">{{q.name}} - {{q.field}}
+                        <label class="label label-success pull-right">{{view.getDuration(q.startedOn, q.endedOn).years}}Y {{view.getDuration(q.startedOn, q.endedOn).months}}M</label>
+                    </p>
+                    <div ng-repeat="c in view.getTimesForDate(q.startedOn, q.endedOn) track by $index" class="gr-vis-year circle"></div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-flash"></span>&nbsp;Top Skills</h3>
+        </div>
+        <div class="panel-body">
+            <div ng-repeat="s in user.skills | orderBy:'experience':true | limitTo:5" class="gr-timline-section-wrapper">
+                <div class="gr-timeline-section">
+                    <p class="gr-stat">{{s.name}}
+                        <label class="label label-success pull-right">{{s.experience}}Y</label>
+                    </p>
+                    <div ng-repeat="c in view.getTimes(s.experience) track by $index" class="gr-vis-year circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+</div>
+</div>
 </div>

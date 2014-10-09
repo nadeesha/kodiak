@@ -714,10 +714,6 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                 displayName: 'Last Updated',
                 width: '*'
             }, {
-                field: 'tags',
-                displayName: 'Tags',
-                width: '**'
-            }, {
                 field: 'id',
                 displayName: 'ID',
                 visible: false,
@@ -758,7 +754,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                         return {
                             id: r._id,
                             user: r.user._id ? r.user._id : r.user,
-                            name: r.user.lastName ? r.user.firstName + ' ' + r.user.lastName : r.user.limitedName,
+                            name: r.user.firstName + ' ' + r.user.lastName,
                             status: r.status,
                             updated: moment(r.lastUpdatedOn).fromNow(),
                             tags: r.tags && r.tags.join(', '),

@@ -13,14 +13,9 @@
 		<div class="gr-ng-grid" ng-grid="gridOptions"></div>
 	</div>
 	<div class="col-md-4"  ng-show="selectedCandidate[0]">
-		<div class="btn-group gr-bottom-5"  style="width:100%;">
-		  <button type="button" class="btn btn-default" ng-model="data.status" ng-disabled="!(selectedCandidate[0].status=='accepted' || selectedCandidate[0].status=='applied')" btn-radio="'shortlisted'" style="width:50%;">Shortlist</button>
-		  <button type="button" class="btn btn-default" ng-model="data.status" ng-disabled="selectedCandidate[0].status=='rejected' || selectedCandidate[0].status=='withdrawn'" btn-radio="'rejected'" style="width:50%;">Reject</button>
+		<div class="gr-bottom-5"  style="width:100%;">
+		  <button type="button" class="btn btn-danger" ng-disabled="selectedCandidate[0].status=='rejected' || selectedCandidate[0].status=='withdrawn'" btn-radio="'rejected'" style="width:100%;" ng-model="data.status" ng-click="save(selectedCandidate[0], 'rejected', [])">Reject Candidate</button>
 		</div>
-
-        <input type="text"  class="form-control" style="width:100%; margin-bottom:5px;" placeholder="tags: comma seperated" ng-model="selectedCandidate[0].tags">
-        
-        <a type="button" class="btn btn-success" ng-click="save(selectedCandidate[0], data.status, selectedCandidate[0].tags)" style="width:100%;">Save</a>
         <hr>
         <div gr-visualized-profile>
         </div>
