@@ -1,11 +1,11 @@
 <div class="jumbotron">
 	<div class="container">
-		<h1>Searching for jobs?</h1>
-		<p>With hirewire.lk, most of our employers will look at an <a ui-sref="viewProfilePrivate">anonymous version</a> of your profile and contact you directly and call you for an interview.</p><p>But a small number of them will advertise their vacancies here. If they are related to the information you have in your profile, you will see these ads.</p>
+		<h1>Applying for jobs?</h1>
+		<p>hirewire.lk is not a job advertisement site. Our employers will search you through your profile and contact you for interviews directly. This <a href="https://www.youtube.com/watch?v=mnemLZtTzhI&list=UUJyKc-rSh8XykD4IIjcMaRg">video</a> will help you understand it.</p><p ng-hide="ads.length === 0">But, if an employer makes an advertisement public for anyone to apply, you will see it here.</p>
 	</div>
 </div>
 
-<div ng-hide="emptyProfile">
+<div ng-hide="emptyProfile || ads.length === 0">
 	<input type="text" id="input" placeholder="Search here for the designation or organization" class="form-control" value="" required="required" ng-model="searchText">
 	<hr>
 	<div search-text="searchText" ads="ads" gr-ad-preview></div>
