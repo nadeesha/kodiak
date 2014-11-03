@@ -17,7 +17,8 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'autocomplete',
     'pasvaz.bindonce',
     'angulartics',
-    'angulartics.google.analytics'
+    'angulartics.google.analytics',
+    'facebook'
 ]);
 
 app.config(function($httpProvider, $provide) {
@@ -364,7 +365,7 @@ app.config(function($stateProvider,
             }
         });
 
-$stateProvider
+    $stateProvider
         .state('adminOrgRequests', {
             url: '/admin/orgrequests',
             templateUrl: 'partials/admin_org_requests.html',
@@ -413,6 +414,10 @@ $stateProvider
             }
         });
 });
+
+app.config(function(FacebookProvider, fbAppId) {
+    FacebookProvider.init(fbAppId);
+})
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
     if (window.trackJs) {

@@ -4,13 +4,13 @@
 /* Controllers */
 var controllers = angular.module('kodiak.controllers', ['kodiak.configs']);
 
-controllers.controller('SignupCtrl', function($scope, $http, $location, userService, validationService,
-    notificationService, $state, $stateParams) {
+controllers.controller('SignupCtrl', function ($scope, $http, $location, userService, validationService,
+    notificationService, $state, $stateParams, Facebook) {
     $scope.user = {};
 
     $scope.user.token = $stateParams.token;
 
-    $scope.create = function(user) {
+    $scope.create = function (user) {
         try {
             validationService.mustBeTrue($scope.user.firstName && $scope.user.lastName,
                 'First and last names are required');
@@ -25,7 +25,7 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
         }
 
         userService.create(user)
-            .success(function() {
+            .success(function () {
                 notificationService.handleSuccess('Account created. But you will have to login to ' +
                     'your email and click the activation link first.');
 
@@ -33,7 +33,7 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                 fb_param.pixel_id = '6012934240312';
                 fb_param.value = '0.01';
                 fb_param.currency = 'USD';
-                (function() {
+                (function () {
                     var fpw = document.createElement('script');
                     fpw.async = true;
                     fpw.src = '//connect.facebook.net/en_US/fp.js';
@@ -44,11 +44,42 @@ controllers.controller('SignupCtrl', function($scope, $http, $location, userServ
                 $state.go('signupCompleted');
             });
     };
+
+    $scope.fbLogin = function () {
+        Facebook.login(function (authResponse) {
+            userService.createViaFacebook(authResponse)
+                .success(function (userDetails) {
+                    userService.login(authResponse, 'facebook', function () {
+                        $state.go('viewProfile');
+                    });
+                });
+
+        }, {
+            scope: 'email'
+        });
+    };
+
+    $scope.getLoginStatus = function () {
+        Facebook.getLoginStatus(function (response) {
+            if (response.status === 'connected') {
+                $scope.loggedIn = true;
+            } else {
+                $scope.loggedIn = false;
+            }
+        });
+        console.log('login status: ' + $scope.loggedIn);
+    };
+
+    $scope.me = function () {
+        return Facebook.api('/me', function (response) {
+            return userService.createViaFacebook(response);
+        });
+    };
 });
 
 
-controllers.controller('LoginCtrl', function($scope, $http, $location, userService, notificationService, $rootScope, $state,
-    $stateParams, validationService) {
+controllers.controller('LoginCtrl', function ($scope, $http, $location, userService, 
+    notificationService, $rootScope, $state, $stateParams, validationService, Facebook) {
 
     $scope.user = {};
 
@@ -56,13 +87,13 @@ controllers.controller('LoginCtrl', function($scope, $http, $location, userServi
         notificationService.handleInfo('You need to login first.');
     }
 
-    $scope.$watch('user.rememberMe', function(remembered) {
+    $scope.$watch('user.rememberMe', function (remembered) {
         if (remembered) {
             notificationService.handleInfo('Please do not select this option if other people use this device.', 'Warning!');
         }
     });
 
-    $scope.login = function(credentials) {
+    $scope.login = function (credentials) {
         if (!credentials || !credentials.email || !credentials.password) {
             credentials.email = $('#login-email').val();
             credentials.password = $('#login-password').val();
@@ -75,7 +106,7 @@ controllers.controller('LoginCtrl', function($scope, $http, $location, userServi
             return;
         }
 
-        userService.login(credentials, function(err, data) {
+        userService.login(credentials, function (err, data) {
             if (!err) {
                 $rootScope.$broadcast('refreshNotifications');
 
@@ -103,14 +134,24 @@ controllers.controller('LoginCtrl', function($scope, $http, $location, userServi
             }
         });
     };
+
+    $scope.fbLogin = function () {
+        Facebook.login(function (authResponse) {
+            userService.login(authResponse, 'facebook', function () {
+                $state.go('viewProfile');
+            });
+        }, {
+            scope: 'email'
+        });
+    };
 });
 
-controllers.controller('ActivateCtrl', function($scope, $http, $stateParams, userService, notificationService) {
+controllers.controller('ActivateCtrl', function ($scope, $http, $stateParams, userService, notificationService) {
     $scope.user = {
         token: $stateParams.token
     };
 
-    $scope.submit = function() {
+    $scope.submit = function () {
         if ($stateParams.resetRequired === 'true') {
             if ($scope.pass1.length < 8) {
                 notificationService.handleError('Your new password must contain at least 8 characters');
@@ -123,7 +164,7 @@ controllers.controller('ActivateCtrl', function($scope, $http, $stateParams, use
 
         $scope.user.password = $scope.pass1;
 
-        userService.activate($scope.user).success(function() {
+        userService.activate($scope.user).success(function () {
             notificationService.handleSuccess('Your account had been activated successfully. Please log in');
             $scope.success = true;
         });
@@ -136,7 +177,7 @@ controllers.controller('ActivateCtrl', function($scope, $http, $stateParams, use
     }
 });
 
-controllers.controller('PersonalModalInstanceCtrl', function($scope, data, validationService, MONTHS) {
+controllers.controller('PersonalModalInstanceCtrl', function ($scope, data, validationService, MONTHS) {
     $scope.data = angular.copy(data, $scope.data);
     $scope.dateOfBirth = {};
 
@@ -157,7 +198,7 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
         $scope.dateOfBirth.date = dob.format('DD');
     }
 
-    $scope.submit = function() {
+    $scope.submit = function () {
         try {
             if ($scope.dateOfBirth.year || $scope.dateOfBirth.month || $scope.dateOfBirth.date) {
                 var dob = moment($scope.dateOfBirth.date + '-' +
@@ -181,7 +222,7 @@ controllers.controller('PersonalModalInstanceCtrl', function($scope, data, valid
     };
 });
 
-controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, data, MONTHS, validationService, userService) {
+controllers.controller('QualificationTenureModalInstanceCtrl', function ($scope, data, MONTHS, validationService, userService) {
     $scope.data = angular.copy(data, $scope.data);
     $scope.meta = data.meta;
 
@@ -198,28 +239,28 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
         qualificationFields: []
     };
 
-    $scope.updateQualificationsQuery = function(query) {
+    $scope.updateQualificationsQuery = function (query) {
         if (query.length < 2) {
             return;
         }
 
-        userService.getQualifications(query).success(function(data) {
+        userService.getQualifications(query).success(function (data) {
             $scope.queried.qualifications = data.results;
         });
     };
 
-    $scope.updateQualificationFieldsQuery = function(query) {
+    $scope.updateQualificationFieldsQuery = function (query) {
         if (query.length < 2) {
             return;
         }
 
-        userService.getQualificationFields(query).success(function(data) {
+        userService.getQualificationFields(query).success(function (data) {
             $scope.queried.qualificationFields = data.results;
         });
     };
 
     // reset the end date to null on selecting "I currently work here" checkbox in tenure modal
-    $scope.changeEndDate = function() {
+    $scope.changeEndDate = function () {
         if ($scope.data.current) {
             $scope.endedOn = null;
             $scope.data.endedOn = null;
@@ -235,7 +276,7 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     }
 
     // puts the date value in two select boxes
-    var setMonthAndDate = function(source, target) {
+    var setMonthAndDate = function (source, target) {
         target.month = moment(source).format('MMMM');
         target.year = moment(source).format('YYYY');
     };
@@ -255,13 +296,13 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
     // $scope.complete = $scope.data.complete;
 
     // converts a given datepicker month/year to javascript date
-    var convertToDate = function(year, month) {
+    var convertToDate = function (year, month) {
         if (year && month) {
             return moment(month + ' 1 ' + year).format();
         }
     };
 
-    $scope.submit = function(t) {
+    $scope.submit = function (t) {
         // $scope.data.complete = $scope.complete;
 
         // need to parse the month/year combination before submitting
@@ -300,35 +341,35 @@ controllers.controller('QualificationTenureModalInstanceCtrl', function($scope, 
 });
 
 controllers.controller('SkillModalInstanceCtrl', ['$scope', 'data',
-    function($scope, data) {
+    function ($scope, data) {
         $scope.data = angular.copy(data, $scope.data);
 
         $scope.examples = ['Fixed Asset Accounting', 'Nuclear Physics', 'Recruitment and Selection', 'Javascript', 'Negative Asset Management'];
     }
 ]);
 
-controllers.controller('CVUploadCtrl', function($scope, userService, notificationService) {
-    $scope.uploadFile = function(files) {
+controllers.controller('CVUploadCtrl', function ($scope, userService, notificationService) {
+    $scope.uploadFile = function (files) {
         userService.uploadCv(files)
-            .success(function(data) {
+            .success(function (data) {
                 notificationService.handleSuccess('CV Uploaded and analyzed successfully.');
                 $scope.$close(data.profile);
-            }).error(function() {
+            }).error(function () {
                 $scope.$dismiss();
             });
     };
 });
 
-controllers.controller('PrivateMeCtrl', function($scope, userService) {
+controllers.controller('PrivateMeCtrl', function ($scope, userService) {
     userService.getLimitedProfile()
-        .success(function(data) {
+        .success(function (data) {
             $scope.user = data;
             // simulate what the employer sees here.
             $scope.forEmployer = true;
         });
 });
 
-controllers.controller('MeCtrl', function($scope, $http, $location, $modal, userService, notificationService, utilService, $state, $localStorage, $window) {
+controllers.controller('MeCtrl', function ($scope, $http, $location, $modal, userService, notificationService, utilService, $state, $localStorage, $window) {
 
     if ($state.is('editProfile')) {
         $scope.edit = true;
@@ -336,25 +377,25 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         $scope.edit = false;
     }
 
-    $scope.enableEdit = function() {
+    $scope.enableEdit = function () {
         $scope.edit = true;
     };
 
-    $scope.disableEdit = function() {
+    $scope.disableEdit = function () {
         $scope.edit = false;
     };
 
     $scope.getTimes = utilService.getTimes;
 
-    var loadProfileStats = function() {
+    var loadProfileStats = function () {
         userService.getProfileStats()
-            .success(function(data) {
+            .success(function (data) {
                 $scope.stats = data;
             });
     };
 
     userService.getProfile()
-        .success(function(data) {
+        .success(function (data) {
             $scope.user = data;
 
             // if the temp profile exists from a previous unsuccessful profile update,
@@ -380,17 +421,17 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
                     $modal.open({
                         templateUrl: 'partials/modal_yes_no.html',
                         resolve: {
-                            data: function() {
+                            data: function () {
                                 return adViewed;
                             }
                         },
-                        controller: function($scope, data) {
+                        controller: function ($scope, data) {
                             $scope.question = 'It seems that you were applying to an ad for ' + data.name +
                                 '. Do you want to go to that ad and complete your application?';
                             $scope.yesOption = 'Yes, let me apply';
                             $scope.noOption = 'No';
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function (result) {
                         if (result === 'yes') {
                             $window.location.href = adViewed.url;
                         }
@@ -403,7 +444,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
 
     loadProfileStats();
 
-    var bindAddEditModal = function(itemToEdit, templateUrl, instanceController, collection) {
+    var bindAddEditModal = function (itemToEdit, templateUrl, instanceController, collection) {
         // holds a copy of the referred object so that edits won't appear instantaneously
         // if it's an addition, returns a new object
         var objToManipulate = itemToEdit || {};
@@ -413,13 +454,13 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
             templateUrl: templateUrl,
             controller: instanceController,
             resolve: {
-                data: function() {
+                data: function () {
                     return objToManipulate;
                 }
             }
         });
 
-        modal.result.then(function(manipulated) {
+        modal.result.then(function (manipulated) {
             manipulated._dirty = true;
 
             if (itemToEdit) {
@@ -432,7 +473,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         });
     };
 
-    $scope.convertGender = function(gender) {
+    $scope.convertGender = function (gender) {
         if (gender) {
             return 'Male';
         } else if (gender === false) {
@@ -440,9 +481,9 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
         }
     };
 
-    $scope.saveProfile = function() {
+    $scope.saveProfile = function () {
         userService.saveProfile($scope.user)
-            .success(function(data) {
+            .success(function (data) {
                 loadProfileStats();
                 notificationService.notify({
                     title: 'Change(s) saved!',
@@ -456,7 +497,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
                 if ($localStorage.tempProfile) {
                     delete $localStorage.tempProfile;
                 }
-            }).error(function(data) {
+            }).error(function (data) {
                 if (data.profile) {
                     $scope.user = data.profile;
                 }
@@ -466,12 +507,12 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
     };
 
     // personal modal
-    $scope.openPersonalModal = function(profile) {
+    $scope.openPersonalModal = function (profile) {
         var personalModal = $modal.open({
             templateUrl: 'partials/modal_me_personal.html',
             controller: 'PersonalModalInstanceCtrl',
             resolve: { // we're sending these data from this controller to the modal's controller
-                data: function() {
+                data: function () {
                     return {
                         location: profile.location,
                         contactNumber: profile.contactNumber,
@@ -484,7 +525,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
             }
         });
 
-        personalModal.result.then(function(personalData) { // when the modal returns a result
+        personalModal.result.then(function (personalData) { // when the modal returns a result
             profile.location = personalData.location;
             profile.contactNumber = personalData.contactNumber;
             profile.languages = personalData.languages;
@@ -499,24 +540,24 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
     };
 
     // qualification modal
-    $scope.openQualificationModal = function(qualification) {
+    $scope.openQualificationModal = function (qualification) {
         bindAddEditModal(qualification, 'partials/modal_me_qualification.html',
             'QualificationTenureModalInstanceCtrl', $scope.user.qualifications);
     };
 
     // tenure modal
-    $scope.openTenureModal = function(tenure) {
+    $scope.openTenureModal = function (tenure) {
         bindAddEditModal(tenure, 'partials/modal_me_tenure.html', 'QualificationTenureModalInstanceCtrl',
             $scope.user.tenures);
     };
 
     // skills modal
-    $scope.openSkillModal = function() {
+    $scope.openSkillModal = function () {
         var skillModal = $modal.open({
             templateUrl: 'partials/modal_me_skill.html',
             controller: 'SkillModalInstanceCtrl',
             resolve: {
-                data: function() {
+                data: function () {
                     return {
                         skills: $scope.user.skills
                     };
@@ -524,7 +565,7 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
             }
         });
 
-        skillModal.result.then(function(manipulated) {
+        skillModal.result.then(function (manipulated) {
             manipulated._dirty = true;
             $scope.user.skills = manipulated;
             $scope.saveProfile();
@@ -532,12 +573,12 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
     };
 
     // deletes any element by position of the collection after seeking user confirmation
-    $scope.openDeleteModal = function(item, collection) {
+    $scope.openDeleteModal = function (item, collection) {
         var modal = $modal.open({
             templateUrl: 'partials/modal_me_confirmation.html'
         });
 
-        modal.result.then(function() {
+        modal.result.then(function () {
             collection.splice(collection.indexOf(item), 1);
             $scope.saveProfile();
         });
@@ -547,11 +588,11 @@ controllers.controller('MeCtrl', function($scope, $http, $location, $modal, user
 
 controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$location',
     'userService', 'notificationService',
-    function($scope, $http, orgService, $location, userService, notificationService) {
+    function ($scope, $http, orgService, $location, userService, notificationService) {
 
-        $scope.submit = function(org, admin) {
+        $scope.submit = function (org, admin) {
             orgService.createOrg(org)
-                .success(function(data) {
+                .success(function (data) {
                     notificationService.notify({
                         title: 'Success!',
                         text: 'Organization Created',
@@ -567,7 +608,7 @@ controllers.controller('CreateOrgCtrl', ['$scope', '$http', 'orgService', '$loca
                     };
 
                     userService.createOrgUser(user)
-                        .success(function() {
+                        .success(function () {
                             notificationService.handleSuccess('Please check your e-mail inbox ' +
                                 'and click the confirmation link, please',
                                 'Admin account created!');
@@ -585,23 +626,23 @@ controllers.controller('EditOrgCtrl', [
     'GRIZZLY_URL',
     'userService',
     '$state',
-    function($scope, orgService, $rootScope, notificationService, $state) {
+    function ($scope, orgService, $rootScope, notificationService, $state) {
         $scope.editMode = true;
 
         orgService.getOrg($rootScope.u.affiliation)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.org = data.organization;
             });
 
         $scope.notReady = true;
 
-        $scope.uploadFile = function(files) {
+        $scope.uploadFile = function (files) {
             var img = new Image();
             img.src = window.URL.createObjectURL(files[0]);
 
-            img.onload = function() {
+            img.onload = function () {
                 orgService.uploadLogo($rootScope.u.affiliation, files)
-                    .success(function() {
+                    .success(function () {
                         notificationService.handleSuccess('Logo uploaded successfully');
                     });
 
@@ -609,9 +650,9 @@ controllers.controller('EditOrgCtrl', [
             };
         };
 
-        $scope.submit = function(org) {
+        $scope.submit = function (org) {
             orgService.editOrg($rootScope.u.affiliation, org)
-                .success(function() {
+                .success(function () {
                     notificationService.handleSuccess('Organization details updated');
                     $state.go('organizationDashboard');
                 });
@@ -621,22 +662,22 @@ controllers.controller('EditOrgCtrl', [
 
 controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$rootScope',
     'notificationService', '$modal',
-    function($scope, userService, orgService, $rootScope, notificationService, $modal) {
+    function ($scope, userService, orgService, $rootScope, notificationService, $modal) {
         $scope.currentUserId = $rootScope.u._id;
 
-        var getUsers = function() {
+        var getUsers = function () {
             orgService.getUsers($rootScope.u.affiliation)
-                .success(function(data) {
+                .success(function (data) {
                     $scope.users = data.users;
                 });
         };
 
-        orgService.getAds($rootScope.u.affiliation).success(function(data) {
+        orgService.getAds($rootScope.u.affiliation).success(function (data) {
             $scope.org = {
                 _id: $rootScope.u.affiliation
             };
 
-            _.each(data.advertisements, function(ad) {
+            _.each(data.advertisements, function (ad) {
                 if (moment(ad.expiredOn).isBefore(Date.now())) {
                     ad.expired = true;
                 }
@@ -649,26 +690,26 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
 
         getUsers();
 
-        $scope.openUserDeleteModal = function(id) {
+        $scope.openUserDeleteModal = function (id) {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_org_user_delete_confirmation.html'
             });
 
-            modal.result.then(function() {
+            modal.result.then(function () {
                 orgService.deactivateUser($scope.org._id, id)
-                    .success(function() {
+                    .success(function () {
                         notificationService.handleSuccess('User was deactivated');
                         getUsers();
                     });
             });
         };
 
-        $scope.openCreateUserModal = function() {
+        $scope.openCreateUserModal = function () {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_org_user_create.html'
             });
 
-            modal.result.then(function(data) {
+            modal.result.then(function (data) {
                 var user = {
                     firstName: data.name,
                     email: data.email,
@@ -676,7 +717,7 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
                 };
 
                 userService.createOrgUser(user)
-                    .success(function() {
+                    .success(function () {
                         notificationService.handleSuccess('User account created. We have ' +
                             'sent an email notifying the new user');
                     });
@@ -687,7 +728,7 @@ controllers.controller('ViewOrgCtrl', ['$scope', 'userService', 'orgService', '$
 
 controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService', '$rootScope',
     'notificationService', 'adService', '$stateParams', 'searchService', 'adResponseService',
-    function($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams,
+    function ($scope, userService, orgService, $rootScope, notificationService, adService, $stateParams,
         searchService, adResponseService) {
         $scope.selectedCandidate = [];
 
@@ -727,7 +768,7 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
         };
 
         // on change for the selected candidate, change the gr-visualized-profile
-        $scope.$watch('selectedCandidate[0]', function() {
+        $scope.$watch('selectedCandidate[0]', function () {
             if ($scope.selectedCandidate.length === 0) {
                 return;
             }
@@ -735,22 +776,22 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
             $scope.data = {};
 
             userService.getProfile($scope.selectedCandidate[0].user)
-                .success(function(data) {
+                .success(function (data) {
                     $scope.user = data;
                 });
         });
 
         adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.ad = data.advertisement;
                 $scope.ad.createdOnText = moment($scope.ad.createdOn).format('MMMM DD');
                 $scope.ad.expired = moment(data.advertisement.expiredOn).isBefore(Date.now());
             });
 
-        var loadResponses = function() {
+        var loadResponses = function () {
             adResponseService.getAllResponses($rootScope.u.affiliation, $stateParams.adId)
-                .success(function(data) {
-                    $scope.responses = _.map(data.responses, function(r) {
+                .success(function (data) {
+                    $scope.responses = _.map(data.responses, function (r) {
                         return {
                             id: r._id,
                             user: r.user._id ? r.user._id : r.user,
@@ -766,10 +807,10 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
 
         loadResponses();
 
-        $scope.save = function(response, status, tags) {
+        $scope.save = function (response, status, tags) {
             adResponseService.editResponse($rootScope.u.affiliation, $stateParams.adId, response.id, status,
-                tags)
-                .success(function() {
+                    tags)
+                .success(function () {
                     notificationService.handleSuccess('Successfully updated the candidate');
                     loadResponses();
                 });
@@ -787,11 +828,11 @@ controllers.controller('AdCtrl', ['$scope',
     '$state',
     '$rootScope',
 
-    function($scope, orgService, userService, adService, notificationService, $location, $stateParams,
+    function ($scope, orgService, userService, adService, notificationService, $location, $stateParams,
         $state, $rootScope) {
 
         orgService.getOrg($rootScope.u.affiliation)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.org = data.organization;
             });
 
@@ -806,7 +847,7 @@ controllers.controller('AdCtrl', ['$scope',
             $scope.heading = 'Edit Advertisement';
 
             adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-                .success(function(data) {
+                .success(function (data) {
                     $scope.ad = data.advertisement;
 
                     // transforming the questions
@@ -814,7 +855,7 @@ controllers.controller('AdCtrl', ['$scope',
 
                     // re-initialize $scope array holders
                     $scope.ad.questions = [];
-                    _.each(q, function(v) {
+                    _.each(q, function (v) {
                         $scope.ad.questions.push({
                             value: v
                         });
@@ -825,7 +866,7 @@ controllers.controller('AdCtrl', ['$scope',
                     $scope.ad.expiredOn = new Date($scope.ad.expiredOn);
 
                     $scope.postedOn = moment().calendar();
-                    $scope.expiresOn = function() {
+                    $scope.expiresOn = function () {
                         return moment($scope.ad.expiredOn).calendar();
                     };
                 });
@@ -833,36 +874,36 @@ controllers.controller('AdCtrl', ['$scope',
             $scope.heading = 'Create Advertisement';
 
             $scope.postedOn = moment().calendar();
-            $scope.expiresOn = function() {
+            $scope.expiresOn = function () {
                 return moment($scope.ad.expiredOn).calendar();
             };
         }
 
         // adds an element to an array
-        $scope.addElement = function(arr) {
+        $scope.addElement = function (arr) {
             arr.push({});
         };
 
         // removes an element from an array
-        $scope.removeElement = function(arr, i) {
+        $scope.removeElement = function (arr, i) {
             arr.splice(i, 1);
         };
 
-        $scope.submit = function(ad) {
+        $scope.submit = function (ad) {
             // transform questions to independent arrays.
             // currently they are nested under obj.value properties
             ad.questions = _.pluck($scope.ad.questions, 'value');
 
             if ($state.is('createAdvertisement')) {
                 adService.createAd($rootScope.u.affiliation, ad)
-                    .success(function(data) {
+                    .success(function (data) {
                         $state.go('campaignHome', {
                             adId: data.id
                         });
                     });
             } else {
                 adService.editAd($rootScope.u.affiliation, $scope.ad.id, ad)
-                    .success(function() {
+                    .success(function () {
                         $state.go('organizationDashboard');
                     });
             }
@@ -872,29 +913,29 @@ controllers.controller('AdCtrl', ['$scope',
 
 controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService',
     'notificationService', '$rootScope',
-    function($scope, orgService, adService, $stateParams, userService, notificationService, $rootScope) {
+    function ($scope, orgService, adService, $stateParams, userService, notificationService, $rootScope) {
         $scope.org = {};
         $scope.ad = {};
 
         adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-            .success(function(data) {
+            .success(function (data) {
 
                 $scope.ad = data.advertisement;
             });
 
         orgService.getOrg($rootScope.u.affiliation)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.org = data.organization;
             });
     }
 ]);
 
-controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adService, $stateParams, userService, notificationService,
+controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adService, $stateParams, userService, notificationService,
     adResponseService, $rootScope, $window, $modal, $state, $localStorage) {
     $scope.org = {};
     $scope.ad = {};
 
-    $scope.apply = function() {
+    $scope.apply = function () {
         if (!userService.isLoggedIn()) {
             $localStorage.adViewed = angular.toJson({
                 url: $window.location.href,
@@ -903,41 +944,41 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
         }
 
         adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, $state.params.ref)
-            .success(function() {
+            .success(function () {
                 notificationService.handleSuccess('Saved your application successfully');
                 $scope.status = 'applied';
             });
     };
 
-    $scope.getShortenedUrl = function() {
+    $scope.getShortenedUrl = function () {
         $scope.refurl = $window.location.href + '?ref=' + $rootScope.u._id;
 
         $modal.open({
             templateUrl: 'partials/modal_referral_url.html',
             resolve: {
-                refurl: function() {
+                refurl: function () {
                     return $scope.refurl;
                 },
-                bounty: function() {
+                bounty: function () {
                     return $scope.ad.bounty;
                 }
             },
-            controller: function($scope, refurl, bounty, $http, utilService) {
+            controller: function ($scope, refurl, bounty, $http, utilService) {
                 $scope.refurl = 'Shortening link...';
                 $scope.bounty = bounty;
 
-                utilService.shortenUrl(refurl).success(function(data) {
+                utilService.shortenUrl(refurl).success(function (data) {
                     $scope.refurl = data.shortened;
-                }).error(function() {
+                }).error(function () {
                     $scope.refurl = refurl;
                 });
             }
         });
     };
 
-    var getAdvertisement = function(method) {
+    var getAdvertisement = function (method) {
         method($stateParams.orgId, $stateParams.adId)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.ad = data.advertisement;
             });
     };
@@ -946,9 +987,9 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
         $scope.status = 'invited';
         getAdvertisement(adService.getAd);
     } else if (userService.isLoggedIn()) {
-        userService.getResponses().success(function(data) {
+        userService.getResponses().success(function (data) {
             if (data.responses.length > 0) {
-                var relevantResponse = _.find(data.responses, function(r) {
+                var relevantResponse = _.find(data.responses, function (r) {
                     return r.advertisement._id === $stateParams.adId;
                 });
 
@@ -968,12 +1009,12 @@ controllers.controller('ViewPublicAdCtrl', function($scope, orgService, adServic
     }
 
     orgService.getOrg($stateParams.orgId)
-        .success(function(data) {
+        .success(function (data) {
             $scope.org = data.organization;
         });
 });
 
-controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
+controllers.controller('SearchCtrl', function ($scope, $rootScope, $stateParams, userService, adService, searchService, notificationService,
     validationService, $modal, $location, adResponseService, $state) {
     $scope.displayNameCollection = {
         AGE_BETWEEN: {
@@ -1025,13 +1066,13 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
     $scope.searchCreated = false; // fix for a phantom promise return
 
     searchService.getSearchForAd($rootScope.u.affiliation, $stateParams.adId)
-        .success(function(data) {
+        .success(function (data) {
             $scope.search = data.search;
             initiate();
 
-        }).error(function() {
+        }).error(function () {
             adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-                .success(function(data) {
+                .success(function (data) {
                     if ($scope.searchCreated) {
                         return;
                     } else {
@@ -1046,9 +1087,9 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
                     };
 
                     searchService.createSearch($rootScope.u.affiliation, search)
-                        .success(function(data) {
+                        .success(function (data) {
                             searchService.getSearch($rootScope.u.affiliation, data.id)
-                                .success(function(data) {
+                                .success(function (data) {
                                     $scope.search = data.search;
                                     initiate();
                                 });
@@ -1056,7 +1097,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
                 });
         });
 
-    var initiate = function() {
+    var initiate = function () {
         if (!$scope.search.criteria) {
             $scope.search.criteria = [];
         }
@@ -1067,7 +1108,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
         }
     };
 
-    var resetCriterion = function() {
+    var resetCriterion = function () {
         $scope.criterion = {
             values: [],
             weight: 1
@@ -1076,7 +1117,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
 
     resetCriterion();
 
-    var saveSearch = function() {
+    var saveSearch = function () {
         var search = {
             name: $scope.search.name,
             criteria: $scope.search.criteria
@@ -1084,13 +1125,13 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
 
 
         searchService.editSearch($rootScope.u.affiliation, $scope.search.id, search)
-            .success(function() {
+            .success(function () {
                 notificationService.handleSuccess('Search updated successfully.');
             });
     };
 
 
-    $scope.add = function(criterion) {
+    $scope.add = function (criterion) {
         try {
             validationService.mustBeTrue(criterion.name, 'Search criterion type is required');
             validationService.mustBeTrue(criterion.values[0], 'Search values should be defined');
@@ -1098,7 +1139,7 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
                 validationService.mustBeTrue(criterion.values[1], 'Search value range should be defined');
                 // if the user is going to define filter criteria like age and years of experience
                 // more than once
-                validationService.mustBeTrue(!(_.find($scope.search.criteria, function(c) {
+                validationService.mustBeTrue(!(_.find($scope.search.criteria, function (c) {
                     return c.name === $scope.criterion.name;
                 })), 'You can not specify multiple search criteria of this kind');
             }
@@ -1119,12 +1160,12 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
     };
 
     // removes an element from an array
-    $scope.removeElement = function(arr, i) {
+    $scope.removeElement = function (arr, i) {
         arr.splice(i, 1);
         saveSearch();
     };
 
-    $scope.doSearch = function() {
+    $scope.doSearch = function () {
         $state.go('results', {
             adId: $stateParams.adId,
             searchId: $scope.search.id
@@ -1132,13 +1173,13 @@ controllers.controller('SearchCtrl', function($scope, $rootScope, $stateParams, 
     };
 });
 
-controllers.controller('SearchResultsCtrl', function($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService, notificationService) {
+controllers.controller('SearchResultsCtrl', function ($scope, searchService, $rootScope, adResponseService, $stateParams, $state, userService, notificationService) {
     $scope.forEmployer = true;
 
     searchService.getSearchResults($rootScope.u.affiliation, $stateParams.searchId)
-        .success(function(data) {
+        .success(function (data) {
             if (data.scores.hits.hits.length !== 0) {
-                searchService.getSearch($rootScope.u.affiliation, $stateParams.searchId).success(function(searchData) {
+                searchService.getSearch($rootScope.u.affiliation, $stateParams.searchId).success(function (searchData) {
                     $scope.search = searchData.search;
                     markInvitedCandidates(data.scores.hits.hits);
                 });
@@ -1152,18 +1193,18 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
             }
         });
 
-    $scope.invite = function(id, tags) {
+    $scope.invite = function (id, tags) {
         adResponseService.createResponse(id, this.$parent.u.affiliation, $stateParams.adId, tags)
-            .success(function() {
+            .success(function () {
                 $scope.user.invited = true;
                 notificationService.handleSuccess('Candidate was invited successfully');
                 markInvitedCandidates($scope.allResults);
             });
     };
 
-    $scope.loadProfile = function(id, invited) {
+    $scope.loadProfile = function (id, invited) {
         userService.getProfile(id)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.user = data;
                 $scope.user.id = id;
                 $scope.user.invited = invited;
@@ -1176,13 +1217,13 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
             });
     };
 
-    $scope.showTop = function(count) {
+    $scope.showTop = function (count) {
         $scope.limitResultsTo = count;
     };
 
     function markInvitedCandidates(results) {
         adResponseService.getAllResponses($rootScope.u.affiliation, $scope.search.advertisement)
-            .success(function(data) {
+            .success(function (data) {
                 var invitedList = _.pluck(_.pluck(data.responses, 'user'), '_id');
                 var fullList = _.pluck(results, '_id');
 
@@ -1201,14 +1242,14 @@ controllers.controller('SearchResultsCtrl', function($scope, searchService, $roo
 });
 
 controllers.controller('LogoutCtrl', ['$scope', 'userService',
-    function($scope, userService) {
+    function ($scope, userService) {
         userService.logout();
     }
 ]);
 
 controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope', 'notificationService',
     '$modal', 'adResponseService',
-    function($scope, userService, $rootScope, notificationService, $modal, adResponseService) {
+    function ($scope, userService, $rootScope, notificationService, $modal, adResponseService) {
         $scope.responses = [];
 
         $scope.hasActive = false;
@@ -1216,62 +1257,62 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
         $scope.hasPending = false;
 
 
-        var changeStatus = function(status, response, successMsg) {
+        var changeStatus = function (status, response, successMsg) {
             adResponseService.editResponse(response.advertisement.organization._id,
-                response.advertisement._id, response._id, status, null)
-                .success(function() {
+                    response.advertisement._id, response._id, status, null)
+                .success(function () {
                     notificationService.handleSuccess(successMsg);
                     loadResponses();
                 });
         };
 
-        $scope.accept = function(response) {
+        $scope.accept = function (response) {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_response_accept.html'
             });
 
-            modal.result.then(function() {
+            modal.result.then(function () {
                 changeStatus('accepted', response, 'You have successfully accepted the invitation from' +
                     response.advertisement.organization.name);
             });
 
         };
 
-        $scope.reject = function(response) {
+        $scope.reject = function (response) {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_response_reject.html'
             });
 
-            modal.result.then(function() {
+            modal.result.then(function () {
                 changeStatus('withdrawn', response, 'You have rejected the invitation from ' +
                     response.advertisement.organization.name);
             });
         };
 
-        $scope.withdraw = function(response) {
+        $scope.withdraw = function (response) {
             var modal = $modal.open({
                 templateUrl: 'partials/modal_response_withdraw.html'
             });
 
-            modal.result.then(function() {
+            modal.result.then(function () {
                 changeStatus('withdrawn', response, 'You have withdrawn your application to ' +
                     response.advertisement.organization.name);
             });
         };
 
-        var loadResponses = function() {
+        var loadResponses = function () {
             $scope.responses = {
                 invited: [],
                 active: [],
                 inactive: []
             };
 
-            userService.getResponses().success(function(data) {
+            userService.getResponses().success(function (data) {
                 if (data.responses.length === 0) {
                     notificationService.handleInfo('You do not have any active applications',
                         'No applications');
                 } else {
-                    _.each(data.responses, function(response) {
+                    _.each(data.responses, function (response) {
                         if (moment(response.advertisement.expiredOn).isBefore(Date.now())) {
                             $scope.responses.inactive.push(response);
                         } else if (response.status === 'invited') {
@@ -1291,14 +1332,14 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 ]);
 
 controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
-    function($scope, adService, userService) {
+    function ($scope, adService, userService) {
         $scope.ads = [];
 
-        adService.getAdsPublic().success(function(data) {
+        adService.getAdsPublic().success(function (data) {
             $scope.ads = data.ads;
         });
 
-        userService.getProfile().success(function(data) {
+        userService.getProfile().success(function (data) {
             if (data.tenures.length === 0 && data.qualifications.length === 0) {
                 $scope.emptyProfile = true;
             } else {
@@ -1310,20 +1351,20 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
 
 controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayService',
     'notificationService', '$location',
-    function($scope, $rootScope, subwayService, notificationService, $location) {
-        $scope.markAsRead = function(notification) {
-            subwayService.markAsRead(notification._id).success(function(data) {
+    function ($scope, $rootScope, subwayService, notificationService, $location) {
+        $scope.markAsRead = function (notification) {
+            subwayService.markAsRead(notification._id).success(function (data) {
                 $rootScope.$broadcast('refreshNotifications');
                 $rootScope.notifications = data;
             });
         };
 
-        $rootScope.$watch('notifications', function() {
+        $rootScope.$watch('notifications', function () {
             $scope.notifications = $rootScope.notifications;
         });
 
-        $scope.goto = function(notification) {
-            subwayService.markAsRead(notification._id).success(function() {
+        $scope.goto = function (notification) {
+            subwayService.markAsRead(notification._id).success(function () {
                 $rootScope.$broadcast('refreshNotifications');
 
                 var fullUrl = notification.link;
@@ -1342,8 +1383,8 @@ controllers.controller('ResetPasswordCtrl', [
     'userService',
     'notificationService',
     'validationService',
-    function($scope, userService, notificationService, validationService) {
-        $scope.submit = function(email) {
+    function ($scope, userService, notificationService, validationService) {
+        $scope.submit = function (email) {
             try {
                 validationService.mustBeTrue(!!email, 'Email cannot be empty');
             } catch (e) {
@@ -1351,7 +1392,7 @@ controllers.controller('ResetPasswordCtrl', [
             }
 
             userService.requestPasswordReset(email)
-                .success(function() {
+                .success(function () {
                     notificationService.handleSuccess(
                         'A password reset link was sent to your email address');
                 });
@@ -1366,14 +1407,14 @@ controllers.controller('ChangePasswordCtrl', [
     'validationService',
     '$stateParams',
     '$state',
-    function($scope, userService, notificationService, validationService,
+    function ($scope, userService, notificationService, validationService,
         $stateParams, $state) {
 
         if ($stateParams.token) {
             $scope.token = $stateParams.token;
         }
 
-        $scope.submit = function(password) {
+        $scope.submit = function (password) {
             try {
                 validationService.mustBeTrue(!!password,
                     'Password can not be empty'
@@ -1388,7 +1429,7 @@ controllers.controller('ChangePasswordCtrl', [
             }
 
             userService.changePassword(password, $scope.token)
-                .success(function() {
+                .success(function () {
                     if (userService.isLoggedIn()) {
                         notificationService.handleSuccess(
                             'Your password had been changed successfully.'
@@ -1406,7 +1447,7 @@ controllers.controller('ChangePasswordCtrl', [
     }
 ]);
 
-controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $rootScope, orgService) {
+controllers.controller('ViewOrgProfileCtrl', function ($scope, $stateParams, $rootScope, orgService) {
 
     if ($stateParams.orgId === 'current') {
         $stateParams.orgId = $rootScope.u.affiliation;
@@ -1417,20 +1458,20 @@ controllers.controller('ViewOrgProfileCtrl', function($scope, $stateParams, $roo
     };
 
     orgService.getOrg($stateParams.orgId)
-        .success(function(data) {
+        .success(function (data) {
             $scope.org = data.organization;
         });
 
     orgService.getPublicAds($stateParams.orgId)
-        .success(function(data) {
+        .success(function (data) {
             $scope.ads = data.advertisements;
         });
 });
 
-controllers.controller('LandingCtrl', function($scope, $timeout, userService, $rootScope) {
+controllers.controller('LandingCtrl', function ($scope, $timeout, userService, $rootScope) {
     var index = 0;
 
-    var incrementIndex = function() {
+    var incrementIndex = function () {
         if (index === taunts.length - 1) {
             index = 0;
         } else {
@@ -1438,12 +1479,12 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
         }
     };
 
-    var fadeOut = function(callback) {
+    var fadeOut = function (callback) {
         $scope.animateCss = 'animated fadeOutDown';
         $timeout(callback, 500);
     };
 
-    var fadeIn = function() {
+    var fadeIn = function () {
         $scope.animateCss = 'animated fadeInUp';
     };
 
@@ -1462,8 +1503,8 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     $scope.loggedIn = userService.isLoggedIn();
     $scope.isOrgUser = !!$rootScope.u.affiliation;
 
-    var changeTaunt = function() {
-        fadeOut(function() {
+    var changeTaunt = function () {
+        fadeOut(function () {
             $scope.what = taunts[index].what;
             fadeIn();
             incrementIndex();
@@ -1474,16 +1515,16 @@ controllers.controller('LandingCtrl', function($scope, $timeout, userService, $r
     $timeout(changeTaunt, 3000);
 });
 
-controllers.controller('AdminCtrl', function(adminService, $scope, notificationService,
+controllers.controller('AdminCtrl', function (adminService, $scope, notificationService,
     orgService, $rootScope) {
-    $scope.refreshUsers = function() {
-        adminService.updateUsers().success(function() {
+    $scope.refreshUsers = function () {
+        adminService.updateUsers().success(function () {
             notificationService.handleSuccess('Users are being updated. Check the logs.');
         });
     };
 
-    $scope.indexUsers = function() {
-        adminService.indexUsers().success(function() {
+    $scope.indexUsers = function () {
+        adminService.indexUsers().success(function () {
             notificationService.handleSuccess('Check logs');
         });
     };
@@ -1495,54 +1536,54 @@ controllers.controller('AdminCtrl', function(adminService, $scope, notificationS
     $scope.switch = function (_id) {
         $rootScope.u.affiliation = _id;
         $rootScope.u.type = 'ORG';
-    }
+    };
 });
 
-controllers.controller('AdminUsersCtrl', function($scope, adminService, $localStorage) {
+controllers.controller('AdminUsersCtrl', function ($scope, adminService, $localStorage) {
     $scope.lastUpdatedOn = angular.fromJson($localStorage.adminUpdatedOn);
 
-    adminService.getAllUsers().success(function(data) {
+    adminService.getAllUsers().success(function (data) {
         $scope.data = data;
 
-        $scope.goodUsers = _.filter(data, function(user) {
+        $scope.goodUsers = _.filter(data, function (user) {
             return user.tenures.length + user.qualifications.length + user.skills.length > 0;
         });
     });
 });
 
-controllers.controller('AdminInvitesCtrl', function($scope, adminService, notificationService) {
-    $scope.getUninvited = function() {
-        adminService.getUninvited().success(function(data) {
+controllers.controller('AdminInvitesCtrl', function ($scope, adminService, notificationService) {
+    $scope.getUninvited = function () {
+        adminService.getUninvited().success(function (data) {
             $scope.data = data;
         });
     };
 
     $scope.getUninvited();
 
-    $scope.inviteUser = function(id) {
-        adminService.sendInvitation(id).success(function() {
+    $scope.inviteUser = function (id) {
+        adminService.sendInvitation(id).success(function () {
             notificationService.handleSuccess('Invitation sent successfully.');
             $scope.getUninvited();
         });
     };
 
-    $scope.declineUser = function(id) {
-        adminService.declineInvitation(id).success(function() {
+    $scope.declineUser = function (id) {
+        adminService.declineInvitation(id).success(function () {
             notificationService.handleSuccess('Invitation declined.');
             $scope.getUninvited();
         });
     };
 });
 
-controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userService, notificationService, $state, cfpLoadingBar, $localStorage, $timeout) {
+controllers.controller('ProfileBuilderCtrl', function ($scope, $modal, userService, notificationService, $state, cfpLoadingBar, $localStorage, $timeout) {
     $scope.linkedInLoaded = false;
 
-    $scope.endLoadingLinkedIn = function() {
+    $scope.endLoadingLinkedIn = function () {
         $scope.linkedInLoaded = true;
     };
 
     // if linkedin hasn't loaded in 10 seconds, refresh the page so that it has a chance to load again
-    $timeout(function() {
+    $timeout(function () {
         if (!$scope.linkedInLoaded) {
             location.reload();
         }
@@ -1550,15 +1591,15 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
 
     var employed = null;
 
-    $scope.start = function() {
+    $scope.start = function () {
         $modal.open({
             templateUrl: 'partials/modal_yes_no.html',
-            controller: function($scope) {
+            controller: function ($scope) {
                 $scope.question = 'Are you employed somewhere, or have been emplyed before?';
                 $scope.yesOption = 'Yes, I have/had a job';
                 $scope.noOption = 'No, I have never had a job before';
             }
-        }).result.then(function(result) {
+        }).result.then(function (result) {
             if (result === 'yes') {
                 $scope.steps[0].fn = $scope.openTenureModal;
                 employed = true;
@@ -1571,12 +1612,12 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         });
     };
 
-    $scope.openTenureModal = function() {
+    $scope.openTenureModal = function () {
         var modal = $modal.open({
             templateUrl: 'partials/modal_me_tenure.html',
             controller: 'QualificationTenureModalInstanceCtrl',
             resolve: {
-                data: function() {
+                data: function () {
                     var data = $scope.steps[0].data;
                     data.meta = {
                         heading: 'Tell us about your current job'
@@ -1587,18 +1628,18 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             }
         });
 
-        modal.result.then(function(tenure) {
+        modal.result.then(function (tenure) {
             $scope.step.data = tenure;
             $scope.next();
         });
     };
 
-    $scope.openQualificationModal = function() {
+    $scope.openQualificationModal = function () {
         var modal = $modal.open({
             templateUrl: 'partials/modal_me_qualification.html',
             controller: 'QualificationTenureModalInstanceCtrl',
             resolve: {
-                data: function() {
+                data: function () {
                     var data = $scope.steps[0].data;
                     data.meta = {
                         heading: 'Tell us about the qualification you are following'
@@ -1609,18 +1650,18 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             }
         });
 
-        modal.result.then(function(qualification) {
+        modal.result.then(function (qualification) {
             $scope.step.data = qualification;
             $scope.next();
         });
     };
 
-    $scope.openSkillModal = function() {
+    $scope.openSkillModal = function () {
         var skillModal = $modal.open({
             templateUrl: 'partials/modal_me_skill.html',
             controller: 'SkillModalInstanceCtrl',
             resolve: {
-                data: function() {
+                data: function () {
                     return {
                         skills: $scope.steps[1].data.skills ? $scope.steps[1].data.skills : [{
                             name: null,
@@ -1634,30 +1675,30 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             }
         });
 
-        skillModal.result.then(function(skills) {
+        skillModal.result.then(function (skills) {
             $scope.step.data = skills;
             $scope.next();
         });
     };
 
-    $scope.openDateOfBirthModal = function() {
+    $scope.openDateOfBirthModal = function () {
         var personalModal = $modal.open({
             templateUrl: 'partials/modal_me_dateofbirth.html',
             controller: 'PersonalModalInstanceCtrl',
             resolve: { // we're sending these data from this controller to the modal's controller
-                data: function() {
+                data: function () {
                     return $scope.steps[2].data;
                 }
             }
         });
 
-        personalModal.result.then(function(personalData) { // when the modal returns a result
+        personalModal.result.then(function (personalData) { // when the modal returns a result
             $scope.step.data = new Date(personalData.dateOfBirth);
             $scope.next();
         });
     };
 
-    $scope.makeProfileFromSteps = function() {
+    $scope.makeProfileFromSteps = function () {
         var profile = {
             tenures: employed === true ? [$scope.steps[0].data] : [],
             qualifications: employed === false ? [$scope.steps[0].data] : [],
@@ -1668,15 +1709,15 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $scope.save(profile);
     };
 
-    $scope.save = function(profile) {
+    $scope.save = function (profile) {
         userService.saveProfile(profile)
-            .success(function() {
+            .success(function () {
                 notificationService.handleSuccess('Profile Saved Successfully');
                 $state.go('editProfile');
             });
     };
 
-    $scope.skip = function() {
+    $scope.skip = function () {
         $state.go('editProfile');
     };
 
@@ -1700,7 +1741,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         fn: $scope.makeProfileFromSteps
     }];
 
-    $scope.next = function() {
+    $scope.next = function () {
         // if the user had been working on a step, mar it as done now
         if ($scope.step) {
             $scope.step.status = 'done';
@@ -1710,12 +1751,12 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
         $scope.open(next);
     };
 
-    $scope.open = function(step) {
+    $scope.open = function (step) {
         $scope.step = $scope.steps[step - 1];
         $scope.step.fn();
     };
 
-    $scope.linkedIn = function() {
+    $scope.linkedIn = function () {
         function convertDate(obj) {
             if (obj && obj.year) {
                 return moment({
@@ -1728,8 +1769,8 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
             }
         }
 
-        IN.API.Profile('me').fields(['educations', 'certifications', 'positions', 'date-of-birth', 'phone-numbers', 'skills']).result(function(result) {
-            $scope.$apply(function() {
+        IN.API.Profile('me').fields(['educations', 'certifications', 'positions', 'date-of-birth', 'phone-numbers', 'skills']).result(function (result) {
+            $scope.$apply(function () {
                 if (result._total === 0) {
                     notificationService.handleError('Error retireving profile');
                     return;
@@ -1744,7 +1785,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 var qualifications = [];
 
                 if (inProfile.educations && inProfile.educations._total > 0) {
-                    inProfile.educations.values.forEach(function(edu) {
+                    inProfile.educations.values.forEach(function (edu) {
                         var qualification = {};
 
                         qualification.name = edu.degree;
@@ -1759,7 +1800,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 }
 
                 if (inProfile.certifications && inProfile.certifications._total > 0) {
-                    inProfile.certifications.values.forEach(function(cert) {
+                    inProfile.certifications.values.forEach(function (cert) {
                         var certification = {};
 
                         certification.name = cert.name;
@@ -1775,7 +1816,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 userProfile.qualifications = qualifications;
 
                 if (inProfile.phoneNumbers && inProfile.phoneNumbers._total > 0) {
-                    var contactNumber = _.find(inProfile.phoneNumbers.values, function(pnumber) {
+                    var contactNumber = _.find(inProfile.phoneNumbers.values, function (pnumber) {
                         return pnumber.phoneType === 'mobile';
                     }).phoneNumber;
 
@@ -1789,7 +1830,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 var tenures = [];
 
                 if (inProfile.positions && inProfile.positions._total) {
-                    inProfile.positions.values.forEach(function(position) {
+                    inProfile.positions.values.forEach(function (position) {
                         var tenure = {};
 
                         tenure.organization = position.company.name;
@@ -1807,7 +1848,7 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
                 var skills = [];
 
                 if (inProfile.skills && inProfile.skills._total > 0) {
-                    inProfile.skills.values.forEach(function(skillObj) {
+                    inProfile.skills.values.forEach(function (skillObj) {
                         skills.push({
                             name: skillObj.skill.name,
                             experience: 1
@@ -1824,38 +1865,38 @@ controllers.controller('ProfileBuilderCtrl', function($scope, $modal, userServic
     };
 });
 
-controllers.controller('OrgMeCtrl', function($scope, userService, $stateParams) {
+controllers.controller('OrgMeCtrl', function ($scope, userService, $stateParams) {
     $scope.viewedByOrg = true;
 
     userService.getProfile($stateParams.userId)
-        .success(function(data) {
+        .success(function (data) {
             $scope.user = data;
         });
 });
 
-controllers.controller('FriendShareCtrl', function($scope, $stateParams, inviteService, notificationService) {
-    $scope.storeInvite = function() {
+controllers.controller('FriendShareCtrl', function ($scope, $stateParams, inviteService, notificationService) {
+    $scope.storeInvite = function () {
         $scope.invitations = false;
         var emails = [$scope.email1, $scope.email2];
         var referrer = decodeURIComponent($stateParams.referrer);
 
         inviteService.sendInvitationReferrer(emails, referrer)
-            .success(function() {
+            .success(function () {
                 $scope.invitations = true;
                 notificationService.handleSuccess('Invitations will be sent soon to your friends.');
             });
     };
 });
 
-controllers.controller('OrgLandingCtrl', function($scope, orgService, notificationService, $location) {
-    
+controllers.controller('OrgLandingCtrl', function () {
+
 });
 
-controllers.controller('AdminOrgRequestCtrl', function($scope, orgService) {
+controllers.controller('AdminOrgRequestCtrl', function ($scope, orgService) {
     $scope.view = {};
 
     orgService.getRequests()
-        .success(function(response) {
+        .success(function (response) {
             $scope.requests = response.requests;
         });
 });

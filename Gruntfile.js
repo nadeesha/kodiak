@@ -10,7 +10,6 @@ module.exports = function(grunt) {
         return;
     }
 
-    var pkg = require('./package.json');
     var env = grunt.option('target');
 
     var jsCopiedFromAppComponents = [
@@ -23,7 +22,8 @@ module.exports = function(grunt) {
         'bootstrap/js/collapse.js',
         'angular-bindonce/bindonce.min.js',
         'angulartics/src/angulartics.js',
-        'angulartics/src/angulartics-ga.js'
+        'angulartics/src/angulartics-ga.js',
+        'angular-facebook/lib/angular-facebook.js'
     ];
 
     var cssFilesCombined = [
