@@ -48,12 +48,25 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
             return $http.put(GRIZZLY_URL + '/user', angular.toJson(user));
         };
 
+        this.createViaFacebook = function(user) {
+            return $http.put(GRIZZLY_URL + '/user/facebook', angular.toJson(user));
+        };
+
         this.createOrgUser = function(user) {
             return $http.put(GRIZZLY_URL + '/organization/user', angular.toJson(user));
         };
 
-        this.login = function(user, callback) {
-            $http.put(GRIZZLY_URL + '/user/token', angular.toJson(user)).success(function(data) {
+        this.login = function(user, authType, callback) {
+            var url = '/user/token';
+
+            if (!callback && typeof callback === 'function') {
+                authType = null;
+                callback = authType;
+            } else {
+                url = url + '/' + authType;
+            }
+
+            $http.put(GRIZZLY_URL + url, angular.toJson(user)).success(function(data) {
 
                 $rootScope.u = {
                     _id: data._id,

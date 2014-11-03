@@ -1,31 +1,58 @@
-<h1>Sign up <span class="gr-highlight">for a new account</span></h1>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=734914193248463&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<h1>Sign up
+    <span class="gr-highlight">for a new account</span>
+</h1>
 <hr>
-<form class="form-horizontal" role="form">
-    <div class="form-group">
-        <label class="col-md-2 control-label">First Name</label>
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName">
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastName">
-        </div>
+<div class="row">
+    <div class="col-md-7">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-md-2 control-label">First Name</label>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">E-mail</label>
+                <div class="col-md-10">
+                    <input type="email" class="form-control" placeholder="you@example.com" ng-model="user.email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Password</label>
+                <div class="col-md-10">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                    <input type="password" class="form-control" placeholder="Confirm Password" ng-model="user.passwordConfirmation">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button ng-click="create(user)" class="btn btn-primary">Sign up</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">E-mail</label>
-        <div class="col-md-6">
-            <input type="email" class="form-control" placeholder="you@example.com" ng-model="user.email">
+    <div class="col-md-5">
+        <div class="well gr-center-align">
+            <p>Or, use your facebook to sign up with one-click</p>
+            <button type="button" class="btn btn-primary btn-lg" ng-click="fbLogin()">Signup with facebook</button>
+            <hr>
+            <p class="small-text">We will never post to your news feed or access your private details without telling you first.</p>
         </div>
+
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Password</label>
-        <div class="col-md-6">
-            <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
-            <input type="password" class="form-control" placeholder="Confirm Password" ng-model="user.passwordConfirmation">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button ng-click="create(user)" class="btn btn-primary">Sign up</button>
-        </div>
-    </div>
-</form>
+</div>
