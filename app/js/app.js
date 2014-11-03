@@ -415,10 +415,8 @@ app.config(function($stateProvider,
         });
 });
 
-app.config(function(FacebookProvider) {
-    // Set your appId through the setAppId method or
-    // use the shortcut in the initialize method directly.
-    FacebookProvider.init('734914193248463');
+app.config(function(FacebookProvider, fbAppId) {
+    FacebookProvider.init(fbAppId);
 })
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
