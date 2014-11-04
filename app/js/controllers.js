@@ -78,7 +78,7 @@ controllers.controller('SignupCtrl', function ($scope, $http, $location, userSer
 });
 
 
-controllers.controller('LoginCtrl', function ($scope, $http, $location, userService, 
+controllers.controller('LoginCtrl', function ($scope, $http, $location, userService,
     notificationService, $rootScope, $state, $stateParams, validationService, Facebook) {
 
     $scope.user = {};

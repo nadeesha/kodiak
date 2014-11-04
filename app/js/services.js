@@ -59,9 +59,9 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
         this.login = function(user, authType, callback) {
             var url = '/user/token';
 
-            if (!callback && typeof callback === 'function') {
-                authType = null;
+            if (!callback && typeof authType === 'function') {
                 callback = authType;
+                authType = null;
             } else {
                 url = url + '/' + authType;
             }
