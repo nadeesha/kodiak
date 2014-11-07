@@ -48,7 +48,7 @@ controllers.controller('SignupCtrl', function ($scope, $http, $location, userSer
     $scope.fbLogin = function () {
         Facebook.login(function (authResponse) {
             userService.createViaFacebook(authResponse)
-                .success(function (userDetails) {
+                .success(function () {
                     userService.login(authResponse, 'facebook', function () {
                         $state.go('viewProfile');
                     });
@@ -137,8 +137,19 @@ controllers.controller('LoginCtrl', function ($scope, $http, $location, userServ
 
     $scope.fbLogin = function () {
         Facebook.login(function (authResponse) {
-            userService.login(authResponse, 'facebook', function () {
-                $state.go('viewProfile');
+            userService.login(authResponse, 'facebook', function (statusCode, data) {
+                debugger;
+                if (statusCode == 400 && data.code === 'FB_NOT_CREATED') {
+                    notificationService.handleInfo('Please wait... we are creating your account.');
+                    userService.createViaFacebook(authResponse)
+                        .success(function () {
+                            userService.login(authResponse, 'facebook', function () {
+                                $state.go('viewProfile');
+                            });
+                        });
+                } else {
+                    $state.go('viewProfile');
+                }
             });
         }, {
             scope: 'email'
