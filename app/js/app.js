@@ -413,6 +413,15 @@ app.config(function($stateProvider,
                 public: true
             }
         });
+
+    $stateProvider
+        .state('explainBounty', {
+            url: '/explain/bounty',
+            templateUrl: 'partials/explain-bounty.html',
+            data: {
+                public: true
+            }
+        });
 });
 
 app.config(function(FacebookProvider, fbAppId) {

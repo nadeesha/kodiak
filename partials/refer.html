@@ -1,0 +1,18 @@
+<h1>Refer your friends and win cash!</h1>
+
+<div class="row" ng-repeat="advert in adverts">
+    <div class="col-md-6">
+        <h3>{{advert.jobRole}} for {{}}</h3>
+        <p>
+            <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Posted
+            <span am-time-ago="advert.postedOn"></span>&nbsp;&nbsp;
+            <span ng-show="!!advert.expiredOn">
+                <span class="glyphicon glyphicon-calendar"></span>&nbsp;Expires
+                <span am-time-ago="advert.expiredOn"></span>
+            </span>
+        </p>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>

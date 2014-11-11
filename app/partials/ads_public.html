@@ -1,19 +1,7 @@
-<div class="jumbotron">
-	<div class="container">
-		<h1>Applying for jobs?</h1>
-		<p>hirewire.lk is not a job advertisement site. Our employers will search you through your profile and contact you for interviews directly. This <a href="https://www.youtube.com/watch?v=mnemLZtTzhI&list=UUJyKc-rSh8XykD4IIjcMaRg">video</a> will help you understand it.</p><p ng-hide="ads.length === 0">But, if an employer makes an advertisement public for anyone to apply, you will see it here.</p>
-	</div>
-</div>
-
-<div ng-hide="emptyProfile || ads.length === 0">
-	<input type="text" id="input" placeholder="Search here for the designation or organization" class="form-control" value="" required="required" ng-model="searchText">
-	<hr>
-	<div search-text="searchText" ads="ads" gr-ad-preview></div>
-</div>
-<div ng-show="emptyProfile">
-	<div class="alert alert-info">
-		<h2>We don't have enough information about you</h2> <p>Sorry, but your profile does not contain qualifications or work experience information for us to display relevant advertisements. Please build your profile and come back.</p>
-		<hr>
-		<p><a type="button" class="btn btn-success" ui-sref="profileBuilder">Let's build my profile</a></p>
-	</div>
+<div>
+    <h1>Refer your friends and win cash! <button type="button" class="btn btn-info" ui-sref="explainBounty">how does it work?</button></h1>
+    <hr>
+    <div ng-hide="ads.length === 0">
+        <div search-text="searchText" ads="ads" gr-ad-preview></div>
+    </div>
 </div>

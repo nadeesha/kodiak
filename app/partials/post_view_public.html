@@ -4,7 +4,7 @@
 	</div>
 	<button type="button" class="btn btn-success" ui-sref="myApplications" ng-show="status==='invited'">Respond to this invitation</button>
     <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{hidden: status}">Apply to this ad</a>
-    <a type="button" class="btn  btn-primary" ng-click="getShortenedUrl()">Tell a friend</a>
+    <a type="button" class="btn btn-danger" ng-click="getShortenedUrl()">Tell a friend<span ng-show="ad.bounty"> and earn {{ad.bounty}}/-</span></a>
 </div>
 <br/>
 <div gr-ad></div>

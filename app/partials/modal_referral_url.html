@@ -1,10 +1,17 @@
 <div class="modal-content">
     <div class="modal-body">
+        <div ng-hide="refEmail">
+            <p>Please enter your email to get the link:</p>
+            <input type="email" required="required" ng-model="refEmailTemp" class="col-md-8">
+            <button type="button" class="btn btn-success" ng-click="refMailEntered()">OK</button>
+            <hr>
+        </div>
         <div>
-        	Please copy this url and send to your friends via email, facebook, IM or anything else. <br>We will track who signs up and credit the signup to your account.
+            <p>Please copy this url and send to your friends via email, facebook, IM or anything else.</p>
+            <p>We will track who signs up and credit the signup to your account.</p>
         </div>
         <div ng-show="bounty">
-        	If your referral responds to this ad and gets hired, we will contact you and gift you with <span class="label-success">Rs.{{bounty}}/-</span>
+            If your referral responds to this ad and gets hired, we will contact you and gift you with Rs.{{bounty}}/-
         </div>
         <hr>
         <input type="text" class="form-control" ng-model="refurl">

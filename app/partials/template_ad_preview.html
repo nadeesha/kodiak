@@ -1,9 +1,9 @@
-<div class="gr-ad-card" ng-repeat="ad in ads | filter:searchText | orderBy:'-postedOn'" ng-click="go(ad)" ng-hide="ads.length===0">
+<div class="gr-ad-card" ng-repeat="ad in ads | filter:searchText | orderBy:'-bounty'" ng-click="go(ad)" ng-hide="ads.length===0">
     <h4 class="gr-ad-title">{{ad.jobRole}}</h4>
-    <span class="label label-info" am-time-ago="ad.postedOn"></span>
     <span class="label label-info">{{ad.organization.name}}</span>
-    <img src="">
+    <span class="label label-default" ng-hide="ad.bounty">No cash prize</span>
+    <span class="label label-danger" ng-show="ad.bounty">Earn {{ad.bounty}}</span>
 </div>
 <div class="alert alert-info" ng-show="ads.length===0">
-    There are currently no advertisements that employers have made available for you to apply. Please check in later.
+    There are currently no advertisements employers have made available for you to view. Please check in later.
 </div>

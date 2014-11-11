@@ -138,7 +138,7 @@ controllers.controller('LoginCtrl', function ($scope, $http, $location, userServ
     $scope.fbLogin = function () {
         Facebook.login(function (authResponse) {
             userService.login(authResponse, 'facebook', function (statusCode, data) {
-                if (statusCode == 400 && data.code === 'FB_NOT_CREATED') {
+                if (statusCode === 400 && data.code === 'FB_NOT_CREATED') {
                     notificationService.handleInfo('Please wait... we are creating your account.');
                     userService.createViaFacebook(authResponse)
                         .success(function () {
@@ -925,27 +925,25 @@ controllers.controller('AdCtrl', ['$scope',
     }
 ]);
 
-controllers.controller('ViewAdCtrl', ['$scope', 'orgService', 'adService', '$stateParams', 'userService',
-    'notificationService', '$rootScope',
-    function ($scope, orgService, adService, $stateParams, userService, notificationService, $rootScope) {
-        $scope.org = {};
-        $scope.ad = {};
+controllers.controller('ViewAdCtrl', function ($scope, orgService, adService, $stateParams, userService, notificationService, $rootScope) {
+    $scope.org = {};
+    $scope.ad = {};
 
-        adService.getAd($rootScope.u.affiliation, $stateParams.adId)
-            .success(function (data) {
+    adService.getAd($rootScope.u.affiliation, $stateParams.adId)
+        .success(function (data) {
 
-                $scope.ad = data.advertisement;
-            });
+            $scope.ad = data.advertisement;
+        });
 
-        orgService.getOrg($rootScope.u.affiliation)
-            .success(function (data) {
-                $scope.org = data.organization;
-            });
-    }
-]);
+    orgService.getOrg($rootScope.u.affiliation)
+        .success(function (data) {
+            $scope.org = data.organization;
+        });
+});
 
-controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adService, $stateParams, userService, notificationService,
-    adResponseService, $rootScope, $window, $modal, $state, $localStorage) {
+controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adService, $stateParams,
+    userService, notificationService, adResponseService, $rootScope, $window, $modal,
+    $state, $localStorage) {
     $scope.org = {};
     $scope.ad = {};
 
@@ -957,11 +955,16 @@ controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adServi
             });
         }
 
-        adResponseService.createResponse($rootScope.u._id, $scope.org._id, $scope.ad._id, null, $state.params.ref)
-            .success(function () {
-                notificationService.handleSuccess('Saved your application successfully');
-                $scope.status = 'applied';
-            });
+        adResponseService.createResponse(
+            $rootScope.u._id,
+            $scope.org._id,
+            $scope.ad._id,
+            null,
+            $state.params.ref
+        ).success(function () {
+            notificationService.handleSuccess('Saved your application successfully');
+            $scope.status = 'applied';
+        });
     };
 
     $scope.getShortenedUrl = function () {
@@ -977,15 +980,33 @@ controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adServi
                     return $scope.ad.bounty;
                 }
             },
-            controller: function ($scope, refurl, bounty, $http, utilService) {
-                $scope.refurl = 'Shortening link...';
-                $scope.bounty = bounty;
+            controller: function ($scope, bounty, utilService, $rootScope) {
+                function shortenUrl() {
+                    var refurl = $window.location.href + '?ref=' +
+                        encodeURIComponent($scope.refEmail);
 
-                utilService.shortenUrl(refurl).success(function (data) {
-                    $scope.refurl = data.shortened;
-                }).error(function () {
-                    $scope.refurl = refurl;
-                });
+                    $scope.refurl = 'Shortening link...';
+                    $scope.bounty = bounty;
+
+                    utilService.shortenUrl(refurl)
+                        .success(function (data) {
+                            $scope.refurl = data.shortened;
+                        }).error(function () {
+                            $scope.refurl = refurl;
+                        });
+                }
+
+                if ($rootScope.u.email) {
+                    $scope.refEmail = $rootScope.u.email;
+                    shortenUrl();
+                } else {
+                    $scope.refurl = 'Please enter your email to get the link...';
+                }
+
+                $scope.refMailEntered = function () {
+                    $scope.refEmail = $scope.refEmailTemp;
+                    shortenUrl();
+                };
             }
         });
     };
@@ -1001,23 +1022,24 @@ controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adServi
         $scope.status = 'invited';
         getAdvertisement(adService.getAd);
     } else if (userService.isLoggedIn()) {
-        userService.getResponses().success(function (data) {
-            if (data.responses.length > 0) {
-                var relevantResponse = _.find(data.responses, function (r) {
-                    return r.advertisement._id === $stateParams.adId;
-                });
+        userService.getResponses()
+            .success(function (data) {
+                if (data.responses.length > 0) {
+                    var relevantResponse = _.find(data.responses, function (r) {
+                        return r.advertisement._id === $stateParams.adId;
+                    });
 
-                if (relevantResponse) {
-                    $scope.status = relevantResponse.status;
-                    getAdvertisement(adService.getAd);
+                    if (relevantResponse) {
+                        $scope.status = relevantResponse.status;
+                        getAdvertisement(adService.getAd);
+                    } else {
+                        getAdvertisement(adService.getAdPublic);
+                    }
+
                 } else {
                     getAdvertisement(adService.getAdPublic);
                 }
-
-            } else {
-                getAdvertisement(adService.getAdPublic);
-            }
-        });
+            });
     } else {
         getAdvertisement(adService.getAdPublic);
     }
@@ -1346,19 +1368,11 @@ controllers.controller('MeDashboardCtrl', ['$scope', 'userService', '$rootScope'
 ]);
 
 controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
-    function ($scope, adService, userService) {
+    function ($scope, adService) {
         $scope.ads = [];
 
         adService.getAdsPublic().success(function (data) {
             $scope.ads = data.ads;
-        });
-
-        userService.getProfile().success(function (data) {
-            if (data.tenures.length === 0 && data.qualifications.length === 0) {
-                $scope.emptyProfile = true;
-            } else {
-                $scope.emptyProfile = false;
-            }
         });
     }
 ]);

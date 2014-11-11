@@ -68,11 +68,13 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
 
             $http.put(GRIZZLY_URL + url, angular.toJson(user)).success(function(data) {
 
+                debugger;
+
                 $rootScope.u = {
                     _id: data._id,
                     firstName: data.firstName,
                     lastName: data.lastName,
-                    email: user.email,
+                    email: data.email,
                     access_token: data.access_token,
                     affiliation: data.affiliation,
                     sessionExpiredAt: Date.now() + data.secondsRemaining * 1000,
@@ -300,11 +302,12 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
     function($http, GRIZZLY_URL) {
         var service = {
             createResponse: function(userId, orgId, adId, tags, referredBy) {
+                debugger;
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
                     angular.toJson({
                         user: userId,
                         tags: tags,
-                        referredBy: referredBy === userId ? null : referredBy
+                        referredBy: referredBy
                     }));
             },
             editResponse: function(orgId, adId, responseId, status, tags) {
