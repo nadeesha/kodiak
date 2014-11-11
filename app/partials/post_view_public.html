@@ -2,10 +2,8 @@
 	<div class="alert alert-info" ng-show="status==='applied'">
 		You have applied to this advertisement. You may review it's status on <a href="#/me/applications">your applications page</a>.
 	</div>
-	<div class="alert alert-info" ng-show="status==='invited'">
-		You have been invited to apply for this position. You may approve or reject this request on <a href="#/me/applications">your applications page</a>.
-	</div>
-    <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{disabled: status}">Apply to this ad</a>
+	<button type="button" class="btn btn-success" ui-sref="myApplications" ng-show="status==='invited'">Respond to this invitation</button>
+    <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{hidden: status}">Apply to this ad</a>
     <a type="button" class="btn  btn-primary" ng-click="getShortenedUrl()">Tell a friend</a>
 </div>
 <br/>
