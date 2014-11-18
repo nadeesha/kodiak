@@ -134,7 +134,17 @@ module.exports = function (grunt) {
                             js: ['concat', 'uglifyjs'],
                             css: ['cssmin']
                         },
-                        post: {}
+                        post: {
+                            js: [{
+                                name: 'uglify',
+                                createConfig: function (context, block) {
+                                    var generated = context.options.generated;
+                                    generated.options = {
+                                        mangle: false
+                                    };
+                                }
+                            }]
+                        }
                     }
                 }
             }
@@ -146,7 +156,7 @@ module.exports = function (grunt) {
             css: ['dist-' + env + '/css/{,*/}*.css'],
             options: {
                 basedir: 'dist-' + env,
-                dirs: 'dist-' + env                
+                dirs: 'dist-' + env
             }
         },
 
