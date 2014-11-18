@@ -153,7 +153,7 @@ app.config(function($stateProvider,
             data: {
                 public: true
             }
-        })
+        });
 
     $stateProvider
         .state('viewProfileForOrg', {
@@ -426,15 +426,9 @@ app.config(function($stateProvider,
 
 app.config(function(FacebookProvider, fbAppId) {
     FacebookProvider.init(fbAppId);
-})
+});
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
-    if (window.trackJs) {
-        window.trackJs.configure({
-            trackAjaxFail: false
-        });
-    }
-
     $rootScope.$on('refreshNotifications', function() {
         if (!userService.isLoggedIn()) {
             return;

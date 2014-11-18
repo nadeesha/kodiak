@@ -27,42 +27,61 @@
 
 <body ng-app="kodiak" ng-clock>
     <!-- build:template
-    <script type="text/javascript" src="//dl1d2m8ri9v3j.cloudfront.net/releases/1.2.5/tracker.js" data-customer="65c49fc96d1140198cfce9d3b2be71ec"></script>
+    <script>
+      window._trackJs = {
+        enabled: true,
+        console: {
+          enabled: true,
+          display: true,
+          error: true,
+          watch: ["warn","error"]
+        },
+        visitor: {
+          enabled: true
+        },
+        window: {
+          enabled: true
+        }
+      };
+    </script>
+    <script type="text/javascript"
+        src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"
+        data-token="65c49fc96d1140198cfce9d3b2be71ec"></script>
     /build -->
     <div id="wrap">
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <span class="logo">
-                <a class="navbar-brand" href="#/">
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="logo">
+                    <a class="navbar-brand" href="#/">
                     hirewire.lk <sup>beta</sup>
                 </a>
-            </span>
-        </div>
-        <div id="navbar-ex1-collapse" class="collapse navbar-collapse" ng-switch="u.type">
-            <div ng-switch-when="NEW">
-                <div ng-include="'/partials/header_links_new.html'"></div>
+                </span>
             </div>
-            <div ng-switch-when="ORG">
-                <div ng-include="'/partials/header_links_org.html'"></div>
+            <div id="navbar-ex1-collapse" class="collapse navbar-collapse" ng-switch="u.type">
+                <div ng-switch-when="NEW">
+                    <div ng-include="'/partials/header_links_new.html'"></div>
+                </div>
+                <div ng-switch-when="ORG">
+                    <div ng-include="'/partials/header_links_org.html'"></div>
+                </div>
+                <div ng-switch-when="PERSONAL">
+                    <div ng-include="'/partials/header_links_personal.html'"></div>
+                </div>
             </div>
-            <div ng-switch-when="PERSONAL">
-                <div ng-include="'/partials/header_links_personal.html'"></div>
-            </div>
-        </div>
-    </nav>
-    <div id="gr-view" class="gr-container container" ui-view></div>
+        </nav>
+        <div id="gr-view" class="gr-container container" ui-view></div>
     </div>
 
     <div id="footer">
-      <div class="container">
-        <a ui-sref="privacyPolicy">Privacy Policy</a><a ui-sref="termsOfService">Terms of Use</a><a ui-sref="contact">Contact Us</a>
-      </div>
+        <div class="container">
+            <a ui-sref="privacyPolicy">Privacy Policy</a><a ui-sref="termsOfService">Terms of Use</a><a ui-sref="contact">Contact Us</a>
+        </div>
     </div>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/wow/0.1.6/wow.min.js"></script>
@@ -81,7 +100,8 @@
     <script src="components/angular-loading-bar/build/loading-bar.js"></script>
     <script src="components/ng-grid/ng-grid-2.0.11.debug.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="components/bootstrap/js/collapse.js"></script> <!-- navbar collapse -->
+    <script src="components/bootstrap/js/collapse.js"></script>
+    <!-- navbar collapse -->
     <script src="components/allmighty-autocomplete/script/autocomplete.js"></script>
     <script src="components/angular-bindonce/bindonce.js"></script>
     <script src="components/angulartics/src/angulartics.js"></script>

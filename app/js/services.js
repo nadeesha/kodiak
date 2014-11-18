@@ -21,8 +21,7 @@ angular.module('kodiak').service('userService', ['$rootScope', '$localStorage', 
 
             if (window.trackJs) {
                 window.trackJs.configure({
-                    userId: $rootScope.u.email,
-                    trackAjaxFail: false
+                    userId: $rootScope.u.email
                 });
             }
         };
