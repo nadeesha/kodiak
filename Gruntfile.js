@@ -140,7 +140,8 @@ module.exports = function (grunt) {
                                 createConfig: function (context, block) {
                                     var generated = context.options.generated;
                                     generated.options = {
-                                        mangle: false
+                                        mangle: false,
+                                        sourceMap: true
                                     };
                                 }
                             }]
