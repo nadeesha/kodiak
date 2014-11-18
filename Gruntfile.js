@@ -20,6 +20,10 @@ module.exports = function (grunt) {
             'dist-' + env + '/**/*.css',
             'dist-' + env + '/**/*.jpg',
             'dist-' + env + '/**/*.html',
+            'dist-' + env + '/**/*.eot',
+            'dist-' + env + '/**/*.svg',
+            'dist-' + env + '/**/*.woff',
+            'dist-' + env + '/**/*.ttf',
             'dist-' + env + '/Procfile',
             'dist-' + env + '/**/*.json',
             'dist-' + env + '/**/*.gz',
@@ -137,7 +141,7 @@ module.exports = function (grunt) {
                         post: {
                             js: [{
                                 name: 'uglify',
-                                createConfig: function (context, block) {
+                                createConfig: function (context) {
                                     var generated = context.options.generated;
                                     generated.options = {
                                         mangle: false,
