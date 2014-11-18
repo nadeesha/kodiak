@@ -148,22 +148,22 @@ module.exports = function (grunt) {
                 basedir: 'dist-' + env,
                 dirs: 'dist-' + env                
             }
-        }
+        },
 
-        // buildcontrol: {
-        //     options: {
-        //         commit: true,
-        //         push: true,
-        //         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
-        //     },
-        //     heroku: {
-        //         options: {
-        //             dir: 'dist-' + env,
-        //             remote: env === 'stg' ? 'git@heroku.com:lentil-kodiak-stg.git' : 'git@heroku.com:lentil-kodiak.git',
-        //             branch: 'master'
-        //         }
-        //     }
-        // }
+        buildcontrol: {
+            options: {
+                commit: true,
+                push: true,
+                message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+            },
+            heroku: {
+                options: {
+                    dir: 'dist-' + env,
+                    remote: env === 'stg' ? 'git@heroku.com:lentil-kodiak-stg.git' : 'git@heroku.com:lentil-kodiak.git',
+                    branch: 'master'
+                }
+            }
+        }
     });
 
     console.log('app/js/config.' + grunt.option('target') + '.js');
@@ -179,7 +179,7 @@ module.exports = function (grunt) {
         'uglify:generated',
         'filerev',
         'usemin',
-        'compress'
-        // 'buildcontrol:heroku'
+        'compress',
+        'buildcontrol:heroku'
     ]);
 };
