@@ -2,7 +2,9 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    require('load-grunt-tasks')(grunt);
+
     if (grunt.option('target') === 'stg' || grunt.option('target') === 'prod') {
         console.log('setting configuration: ', grunt.option('target'));
     } else {
@@ -12,54 +14,16 @@ module.exports = function(grunt) {
 
     var env = grunt.option('target');
 
-    var jsCopiedFromAppComponents = [
-        'angular-sanitize/angular-sanitize.min.js',
-        'ngprogress/build/ngProgress.min.js',
-        'angular-loading-bar/build/loading-bar.min.js',
-        'textAngular/textAngular.min.js',
-        'ngQuickDate/dist/ng-quick-date.min.js',
-        'ng-file-upload/angular-file-upload.js',
-        'bootstrap/js/collapse.js',
-        'angular-bindonce/bindonce.min.js',
-        'angulartics/src/angulartics.js',
-        'angulartics/src/angulartics-ga.js',
-        'angular-facebook/lib/angular-facebook.js'
-    ];
-
-    var cssFilesCombined = [
-        'app/components/allmighty-autocomplete/style/autocomplete.css',
-        'app/css/bootstrap-theme.min.css',
-        'app/components/pnotify/jquery.pnotify.default.css',
-        'app/components/pnotify/jquery.pnotify.default.icons.css',
-        'app/components/jquery-ui/themes/smoothness/jquery-ui.css',
-        'app/components/angular-loading-bar/build/loading-bar.min.css',
-        'app/components/ng-grid/ng-grid.min.css',
-        'app/css/app.css'
-    ];
-
-    var jsFilesCombinedToAppJs = [
-        'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
-        'app/components/angular-ui-slider/src/slider.js',
-        'app/components/angular-ui-router/release/angular-ui-router.min.js',
-        'app/components/pnotify/jquery.pnotify.js',
-        'app/components/allmighty-autocomplete/script/autocomplete.js',
-        'app/lib/ngStorage.js',
-        'app/js/app.js',
-        'app/js/services.js',
-        'app/js/controllers.js',
-        'app/js/filters.js',
-        'app/js/directives.js',
-        'app/js/uservoice.js',
-        'app/js/config.' + grunt.option('target') + '.js',
-        'app/js/3p.js'
-    ];
-
     grunt.initConfig({
         clean: [
             'dist-' + env + '/**/*.js',
             'dist-' + env + '/**/*.css',
             'dist-' + env + '/**/*.jpg',
             'dist-' + env + '/**/*.html',
+            'dist-' + env + '/**/*.eot',
+            'dist-' + env + '/**/*.svg',
+            'dist-' + env + '/**/*.woff',
+            'dist-' + env + '/**/*.ttf',
             'dist-' + env + '/Procfile',
             'dist-' + env + '/**/*.json',
             'dist-' + env + '/**/*.gz',
@@ -70,6 +34,17 @@ module.exports = function(grunt) {
         copy: {
             main: {
                 files: [
+                    // config.js
+                    {
+                        expand: true,
+                        cwd: 'app/js/',
+                        src: ['config.' + env + '.js'],
+                        dest: 'dist-' + env + '/js/',
+                        filter: 'isFile',
+                        rename: function (dest, src) {
+                            return dest + src.replace(env + '.js', 'js');
+                        }
+                    },
                     // all the partials
                     {
                         expand: true,
@@ -84,14 +59,6 @@ module.exports = function(grunt) {
                         cwd: 'app/img/',
                         src: ['**'],
                         dest: 'dist-' + env + '/img/',
-                        filter: 'isFile'
-                    },
-                    // js min files
-                    {
-                        expand: true,
-                        cwd: 'app/components/',
-                        src: jsCopiedFromAppComponents,
-                        dest: 'dist-' + env + '/js/',
                         filter: 'isFile'
                     },
                     // fonts
@@ -110,39 +77,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // minify all js
-        uglify: {
-            options: {
-                mangle: false
-            },
-            everything: {
-                files: [{
-                    src: jsFilesCombinedToAppJs,
-                    dest: 'dist-' + env + '/js/app.js'
-                }]
-            }
-        },
-
-        // minify all css
-        cssmin: {
-            combine: {
-                files: [{
-                    src: 'dist-' + env + '/css/styles.css',
-                    dest: 'dist-' + env + '/css/styles.min.css'
-                }]
-            }
-        },
-
-        // change the paths in index.html for css and js
-        processhtml: {
-            dist: {
-                files: [{
-                    src: 'app/index.html',
-                    dest: 'dist-' + env + '/index.html'
-                }]
-            }
-        },
-
         // start the server from the root, not the /app dir
         // therefore, make ./app -> ./
         'string-replace': {
@@ -150,20 +84,19 @@ module.exports = function(grunt) {
                 files: [{
                     src: 'server.js',
                     dest: 'dist-' + env + '/server.js'
+                }, {
+                    src: 'app/index.html',
+                    dest: 'dist-' + env + '/index.html'
                 }],
                 options: {
                     replacements: [{
                         pattern: 'app',
                         replacement: ''
+                    }, {
+                        pattern: 'config.dev.js',
+                        replacement: 'config.' + env + '.js'
                     }]
                 }
-            }
-        },
-
-        concat: {
-            dist: {
-                src: cssFilesCombined,
-                dest: 'dist-' + env + '/css/styles.css'
             }
         },
 
@@ -177,6 +110,57 @@ module.exports = function(grunt) {
                 cwd: 'dist-' + env + '/',
                 src: ['js/**/*.js', '**/*.css', '**/*.html', '**/*.jpg', '**/*.png', '**/*.woff'],
                 dest: 'dist-' + env + '/'
+            }
+        },
+
+        filerev: {
+            dist: {
+                src: [
+                    'dist-' + env + '/js/{,*/}*.js',
+                    'dist-' + env + '/css/{,*/}*.css',
+                    'dist-' + env + '/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    'dist-' + env + '/fonts/*'
+                ]
+            }
+        },
+
+        // Reads HTML for usemin blocks to enable smart builds that automatically
+        // concat, minify and revision files. Creates configurations in memory so
+        // additional tasks can operate on them
+        useminPrepare: {
+            html: 'app/index.html',
+            options: {
+                dest: 'dist-' + env,
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {
+                            js: [{
+                                name: 'uglify',
+                                createConfig: function (context) {
+                                    var generated = context.options.generated;
+                                    generated.options = {
+                                        mangle: false,
+                                        sourceMap: true
+                                    };
+                                }
+                            }]
+                        }
+                    }
+                }
+            }
+        },
+
+        // Performs rewrites based on filerev and the useminPrepare configuration
+        usemin: {
+            html: ['dist-' + env + '/{,*/}*.html'],
+            css: ['dist-' + env + '/css/{,*/}*.css'],
+            options: {
+                basedir: 'dist-' + env,
+                dirs: 'dist-' + env
             }
         },
 
@@ -198,26 +182,17 @@ module.exports = function(grunt) {
 
     console.log('app/js/config.' + grunt.option('target') + '.js');
 
-    // Load the plugin that provides the 'uglify' task.
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-processhtml');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-build-control');
-
     // Default task(s).
     grunt.registerTask('default', [
         'clean',
-        'concat',
-        'processhtml',
         'copy',
+        'useminPrepare',
+        'concat:generated',
+        'cssmin:generated',
+        'uglify:generated',
         'string-replace',
-        'cssmin',
-        'uglify',
+        'filerev',
+        'usemin',
         'compress',
         'buildcontrol:heroku'
     ]);

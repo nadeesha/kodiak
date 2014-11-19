@@ -33,7 +33,10 @@
     "ng-grid": "~2.0.11",
     "ngprogress": "~1.0.4",
     "allmighty-autocomplete": "*",
-    "angular-facebook": "~0.2.3"
+    "angular-facebook": "~0.2.3",
+    "animate.css": "~3.2.0",
+    "font-awesome": "~4.2.0",
+    "wow": "~1.0.2"
   },
   "resolutions": {
     "angular": "1.2.3",

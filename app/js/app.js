@@ -21,6 +21,8 @@ var app = angular.module('kodiak', ['kodiak.filters',
     'facebook'
 ]);
 
+app.constant('MONTHS', ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
+
 app.config(function($httpProvider, $provide) {
     $httpProvider.defaults.useXDomain = true;
 
