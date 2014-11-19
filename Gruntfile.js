@@ -34,13 +34,16 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [
-                    // index.html
+                    // config.js
                     {
                         expand: true,
-                        cwd: 'app/',
-                        src: ['index.html'],
-                        dest: 'dist-' + env + '/',
-                        filter: 'isFile'
+                        cwd: 'app/js/',
+                        src: ['config.' + env + '.js'],
+                        dest: 'dist-' + env + '/js/',
+                        filter: 'isFile',
+                        rename: function (dest, src) {
+                            return dest + src.replace(env + '.js', 'js');
+                        }
                     },
                     // all the partials
                     {
@@ -74,16 +77,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // change the paths in index.html for css and js
-        // processhtml: {
-        //     dist: {
-        //         files: [{
-        //             src: 'app/index.html',
-        //             dest: 'dist-' + env + '/index.html'
-        //         }]
-        //     }
-        // },
-
         // start the server from the root, not the /app dir
         // therefore, make ./app -> ./
         'string-replace': {
@@ -91,11 +84,17 @@ module.exports = function (grunt) {
                 files: [{
                     src: 'server.js',
                     dest: 'dist-' + env + '/server.js'
+                }, {
+                    src: 'app/index.html',
+                    dest: 'dist-' + env + '/index.html'
                 }],
                 options: {
                     replacements: [{
                         pattern: 'app',
                         replacement: ''
+                    }, {
+                        pattern: 'config.dev.js',
+                        replacement: 'config.' + env + '.js'
                     }]
                 }
             }
@@ -187,11 +186,11 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'clean',
         'copy',
-        'string-replace',
         'useminPrepare',
         'concat:generated',
         'cssmin:generated',
         'uglify:generated',
+        'string-replace',
         'filerev',
         'usemin',
         'compress',
