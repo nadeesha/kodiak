@@ -113,24 +113,6 @@ directives.directive('grAvatar', [
     }
 ]);
 
-directives.directive('grSubway', [
-
-    function() {
-        return {
-            restrict: 'A',
-            controller: function($scope, $rootScope, subwayService, notificationService, $modal) {
-                $scope.showNotifications = function() {
-                    $modal.open({
-                        templateUrl: 'partials/modal_notifications.html',
-                        controller: 'NotificationsNavCtrl'
-                    });
-                };
-            },
-            templateUrl: 'partials/template_subway_nav.html'
-        };
-    }
-]);
-
 directives.directive('amTimeAgo', ['$window',
     function($window) {
         return function(scope, element, attr) {

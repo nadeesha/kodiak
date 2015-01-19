@@ -1,5 +1,9 @@
 angular.module('kodiak').service('userService', function($rootScope, $localStorage, $http,
     GRIZZLY_URL) {
+    'use strict';
+
+    var that = this;
+
     var setUserType = function() {
         var isOrgUser = !!$rootScope.u.affiliation;
         var tokenExpiration = $rootScope.u.sessionExpiredAt;
@@ -9,6 +13,12 @@ angular.module('kodiak').service('userService', function($rootScope, $localStora
             $rootScope.u.type = 'ORG';
         } else if (stateRestored && !isOrgUser && tokenExpiration) {
             $rootScope.u.type = 'PERSONAL';
+
+            that.getResponses().success(function (data) {
+                $rootScope.u.invitationCount = _.where(data.responses, function (response) {
+                    return response.status === 'applied';
+                }).length;
+            });
         } else {
             $rootScope.u.type = 'NEW';
         }

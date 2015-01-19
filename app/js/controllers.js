@@ -1067,35 +1067,6 @@ controllers.controller('JobBoardCtrl', ['$scope', 'adService', 'userService',
     }
 ]);
 
-controllers.controller('NotificationsNavCtrl', ['$scope', '$rootScope', 'subwayService',
-    'notificationService', '$location',
-    function ($scope, $rootScope, subwayService, notificationService, $location) {
-        $scope.markAsRead = function (notification) {
-            subwayService.markAsRead(notification._id).success(function (data) {
-                $rootScope.$broadcast('refreshNotifications');
-                $rootScope.notifications = data;
-            });
-        };
-
-        $rootScope.$watch('notifications', function () {
-            $scope.notifications = $rootScope.notifications;
-        });
-
-        $scope.goto = function (notification) {
-            subwayService.markAsRead(notification._id).success(function () {
-                $rootScope.$broadcast('refreshNotifications');
-
-                var fullUrl = notification.link;
-                var path = fullUrl.substring(fullUrl.indexOf('#') + 1);
-                $location.url(path);
-                $scope.$dismiss();
-            });
-        };
-
-        $scope.notifications = $rootScope.notifications;
-    }
-]);
-
 controllers.controller('ResetPasswordCtrl', [
     '$scope',
     'userService',

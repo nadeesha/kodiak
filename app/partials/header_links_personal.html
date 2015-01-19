@@ -3,7 +3,10 @@
         <a href="#" ui-sref="viewProfile">My Profile</a>
     </li>
     <li>
-        <a ui-sref="myApplications">My Applications</a>
+        <a ui-sref="myApplications">
+            <span>My Invitations</span>
+            <span class="badge alert-danger" ng-show="u.invitationCount>0">{{u.invitationCount}}</span>
+        </a>
     </li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -12,10 +15,10 @@
             Hi, {{u.firstName}}! <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="#/me/changepassword">Change Password</a></li>
+            <li><a href="#/me/changepassword">Change Password</a>
+            </li>
         </ul>
     </li>
-    <li gr-subway></li>
     <li><a href="#/logout">Logout</a>
     </li>
 </ul>
