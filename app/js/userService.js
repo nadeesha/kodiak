@@ -15,8 +15,8 @@ angular.module('kodiak').service('userService', function($rootScope, $localStora
             $rootScope.u.type = 'PERSONAL';
 
             that.getResponses().success(function (data) {
-                $rootScope.u.invitationCount = _.where(data.responses, function (response) {
-                    return response.status === 'applied';
+                $rootScope.u.invitationCount = _.filter(data.responses, function (response) {
+                    return response.status === 'invited';
                 }).length;
             });
         } else {
