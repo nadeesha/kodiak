@@ -1,11 +1,11 @@
 <h1>Search Results</h1>
-<span class="label label-info">{{allResults.length || 'loading'}}</span> result(s)
-<hr>
 <div class="row">
     <div class="col-md-8">
-        <div ng-repeat="result in allResults | limitTo:limitResultsTo" class="gr-search-result" ng-class="{'gr-invited-result': result.invited}" ng-click="loadProfile(result._id, result.invited)">
-            {{(result._score*100).toFixed(1)}}
-            <div class="gr-search-progress" style="width: {{result._score*200/allResults.max_score}}px"></div>
+        <div ng-repeat="result in allResults | limitTo:limitResultsTo" class="gr-search-result" ng-class="{'gr-invited-result': result.invited, 'gr-selected-result': result._id == user.id}" ng-click="loadProfile(result._id, result.invited)">
+            <div style="padding:10px;">
+                <div class="pull-right" style="font-size:20px;">Match #{{$index+1}}</div> <span>{{(result._score*100).toFixed(1)}}</span><span style="font-size:20px; margin-left:5px;">points</span>
+            </div>
+            <div class="gr-search-progress" style="width: {{(result._score/allResults[0]._score)*100}}%"></div>
         </div>
     </div>
 

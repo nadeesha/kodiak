@@ -38,7 +38,7 @@ app.config(function($httpProvider, $provide) {
                         message: 'You need to log in first'
                     };
                 } else if (rejection.data.message) {
-                    notificationService.handleError(rejection.data.message);
+                    notificationService.handleError(rejection.data.message, rejection.data.title);
                 }
 
                 return $q.reject(rejection);
@@ -259,14 +259,14 @@ app.config(function($stateProvider,
             }
         });
 
-    $stateProvider.state('results', {
-        url: '/organization/ad/{adId}/search/{searchId}/results',
-        templateUrl: 'partials/results.html',
-        controller: 'SearchResultsCtrl',
-        data: {
-            public: false
-        }
-    });
+    $stateProvider
+        .state('search.results', {
+            templateUrl: 'partials/results.html',
+            controller: 'SearchResultsCtrl',
+            data: {
+                public: false
+            }
+        });
 
     $stateProvider
         .state('logout', {
@@ -429,6 +429,8 @@ app.config(function($stateProvider,
 app.config(function(FacebookProvider, fbAppId) {
     FacebookProvider.init(fbAppId);
 });
+
+app.value('user', {});
 
 app.run(function($rootScope, userService, subwayService, notificationService, $state) {
     $rootScope.$on('refreshNotifications', function() {

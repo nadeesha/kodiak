@@ -1,5 +1,6 @@
 /** bootstrap overloads **/
- .navbar-brand {
+
+.navbar-brand {
     float: left;
     padding: 10px 15px;
     font-size: 18px;
@@ -9,20 +10,24 @@ html, body {
     height: 100%;
 }
 /* Wrapper for page content to push down footer */
- #wrap {
+
+#wrap {
     min-height: 100%;
     height: auto;
     /* Negative indent footer by its height */
+
     margin: 0 auto -60px;
     /* Pad bottom by footer height */
+
     padding: 0 0 60px;
 }
 /* Set the fixed height of the footer here */
- #footer {
+
+#footer {
     height: 60px;
     background-color: white;
     text-align: center;
-    padding-top:15px;
+    padding-top: 15px;
     border-top: 1px darkgray solid;
 }
 #footer a {
@@ -45,22 +50,22 @@ a {
     margin-right: auto;
 }
 .gr-qual {
-    padding-left:10px;
-    border-left:10px solid darkslategray;
+    padding-left: 10px;
+    border-left: 10px solid darkslategray;
     height: 100%;
     margin-top: 20px;
 }
 .gr-wexp {
-    padding-left:10px;
-    border-left:10px solid darkslategray;
+    padding-left: 10px;
+    border-left: 10px solid darkslategray;
     height: 100%;
     margin-top: 20px;
 }
 .line-spacing-regular {
-    line-height:2em;
+    line-height: 2em;
 }
 .nowrap {
-    white-space:nowrap;
+    white-space: nowrap;
 }
 .gr-glyphicon {
     font-size: 0.8em;
@@ -108,7 +113,8 @@ a {
     margin-top: 10px;
 }
 /* Bootstrap 3 temp styles till  Angular-Bootstrap 0.7.0 */
- .modal {
+
+.modal {
     display: block;
 }
 .hide {
@@ -118,7 +124,7 @@ div.form-group div.alert {
     margin-top: 5px;
 }
 input[type='checkbox'] {
-    margin-right:5px;
+    margin-right: 5px;
 }
 .control-label {
     white-space: nowrap;
@@ -126,7 +132,8 @@ input[type='checkbox'] {
 /*span.glyphicon {
     margin-right: 5px;
 }*/
- .label {
+
+.label {
     font-size: 100% !important;
     font-weight: normal;
     padding: .2em .5em !important;
@@ -164,7 +171,8 @@ div.well>h2 {
   margin-bottom: 5px;
   margin-left: 10px;
 }*/
- .circle {
+
+.circle {
     background: coral;
     border-radius: 50%;
     height: 12px;
@@ -185,7 +193,7 @@ div.well>h2 {
     height: auto;
 }
 .small-line-height {
-    line-height:1em;
+    line-height: 1em;
 }
 .small-text {
     font-size: 0.7em;
@@ -203,36 +211,39 @@ div.well>h2 {
     display: inline-block;
 }
 .panel-title {
-    font-size:1.5em;
+    font-size: 1.5em;
     font-weight: bold;
 }
-.gr-personal-block {
+.gr-label {
     display: inline-block;
     margin-bottom: 10px;
     margin-right: 5px;
     background-color: lightgrey;
     padding: 10px;
+    padding-bottom: 3px;
     border-left: 10px darkgrey solid;
     border-radius: 4px;
+    font-size: 14px;
 }
 .gr-search-progress {
     height: 5px;
     background-color: coral;
 }
 .gr-search-result {
-    width:200px;
-    background-color: lightgrey;
-    display: inline-block;
+    /*width: 200px;*/
+    /*background-color: lightgrey;*/
+    /*display: inline-block;*/
     margin: 10px;
     color: grey;
-    font-size: 55px;
-    letter-spacing: -7px;
-    text-align: right;
-    padding-right: 20px;
+    font-size: 35px;
+    /*letter-spacing: -7px;*/
+    /*text-align: right;*/
+    /*padding-right: 20px;*/
 }
 .gr-blinker {
     /*font-size:2em;*/
-    letter-spacing:-2px;
+
+    letter-spacing: -2px;
 }
 #loading-bar .bar {
     background: coral;
@@ -245,7 +256,8 @@ div.well>h2 {
     display: none;
 }
 /** text angular **/
- .btn-toolbar {
+
+.btn-toolbar {
     margin-bottom: 3px;
     float: right;
 }
@@ -276,7 +288,7 @@ div.well>h2 {
     background-color: #F3F3F3;
     margin-bottom: 10px;
     margin-right: 10px;
-    padding-left:20px;
+    padding-left: 20px;
     padding-right: 20px;
     cursor: pointer;
     padding-bottom: 27px;
@@ -327,14 +339,13 @@ div.well>h2 {
     width: auto;
     color: white;
 }
-.gr-back-img {
-}
-.gr-profile-score {
+.gr-back-img {} .gr-profile-score {
     position: relative;
     top: -10px;
 }
 .gr-pic-credit {
     /*margin-top: 50px;*/
+
     color: lightcoral;
     font-weight: 100;
     background: rgba(0, 0, 0, 0.4);
@@ -350,10 +361,10 @@ div.well>h2 {
     margin: 0 auto;
 }
 .gr-highlight {
-    color:skyblue;
+    color: skyblue;
 }
 .gr-sub-highlight {
-    color:blanchedalmond;
+    color: blanchedalmond;
 }
 .gr-stat {
     font-size: 1.3em;
@@ -391,12 +402,12 @@ div.well>h2 {
     margin-left: 10px;
     cursor: pointer;
 }
-.gr-summary-label .gr-small : hover {
+.gr-summary-label .gr-small: hover {
     color: rgba(255, 255, 255, 1.0);
 }
 .gr-logo-container {
-    background-color:rgba(0, 0, 0, 0.6);
-    color:white;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
     width: 100%;
     margin-top: 50px;
 }
@@ -406,7 +417,7 @@ div.well>h2 {
     letter-spacing: -1px;
 }
 .gr-home-logos {
-    display:inline-block;
+    display: inline-block;
     height: 100px;
     margin: 30px 10px;
     background-color: white;
@@ -443,7 +454,7 @@ div.well>h2 {
     border: 1px solid lightgrey;
 }
 .gr-landing .back-img {
-    background:url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed; 
+    background: url(https://s3-us-west-2.amazonaws.com/hirewire-static/images/colombo_hirewire.jpg) no-repeat center center fixed;
     position: absolute;
     left: 0;
     right: 0;
@@ -466,7 +477,7 @@ div.well>h2 {
     color: black;
 }
 .gr-landing .content h1 {
-    font-size:60px;
+    font-size: 60px;
     text-align: center;
     /*margin-bottom: 20px;*/
 }
@@ -491,14 +502,14 @@ div.well>h2 {
 .gr-pitch-box > div {
     padding: 15px;
 }
-
 .price-pitch {
     padding: 100px 60px;
 }
-
 .gr-responsive-video {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
+    padding-bottom: 56.25%;
+    /* 16:9 */
+
     padding-top: 25px;
     height: 0;
 }
@@ -508,4 +519,18 @@ div.well>h2 {
     left: 0;
     width: 100%;
     height: 100%;
+}
+slider div.handle:after, [slider] div.handle:after {
+    background-color: #FFF;
+}
+slider div.handle.active:after, [slider] div.handle.active:after {
+    background-color: #fff;
+}
+slider div.bubble, [slider] div.bubble {
+    top: 12px;
+    font-size: 1em;
+}
+.gr-selected-result {
+    background: #E8E8E8;
+    color: black;
 }
