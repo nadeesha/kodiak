@@ -1,21 +1,38 @@
 <h2>{{ad.jobRole}} <p class="label label-info">{{ad.createdOnText}}</p></h2>
 <div></div>
-<a type="button" ui-sref="viewAdvertisement({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-asterisk"></span> View Advertisement</a>
-<a type="button" ui-sref="editAdvertisement({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Edit Advertisement</a>
-<a type="button" ui-sref="search({adId: ad.id})" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search for Candidates</a>
+<a type="button" ui-sref="viewAdvertisement({adId: ad.id})" class="btn btn-primary">
+    <span class="glyphicon glyphicon-asterisk"></span>
+    <span>View Advertisement</span>
+</a>
+<a type="button" ui-sref="editAdvertisement({adId: ad.id})" class="btn btn-primary">
+    <span class="glyphicon glyphicon-edit"></span>
+    <span>Edit Advertisement</span>
+</a>
+<a type="button" ui-sref="search({adId: ad.id})" class="btn btn-primary">
+    <span class="glyphicon glyphicon-search"></span>
+    <span>Search for Candidates</span>
+</a>
 <hr/>
 <div class="alert alert-danger" ng-show="ad.expired">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<strong>This campaign is expired</strong> You will not be able to access full candidate information. If you would like to extend this campaign, please contact support.
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>This campaign is expired</strong> You will not be able to access full candidate information. If you would like to extend this campaign, please contact support.
 </div>
 <div class="row">
-	<div class="col-md-8">
-		<div class="gr-ng-grid" ng-grid="gridOptions"></div>
-	</div>
-	<div class="col-md-4"  ng-show="selectedCandidate[0]">
-		<div class="gr-bottom-5"  style="width:100%;">
-		  <button type="button" class="btn btn-danger" ng-disabled="selectedCandidate[0].status=='rejected' || selectedCandidate[0].status=='withdrawn'" btn-radio="'rejected'" style="width:100%;" ng-model="data.status" ng-click="save(selectedCandidate[0], 'rejected', [])">Reject Candidate</button>
-		</div>
+    <div class="col-md-8">
+        <div class="gr-ng-grid" ng-grid="gridOptions"></div>
+    </div>
+    <div class="col-md-4" ng-show="selectedCandidate[0]">
+        <div class="well" ng-show="ad.questions">
+            <h3>Candidate Answers</h3>
+            <div ng-repeat="question in ad.questions">
+                <hr>
+                <p class="placeholder-text" ng-bind="question"></p>
+                <p ng-bind="selectedCandidate[0].answers[$index]"></p>
+            </div>
+        </div>
+        <div class="gr-bottom-5" style="width:100%;">
+            <button type="button" class="btn btn-danger" ng-disabled="selectedCandidate[0].status=='rejected' || selectedCandidate[0].status=='withdrawn'" btn-radio="'rejected'" style="width:100%;" ng-model="data.status" ng-click="save(selectedCandidate[0], 'rejected', [])">Reject Candidate</button>
+        </div>
         <hr>
         <div gr-visualized-profile>
         </div>

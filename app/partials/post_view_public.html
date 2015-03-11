@@ -1,10 +1,18 @@
 <div>
-	<div class="alert alert-info" ng-show="status==='applied'">
-		You have applied to this advertisement. You may review it's status on <a href="#/me/applications">your applications page</a>.
-	</div>
-	<button type="button" class="btn btn-success" ui-sref="myApplications" ng-show="status==='invited'">Respond to this invitation</button>
+    <div class="well" ng-show="questionsShown" ng-class="{hidden: status}">
+        <h3>You must answer these questions before applying, please:</h3>
+        <hr>
+        <div class="form-group" ng-repeat="question in ad.questions">
+            <label>{{question}}</label>
+            <input type="text" class="form-control" ng-model="answers[$index]" required="required">
+        </div>
+    </div>
+    <div class="alert alert-info" ng-show="status==='applied'">
+        You have applied to this advertisement. You may review it's status on <a href="#/me/applications">your applications page</a>.
+    </div>
+    <button type="button" class="btn btn-success" ui-sref="myApplications" ng-show="status==='invited'">Respond to this invitation</button>
     <a type="button" ng-click="apply()" class="btn btn-success" ng-class="{hidden: status}">Apply to this ad</a>
-    <a type="button" class="btn btn-danger" ng-click="getShortenedUrl()">Tell a friend<span ng-show="ad.bounty"> and earn {{ad.bounty}}/-</span></a>
+    <!-- <a type="button" class="btn btn-danger" ng-click="getShortenedUrl()">Tell a friend<span ng-show="ad.bounty"> and earn {{ad.bounty}}/-</span></a> -->
 </div>
 <br/>
 <div gr-ad></div>

@@ -730,7 +730,8 @@ controllers.controller('ViewCampaignCtrl', ['$scope', 'userService', 'orgService
                             status: r.status,
                             updated: moment(r.lastUpdatedOn).fromNow(),
                             tags: r.tags && r.tags.join(', '),
-                            referredBy: r.referredBy ? r.referredBy.email : false
+                            referredBy: r.referredBy ? r.referredBy.email : false,
+                            answers: r.answers
                         };
                     });
                 });
@@ -863,8 +864,26 @@ controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adServi
     $state, $localStorage) {
     $scope.org = {};
     $scope.ad = {};
+    $scope.answers = [];
 
     $scope.apply = function () {
+        if (questionsAnswered()) {
+            $scope.submit();
+            return;
+        }
+
+        if ($scope.questionsShown && !questionsAnswered()) {
+            notificationService.handleInfo('Plase answer all the questions');
+        } else if (!$scope.questionsShown) {
+            $scope.questionsShown = true;
+        }
+    };
+
+    function questionsAnswered() {
+        return $scope.answers.length === $scope.ad.questions.length;
+    }
+
+    $scope.submit = function () {
         if (!userService.isLoggedIn()) {
             $localStorage.adViewed = angular.toJson({
                 url: $window.location.href,
@@ -877,7 +896,8 @@ controllers.controller('ViewPublicAdCtrl', function ($scope, orgService, adServi
             $scope.org._id,
             $scope.ad._id,
             null,
-            $state.params.ref
+            $state.params.ref,
+            $scope.answers
         ).success(function () {
             notificationService.handleSuccess('Saved your application successfully');
             $scope.status = 'applied';

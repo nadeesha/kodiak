@@ -5,7 +5,7 @@
 var services = angular.module('kodiak.services', []);
 
 services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootScope',
-    function($http, GRIZZLY_URL) {
+    function ($http, GRIZZLY_URL) {
         var service = {
             makeRequest: function (request) {
                 return $http.post(GRIZZLY_URL + '/organization/requests', angular.toJson(request));
@@ -13,22 +13,22 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
             getRequests: function () {
                 return $http.get(GRIZZLY_URL + '/organization/requests');
             },
-            createOrg: function(org) {
+            createOrg: function (org) {
                 return $http.put(GRIZZLY_URL + '/organization', angular.toJson(org));
             },
-            editOrg: function(id, org) {
+            editOrg: function (id, org) {
                 return $http.post(GRIZZLY_URL + '/organization/' + id, angular.toJson(org));
             },
-            getOrg: function(id) {
+            getOrg: function (id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/public');
             },
-            getAds: function(id) {
+            getAds: function (id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/posts');
             },
-            getPublicAds: function(id) {
+            getPublicAds: function (id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/public/posts');
             },
-            uploadLogo: function(id, files) {
+            uploadLogo: function (id, files) {
                 var formData = new FormData();
                 for (var i in files) {
                     if (files.hasOwnProperty(i)) {
@@ -46,10 +46,10 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
                     transformRequest: angular.identity
                 });
             },
-            getUsers: function(id) {
+            getUsers: function (id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + id + '/users');
             },
-            deactivateUser: function(orgId, userId) {
+            deactivateUser: function (orgId, userId) {
                 return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/user/' + userId);
             },
             getAllOrgs: function () {
@@ -62,25 +62,25 @@ services.factory('orgService', ['$http', 'GRIZZLY_URL', 'userService', '$rootSco
 ]);
 
 services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL) {
+    function ($http, GRIZZLY_URL) {
         var service = {
-            createAd: function(orgId, ad) {
+            createAd: function (orgId, ad) {
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/', angular.toJson(ad));
             },
-            editAd: function(orgId, id, ad) {
+            editAd: function (orgId, id, ad) {
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id,
                     angular.toJson(ad));
             },
-            getAd: function(orgId, id) {
+            getAd: function (orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id);
             },
-            getAdPublic: function(orgId, id) {
+            getAdPublic: function (orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/public/post/' + id);
             },
-            getAdsPublic: function() {
+            getAdsPublic: function () {
                 return $http.get(GRIZZLY_URL + '/ads/public');
             },
-            deleteAd: function(orgId, id) {
+            deleteAd: function (orgId, id) {
                 return $http.delete(GRIZZLY_URL + '/organization/' + orgId + '/post/' + id);
             }
         };
@@ -90,23 +90,23 @@ services.factory('adService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL) {
+    function ($http, GRIZZLY_URL) {
         var service = {
-            createSearch: function(orgId, search) {
+            createSearch: function (orgId, search) {
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/search/',
                     angular.toJson(search));
             },
-            editSearch: function(orgId, id, search) {
+            editSearch: function (orgId, id, search) {
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id,
                     angular.toJson(search));
             },
-            getSearch: function(orgId, id) {
+            getSearch: function (orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id);
             },
-            getSearchForAd: function(orgId, adId) {
+            getSearchForAd: function (orgId, adId) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/search');
             },
-            getSearchResults: function(orgId, id) {
+            getSearchResults: function (orgId, id) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/search/' + id + '/results');
             },
             hitUser: function (orgId, searchId, user) {
@@ -120,17 +120,18 @@ services.factory('searchService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL) {
+    function ($http, GRIZZLY_URL) {
         var service = {
-            createResponse: function(userId, orgId, adId, tags, referredBy) {
+            createResponse: function (userId, orgId, adId, tags, referredBy, answers) {
                 return $http.put(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response',
                     angular.toJson({
                         user: userId,
                         tags: tags,
-                        referredBy: referredBy
+                        referredBy: referredBy,
+                        answers: answers
                     }));
             },
-            editResponse: function(orgId, adId, responseId, status, tags) {
+            editResponse: function (orgId, adId, responseId, status, tags) {
                 var o = {
                     status: status,
                     tags: tags
@@ -139,11 +140,11 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
                 return $http.post(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
                     responseId, angular.toJson(o));
             },
-            getResponse: function(orgId, adId, responseId) {
+            getResponse: function (orgId, adId, responseId) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/response/' +
                     responseId);
             },
-            getAllResponses: function(orgId, adId) {
+            getAllResponses: function (orgId, adId) {
                 return $http.get(GRIZZLY_URL + '/organization/' + orgId + '/post/' + adId + '/responses');
             }
         };
@@ -153,19 +154,19 @@ services.factory('adResponseService', ['$http', 'GRIZZLY_URL', 'userService',
 ]);
 
 services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
-    function($http, GRIZZLY_URL) {
+    function ($http, GRIZZLY_URL) {
         var service = {
-            getAllNotifications: function() {
+            getAllNotifications: function () {
                 return $http.get(GRIZZLY_URL + '/user/notifications');
             },
-            markAsRead: function(id) {
+            markAsRead: function (id) {
                 var o = {
                     isRead: true
                 };
 
                 return $http.post(GRIZZLY_URL + '/user/notifications/' + id, angular.toJson(o));
             },
-            markAsUnread: function(id) {
+            markAsUnread: function (id) {
                 var o = {
                     isRead: false
                 };
@@ -180,12 +181,12 @@ services.factory('subwayService', ['$http', 'GRIZZLY_URL', 'userService',
 
 services.factory('notificationService', [
 
-    function() {
+    function () {
         return {
-            notify: function(hash) {
+            notify: function (hash) {
                 $.pnotify(hash);
             },
-            handleError: function(msg, title) {
+            handleError: function (msg, title) {
                 this.notify({
                     title: title || 'Something went wrong!',
                     text: msg || 'Unknown Error',
@@ -193,7 +194,7 @@ services.factory('notificationService', [
                     hide: true
                 });
             },
-            handleSuccess: function(msg, title) {
+            handleSuccess: function (msg, title) {
                 this.notify({
                     title: title || 'Success!',
                     text: msg || 'Everything went ok.',
@@ -201,7 +202,7 @@ services.factory('notificationService', [
                     hide: true
                 });
             },
-            handleInfo: function(msg, title) {
+            handleInfo: function (msg, title) {
                 this.notify({
                     title: title || 'Oh!',
                     text: msg || 'That\'s a no no, my friend!',
@@ -209,7 +210,7 @@ services.factory('notificationService', [
                     hide: true
                 });
             },
-            handleWarning: function(msg, title) {
+            handleWarning: function (msg, title) {
                 this.notify({
                     title: title || 'Warning!',
                     text: msg || 'That might cause problems, my friend!',
@@ -222,9 +223,9 @@ services.factory('notificationService', [
 ]);
 
 services.factory('validationService', ['notificationService',
-    function(notificationService) {
+    function (notificationService) {
         return {
-            mustBeTrue: function(expression, msg) {
+            mustBeTrue: function (expression, msg) {
                 if (!expression) {
                     notificationService.notify({
                         title: 'Ooops!',
@@ -240,13 +241,13 @@ services.factory('validationService', ['notificationService',
     }
 ]);
 
-services.factory('adminService', function($http, GRIZZLY_URL) {
+services.factory('adminService', function ($http, GRIZZLY_URL) {
     return {
-        getAllUsers: function() {
+        getAllUsers: function () {
             return $http.get(GRIZZLY_URL + '/admin/users');
         },
 
-        updateUsers: function() {
+        updateUsers: function () {
             return $http.put(GRIZZLY_URL + '/admin/updateusers');
         },
 
@@ -256,9 +257,9 @@ services.factory('adminService', function($http, GRIZZLY_URL) {
     };
 });
 
-services.factory('utilService', function(GRIZZLY_URL, $http) {
+services.factory('utilService', function (GRIZZLY_URL, $http) {
     return {
-        getTimes: function(n) {
+        getTimes: function (n) {
             if (!n) {
                 return [];
             }
@@ -273,7 +274,7 @@ services.factory('utilService', function(GRIZZLY_URL, $http) {
                 return new Array(times);
             }
         },
-        shortenUrl: function(url) {
+        shortenUrl: function (url) {
             return $http.put(GRIZZLY_URL + '/common/shortenurl', angular.toJson({
                 url: url
             }));
