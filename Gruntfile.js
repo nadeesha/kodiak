@@ -68,6 +68,15 @@ module.exports = function (grunt) {
                         src: ['**'],
                         dest: 'dist-' + env + '/fonts/',
                         filter: 'isFile'
+                    },
+                    // font-awesome
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: 'app/components/font-awesome/fonts/',
+                        src: ['**'],
+                        dest: 'dist-' + env + '/fonts/',
+                        filter: 'isFile'
                     }, {
                         expand: true,
                         src: ['package.json', 'Procfile'],

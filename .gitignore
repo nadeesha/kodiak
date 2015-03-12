@@ -2,3 +2,4 @@ node_modules
 kodiak.sublime-workspace
 dist*/
 .tmp/
+npm-debug.log
